@@ -17,13 +17,16 @@ package com.volavis.veraplan.spring;
 
 import com.vaadin.flow.component.Composite;
 import com.vaadin.flow.component.HtmlContainer;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.ListItem;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.page.BodySize;
 import com.vaadin.flow.router.*;
 
+import com.vaadin.flow.theme.NoTheme;
 import com.volavis.veraplan.spring.components.Footer;
 import com.volavis.veraplan.spring.components.Header;
 import com.volavis.veraplan.spring.views.DashboardView;
@@ -33,27 +36,30 @@ import com.volavis.veraplan.spring.views.HelpView;
 import java.util.HashMap;
 import java.util.Map;
 
-@StyleSheet("frontend://styles/styles.css")
+//@StyleSheet("frontend://styles/styles.css")
+@NoTheme
+@StyleSheet("https://www.w3schools.com/w3css/4/w3.css")
+@StyleSheet("https://www.w3schools.com/lib/w3-theme-blue-grey.css")
 @BodySize(height = "100vh", width = "100%")
-public class MainLayout extends Composite<Div>
+public class MainLayout extends Div
         implements RouterLayout {
 
     private Map<String, RouterLink> targetPaths = new HashMap<>();
-    private final Header header = new Header();
 
     /**
      * Constructor.
      */
     public MainLayout() {
         init();
+
     }
 
     private void init() {
-        getContent().setClassName("container");
+        setClassName("container");
         getElement().getStyle().set("min-height", "100%");
-        getContent().add(header);
-        getContent().add(buildMenu());
-        getContent().add(new Footer());
+        add(new Header());
+        add(buildMenu());
+        add(new Footer());
     }
 
     private Div buildMenu() {
@@ -69,19 +75,18 @@ public class MainLayout extends Composite<Div>
 
 
         //home.setHighlightAction(HighlightActions.toggleClassName("active"));
-        home.setHighlightAction(HighlightActions.none());
+        home.setHighlightCondition(HighlightConditions.sameLocation());
+        home.setHighlightAction(HighlightActions.toggleClassName("active"));
         help.setHighlightAction(HighlightActions.toggleClassName("active"));
-        //login.setHighlightAction(HighlightActions.toggleClassName("active"));
-
 
 
         targetPaths.put(home.getHref(), home);
         targetPaths.put(help.getHref(), help);
-        //targetPaths.put(login.getHref(), login);
+
 
         HtmlContainer ul = new HtmlContainer("ul");
         ul.setClassName("topnav");
-        ul.add(home, help);
+        ul.add(new ListItem(home), new ListItem(help));
 
         menuBar.add(ul);
         return menuBar;
