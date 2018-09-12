@@ -36,10 +36,10 @@ import com.volavis.veraplan.spring.views.HelpView;
 import java.util.HashMap;
 import java.util.Map;
 
-//@StyleSheet("frontend://styles/styles.css")
-@NoTheme
-@StyleSheet("https://www.w3schools.com/w3css/4/w3.css")
-@StyleSheet("https://www.w3schools.com/lib/w3-theme-blue-grey.css")
+@StyleSheet("frontend://styles/styles.css")
+//@NoTheme
+//@StyleSheet("https://www.w3schools.com/w3css/4/w3.css")
+//@StyleSheet("https://www.w3schools.com/lib/w3-theme-blue-grey.css")
 @BodySize(height = "100vh", width = "100%")
 public class MainLayout extends Div
         implements RouterLayout {
