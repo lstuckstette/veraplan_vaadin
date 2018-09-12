@@ -15,80 +15,117 @@
  */
 package com.volavis.veraplan.spring;
 
-import com.vaadin.flow.component.Composite;
-import com.vaadin.flow.component.HtmlContainer;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HasElement;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.StyleSheet;
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.ListItem;
+
+import com.vaadin.flow.component.html.Footer;
+import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.FlexLayout;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.BodySize;
+
 import com.vaadin.flow.router.*;
 
-import com.vaadin.flow.theme.NoTheme;
-import com.volavis.veraplan.spring.components.Footer;
-import com.volavis.veraplan.spring.components.Header;
 import com.volavis.veraplan.spring.views.DashboardView;
 import com.volavis.veraplan.spring.views.HelpView;
 
+import java.util.Objects;
 
-import java.util.HashMap;
-import java.util.Map;
-
-@StyleSheet("frontend://styles/styles.css")
+//@StyleSheet("frontend://styles/styles.css")
 //@NoTheme
-//@StyleSheet("https://www.w3schools.com/w3css/4/w3.css")
-//@StyleSheet("https://www.w3schools.com/lib/w3-theme-blue-grey.css")
-@BodySize(height = "100vh", width = "100%")
-public class MainLayout extends Div
-        implements RouterLayout {
+@StyleSheet("https://www.w3schools.com/w3css/4/w3.css")
+@StyleSheet("https://www.w3schools.com/lib/w3-theme-blue-grey.css")
+//@StyleSheet("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
+@BodySize(height = "100%", width = "100%")
+public class MainLayout extends Div implements RouterLayout {
 
-    private Map<String, RouterLink> targetPaths = new HashMap<>();
+    private Div contentContainer;
+
 
     /**
      * Constructor.
      */
     public MainLayout() {
         init();
-
     }
 
     private void init() {
-        setClassName("container");
-        getElement().getStyle().set("min-height", "100%");
-        add(new Header());
-        add(buildMenu());
-        add(new Footer());
+        //this.setClassName("w3-container");
+        //change body class
+        UI.getCurrent().getElement().getClassList().add("w3-theme-l5");
+
+        this.contentContainer = new Div();
+        contentContainer.setClassName("w3-container w3-content");
+
+
+        add(buildNavbar());
+        add(this.contentContainer);
+
+        Div footer = buildFooter();
+
+
+        add(footer);
+
+
     }
 
-    private Div buildMenu() {
-        Div menuBar = new Div();
-        menuBar.setClassName("menu");
+    @Override
+    public void showRouterLayoutContent(HasElement content) {
+        if (content != null) {
+            this.contentContainer.removeAll();
+            this.contentContainer.add(Objects.requireNonNull((Component) content));
+        }
+    }
 
-        Icon homeicon = VaadinIcon.VAADIN_H.create();
+    private Div buildFooter() {
+        Div footer = new Div();
+        footer.setClassName("w3-container w3-theme-d3 w3-padding-16 w3-bottom");
+        H5 footerText = new H5();
+        footerText.setText("Footer");
+        footer.add(footerText);
+        return footer;
+    }
 
-        RouterLink home = new RouterLink("Home", DashboardView.class);
-        RouterLink help = new RouterLink("Help", HelpView.class);
-        //RouterLink login = new RouterLink("Login", LoginView.class);
-        //login.getStyle().set("float","right");
+    private Div buildNavbar() {
+        Div navbar = new Div();
+        navbar.setClassName("w3-bar w3-theme-d2 w3-left-align w3-large");
 
-
-        //home.setHighlightAction(HighlightActions.toggleClassName("active"));
+        RouterLink home = new RouterLink("Logo", DashboardView.class);
         home.setHighlightCondition(HighlightConditions.sameLocation());
-        home.setHighlightAction(HighlightActions.toggleClassName("active"));
-        help.setHighlightAction(HighlightActions.toggleClassName("active"));
+        home.setHighlightAction(HighlightActions.toggleClassName("w3-green"));
+        home.setClassName("w3-bar-item w3-button w3-padding-large w3-theme-d4");
+        Icon homeIcon = new Icon("vaadin", "home-o");
+        //homeIcon.setClassName("fa fa-home w3-margin-right");
+        home.add(homeIcon);
 
+        RouterLink help = new RouterLink("", HelpView.class);
+        help.setHighlightAction(HighlightActions.toggleClassName("w3-green"));
+        help.setClassName("w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white");
+        Icon helpIcon = new Icon("vaadin", "question-circle-o");
+        //helpIcon.setClassName("fa fa-question-circle");
+        help.add(helpIcon);
 
-        targetPaths.put(home.getHref(), home);
-        targetPaths.put(help.getHref(), help);
+        Anchor example = new Anchor();
+        example.setClassName("w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white");
+        example.setText("Example");
 
+        Anchor account = new Anchor();
+        account.setClassName("w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white");
+        Icon accountIcon = new Icon("vaadin", "user");
+        //accountIcon.setClassName("fa fa-user");
+        account.add(accountIcon);
 
-        HtmlContainer ul = new HtmlContainer("ul");
-        ul.setClassName("topnav");
-        ul.add(new ListItem(home), new ListItem(help));
+        navbar.add(home, help, example, account);
 
-        menuBar.add(ul);
-        return menuBar;
+        Div navbarWrapper = new Div();
+        navbarWrapper.setClassName("w3-top");
+        navbarWrapper.add(navbar);
+
+        return navbarWrapper;
     }
 }
