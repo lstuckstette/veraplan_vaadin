@@ -11,4 +11,4 @@ node_modules
 .DS_Store
 
 persistence.xml
-application.properties
+*.properties
