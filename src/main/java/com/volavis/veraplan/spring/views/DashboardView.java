@@ -30,8 +30,11 @@ public class DashboardView extends Div implements BeforeEnterObserver {
     }
 
     public DashboardView() {
+        this.setClassName("w3-container w3-content");
+        this.getStyle().set("max-width","1400px");
+        this.getStyle().set("margin-top","80px");
+        this.getStyle().set("margin-bottom","80px");
         init();
-        this.setClassName("content");
     }
 
     private void init() {

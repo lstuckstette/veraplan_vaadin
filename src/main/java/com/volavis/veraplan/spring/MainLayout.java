@@ -31,6 +31,7 @@ import com.vaadin.flow.component.page.BodySize;
 
 import com.vaadin.flow.router.*;
 
+import com.volavis.veraplan.spring.components.NavBar;
 import com.volavis.veraplan.spring.views.DashboardView;
 import com.volavis.veraplan.spring.views.HelpView;
 
@@ -44,8 +45,7 @@ import java.util.Objects;
 @BodySize(height = "100%", width = "100%")
 public class MainLayout extends Div implements RouterLayout {
 
-    private Div contentContainer;
-
+    //private Div contentContainer;
 
     /**
      * Constructor.
@@ -55,25 +55,21 @@ public class MainLayout extends Div implements RouterLayout {
     }
 
     private void init() {
-        //this.setClassName("w3-container");
+        this.setClassName("pagecontent");
+
         //change body class
         UI.getCurrent().getElement().getClassList().add("w3-theme-l5");
 
-        this.contentContainer = new Div();
-        contentContainer.setClassName("w3-container w3-content");
-
+        //this.contentContainer = new Div();
+        //contentContainer.setClassName("w3-container w3-content");
 
         add(buildNavbar());
-        add(this.contentContainer);
-
-        Div footer = buildFooter();
-
-
-        add(footer);
+        //(this.contentContainer);
+        //add(buildFooter());
 
 
     }
-
+    /*
     @Override
     public void showRouterLayoutContent(HasElement content) {
         if (content != null) {
@@ -81,10 +77,13 @@ public class MainLayout extends Div implements RouterLayout {
             this.contentContainer.add(Objects.requireNonNull((Component) content));
         }
     }
+        */
 
     private Div buildFooter() {
         Div footer = new Div();
         footer.setClassName("w3-container w3-theme-d3 w3-padding-16 w3-bottom");
+        footer.getStyle().set("position", "absolute");
+        footer.getStyle().set("bottom", "0");
         H5 footerText = new H5();
         footerText.setText("Footer");
         footer.add(footerText);
@@ -128,4 +127,5 @@ public class MainLayout extends Div implements RouterLayout {
 
         return navbarWrapper;
     }
+
 }

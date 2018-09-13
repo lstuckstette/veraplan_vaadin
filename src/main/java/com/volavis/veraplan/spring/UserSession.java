@@ -1,6 +1,7 @@
 package com.volavis.veraplan.spring;
 
 import java.time.LocalTime;
+
 import org.springframework.stereotype.Service;
 
 @Service
@@ -8,8 +9,11 @@ public class UserSession {
 
     private boolean loggedIn;
 
-    public UserSession(){
+    private int counter;
+
+    public UserSession() {
         this.loggedIn = true;
+        counter = 0;
     }
 
     public boolean isLoggedIn() {
@@ -21,6 +25,6 @@ public class UserSession {
     }
 
     public String getMessage() {
-        return "Button was clicked at " + LocalTime.now();
+        return "Button was clicked " + counter + " times.";
     }
 }

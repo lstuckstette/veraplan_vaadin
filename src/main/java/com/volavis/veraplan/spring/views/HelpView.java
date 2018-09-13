@@ -12,14 +12,17 @@ import com.volavis.veraplan.spring.MainLayout;
 public class HelpView extends Div {
 
     public HelpView() {
+        this.setClassName("w3-container w3-content");
+        this.getStyle().set("max-width","1400px");
+        this.getStyle().set("margin-top","80px");
+        this.getStyle().set("margin-bottom","80px");
         init();
-        this.setClassName("content");
     }
 
     private void init() {
 
         for (int i = 0; i < 100; i++) {
-            add(new Paragraph("derp"));
+            add(new Paragraph("derp "+ i));
         }
 
 
