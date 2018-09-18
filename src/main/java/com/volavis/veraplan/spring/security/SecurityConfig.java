@@ -1,6 +1,7 @@
 package com.volavis.veraplan.spring.security;
 
 import com.volavis.veraplan.spring.persistence.model.Role;
+import com.volavis.veraplan.spring.persistence.model.RoleName;
 import com.volavis.veraplan.spring.persistence.model.User;
 import com.volavis.veraplan.spring.persistence.repository.UserRepository;
 import com.volavis.veraplan.spring.security.CustomRequestCache;
@@ -31,30 +32,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private static final String LOGOUT_SUCCESS_URL = "/";
     //private static final String LOGOUT_SUCCESS_URL = "/" + BakeryConst.PAGE_STOREFRONT;
 
-    @Autowired
-    private CustomUserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    /*@Autowired
-    public SecurityConfig(UserDetailsService userDetailsService) {
+    @Autowired
+    public SecurityConfig(UserDetailsService userDetailsService){
         this.userDetailsService = userDetailsService;
     }
-    */
 
      @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
-    /*
-    @Bean
-    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
-    public User currentUser(UserRepository userRepository) {
-        return userRepository.findByEmailIgnoreCase(SecurityUtils.getUsername());
-    }
-       */
     /**
      * Registers our UserDetailsService and the password encoder to be used on login attempts.
      */
@@ -84,7 +76,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()
 
                 // Allow all requests by logged in users. TODO: ?! unten...
-                .anyRequest().hasAnyRole()
+                .anyRequest().hasAnyAuthority(RoleName.getAllRoleNames())
+                //.anyRequest().authenticated()
 
                 // Configure the login page.
                 .and().formLogin().loginPage(LOGIN_URL).permitAll().loginProcessingUrl(LOGIN_PROCESSING_URL)

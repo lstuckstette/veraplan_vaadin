@@ -15,7 +15,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
 
 @Service
 public class PopulateDemoDatabaseService {
@@ -32,13 +35,13 @@ public class PopulateDemoDatabaseService {
     //@Autowired
     public PopulateDemoDatabaseService() {
         passwordEncoder = new BCryptPasswordEncoder();
-        //populate();
     }
 
     @PostConstruct
     public void populate() {
         createRoles();
         createUsers();
+        logger.info("Populated Demo Database.");
     }
 
     private void createRoles() {
@@ -57,9 +60,8 @@ public class PopulateDemoDatabaseService {
 
     private void createRole(Role... roles) {
         for (Role role : roles) {
-            logger.info("role:" + role.getName());
-            if (!roleRepository.findByName(role.getName()).isPresent()) { //TODO: nullpointer!
-                roleRepository.save(role);
+            if (!roleRepository.findByName(role.getName()).isPresent()) {
+                roleRepository.saveAndFlush(role);
             }
         }
 
@@ -70,19 +72,25 @@ public class PopulateDemoDatabaseService {
         createUser("aname", "admin", "admin@admin.de", "password", RoleName.ROLE_ADMIN);
     }
 
-    private void createUser(String name, String username, String email, String password, RoleName rolename) {
-        User user = new User(name, username, email, passwordEncoder.encode(password));
+    private void createUser(String name, String username, String email, String password, RoleName... rolenames) {
+
         //check existing username/email:
         if (userRepository.findByUsernameOrEmail(username, email).isPresent()) {
             return;
         }
-        //check Role exists:
-        if (roleRepository.findByName(rolename).isPresent()) {
-            user.setRoles(Collections.singleton(new Role(rolename)));
-            //finally save user.
-            userRepository.save(user);
+
+        User user = new User(name, username, email, passwordEncoder.encode(password));
+
+        //Create Role Set:
+        ArrayList<Role> roles = new ArrayList<>();
+        for (RoleName rname : rolenames) {
+            roleRepository.findByName(rname).ifPresent(role -> roles.add(role));
         }
+        //Create User if Roles not empty:
+        if (!roles.isEmpty()) {
+            user.setRoles(new HashSet<>(roles));
+            User result = userRepository.save(user);
 
-
+        }
     }
 }
