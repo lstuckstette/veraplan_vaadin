@@ -57,6 +57,7 @@ public class MainLayout extends Div implements RouterLayout {
     private void init() {
         this.setClassName("pagecontent");
 
+
         //change body class
         UI.getCurrent().getElement().getClassList().add("w3-theme-l5");
 
