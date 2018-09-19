@@ -17,6 +17,7 @@ import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
@@ -40,6 +41,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     public SecurityConfig(UserDetailsService userDetailsService){
         this.userDetailsService = userDetailsService;
+    }
+
+
+    @Bean
+    @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
+    public User currentUser(UserRepository userRepository) {
+        String usernameOrEmail = SecurityUtils.getUsername();
+        return userRepository.findByUsernameOrEmail(usernameOrEmail,usernameOrEmail).orElseThrow(() ->
+                new UsernameNotFoundException("No user present with username/email: " + usernameOrEmail)
+        );
     }
 
      @Bean
@@ -105,8 +116,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 // web application manifest
                 "/manifest.json",
-                "/sw.js",
-                "/offline-page.html",
 
                 // icons and images
                 "/icons/**",

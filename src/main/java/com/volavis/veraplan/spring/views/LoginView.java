@@ -1,26 +1,35 @@
 package com.volavis.veraplan.spring.views;
 
 import com.vaadin.flow.component.ClickEvent;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HtmlContainer;
+import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.dependency.StyleSheet;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Input;
-import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.html.Paragraph;
+import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.OptionalParameter;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.templatemodel.TemplateModel;
 
+@Tag("login-view")
+@HtmlImport("src/login-view.html")
 @Route(value = "login")
-@StyleSheet("https://www.w3schools.com/w3css/4/w3.css")
-@StyleSheet("https://www.w3schools.com/lib/w3-theme-blue-grey.css")
-public class LoginView extends Div implements HasUrlParameter<String> {
+//@StyleSheet("https://www.w3schools.com/w3css/4/w3.css")
+//@StyleSheet("https://www.w3schools.com/lib/w3-theme-blue-grey.css")
+public class LoginView extends Component implements HasUrlParameter<String> {
 
     public LoginView() {
-        init();
-        this.setClassName("w3-container");
+        //init();
+        //this.setClassName("w3-container");
+    }
+
+    private void initModal(){
+        H2 headline = new H2("Veraplan-Test-Landing");
+
     }
 
     private void init() {
@@ -67,7 +76,7 @@ public class LoginView extends Div implements HasUrlParameter<String> {
         registerButtonP.add(registerButton);
 
         form.add(usernameP, passwordP, loginButtonP, registerButtonP);
-        this.add(form);
+        //this.add(form);
     }
 
     private void handleRegister(ClickEvent<Button> event) {
