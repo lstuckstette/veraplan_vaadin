@@ -1,0 +1,21 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+
+
+<dom-module id="main-nav">
+    <template>
+        <div class="w3-top">
+            <div id="nav-items" class="w3-bar w3-deep-purple w3-card w3-left-align w3-large">
+
+            </div>
+        </div>
+    </template>
+    <script>
+        class MainNavigation extends Polymer.Element {
+            static get is(){
+                return 'main-nav';
+            }
+        }
+        window.customElements.define(MainNavigation.is, MainNavigation);
+    </script>
+</dom-module>

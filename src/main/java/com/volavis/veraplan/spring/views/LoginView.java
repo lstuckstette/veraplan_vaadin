@@ -1,35 +1,40 @@
 package com.volavis.veraplan.spring.views;
 
+import com.vaadin.external.org.slf4j.Logger;
+import com.vaadin.external.org.slf4j.LoggerFactory;
 import com.vaadin.flow.component.*;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.notification.Notification;
+import com.vaadin.flow.component.polymertemplate.EventHandler;
+import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.router.BeforeEvent;
 import com.vaadin.flow.router.HasUrlParameter;
 import com.vaadin.flow.router.OptionalParameter;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.templatemodel.TemplateModel;
+import com.volavis.veraplan.spring.MainLayout;
+
 
 @Tag("login-view")
-@HtmlImport("src/login-view.html")
-@Route(value = "login")
+@HtmlImport("views/login-view.html") //local path: src/main/webapp/frontend ~
+@Route(value = "login", layout = MainLayout.class)
 
-public class LoginView extends Component implements HasUrlParameter<String> {
+public class LoginView extends PolymerTemplate<TemplateModel> implements HasUrlParameter<String> {
+
+    private static final Logger logger = LoggerFactory.getLogger(LoginView.class);
 
     public LoginView() {
+        //for icons inside shadow-dom
         UI.getCurrent().getPage().addStyleSheet("https://use.fontawesome.com/releases/v5.3.1/css/all.css");
-        //init();
-        //this.setClassName("w3-container");
-    }
 
-    private void initModal(){
-        H2 headline = new H2("Veraplan-Test-Landing");
 
     }
 
-    private void init() {
+    private void initOLD() {
         //add(new Label("derp!"));
 
         HtmlContainer form = new HtmlContainer("form");
@@ -68,7 +73,7 @@ public class LoginView extends Component implements HasUrlParameter<String> {
         loginButtonP.add(loginButton);
 
         Paragraph registerButtonP = new Paragraph();
-        Button registerButton = new Button("Register", event -> handleRegister(event));
+        Button registerButton = new Button("Register");
         registerButton.setClassName("w3-button w3-selection w3-ripple");
         registerButtonP.add(registerButton);
 
@@ -76,7 +81,10 @@ public class LoginView extends Component implements HasUrlParameter<String> {
         //this.add(form);
     }
 
-    private void handleRegister(ClickEvent<Button> event) {
+    @EventHandler
+    private void handleRegister() {
+        //Notification.show("Register clicked!");
+        logger.info("Register clicked!");
     }
 
     @Override

@@ -1,27 +1,77 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 
-
+<link rel="import" href="../components/main-nav.html">
 
 <dom-module id="login-view">
     <template>
         <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css" integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU" crossorigin="anonymous">
-        <!-- NAVBAR -->
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+              integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+              crossorigin="anonymous">
+        <!-- NAVBAR
         <div class="w3-top">
             <div class="w3-bar w3-deep-purple w3-card w3-left-align w3-large">
                 <a href="#" class="w3-bar-item w3-button w3-padding-large w3-white">Home</a>
                 <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">About</a>
-                <a href="#" class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Register</a>
-                <a href="#"
-                   class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white w3-right">Login</a>
+                <button on-click="handleRegister"
+                        class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white">Register
+                </button>
+                <button on-click="openLoginModal"
+                        class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white w3-right">Login
+                </button>
 
             </div>
-        </div>
+        </div>-->
+        <main-nav></main-nav>
         <!-- Header -->
         <header class="w3-container w3-deep-purple w3-center" style="padding:128px 16px">
-            <h1 class="w3-margin w3-jumbo">START PAGE</h1>
-            <p class="w3-xlarge">Template by w3.css</p>
-            <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top">Get Started</button>
+            <h1 class="w3-margin w3-jumbo">VERAPLAN ALPHA DEMO</h1>
+            <p class="w3-xlarge">Already have an account?</p>
+            <button class="w3-button w3-black w3-padding-large w3-large w3-margin-top"
+                    on-click="openLoginModal">Login
+            </button>
+            <!-- modal login-window -->
+
+            <div id="loginmodal" class="w3-modal" style="color:black">
+                <div class="w3-modal-content w3-card-4 w3-animate-zoom" style="max-width:600px">
+                    <div class="w3-container">
+                        <div class="w3-center"><br>
+                            <span on-click="closeLoginModal"
+                                  class="w3-button w3-xlarge w3-hover-red w3-display-topright"
+                                  title="Close Modal">&times;</span>
+                            <img src="frontend/images/img_avatar4.png" alt="Avatar" style="width:30%"
+                                 class="w3-circle w3-margin-top">
+                        </div>
+
+                        <form class="w3-container" method="post" action="login">
+                            <div class="w3-section">
+                                <label><b>Username/Email</b></label>
+                                <input class="w3-input w3-border w3-margin-bottom" type="text"
+                                       placeholder="Enter Username/Email"
+                                       name="username" required>
+                                <label><b>Password</b></label>
+                                <input class="w3-input w3-border" type="password" placeholder="Enter Password"
+                                       name="password"
+                                       required>
+                                <button class="w3-button w3-block w3-green w3-section w3-padding w3-margin-right" type="submit">Login
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                        <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+                            <button on-click="closeLoginModal" type="button"
+                                    class="w3-button w3-red">Cancel
+                            </button>
+                        </div>
+
+                </div>
+            </div>
+
+            <p class="w3-xlarge">Or sign up for one!</p>
+            <button on-click="handleRegister" class="w3-button w3-black w3-padding-large w3-large w3-margin-top">Sign
+                Up
+            </button>
+
         </header>
 
         <!-- First Grid -->
@@ -49,7 +99,8 @@
         <div class="w3-row-padding w3-light-grey w3-padding-64 w3-container">
             <div class="w3-content">
                 <div class="w3-third w3-center">
-                    <i class="fa fa-coffee w3-padding-64 w3-text-deep-purple w3-margin-right" style="font-size:200px"></i>
+                    <i class="fa fa-coffee w3-padding-64 w3-text-deep-purple w3-margin-right"
+                       style="font-size:200px"></i>
                 </div>
 
                 <div class="w3-twothird">
@@ -92,7 +143,17 @@
             static get is() {
                 return 'login-view';
             }
+
+            openLoginModal() {
+                this.$.loginmodal.style.display = "block";
+            }
+
+            closeLoginModal() {
+                this.$.loginmodal.style.display = 'none'
+            }
+
         }
+
 
         window.customElements.define(LoginView.is, LoginView);
     </script>

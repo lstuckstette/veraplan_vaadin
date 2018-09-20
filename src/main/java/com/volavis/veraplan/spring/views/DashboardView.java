@@ -13,7 +13,7 @@ import com.volavis.veraplan.spring.UserSession;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @PageTitle("Dashboard")
-@Route(value = "home", layout = MainLayout.class)
+@Route(value = "", layout = MainLayout.class)
 public class DashboardView extends Div implements BeforeEnterObserver {
 
     @Autowired

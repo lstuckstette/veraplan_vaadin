@@ -15,27 +15,19 @@
  */
 package com.volavis.veraplan.spring;
 
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.HasElement;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Div;
 
-import com.vaadin.flow.component.html.Footer;
 import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.orderedlayout.FlexLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.page.BodySize;
 
 import com.vaadin.flow.router.*;
 
-import com.volavis.veraplan.spring.components.NavBar;
 import com.volavis.veraplan.spring.views.DashboardView;
 import com.volavis.veraplan.spring.views.HelpView;
-
-import java.util.Objects;
 
 //@StyleSheet("frontend://styles/styles.css")
 //@NoTheme
