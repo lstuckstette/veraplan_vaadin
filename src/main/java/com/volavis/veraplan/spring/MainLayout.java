@@ -15,7 +15,9 @@
  */
 package com.volavis.veraplan.spring;
 
+import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.dependency.StyleSheet;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Div;
@@ -33,8 +35,8 @@ import com.volavis.veraplan.spring.views.HelpView;
 //@NoTheme
 @StyleSheet("https://www.w3schools.com/w3css/4/w3.css")
 @StyleSheet("https://www.w3schools.com/lib/w3-theme-blue-grey.css")
-//@StyleSheet("https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
-@BodySize(height = "100%", width = "100%")
+@Tag("main-view")
+@HtmlImport("views/main-view.html")
 public class MainLayout extends Div implements RouterLayout {
 
     //private Div contentContainer;
@@ -43,20 +45,21 @@ public class MainLayout extends Div implements RouterLayout {
      * Constructor.
      */
     public MainLayout() {
-        init();
+        //init();
+        //TODO: clone bakery-MainView.java + Navbar initialization with roles ~
     }
 
     private void init() {
-        this.setClassName("pagecontent");
+       // this.setClassName("pagecontent");
 
 
         //change body class
-        UI.getCurrent().getElement().getClassList().add("w3-theme-l5");
+//        UI.getCurrent().getElement().getClassList().add("w3-theme-l5");
 
         //this.contentContainer = new Div();
         //contentContainer.setClassName("w3-container w3-content");
 
-        add(buildNavbar());
+  //      add(buildNavbar());
         //(this.contentContainer);
         //add(buildFooter());
 
