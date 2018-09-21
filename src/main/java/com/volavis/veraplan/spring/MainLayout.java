@@ -24,10 +24,15 @@ import com.vaadin.flow.component.html.Div;
 
 import com.vaadin.flow.component.html.H5;
 import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.page.BodySize;
 
+import com.vaadin.flow.component.polymertemplate.Id;
+import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.router.*;
 
+import com.vaadin.flow.templatemodel.TemplateModel;
+import com.volavis.veraplan.spring.components.NavigationBar;
+import com.volavis.veraplan.spring.components.NavigationItemBuilder;
+import com.volavis.veraplan.spring.security.SecurityUtils;
 import com.volavis.veraplan.spring.views.DashboardView;
 import com.volavis.veraplan.spring.views.HelpView;
 
@@ -37,32 +42,23 @@ import com.volavis.veraplan.spring.views.HelpView;
 @StyleSheet("https://www.w3schools.com/lib/w3-theme-blue-grey.css")
 @Tag("main-view")
 @HtmlImport("views/main-view.html")
-public class MainLayout extends Div implements RouterLayout {
+public class MainLayout extends PolymerTemplate<TemplateModel> implements RouterLayout {
 
-    //private Div contentContainer;
+    @Id("main-nav")
+    NavigationBar navbar;
 
-    /**
-     * Constructor.
-     */
     public MainLayout() {
-        //init();
-        //TODO: clone bakery-MainView.java + Navbar initialization with roles ~
+        UI.getCurrent().getPage().addStyleSheet("https://use.fontawesome.com/releases/v5.3.1/css/all.css");
+
+        navbar.addNavItem(new NavigationItemBuilder().linkText("Home").targetClass(DashboardView.class).backgroundColor("w3-white").build());
+        navbar.addNavItem(new NavigationItemBuilder().linkText("Help").targetClass(HelpView.class).build());
+        //Add Nav-Items depending on Access-Level
+
+
     }
 
     private void init() {
-       // this.setClassName("pagecontent");
-
-
-        //change body class
-//        UI.getCurrent().getElement().getClassList().add("w3-theme-l5");
-
-        //this.contentContainer = new Div();
-        //contentContainer.setClassName("w3-container w3-content");
-
-  //      add(buildNavbar());
-        //(this.contentContainer);
-        //add(buildFooter());
-
+       //Build Navigation:
 
     }
     /*

@@ -1,6 +1,7 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 
 <link rel="import" href="../components/main-nav.html">
+<link rel="import" href="../components/main-footer.html">
 
 <dom-module id="login-view">
     <template>
@@ -19,10 +20,9 @@
                 <button on-click="openLoginModal"
                         class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white w3-right">Login
                 </button>
-
             </div>
         </div>-->
-        <main-nav></main-nav>
+        <main-nav id="main-nav"></main-nav>
         <!-- Header -->
         <header class="w3-container w3-deep-purple w3-center" style="padding:128px 16px">
             <h1 class="w3-margin w3-jumbo">VERAPLAN ALPHA DEMO</h1>
@@ -53,16 +53,17 @@
                                 <input class="w3-input w3-border" type="password" placeholder="Enter Password"
                                        name="password"
                                        required>
-                                <button class="w3-button w3-block w3-green w3-section w3-padding w3-margin-right" type="submit">Login
+                                <button class="w3-button w3-block w3-green w3-section w3-padding w3-margin-right"
+                                        type="submit">Login
                                 </button>
                             </div>
                         </form>
                     </div>
-                        <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
-                            <button on-click="closeLoginModal" type="button"
-                                    class="w3-button w3-red">Cancel
-                            </button>
-                        </div>
+                    <div class="w3-container w3-border-top w3-padding-16 w3-light-grey">
+                        <button on-click="closeLoginModal" type="button"
+                                class="w3-button w3-red">Cancel
+                        </button>
+                    </div>
 
                 </div>
             </div>
@@ -125,7 +126,7 @@
             <h1 class="w3-margin w3-xlarge">Quote of the day: live life</h1>
         </div>
 
-        <!-- Footer -->
+        <!-- Footer
         <footer class="w3-container w3-padding-64 w3-center w3-opacity">
             <div class="w3-xlarge w3-padding-32">
                 <i class="fab fa-facebook w3-hover-opacity"></i>
@@ -135,7 +136,8 @@
                 <i class="fab fa-twitter w3-hover-opacity"></i>
                 <i class="fab fa-linkedin w3-hover-opacity"></i>
             </div>
-        </footer>
+        </footer>-->
+        <main-footer></main-footer>
 
     </template>
     <script>
