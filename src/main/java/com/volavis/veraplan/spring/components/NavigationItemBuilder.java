@@ -16,24 +16,6 @@ public class NavigationItemBuilder {
     private String hoverColor = "w3-hover-white";
     private String backgroundColor = "";
     private String onClick = "";
-    private boolean isLogout = false;
-
-    private Anchor buildLogout() {
-        Anchor logout = new Anchor();
-        if (rightAlign) {
-            logout.setClassName("w3-bar-item w3-button w3-hide-small w3-padding-large w3-right " + hoverColor + " " + backgroundColor);
-        } else {
-            logout.setClassName("w3-bar-item w3-button w3-hide-small w3-padding-large " + hoverColor + " " + backgroundColor);
-        }
-        logout.setText("Logout");
-        logout.setHref("logout");
-        if (!iconClass.equals("")) {
-            HtmlContainer icon = new HtmlContainer("i");
-            icon.setClassName(iconClass);
-            logout.add(icon);
-        }
-        return logout;
-    }
 
     private RouterLink buildRouterLink() {
         RouterLink rlink = new RouterLink(linkText, targetClass);
@@ -86,10 +68,7 @@ public class NavigationItemBuilder {
 
     public Component build() {
 
-        if (isLogout) {
-            return buildLogout();
-
-        } else if (null == targetClass && onClick.equals("")) {
+        if (null == targetClass && onClick.equals("")) {
             return buildAnchor();
 
         } else if (null == targetClass) {
@@ -139,8 +118,4 @@ public class NavigationItemBuilder {
         return this;
     }
 
-    public NavigationItemBuilder isLogout(boolean isLogout) {
-        this.isLogout = isLogout;
-        return this;
-    }
 }

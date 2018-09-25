@@ -1,0 +1,41 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+
+<dom-module id="navigation-usermenu-loggedin">
+    <template>
+        <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css"
+              integrity="sha384-mzrmE5qonljUremFsqc01SB46JvROS7bZs3IO2EmfFsd15uHvIt+Y8vEf7N7fWAU"
+              crossorigin="anonymous">
+
+        <div class="w3-dropdown-click w3-right" on-click="userIconClick">
+            <button class="w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white w3-right">
+                <i class="fa fa-cog"></i>
+                [[username]]
+            </button>
+            <div id="usermenudropdown" class="w3-dropdown-content w3-bar-block w3-card">
+                <a href="#" class="w3-bar-item w3-button">Link 1</a>
+                <a href="#" class="w3-bar-item w3-button">Link 2</a>
+                <a href="#" class="w3-bar-item w3-button">Link 3</a>
+            </div>
+
+        </div>
+
+    </template>
+    <script>
+        class NavigationUsermenuLoggedIn extends Polymer.Element {
+            static get is() {
+                return 'navigation-usermenu-loggedin';
+            }
+
+            userIconClick(){
+                this.$.usermenudropdown.classList.toggle("w3-show");
+            }
+
+        }
+
+
+
+        window.customElements.define(NavigationUsermenuLoggedIn.is, NavigationUsermenuLoggedIn);
+    </script>
+</dom-module>

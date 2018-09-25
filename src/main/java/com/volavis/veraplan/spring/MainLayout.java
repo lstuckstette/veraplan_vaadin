@@ -32,9 +32,11 @@ import com.vaadin.flow.router.*;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import com.volavis.veraplan.spring.components.NavigationBar;
 import com.volavis.veraplan.spring.components.NavigationItemBuilder;
+
 import com.volavis.veraplan.spring.security.SecurityUtils;
 import com.volavis.veraplan.spring.views.DashboardView;
 import com.volavis.veraplan.spring.views.HelpView;
+import org.springframework.security.access.AccessDeniedException;
 
 //@StyleSheet("frontend://styles/styles.css")
 //@NoTheme
@@ -42,7 +44,7 @@ import com.volavis.veraplan.spring.views.HelpView;
 @StyleSheet("https://www.w3schools.com/lib/w3-theme-blue-grey.css")
 @Tag("main-view")
 @HtmlImport("views/main-view.html")
-public class MainLayout extends PolymerTemplate<TemplateModel> implements RouterLayout {
+public class MainLayout extends PolymerTemplate<TemplateModel> implements RouterLayout, BeforeEnterObserver {
 
     @Id("main-nav")
     NavigationBar navbar;
@@ -57,67 +59,11 @@ public class MainLayout extends PolymerTemplate<TemplateModel> implements Router
 
     }
 
-    private void init() {
-       //Build Navigation:
 
-    }
-    /*
     @Override
-    public void showRouterLayoutContent(HasElement content) {
-        if (content != null) {
-            this.contentContainer.removeAll();
-            this.contentContainer.add(Objects.requireNonNull((Component) content));
+    public void beforeEnter(BeforeEnterEvent event) {
+        if(!SecurityUtils.isAccessGranted(event.getNavigationTarget())){
+            event.rerouteToError(AccessDeniedException.class);
         }
     }
-        */
-
-    private Div buildFooter() {
-        Div footer = new Div();
-        footer.setClassName("w3-container w3-theme-d3 w3-padding-16 w3-bottom");
-        footer.getStyle().set("position", "absolute");
-        footer.getStyle().set("bottom", "0");
-        H5 footerText = new H5();
-        footerText.setText("Footer");
-        footer.add(footerText);
-        return footer;
-    }
-
-    private Div buildNavbar() {
-        Div navbar = new Div();
-        navbar.setClassName("w3-bar w3-theme-d2 w3-left-align w3-large");
-
-        RouterLink home = new RouterLink("Logo", DashboardView.class);
-        home.setHighlightCondition(HighlightConditions.sameLocation());
-        home.setHighlightAction(HighlightActions.toggleClassName("w3-green"));
-        home.setClassName("w3-bar-item w3-button w3-padding-large w3-theme-d4");
-        Icon homeIcon = new Icon("vaadin", "home-o");
-        //homeIcon.setClassName("fa fa-home w3-margin-right");
-        home.add(homeIcon);
-
-        RouterLink help = new RouterLink("", HelpView.class);
-        help.setHighlightAction(HighlightActions.toggleClassName("w3-green"));
-        help.setClassName("w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white");
-        Icon helpIcon = new Icon("vaadin", "question-circle-o");
-        //helpIcon.setClassName("fa fa-question-circle");
-        help.add(helpIcon);
-
-        Anchor example = new Anchor();
-        example.setClassName("w3-bar-item w3-button w3-hide-small w3-padding-large w3-hover-white");
-        example.setText("Example");
-
-        Anchor account = new Anchor();
-        account.setClassName("w3-bar-item w3-button w3-hide-small w3-right w3-padding-large w3-hover-white");
-        Icon accountIcon = new Icon("vaadin", "user");
-        //accountIcon.setClassName("fa fa-user");
-        account.add(accountIcon);
-
-        navbar.add(home, help, example, account);
-
-        Div navbarWrapper = new Div();
-        navbarWrapper.setClassName("w3-top");
-        navbarWrapper.add(navbar);
-
-        return navbarWrapper;
-    }
-
 }

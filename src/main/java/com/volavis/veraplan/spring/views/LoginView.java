@@ -31,13 +31,14 @@ public class LoginView extends PolymerTemplate<TemplateModel> implements HasUrlP
     NavigationBar navbar;
 
     public LoginView() {
+
         //for icons inside shadow-dom
         UI.getCurrent().getPage().addStyleSheet("https://use.fontawesome.com/releases/v5.3.1/css/all.css");
 
         navbar.addNavItem(new NavigationItemBuilder().linkText("Home").href("#").backgroundColor("w3-white").build());
-        navbar.addNavItem(new NavigationItemBuilder().linkText("About").href("#").build());
-        navbar.addNavItem(new NavigationItemBuilder().linkText("Register").onClick("handleRegister").build());
-        navbar.addNavItem(new NavigationItemBuilder().linkText("Login").rightAlign(true).onClick("openLoginModal").build());
+        //navbar.addNavItem(new NavigationItemBuilder().linkText("About").href("#about").build());
+        //navbar.addNavItem(new NavigationItemBuilder().linkText("Register").onClick("handleRegister").build());
+        //navbar.addNavItem(new NavigationItemBuilder().linkText("Login").rightAlign(true).onClick("openLoginModal").build());
 
     }
 
@@ -86,12 +87,6 @@ public class LoginView extends PolymerTemplate<TemplateModel> implements HasUrlP
 
         form.add(usernameP, passwordP, loginButtonP, registerButtonP);
         //this.add(form);
-    }
-
-    @EventHandler
-    private void handleRegister() {
-        Notification.show("Register clicked!");
-        logger.info("Register clicked!");
     }
 
     @Override

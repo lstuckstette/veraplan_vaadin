@@ -7,9 +7,6 @@ import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.Paragraph;
-import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.polymertemplate.EventHandler;
 import com.vaadin.flow.component.polymertemplate.Id;
@@ -18,13 +15,8 @@ import com.vaadin.flow.router.HighlightActions;
 import com.vaadin.flow.router.HighlightConditions;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.templatemodel.TemplateModel;
-import com.volavis.veraplan.spring.persistence.model.User;
-import com.volavis.veraplan.spring.security.CurrentUser;
 import com.volavis.veraplan.spring.security.SecurityUtils;
-import com.volavis.veraplan.spring.views.DashboardView;
-import com.volavis.veraplan.spring.views.HelpView;
 import com.volavis.veraplan.spring.views.LoginView;
-import org.springframework.beans.factory.annotation.Autowired;
 
 @Tag("main-nav")
 @HtmlImport("components/main-nav.html")
@@ -35,15 +27,19 @@ public class NavigationBar extends PolymerTemplate<TemplateModel> {
     @Id("nav-items")
     private Div navitems;
 
+    public NavigationBar(){
+        if (SecurityUtils.isUserLoggedIn()) {
+            this.getElement().appendChild(new NavigationBarUsermenuLoggedin().getElement());
+        } else {
+            this.getElement().appendChild(new NavigationBarUsermenuRegisterlogin().getElement());
+        }
+    }
+
     public void addNavItem(Component navItem) {
         navitems.add(navItem);
     }
 
-    @EventHandler
-    private void handleRegister() {
-        Notification.show("Register clicked!");
-        logger.info("Register clicked!");
-    }
+
 
     private void initNonAuth() {
         RouterLink home = new RouterLink("Home", LoginView.class);
