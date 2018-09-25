@@ -86,7 +86,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 // Allow all flow internal requests.
                 .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()
 
-                // Allow all requests by logged in users. TODO: ?! unten...
+                // Allow all requests by logged in users.
                 .anyRequest().hasAnyAuthority(RoleName.getAllRoleNames())
                 //.anyRequest().authenticated()
 

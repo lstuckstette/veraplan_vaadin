@@ -18,7 +18,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaAuditing
 @EntityScan(basePackageClasses = {User.class})
 @SpringBootApplication(scanBasePackageClasses = {Application.class,SecurityConfig.class, PopulateDemoDatabaseService.class, DashboardView.class})
-public class Application { //TODO: switch to $ extends SpringBootServletInitializer ?
+public class Application { //TODO: copy bakery Application.java
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);

@@ -56,7 +56,7 @@ public class MainLayout extends PolymerTemplate<TemplateModel> implements Router
         navbar.addNavItem(new NavigationItemBuilder().linkText("Help").targetClass(HelpView.class).build());
         //Add Nav-Items depending on Access-Level
 
-
+        //TODO: implement sub-templates ala vadin-tutorial @Uses
     }
 
 

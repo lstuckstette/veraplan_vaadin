@@ -18,6 +18,7 @@ public class NavigationBarUsermenuLoggedin extends PolymerTemplate<NavigationBar
     public NavigationBarUsermenuLoggedin() {
 
         getModel().setUsername(SecurityUtils.getUsername());
+        //TODO: element is cropped !? fix
     }
 
 
