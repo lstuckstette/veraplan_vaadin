@@ -15,6 +15,7 @@ import com.vaadin.flow.templatemodel.TemplateModel;
 import com.volavis.veraplan.spring.MainLayout;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 
 @PageTitle("Dashboard")
 @Tag("dashboard-view")
