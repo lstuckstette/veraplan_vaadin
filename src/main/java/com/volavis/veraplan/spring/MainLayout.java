@@ -19,11 +19,7 @@ import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.dependency.StyleSheet;
-import com.vaadin.flow.component.html.Anchor;
-import com.vaadin.flow.component.html.Div;
 
-import com.vaadin.flow.component.html.H5;
-import com.vaadin.flow.component.icon.Icon;
 
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
@@ -38,8 +34,7 @@ import com.volavis.veraplan.spring.views.DashboardView;
 import com.volavis.veraplan.spring.views.HelpView;
 import org.springframework.security.access.AccessDeniedException;
 
-//@StyleSheet("frontend://styles/styles.css")
-//@NoTheme
+
 @StyleSheet("https://www.w3schools.com/w3css/4/w3.css")
 @StyleSheet("https://www.w3schools.com/lib/w3-theme-blue-grey.css")
 @Tag("main-view")
@@ -51,7 +46,7 @@ public class MainLayout extends PolymerTemplate<TemplateModel> implements Router
 
     public MainLayout() {
         UI.getCurrent().getPage().addStyleSheet("https://use.fontawesome.com/releases/v5.3.1/css/all.css");
-
+        
         navbar.addNavItem(new NavigationItemBuilder().linkText("Home").targetClass(DashboardView.class).backgroundColor("w3-white").build());
         navbar.addNavItem(new NavigationItemBuilder().linkText("Help").targetClass(HelpView.class).build());
         //Add Nav-Items depending on Access-Level

@@ -10,5 +10,7 @@ node_modules
 *.iml
 .DS_Store
 
+bower_components
+
 persistence.xml
 *.properties

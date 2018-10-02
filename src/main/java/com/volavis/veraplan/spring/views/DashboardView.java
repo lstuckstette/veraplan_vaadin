@@ -21,16 +21,7 @@ import org.springframework.security.access.annotation.Secured;
 @Tag("dashboard-view")
 @HtmlImport("views/dashboard-view.html")
 @Route(value = "", layout = MainLayout.class)
-public class DashboardView extends PolymerTemplate<TemplateModel> implements BeforeEnterObserver {
-
-
-
-
-    @Override
-    public void beforeEnter(BeforeEnterEvent event) {
-
-
-    }
+public class DashboardView extends PolymerTemplate<TemplateModel> {
 
     public DashboardView() {
          init();

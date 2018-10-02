@@ -1,0 +1,159 @@
+<!--
+ @author: lstuckstette
+ -->
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+
+<link rel="import" href="bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="bower_components/app-layout/app-toolbar/app-toolbar.html">
+
+<link rel="import" href="bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
+
+<link rel="import" href="bower_components/paper-tabs/paper-tabs.html">
+
+
+<dom-module id="landing-view">
+    <template>
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+        <style>
+            /*PSEUDO VAR-container*/
+            :root {
+                --footer-height: 50px;
+            }
+
+            app-header {
+                background-color: rgba(218, 218, 218, 0.95);
+                --app-header-shadow: {
+                    box-shadow: inset 0px 5px 6px -3px rgba(0, 0, 0, 0.2);
+                    height: 10px;
+                    bottom: -10px;
+                };
+            }
+
+            app-header:not([shadow]) {
+                border-bottom: 1px solid #ddd;
+            }
+
+            #mainToolbar {
+                height: 64px;
+            }
+
+            .logo {
+                @apply --layout;
+                @apply --layout-flex-auto;
+                @apply --layout-center-center;
+            }
+
+            paper-icon-button {
+                color: #000;
+                --paper-icon-button-ink-color: #646ECB;
+            }
+
+            .navItem {
+                @apply --layout-self-start;
+                margin-top: 13px;
+                width: 88px;
+            }
+
+            paper-tabs {
+                --paper-tabs-selection-bar-color: #646ECB;
+                /*https://stackoverflow.com/questions/32295259/make-polymer-paper-tabs-to-be-centered*/
+                margin-left: -55px;
+
+                color: #646ECB;
+                font-size: 13px;
+
+            }
+
+            paper-tab {
+                @apply --layout-flex-none;
+
+                padding: 0;
+                --paper-tab-ink: #646ECB;
+            }
+
+            paper-tab a {
+                @apply --layout-horizontal;
+                @apply --layout-center-center;
+                text-decoration: none;
+                text-transform: uppercase;
+                color: #000;
+                font-weight: 500;
+                padding: 0 20px;
+                height: 100%;
+            }
+
+            .content {
+
+                /*FOOTER*/
+                min-height: calc(100vh - (132px + var(--footer-height))); /* 132 = TopNav-height (112) + 20px*/
+            }
+
+            footer {
+                height: var(--footer-height);
+                line-height: 50px;
+                text-align: center;
+                background-color: #DADADA;
+                font-size: 24px;
+                color: #646ECB;
+            }
+
+        </style>
+
+        <app-header-layout>
+            <app-header slot="header" effects="waterfall" condenses reveals>
+                <app-toolbar id="mainToolbar">
+                    <div class="logo">
+                        <img src="../frontend/images/logo/logo_transparent.png" alt="Veraplan Logo" width="100"
+                             height="100">
+                    </div>
+                    <div class="navItem">
+                        <paper-icon-button icon="account-circle" aria-label="Account"></paper-icon-button>
+                        <paper-icon-button icon="more-vert" aria-label="Other options"></paper-icon-button>
+                    </div>
+                </app-toolbar>
+                <paper-tabs scrollable sticky>
+                    <paper-tab>
+                        <a href="#">About</a>
+                    </paper-tab>
+                    <paper-tab>
+                        <a href="#">Services</a>
+                    </paper-tab>
+                    <paper-tab>
+                        <a href="#">Contact</a>
+                    </paper-tab>
+
+                </paper-tabs>
+            </app-header>
+
+            <div class="content">
+                <h3>Page Title</h3>
+                <p>Page content</p><br><br><br><br><br>
+            </div>
+
+            <footer>
+                <div class="w3-xlarge w3-padding-32">
+                    <i class="fab fa-facebook"></i>
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-snapchat"></i>
+                    <i class="fab fa-pinterest-p"></i>
+                    <i class="fab fa-twittery"></i>
+                    <i class="fab fa-linkedin"></i>
+                </div>
+            </footer>
+        </app-header-layout>
+
+    </template>
+    <script>
+        class LandingView extends Polymer.Element {
+            static get is() {
+                return 'landing-view';
+            }
+        }
+
+        window.customElements.define(LandingView.is, LandingView);
+
+    </script>
+</dom-module>

@@ -27,9 +27,9 @@ import org.springframework.security.web.authentication.SavedRequestAwareAuthenti
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
-    private static final String LOGIN_PROCESSING_URL = "/login";
-    private static final String LOGIN_FAILURE_URL = "/login?error";
-    private static final String LOGIN_URL = "/login";
+    private static final String LOGIN_PROCESSING_URL = "/landing";
+    private static final String LOGIN_FAILURE_URL = "/landing?error";
+    private static final String LOGIN_URL = "/landing";
     private static final String LOGOUT_SUCCESS_URL = "/";
     //private static final String LOGOUT_SUCCESS_URL = "/" + BakeryConst.PAGE_STOREFRONT;
 
