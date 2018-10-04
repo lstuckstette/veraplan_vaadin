@@ -22,6 +22,14 @@
     "vaadin-icons": "vaadin/vaadin-icons#^4.2.0",
     "app-layout": "PolymerElements/app-layout#2.1.1",
     "paper-icon-button": "PolymerElements/paper-icon-button#2.2.0",
-    "paper-tabs": "PolymerElements/paper-tabs#2.1.1"
+    "paper-tabs": "PolymerElements/paper-tabs#2.1.1",
+    "paper-menu-button": "PolymerElements/paper-menu-button#2.1.1",
+    "paper-listbox": "PolymerElements/paper-listbox#2.1.1",
+    "paper-item": "PolymerElements/paper-item#2.1.1",
+    "neon-animation": "PolymerElements/neon-animation#2.2.1",
+    "web-animations-js": "^2.3.1",
+    "paper-dialog": "PolymerElements/paper-dialog#2.1.1",
+    "vaadin-material-styles": "vaadin/vaadin-material-theme#^1.2.0",
+    "vaadin-dialog": "vaadin/vaadin-dialog#^2.1.0"
   }
 }
