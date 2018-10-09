@@ -169,7 +169,6 @@
                 <h3>Page Title</h3>
 
 
-
                 <p>Page content</p><br><br><br><br><br>
                 <p>Page content</p><br><br><br><br><br>
                 <p>Page content</p><br><br><br><br><br>
@@ -203,14 +202,15 @@
 
             <iron-form id="loginForm">
 
-                <form method="post" action="login">
-                    <paper-input name="username" label="Username/Email" type="text" value="admin@admin.de" required></paper-input>
+                <form method="post" action="landing">
+                    <paper-input name="username" label="Username/Email" type="text" value="admin@admin.de"
+                                 required></paper-input>
                     <paper-input name="password" label="Password" type="password" required></paper-input>
                     <input type="hidden">
 
                     <div class="buttons">
                         <paper-button raised dialog-dismiss>Cancel</paper-button>
-                        <paper-button  type="submit" raised on-click="submitLogin">Submit</paper-button>
+                        <paper-button type="submit" raised on-click="submitLogin">Submit</paper-button>
                     </div>
                 </form>
             </iron-form>
@@ -237,9 +237,8 @@
             }
 
             submitLogin() {
+                this.$.loginForm.allowRedirect = true;
                 this.$.loginForm.submit();
-                console.log("success");
-
             }
         }
 
