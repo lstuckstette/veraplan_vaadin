@@ -36,6 +36,7 @@
             /*PSEUDO VAR-container*/
             :root {
                 --footer-height: 50px;
+                --full-menu-height: 112px;
             }
 
             app-header {
@@ -68,23 +69,23 @@
                 --paper-icon-button-ink-color: #646ECB;
             }
 
-            .navItem {
-                @apply --layout-self-start;
-                margin-top: 13px;
-                width: 88px;
-            }
-
-            vaadin-tabs {
-                @apply --layout;
-                @apply --layout-flex-auto;
+            .toolbar {
+                @apply --layout-horizontal;
                 @apply --layout-center-center;
             }
 
-            vaadin-tab {
+            vaadin-tabs {
+
                 max-width: fit-content;
             }
 
+            vaadin-tab {
+
+
+            }
+
             vaadin-tab a {
+
 
                 text-decoration: none;
 
@@ -94,6 +95,48 @@
                 text-align: center;
                 /*FOOTER*/
                 min-height: calc(100vh - (132px + var(--footer-height))); /* 132 = TopNav-height (112) + 20px*/
+            }
+
+            header {
+                @apply --layout-vertical;
+                @apply --layout-center-center;
+                height: calc(100vh - var(--full-menu-height));
+                padding: 0 16px;
+                /*SRC: https://www.pexels.com/photo/man-wearing-black-and-white-stripe-shirt-looking-at-white-printer-papers-on-the-wall-212286/*/
+                background-image: url("../frontend/images/landing/header-dark.webp");
+                background-repeat: no-repeat;
+                background-size: cover;
+                color: white;
+                text-align: center;
+            }
+
+            section {
+                padding: 88px 16px;
+            }
+
+            .container {
+                @apply --layout-horizontal;
+                max-width: 800px;
+                margin: 0 auto;
+            }
+
+            .container > * {
+                @apply --layout-flex;
+            }
+
+            .container img {
+                max-width: 100%;
+                max-height: 100%;
+            }
+
+            .container h3 {
+                font-size: 32px;
+                font-weight: 300;
+                margin: 24px 0;
+            }
+
+            .container p {
+                line-height: 1.5;
             }
 
             footer {
@@ -154,20 +197,19 @@
                             <a on-click="scrollAbout">About</a>
                         </vaadin-tab>
                         <vaadin-tab>
-                            <a href="#">Services</a>
+                            <a on-click="scrollServices">Services</a>
                         </vaadin-tab>
                         <vaadin-tab>
-                            <a href="#">Contact</a>
+                            <a on-click="scrollContact">Contact</a>
                         </vaadin-tab>
                     </vaadin-tabs>
 
                 </div>
             </app-header>
 
-
+            <!-- TEST CONTENT
             <div class="content">
                 <h3>Page Title</h3>
-
 
                 <p>Page content</p><br><br><br><br><br>
                 <p>Page content</p><br><br><br><br><br>
@@ -183,8 +225,53 @@
                 <p>Page content</p><br><br><br><br><br>
                 <p>Page content</p><br><br><br><br><br>
 
-
             </div>
+            -->
+            <header>
+                <h2>Welcome to the Veraplan Landing Page</h2>
+                <p>Made with Vaadin 10/11 Flow + Spring Boot</p>
+            </header>
+
+            <section id="aboutAnchor">
+                <div class="container">
+                    <div><img src="//app-layout-assets.appspot.com/assets/landing-page/berries.jpg"></div>
+                    <div>
+                        <h3>About</h3>
+                        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea. Lorem
+                            ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.</p>
+                        <p>Convenire definiebas scriptorem eu cum. Sit dolor dicunt consectetuer no. Convenire
+                            definiebas scriptorem eu cum. Sit dolor dicunt consectetuer no.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="servicesAnchor">
+                <div class="container">
+                    <div><img src="//app-layout-assets.appspot.com/assets/landing-page/tomato.jpg"></div>
+                    <div>
+                        <h3>Services</h3>
+                        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea. Lorem
+                            ipsum
+                            dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.</p>
+                        <p>Convenire definiebas scriptorem eu cum. Sit dolor dicunt consectetuer no. Convenire
+                            definiebas
+                            scriptorem eu cum. Sit dolor dicunt consectetuer no.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="contactAnchor">
+                <div class="container">
+                    <div><img src="//app-layout-assets.appspot.com/assets/landing-page/red-onion.jpg"></div>
+                    <div>
+                        <h3>Contact</h3>
+                        <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea. Lorem
+                            ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.</p>
+                        <p>Convenire definiebas scriptorem eu cum. Sit dolor dicunt consectetuer no. Convenire
+                            definiebas scriptorem eu cum. Sit dolor dicunt consectetuer no.</p>
+                    </div>
+                </div>
+            </section>
 
             <footer>
                 <div class="w3-xlarge w3-padding-32">
@@ -196,6 +283,7 @@
                     <i class="fab fa-linkedin"></i>
                 </div>
             </footer>
+
         </app-header-layout>
 
         <paper-dialog id="loginDialog" modal>
@@ -206,7 +294,7 @@
                     <paper-input name="username" label="Username/Email" type="text" value="admin@admin.de"
                                  required></paper-input>
                     <paper-input name="password" label="Password" type="password" required></paper-input>
-                    <input type="hidden">
+                    <br>
 
                     <div class="buttons">
                         <paper-button raised dialog-dismiss>Cancel</paper-button>
@@ -224,16 +312,24 @@
                 return 'landing-view';
             }
 
+            scrollAbout() {
+                this.$.aboutAnchor.scrollIntoView()
+            }
+
+            scrollServices() {
+                this.$.servicesAnchor.scrollIntoView()
+            }
+
+            scrollContact() {
+                this.$.contactAnchor.scrollIntoView()
+            }
+
             showLoginDialog() {
                 this.$.loginDialog.open();
             }
 
             closeLoginDialog() {
                 this.$.loginDialog.close();
-            }
-
-            scrollAbout() {
-                this.$.tanchor.scrollIntoView()
             }
 
             submitLogin() {
