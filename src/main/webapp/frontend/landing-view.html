@@ -2,6 +2,7 @@
  @author: lstuckstette
  -->
 <link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="styles/shared-styles.html">
 
 <link rel="import" href="bower_components/vaadin-material-styles/color.html">
 <link rel="import" href="bower_components/vaadin-material-styles/typography.html">
@@ -32,11 +33,15 @@
 <dom-module id="landing-view">
     <template>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
-        <style include="material-color-light material-typography">
+        <style include="shared-styles material-color-light material-typography">
             /*PSEUDO VAR-container*/
+            :host body {
+
+            }
+
             :root {
                 --footer-height: 50px;
-                --full-menu-height: 112px;
+                --full-menu-height: 108px;
             }
 
             app-header {
@@ -72,6 +77,12 @@
             .toolbar {
                 @apply --layout-horizontal;
                 @apply --layout-center-center;
+                position: relative;
+            }
+
+            .toolbar > .accountsettings {
+                right: 0;
+                position: absolute;
             }
 
             vaadin-tabs {
@@ -79,16 +90,8 @@
                 max-width: fit-content;
             }
 
-            vaadin-tab {
-
-
-            }
-
             vaadin-tab a {
-
-
                 text-decoration: none;
-
             }
 
             .content {
@@ -148,8 +151,12 @@
                 color: #646ECB;
             }
 
-            vaadin-dialog {
-                box-shadow: var(--material-shadow-elevation-24dp);
+            app-header-layout {
+
+            }
+
+            app-header-layout::-webkit-scrollbar {
+
             }
 
         </style>
@@ -168,31 +175,10 @@
                      -->
 
 
-                    <paper-menu-button no-overlap>
-                        <paper-icon-button icon="account-circle" slot="dropdown-trigger"
-                                           aria-label="Account"></paper-icon-button>
-                        <paper-listbox slot="dropdown-content">
-                            <paper-item on-click="showLoginDialog">Login</paper-item>
-                            <paper-item>Register</paper-item>
-                            <paper-item>Help</paper-item>
-
-                        </paper-listbox>
-                    </paper-menu-button>
-
-                    <paper-menu-button horizontal-align=right no-overlap>
-                        <paper-icon-button icon="more-vert" slot="dropdown-trigger"
-                                           aria-label="Other options"></paper-icon-button>
-                        <paper-listbox slot="dropdown-content">
-                            <paper-item>Share</paper-item>
-                            <paper-item>Settings</paper-item>
-                            <paper-item>Help</paper-item>
-                        </paper-listbox>
-                    </paper-menu-button>
-
                 </app-toolbar>
                 <div class="toolbar" sticky>
 
-                    <vaadin-tabs>
+                    <vaadin-tabs selected="-1">
                         <vaadin-tab>
                             <a on-click="scrollAbout">About</a>
                         </vaadin-tab>
@@ -203,6 +189,28 @@
                             <a on-click="scrollContact">Contact</a>
                         </vaadin-tab>
                     </vaadin-tabs>
+                    <div class="accountsettings">
+                        <paper-menu-button no-overlap>
+                            <paper-icon-button icon="account-circle" slot="dropdown-trigger"
+                                               aria-label="Account"></paper-icon-button>
+                            <paper-listbox slot="dropdown-content">
+                                <paper-item on-click="showLoginDialog">Login</paper-item>
+                                <paper-item>Register</paper-item>
+                                <paper-item>Help</paper-item>
+
+                            </paper-listbox>
+                        </paper-menu-button>
+
+                        <paper-menu-button horizontal-align=right no-overlap>
+                            <paper-icon-button icon="more-vert" slot="dropdown-trigger"
+                                               aria-label="Other options"></paper-icon-button>
+                            <paper-listbox slot="dropdown-content">
+                                <paper-item>Share</paper-item>
+                                <paper-item>Settings</paper-item>
+                                <paper-item>Help</paper-item>
+                            </paper-listbox>
+                        </paper-menu-button>
+                    </div>
 
                 </div>
             </app-header>
@@ -310,6 +318,14 @@
         class LandingView extends Polymer.Element {
             static get is() {
                 return 'landing-view';
+            }
+
+            ready() {
+                super.ready();
+
+                /*document.documentElement.style.overflow = 'hidden';  // firefox, chrome
+                document.body.scroll = "no"; // ie only
+                console.log("wuppifluppi");*/
             }
 
             scrollAbout() {
