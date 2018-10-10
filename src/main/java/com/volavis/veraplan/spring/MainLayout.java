@@ -54,7 +54,7 @@ public class MainLayout extends PolymerTemplate<TemplateModel> implements Router
         navbar.add(new NavigationItemBuilder().linkText("Help").targetClass(HelpView.class).build());
         //Add Nav-Items depending on Access-Level
 
-        //TODO: implement sub-templates ala vadin-tutorial @Uses
+        //TODO: Rework Navigation: no router links... see BakeryApp/AppNavigation & BakeryApp/MainView
     }
 
 
