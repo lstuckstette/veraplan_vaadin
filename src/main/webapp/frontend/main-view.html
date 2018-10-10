@@ -1,23 +1,171 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="styles/shared-styles.html">
 
-<link rel="import" href="components/main-nav.html">
-<link rel="import" href="components/main-footer.html">
+<!-- Main Menu-->
+<link rel="import" href="bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
+<link rel="import" href="bower_components/app-layout/app-header-layout/app-header-layout.html">
+<link rel="import" href="bower_components/app-layout/app-header/app-header.html">
+<link rel="import" href="bower_components/app-layout/app-toolbar/app-toolbar.html">
+
+<link rel="import" href="bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
+
+<link rel="import" href="bower_components/vaadin-tabs/theme/material/vaadin-tabs.html">
+
+
+<!-- Account Menu -->
+<link rel="import" href="bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="bower_components/paper-item/paper-item.html">
+<link rel="import" href="bower_components/neon-animation/web-animations.html">
 
 <dom-module id="main-view">
-    <style>
-
-    </style>
     <template>
-        <vp-site-header id="site-header"></vp-site-header>
-        <div id="site-content"></div>
-        <vp-site-footer id="site-footer"></vp-site-footer>
+        <style include="shared-styles">
+
+            :root {
+                --footer-height: 50px;
+                --full-menu-height: 108px;
+            }
+
+            app-header {
+                /*background-color: rgba(218, 218, 218, 0.95);*/
+                background-color: var(--material-background-color);
+
+                --app-header-shadow: {
+                    box-shadow: inset 0px 5px 6px -3px rgba(0, 0, 0, 0.2);
+                    height: 10px;
+                    bottom: -10px;
+                };
+            }
+
+            app-header:not([shadow]) {
+                border-bottom: 1px solid #ddd;
+            }
+
+            #mainToolbar {
+                height: 64px;
+            }
+
+            .logo {
+                @apply --layout;
+                @apply --layout-flex-auto;
+                @apply --layout-center-center;
+            }
+
+            paper-icon-button {
+                color: #000;
+                --paper-icon-button-ink-color: #646ECB;
+            }
+
+            .toolbar {
+                @apply --layout-horizontal;
+                @apply --layout-center-center;
+                position: relative;
+            }
+
+            .accountsettings {
+                @apply --layout-horizontal;
+                @apply --layout-center-center;
+                right: 20px;
+                position: absolute;
+
+            }
+
+            .accountsettings > vaadin-button {
+                margin-left: 12px;
+            }
+
+            vaadin-tabs {
+
+                max-width: fit-content;
+            }
+
+            vaadin-tab a {
+                text-decoration: none;
+            }
+
+            .content {
+                text-align: center;
+                /*FOOTER*/
+                min-height: calc(100vh - (128px + var(--footer-height))); /* 132 = TopNav-height (112) + 20px*/
+            }
+
+            footer {
+                height: var(--footer-height);
+                line-height: 50px;
+                text-align: center;
+                background-color: #DADADA;
+                font-size: 24px;
+                color: #646ECB;
+            }
+
+        </style>
+        <app-header-layout>
+            <app-header slot="header" effects="waterfall" condenses reveals>
+                <app-toolbar id="mainToolbar">
+                    <div class="logo">
+                        <img src="../frontend/images/logo/logo_transparent.png" alt="Veraplan Logo" width="100"
+                             height="100">
+                    </div>
+                </app-toolbar>
+                <div class="toolbar" sticky>
+
+                    <vaadin-tabs id="menu-items" selected="-1">
+
+                    </vaadin-tabs>
+                    <div class="accountsettings">
+                        <!--
+                        <paper-menu-button no-overlap>
+                            <paper-icon-button icon="account-circle" slot="dropdown-trigger"
+                                               aria-label="Account"></paper-icon-button>
+                            <paper-listbox slot="dropdown-content">
+                                <paper-item on-click="showLoginDialog">Login</paper-item>
+                                <paper-item>Register</paper-item>
+                                <paper-item>Help</paper-item>
+
+                            </paper-listbox>
+                        </paper-menu-button>
+                        -->
+
+                        <paper-menu-button horizontal-align=right no-overlap>
+                            <paper-icon-button icon="more-vert" slot="dropdown-trigger"
+                                               aria-label="Other options"></paper-icon-button>
+                            <paper-listbox slot="dropdown-content">
+                                <paper-item>Share</paper-item>
+                                <paper-item>Settings</paper-item>
+                                <paper-item>Help</paper-item>
+                            </paper-listbox>
+                        </paper-menu-button>
+                    </div>
+
+                </div>
+            </app-header>
+
+
+            <slot class="content"></slot>
+
+            <footer>
+                <div class="w3-xlarge w3-padding-32">
+                    <i class="fab fa-facebook"></i>
+                    <i class="fab fa-instagram"></i>
+                    <i class="fab fa-snapchat"></i>
+                    <i class="fab fa-pinterest-p"></i>
+                    <i class="fab fa-twittery"></i>
+                    <i class="fab fa-linkedin"></i>
+                </div>
+            </footer>
+
+        </app-header-layout>
+
     </template>
     <script>
         class MainView extends Polymer.Element {
-            static get is(){
+            static get is() {
                 return 'main-view';
             }
         }
+
         window.customElements.define(MainView.is, MainView);
     </script>
 </dom-module>

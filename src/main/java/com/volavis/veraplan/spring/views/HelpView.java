@@ -1,5 +1,6 @@
 package com.volavis.veraplan.spring.views;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.router.PageTitle;
@@ -12,10 +13,7 @@ import com.volavis.veraplan.spring.MainLayout;
 public class HelpView extends Div {
 
     public HelpView() {
-        this.setClassName("w3-container w3-content");
-        this.getStyle().set("max-width","1400px");
-        this.getStyle().set("margin-top","80px");
-        this.getStyle().set("margin-bottom","80px");
+        UI.getCurrent().getPage().addStyleSheet("https://use.fontawesome.com/releases/v5.3.1/css/all.css");
         init();
     }
 

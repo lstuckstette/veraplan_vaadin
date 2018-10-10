@@ -67,12 +67,13 @@
             <artifactId>spring-boot-starter-security</artifactId>
         </dependency>
 
-        <!-- https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt -->
+        <!-- https://mvnrepository.com/artifact/com.vaadin/vaadin-material-theme -->
         <dependency>
-            <groupId>io.jsonwebtoken</groupId>
-            <artifactId>jjwt</artifactId>
-            <version>0.9.1</version>
+            <groupId>com.vaadin</groupId>
+            <artifactId>vaadin-material-theme</artifactId>
+            <version>1.1.0</version>
         </dependency>
+
 
 
 

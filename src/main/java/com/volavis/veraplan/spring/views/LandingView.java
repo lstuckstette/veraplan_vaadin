@@ -14,12 +14,15 @@ import com.vaadin.flow.router.*;
 import com.vaadin.flow.server.InitialPageSettings;
 import com.vaadin.flow.server.PageConfigurator;
 import com.vaadin.flow.templatemodel.TemplateModel;
+import com.vaadin.flow.theme.Theme;
+import com.vaadin.flow.theme.material.Material;
 
 @PageTitle("LandingView")
 @Tag("landing-view")
 @HtmlImport("landing-view.html")
 @BodySize()
 @Route("landing")
+@Theme(value= Material.class, variant = Material.LIGHT)
 public class LandingView extends PolymerTemplate<TemplateModel> implements HasUrlParameter<String>, PageConfigurator {
 
 

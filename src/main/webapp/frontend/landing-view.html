@@ -4,10 +4,8 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
 <link rel="import" href="styles/shared-styles.html">
 
-<link rel="import" href="bower_components/vaadin-material-styles/color.html">
-<link rel="import" href="bower_components/vaadin-material-styles/typography.html">
-<link rel="import" href="bower_components/vaadin-material-styles/shadow.html">
 
+<!-- Main Menu-->
 <link rel="import" href="bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
 <link rel="import" href="bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="bower_components/app-layout/app-header/app-header.html">
@@ -17,27 +15,26 @@
 <link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
 
 <link rel="import" href="bower_components/vaadin-tabs/theme/material/vaadin-tabs.html">
-<!-- <link rel="import" href="bower_components/paper-tabs/paper-tabs.html"> -->
 
+
+<!-- Account Menu -->
 <link rel="import" href="bower_components/paper-menu-button/paper-menu-button.html">
 <link rel="import" href="bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="bower_components/paper-item/paper-item.html">
 <link rel="import" href="bower_components/neon-animation/web-animations.html">
 
+<!-- Login Form -->
 <link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
 <link rel="import" href="bower_components/iron-form/iron-form.html">
-<link rel="import" href="bower_components/paper-button/paper-button.html">
-<link rel="import" href="bower_components/paper-input/paper-input.html">
+<link rel="import" href="bower_components/vaadin-text-field/theme/material/vaadin-text-field.html">
+<link rel="import" href="bower_components/vaadin-text-field/theme/material/vaadin-password-field.html">
+<link rel="import" href="bower_components/vaadin-button/theme/material/vaadin-button.html">
 
 
 <dom-module id="landing-view">
     <template>
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
-        <style include="shared-styles material-color-light material-typography">
-            /*PSEUDO VAR-container*/
-            :host body {
-
-            }
+        <style include="shared-styles">
 
             :root {
                 --footer-height: 50px;
@@ -80,9 +77,16 @@
                 position: relative;
             }
 
-            .toolbar > .accountsettings {
-                right: 0;
+            .accountsettings {
+                @apply --layout-horizontal;
+                @apply --layout-center-center;
+                right: 20px;
                 position: absolute;
+
+            }
+
+            .accountsettings > vaadin-button {
+                margin-left: 12px;
             }
 
             vaadin-tabs {
@@ -98,6 +102,15 @@
                 text-align: center;
                 /*FOOTER*/
                 min-height: calc(100vh - (132px + var(--footer-height))); /* 132 = TopNav-height (112) + 20px*/
+            }
+
+            footer {
+                height: var(--footer-height);
+                line-height: 50px;
+                text-align: center;
+                background-color: #DADADA;
+                font-size: 24px;
+                color: #646ECB;
             }
 
             header {
@@ -141,24 +154,6 @@
             .container p {
                 line-height: 1.5;
             }
-
-            footer {
-                height: var(--footer-height);
-                line-height: 50px;
-                text-align: center;
-                background-color: #DADADA;
-                font-size: 24px;
-                color: #646ECB;
-            }
-
-            app-header-layout {
-
-            }
-
-            app-header-layout::-webkit-scrollbar {
-
-            }
-
         </style>
 
         <app-header-layout>
@@ -168,28 +163,22 @@
                         <img src="../frontend/images/logo/logo_transparent.png" alt="Veraplan Logo" width="100"
                              height="100">
                     </div>
-                    <!--
-                    <div class="navItem">
-                        <paper-icon-button icon="account-circle" aria-label="Account"></paper-icon-button>
-                    </div>
-                     -->
-
-
                 </app-toolbar>
                 <div class="toolbar" sticky>
 
                     <vaadin-tabs selected="-1">
-                        <vaadin-tab>
-                            <a on-click="scrollAbout">About</a>
+                        <vaadin-tab on-click="scrollAbout">
+                            About
                         </vaadin-tab>
-                        <vaadin-tab>
-                            <a on-click="scrollServices">Services</a>
+                        <vaadin-tab on-click="scrollServices">
+                            Services
                         </vaadin-tab>
-                        <vaadin-tab>
-                            <a on-click="scrollContact">Contact</a>
+                        <vaadin-tab on-click="scrollContact">
+                            Contact
                         </vaadin-tab>
                     </vaadin-tabs>
                     <div class="accountsettings">
+                        <!--
                         <paper-menu-button no-overlap>
                             <paper-icon-button icon="account-circle" slot="dropdown-trigger"
                                                aria-label="Account"></paper-icon-button>
@@ -200,6 +189,10 @@
 
                             </paper-listbox>
                         </paper-menu-button>
+                        -->
+                        <vaadin-button theme="contained" on-click="showLoginDialog">Login</vaadin-button>
+
+                        <vaadin-button theme="outlined" on-click="showRegisterDialog">Register</vaadin-button>
 
                         <paper-menu-button horizontal-align=right no-overlap>
                             <paper-icon-button icon="more-vert" slot="dropdown-trigger"
@@ -299,15 +292,15 @@
             <iron-form id="loginForm">
 
                 <form method="post" action="landing">
-                    <paper-input name="username" label="Username/Email" type="text" value="admin@admin.de"
-                                 required></paper-input>
-                    <paper-input name="password" label="Password" type="password" required></paper-input>
+                    <vaadin-text-field name="username" label="Username/Email"
+                                       value="admin"></vaadin-text-field>
                     <br>
+                    <vaadin-password-field name="password" label="Password"></vaadin-password-field>
+                    <br>
+                    <br>
+                    <vaadin-button theme="outlined" dialog-dismiss>Cancel</vaadin-button>
+                    <vaadin-button theme="outlined" on-click="submitLogin">Submit</vaadin-button>
 
-                    <div class="buttons">
-                        <paper-button raised dialog-dismiss>Cancel</paper-button>
-                        <paper-button type="submit" raised on-click="submitLogin">Submit</paper-button>
-                    </div>
                 </form>
             </iron-form>
 
@@ -322,22 +315,21 @@
 
             ready() {
                 super.ready();
-
-                /*document.documentElement.style.overflow = 'hidden';  // firefox, chrome
-                document.body.scroll = "no"; // ie only
-                console.log("wuppifluppi");*/
             }
 
             scrollAbout() {
-                this.$.aboutAnchor.scrollIntoView()
+                this.$.aboutAnchor.scrollIntoView();
+                console.log("derp");
             }
 
             scrollServices() {
-                this.$.servicesAnchor.scrollIntoView()
+                this.$.servicesAnchor.scrollIntoView();
+                console.log("derp");
             }
 
             scrollContact() {
-                this.$.contactAnchor.scrollIntoView()
+                this.$.contactAnchor.scrollIntoView();
+                console.log("derp");
             }
 
             showLoginDialog() {
