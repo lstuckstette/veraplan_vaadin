@@ -1,0 +1,86 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+
+<link rel="import" href="../bower_components/vaadin-tabs/theme/material/vaadin-tabs.html">
+<link rel="import" href="bower_components/vaadin-button/theme/material/vaadin-button.html">
+
+<link rel="import" href="../bower_components/iron-icons/iron-icons.html">
+<link rel="import" href="../bower_components/paper-icon-button/paper-icon-button.html">
+
+<!-- Account Menu -->
+<link rel="import" href="../bower_components/paper-menu-button/paper-menu-button.html">
+<link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
+<link rel="import" href="../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../bower_components/neon-animation/web-animations.html">
+
+<dom-module id="app-navigation">
+    <template>
+        <style>
+            #accountsettings {
+                @apply --layout-horizontal;
+                @apply --layout-center-center;
+                right: 20px;
+                position: absolute;
+
+            }
+
+            #accountsettings > vaadin-button {
+                margin-left: 12px;
+            }
+        </style>
+
+        <vaadin-tabs id="menu-tabs" selected="-1">
+            <!--
+            <vaadin-tab onclick="document.querySelector('landing-view').$.aboutAnchor.scrollIntoView()">
+                About
+            </vaadin-tab>
+            <vaadin-tab onclick="document.querySelector('landing-view').$.servicesAnchor.scrollIntoView()">
+                Services
+            </vaadin-tab>
+            <vaadin-tab onclick="document.querySelector('landing-view').$.contactAnchor.scrollIntoView()">
+                Contact
+            </vaadin-tab>
+            -->
+        </vaadin-tabs>
+
+        <div id="accountsettings">
+            <!--
+            <paper-menu-button no-overlap>
+                <paper-icon-button icon="account-circle" slot="dropdown-trigger"
+                                   aria-label="Account"></paper-icon-button>
+                <paper-listbox slot="dropdown-content">
+                    <paper-item on-click="showLoginDialog">Login</paper-item>
+                    <paper-item>Register</paper-item>
+                    <paper-item>Help</paper-item>
+
+                </paper-listbox>
+            </paper-menu-button>
+            -->
+            <vaadin-button theme="contained" onclick="document.querySelector('landing-view').$.loginDialog.open()">
+                Login
+            </vaadin-button>
+
+            <vaadin-button theme="outlined" on-click="showRegisterDialog">Register</vaadin-button>
+
+            <paper-menu-button horizontal-align=right no-overlap>
+                <paper-icon-button icon="more-vert" slot="dropdown-trigger"
+                                   aria-label="Other options"></paper-icon-button>
+                <paper-listbox slot="dropdown-content">
+                    <paper-item>Share</paper-item>
+                    <paper-item>Settings</paper-item>
+                    <paper-item>Help</paper-item>
+                </paper-listbox>
+            </paper-menu-button>
+        </div>
+
+    </template>
+    <script>
+        class AppNavigation extends Polymer.Element {
+            static get is() {
+                return 'app-navigation';
+            }
+        }
+
+        window.customElements.define(AppNavigation.is, AppNavigation);
+    </script>
+</dom-module>

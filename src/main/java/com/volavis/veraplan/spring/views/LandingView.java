@@ -16,25 +16,29 @@ import com.vaadin.flow.server.PageConfigurator;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.material.Material;
+import com.volavis.veraplan.spring.components.AppNavigation;
+import com.volavis.veraplan.spring.components.NavigationItemBuilder;
+import com.volavis.veraplan.spring.components.NavigationTab;
 
 @PageTitle("LandingView")
 @Tag("landing-view")
 @HtmlImport("landing-view.html")
 @BodySize()
 @Route("landing")
-@Theme(value= Material.class, variant = Material.LIGHT)
-public class LandingView extends PolymerTemplate<TemplateModel> implements HasUrlParameter<String>, PageConfigurator {
+@Theme(value = Material.class, variant = Material.LIGHT)
+public class LandingView extends PolymerTemplate<TemplateModel> implements HasUrlParameter<String> {
 
+    @Id("app-navigation")
+    private AppNavigation appNavigation;
 
-   // @Id("menubar")
-   // private Tabs menubar;
-
-    public LandingView(){
+    public LandingView() {
         UI.getCurrent().getPage().addStyleSheet("https://use.fontawesome.com/releases/v5.3.1/css/all.css");
-        //
-//        RouterLink home = new RouterLink("Home",LandingView.class);
-//        Tab homeTab = new Tab(home);
-//        menubar.add(homeTab);
+
+        NavigationTab about = new NavigationItemBuilder().text("About").action("document.querySelector('landing-view').$.aboutAnchor.scrollIntoView()").build();
+        NavigationTab services = new NavigationItemBuilder().text("Services").action("document.querySelector('landing-view').$.servicesAnchor.scrollIntoView()").build();
+        NavigationTab contact = new NavigationItemBuilder().text("Contact").action("document.querySelector('landing-view').$.contactAnchor.scrollIntoView()").build();
+        appNavigation.setTabs(about, services, contact);
+
     }
 
     @Override
@@ -42,9 +46,4 @@ public class LandingView extends PolymerTemplate<TemplateModel> implements HasUr
 
     }
 
-    @Override
-    public void configurePage(InitialPageSettings settings) {
-
-
-    }
 }

@@ -4,24 +4,14 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
 <link rel="import" href="styles/shared-styles.html">
 
-
 <!-- Main Menu-->
 <link rel="import" href="bower_components/app-layout/app-scroll-effects/app-scroll-effects.html">
 <link rel="import" href="bower_components/app-layout/app-header-layout/app-header-layout.html">
 <link rel="import" href="bower_components/app-layout/app-header/app-header.html">
 <link rel="import" href="bower_components/app-layout/app-toolbar/app-toolbar.html">
 
-<link rel="import" href="bower_components/iron-icons/iron-icons.html">
-<link rel="import" href="bower_components/paper-icon-button/paper-icon-button.html">
-
-<link rel="import" href="bower_components/vaadin-tabs/theme/material/vaadin-tabs.html">
-
-
-<!-- Account Menu -->
-<link rel="import" href="bower_components/paper-menu-button/paper-menu-button.html">
-<link rel="import" href="bower_components/paper-listbox/paper-listbox.html">
-<link rel="import" href="bower_components/paper-item/paper-item.html">
-<link rel="import" href="bower_components/neon-animation/web-animations.html">
+<!-- AppNavigation -->
+<link rel="import" href="components/app-navigation.html">
 
 <!-- Login Form -->
 <link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
@@ -75,18 +65,6 @@
                 @apply --layout-horizontal;
                 @apply --layout-center-center;
                 position: relative;
-            }
-
-            .accountsettings {
-                @apply --layout-horizontal;
-                @apply --layout-center-center;
-                right: 20px;
-                position: absolute;
-
-            }
-
-            .accountsettings > vaadin-button {
-                margin-left: 12px;
             }
 
             vaadin-tabs {
@@ -157,6 +135,7 @@
         </style>
 
         <app-header-layout>
+
             <app-header slot="header" effects="waterfall" condenses reveals>
                 <app-toolbar id="mainToolbar">
                     <div class="logo">
@@ -164,49 +143,11 @@
                              height="100">
                     </div>
                 </app-toolbar>
-                <div class="toolbar" sticky>
 
-                    <vaadin-tabs selected="-1">
-                        <vaadin-tab on-click="scrollAbout">
-                            About
-                        </vaadin-tab>
-                        <vaadin-tab on-click="scrollServices">
-                            Services
-                        </vaadin-tab>
-                        <vaadin-tab on-click="scrollContact">
-                            Contact
-                        </vaadin-tab>
-                    </vaadin-tabs>
-                    <div class="accountsettings">
-                        <!--
-                        <paper-menu-button no-overlap>
-                            <paper-icon-button icon="account-circle" slot="dropdown-trigger"
-                                               aria-label="Account"></paper-icon-button>
-                            <paper-listbox slot="dropdown-content">
-                                <paper-item on-click="showLoginDialog">Login</paper-item>
-                                <paper-item>Register</paper-item>
-                                <paper-item>Help</paper-item>
+                <app-navigation id="app-navigation" class="toolbar" sticky></app-navigation>
 
-                            </paper-listbox>
-                        </paper-menu-button>
-                        -->
-                        <vaadin-button theme="contained" on-click="showLoginDialog">Login</vaadin-button>
-
-                        <vaadin-button theme="outlined" on-click="showRegisterDialog">Register</vaadin-button>
-
-                        <paper-menu-button horizontal-align=right no-overlap>
-                            <paper-icon-button icon="more-vert" slot="dropdown-trigger"
-                                               aria-label="Other options"></paper-icon-button>
-                            <paper-listbox slot="dropdown-content">
-                                <paper-item>Share</paper-item>
-                                <paper-item>Settings</paper-item>
-                                <paper-item>Help</paper-item>
-                            </paper-listbox>
-                        </paper-menu-button>
-                    </div>
-
-                </div>
             </app-header>
+
 
             <!-- TEST CONTENT
             <div class="content">
@@ -311,10 +252,6 @@
         class LandingView extends Polymer.Element {
             static get is() {
                 return 'landing-view';
-            }
-
-            ready() {
-                super.ready();
             }
 
             scrollAbout() {

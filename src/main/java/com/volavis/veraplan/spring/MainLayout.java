@@ -29,8 +29,10 @@ import com.vaadin.flow.router.*;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.material.Material;
+import com.volavis.veraplan.spring.components.AppNavigation;
 import com.volavis.veraplan.spring.components.NavigationItemBuilder;
 
+import com.volavis.veraplan.spring.components.NavigationTab;
 import com.volavis.veraplan.spring.security.SecurityUtils;
 import com.volavis.veraplan.spring.views.DashboardView;
 import com.volavis.veraplan.spring.views.HelpView;
@@ -41,26 +43,25 @@ import org.springframework.security.access.AccessDeniedException;
 @StyleSheet("https://www.w3schools.com/lib/w3-theme-blue-grey.css")
 @Tag("main-view")
 @HtmlImport("main-view.html")
-@Theme(value= Material.class, variant = Material.LIGHT)
+@Theme(value = Material.class, variant = Material.LIGHT)
 public class MainLayout extends PolymerTemplate<TemplateModel> implements RouterLayout, BeforeEnterObserver {
 
-    @Id("menu-items")
-    private Tabs navbar;
+    @Id("app-navigation")
+    private AppNavigation appNavigation;
 
     public MainLayout() {
         UI.getCurrent().getPage().addStyleSheet("https://use.fontawesome.com/releases/v5.3.1/css/all.css");
-        
-        navbar.add(new NavigationItemBuilder().linkText("Home").targetClass(DashboardView.class).build());
-        navbar.add(new NavigationItemBuilder().linkText("Help").targetClass(HelpView.class).build());
-        //Add Nav-Items depending on Access-Level
 
-        //TODO: Rework Navigation: no router links... see BakeryApp/AppNavigation & BakeryApp/MainView
+        NavigationTab dash = new NavigationItemBuilder().text("Dashboard").target(DashboardView.class).build();
+        NavigationTab help = new NavigationItemBuilder().text("Help").target(HelpView.class).build();
+
+        appNavigation.setTabs(dash, help);
     }
 
 
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
-        if(!SecurityUtils.isAccessGranted(event.getNavigationTarget())){
+        if (!SecurityUtils.isAccessGranted(event.getNavigationTarget())) {
             event.rerouteToError(AccessDeniedException.class);
         }
     }
