@@ -1,9 +1,12 @@
 package com.volavis.veraplan.spring.security;
 
+import com.vaadin.external.org.slf4j.Logger;
+import com.vaadin.external.org.slf4j.LoggerFactory;
 import com.volavis.veraplan.spring.persistence.model.Role;
 import com.volavis.veraplan.spring.persistence.model.RoleName;
 import com.volavis.veraplan.spring.persistence.model.User;
 import com.volavis.veraplan.spring.persistence.repository.UserRepository;
+import com.volavis.veraplan.spring.persistence.service.PopulateDemoDatabaseService;
 import com.volavis.veraplan.spring.security.CustomRequestCache;
 import com.volavis.veraplan.spring.security.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +23,15 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 
 
 @EnableWebSecurity
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
+
+    private static final Logger logger = LoggerFactory.getLogger(SecurityConfig.class);
 
     private static final String LOGIN_PROCESSING_URL = "/landing";
     private static final String LOGIN_FAILURE_URL = "/landing?error";
@@ -39,21 +45,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private PasswordEncoder passwordEncoder;
 
     @Autowired
-    public SecurityConfig(UserDetailsService userDetailsService){
+    public SecurityConfig(UserDetailsService userDetailsService) {
         this.userDetailsService = userDetailsService;
     }
 
+    @Bean
+    public AuthenticationFailureHandler customAuthenticationFailureHandler() {
+        return new CustomAuthenticationHandler();
+    }
 
     @Bean
     @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
     public User currentUser(UserRepository userRepository) {
         String usernameOrEmail = SecurityUtils.getUsername();
-        return userRepository.findByUsernameOrEmail(usernameOrEmail,usernameOrEmail).orElseThrow(() ->
+        return userRepository.findByUsernameOrEmail(usernameOrEmail, usernameOrEmail).orElseThrow(() ->
                 new UsernameNotFoundException("No user present with username/email: " + usernameOrEmail)
         );
     }
 
-     @Bean
+    @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
@@ -91,15 +101,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //.anyRequest().authenticated()
 
                 // Configure the login page.
-                .and().formLogin().loginPage(LOGIN_URL).permitAll().loginProcessingUrl(LOGIN_PROCESSING_URL)
-                .failureUrl(LOGIN_FAILURE_URL)
+                .and().formLogin().loginPage("/landing").permitAll()
+                .loginProcessingUrl("/landing").failureHandler(customAuthenticationFailureHandler())
+
 
                 // Register the success handler that redirects users to the page they last tried
                 // to access
                 .successHandler(new SavedRequestAwareAuthenticationSuccessHandler())
 
                 // Configure logout
-                .and().logout().logoutSuccessUrl(LOGOUT_SUCCESS_URL);
+                .and().logout().logoutUrl("/logout").logoutSuccessUrl("/landing");
     }
 
     /**

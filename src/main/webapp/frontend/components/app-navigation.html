@@ -21,11 +21,11 @@
                 @apply --layout-center-center;
                 right: 20px;
                 position: absolute;
-
+                margin-left: 20px;
             }
 
-            #accountsettings > vaadin-button {
-                margin-left: 12px;
+            vaadin-button {
+                margin-left: 20px;
             }
         </style>
 
@@ -45,6 +45,15 @@
 
         <div id="accountsettings">
             <!--
+            <vaadin-button theme="contained" onclick="document.querySelector('landing-view').$.loginDialog.open()">
+                Login
+            </vaadin-button>
+
+            <vaadin-button theme="outlined" on-click="showRegisterDialog">Register</vaadin-button>
+            -->
+            <slot name="loginButton"></slot>
+            <slot name="registerButton"></slot>
+
             <paper-menu-button no-overlap>
                 <paper-icon-button icon="account-circle" slot="dropdown-trigger"
                                    aria-label="Account"></paper-icon-button>
@@ -55,12 +64,6 @@
 
                 </paper-listbox>
             </paper-menu-button>
-            -->
-            <vaadin-button theme="contained" onclick="document.querySelector('landing-view').$.loginDialog.open()">
-                Login
-            </vaadin-button>
-
-            <vaadin-button theme="outlined" on-click="showRegisterDialog">Register</vaadin-button>
 
             <paper-menu-button horizontal-align=right no-overlap>
                 <paper-icon-button icon="more-vert" slot="dropdown-trigger"

@@ -38,6 +38,8 @@ public class LandingView extends PolymerTemplate<TemplateModel> implements HasUr
         NavigationTab services = new NavigationItemBuilder().text("Services").action("document.querySelector('landing-view').$.servicesAnchor.scrollIntoView()").build();
         NavigationTab contact = new NavigationItemBuilder().text("Contact").action("document.querySelector('landing-view').$.contactAnchor.scrollIntoView()").build();
         appNavigation.setTabs(about, services, contact);
+        appNavigation.showLoginButton();
+        appNavigation.showRegisterButton();
 
     }
 
