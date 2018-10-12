@@ -102,7 +102,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 // Configure the login page.
                 .and().formLogin().loginPage("/landing").permitAll()
-                .loginProcessingUrl("/landing").failureHandler(customAuthenticationFailureHandler())
+                .loginProcessingUrl("/landing")
+                .failureHandler(customAuthenticationFailureHandler())
+
 
 
                 // Register the success handler that redirects users to the page they last tried

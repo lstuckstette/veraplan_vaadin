@@ -16,9 +16,11 @@ Import the project to the IDE of your choosing as a Maven project.
 
 1. Start DB by instantiating a docker-container using dockerfile `Docker/MySQL/Dockerfile`
 
-2. Run application using `mvn spring-boot:run` or directly running Application class from your IDE.
+2. Run `bower install` in directory `src/main/webapp/frontend/`
 
-3. Open http://localhost:8080/ in browser
+3. Run application using `mvn spring-boot:run` or directly running Application class from your IDE.
+
+4. Open http://localhost:8080/ in browser
 
 
 For documentation on using Vaadin Flow and Spring, visit [vaadin.com/docs](https://vaadin.com/docs/v10/flow/spring/tutorial-spring-basic.html)

@@ -19,6 +19,7 @@
 <link rel="import" href="bower_components/vaadin-text-field/theme/material/vaadin-text-field.html">
 <link rel="import" href="bower_components/vaadin-text-field/theme/material/vaadin-password-field.html">
 <link rel="import" href="bower_components/vaadin-button/theme/material/vaadin-button.html">
+<link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
 
 
 <dom-module id="landing-view">
@@ -213,14 +214,16 @@
 
                 <form method="post" action="landing">
                     <vaadin-text-field name="username" label="Username/Email"
-                                       value="admin"></vaadin-text-field>
+                                       value="admin" required></vaadin-text-field>
                     <br>
-                    <vaadin-password-field name="password" label="Password"></vaadin-password-field>
+                    <vaadin-password-field id="passwordField" name="password" label="Password" error-message="Password/Username combination invalid"></vaadin-password-field>
+                    <br>
+
                     <br>
                     <br>
                     <vaadin-button theme="outlined" dialog-dismiss>Cancel</vaadin-button>
                     <vaadin-button theme="outlined" on-click="submitLogin">Submit</vaadin-button>
-
+                    <br>
                 </form>
             </iron-form>
 
@@ -231,6 +234,29 @@
         class LandingView extends Polymer.Element {
             static get is() {
                 return 'landing-view';
+            }
+
+            static get properties() {
+                return {
+                    formData: {
+                        type: Object,
+                        value: {}
+                    }
+                }
+            }
+            ready(){
+                super.ready();
+
+                this.$.loginForm.addEventListener('iron-form-response', (event) => {
+                    console.log("response: ", event);
+                    location.assign(event.target.baseURI);
+                });
+
+                this.$.loginForm.addEventListener('iron-form-error', (event) => {
+                    console.log("error: ", event);
+                    console.log("error-header: ", event.detail.request.xhr.getResponseHeader("error"));
+                    this.$.passwordField.setAttribute("invalid", "");
+                });
             }
 
             scrollAbout() {
@@ -257,9 +283,13 @@
             }
 
             submitLogin() {
-                this.$.loginForm.allowRedirect = true;
+                //this.$.loginForm.allowRedirect = true;
                 this.$.loginForm.submit();
+
+                console.log("submit");
             }
+
+
         }
 
         window.customElements.define(LandingView.is, LandingView);

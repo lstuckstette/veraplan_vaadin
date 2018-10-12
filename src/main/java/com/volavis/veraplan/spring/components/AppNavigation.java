@@ -11,17 +11,22 @@ import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.AfterNavigationEvent;
 import com.vaadin.flow.router.AfterNavigationObserver;
 import com.vaadin.flow.templatemodel.TemplateModel;
+import com.volavis.veraplan.spring.security.SecurityUtils;
 
 
 @Tag("app-navigation")
 @HtmlImport("components/app-navigation.html")
-public class AppNavigation extends PolymerTemplate<TemplateModel> implements AfterNavigationObserver {
+public class AppNavigation extends PolymerTemplate<AppNavigationModel> implements AfterNavigationObserver {
 
     @Id("menu-tabs")
     private Tabs tabs;
 
     @Id("accountsettings")
     private Div accountsettings;
+
+    public AppNavigation(){
+        this.getModel().setIsLoggedIn(SecurityUtils.isUserLoggedIn()); //TODO: http://www.baasic.com/2014/11/28/Baasic-Polymer-demo-part-2/
+    }
 
     public void setTabs(NavigationTab... navigationTabs) {
         tabs.add(navigationTabs);

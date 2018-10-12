@@ -25,7 +25,8 @@ public class CustomAuthenticationHandler implements AuthenticationFailureHandler
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
 
         // TODO: rework login using ajax or something.... https://www.webucator.com/how-to/how-create-login-form-with-ajax.cfm
-        response.setHeader("login-error", exception.getMessage());
-        response.sendRedirect("/landing");
+        //request.setAttribute("error", exception.getMessage());
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+        response.setHeader("error", exception.getMessage());
     }
 }
