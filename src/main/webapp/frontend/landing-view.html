@@ -210,22 +210,39 @@
 
         <paper-dialog id="loginDialog" modal>
 
-            <iron-form id="loginForm">
 
-                <form method="post" action="landing">
-                    <vaadin-text-field name="username" label="Username/Email"
-                                       value="admin" required></vaadin-text-field>
-                    <br>
-                    <vaadin-password-field id="passwordField" name="password" label="Password" error-message="Password/Username combination invalid"></vaadin-password-field>
-                    <br>
+            <div class="loginWrapper">
+                <vaadin-text-field
+                        name="username"
+                        label="Username/Email"
+                        value="{{user.username}}"
+                        required>
+                </vaadin-text-field>
+                <br>
+                <vaadin-password-field
+                        id="passwordField"
+                        name="password"
+                        label="Password"
+                        error-message="Password/Username combination invalid"
+                        value="{{user.password}}">
+                </vaadin-password-field>
+                <br>
 
-                    <br>
-                    <br>
-                    <vaadin-button theme="outlined" dialog-dismiss>Cancel</vaadin-button>
-                    <vaadin-button theme="outlined" on-click="submitLogin">Submit</vaadin-button>
-                    <br>
-                </form>
-            </iron-form>
+                <br>
+                <br>
+                <vaadin-button theme="outlined" dialog-dismiss>Cancel</vaadin-button>
+                <vaadin-button theme="outlined" on-click="submitLogin">Submit</vaadin-button>
+                <br>
+            </div>
+
+            <iron-ajax
+                    id="loginAjax"
+                    url="login"
+                    method="post"
+                    content-type="application/json"
+                    on-response="handleLoginResponse"
+                    on-error="handleLoginError">
+            </iron-ajax>
 
         </paper-dialog>
 
@@ -238,25 +255,16 @@
 
             static get properties() {
                 return {
-                    formData: {
+                    user: {
                         type: Object,
                         value: {}
                     }
                 }
             }
-            ready(){
+
+            ready() {
                 super.ready();
 
-                this.$.loginForm.addEventListener('iron-form-response', (event) => {
-                    console.log("response: ", event);
-                    location.assign(event.target.baseURI);
-                });
-
-                this.$.loginForm.addEventListener('iron-form-error', (event) => {
-                    console.log("error: ", event);
-                    console.log("error-header: ", event.detail.request.xhr.getResponseHeader("error"));
-                    this.$.passwordField.setAttribute("invalid", "");
-                });
             }
 
             scrollAbout() {
@@ -283,10 +291,18 @@
             }
 
             submitLogin() {
-                //this.$.loginForm.allowRedirect = true;
-                this.$.loginForm.submit();
-
+                this.$.loginAjax.body = this.user;
+                this.$.loginAjax.generateRequest();
                 console.log("submit");
+            }
+
+            handleLoginResponse(event) {
+                console.log("reponse: ", event)
+                location.assign(event.target.baseURI);
+            }
+
+            handleLoginError(event) {
+                console.log("error: ", event);
             }
 
 

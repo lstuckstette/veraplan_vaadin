@@ -25,6 +25,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
 @EnableWebSecurity
@@ -49,10 +50,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         this.userDetailsService = userDetailsService;
     }
 
-    @Bean
-    public AuthenticationFailureHandler customAuthenticationFailureHandler() {
-        return new CustomAuthenticationHandler();
-    }
+
+    @Autowired
+    CustomAuthenticationHandler customLoginHandler;
+
 
     @Bean
     @Scope(ConfigurableBeanFactory.SCOPE_PROTOTYPE)
@@ -77,6 +78,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
     }
 
+    public CustomUsernamePasswordAuthenticationFilter customUsernamePasswordAuthenticationFilter() throws Exception {
+        CustomUsernamePasswordAuthenticationFilter filter = new CustomUsernamePasswordAuthenticationFilter();
+        filter.setAuthenticationFailureHandler(customLoginHandler);
+        filter.setAuthenticationSuccessHandler(customLoginHandler);
+        filter.setAuthenticationManager(authenticationManager());
+        filter.setFilterProcessesUrl("/login");
+        return filter;
+    }
+
+
     /**
      * Require login to access internal pages and configure login form.
      */
@@ -85,13 +96,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         // Not using Spring CSRF here to be able to use plain HTML for the login page
         http.csrf().disable()
 
+                //Filter Used to handle JSON based Login instead of plain XHR-post
+                .addFilterAt(customUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 // Register our CustomRequestCache, that saves unauthorized access attempts, so
                 // the user is redirected after login.
                 .requestCache().requestCache(new CustomRequestCache())
 
                 // Restrict access to our application.
                 .and().authorizeRequests()
-
 
                 // Allow all flow internal requests.
                 .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()
@@ -101,16 +113,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //.anyRequest().authenticated()
 
                 // Configure the login page.
-                .and().formLogin().loginPage("/landing").permitAll()
-                .loginProcessingUrl("/landing")
-                .failureHandler(customAuthenticationFailureHandler())
+                .and()
+                .formLogin()
+                .loginPage("/landing").permitAll()
 
-
-
-                // Register the success handler that redirects users to the page they last tried
-                // to access
-                .successHandler(new SavedRequestAwareAuthenticationSuccessHandler())
-
+                //.successHandler(new SavedRequestAwareAuthenticationSuccessHandler())
                 // Configure logout
                 .and().logout().logoutUrl("/logout").logoutSuccessUrl("/landing");
     }
@@ -121,6 +128,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring().antMatchers(
+
+                //login page?
+                //"/login",
+
                 // Vaadin Flow static resources
                 "/VAADIN/**",
 
