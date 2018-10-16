@@ -47,7 +47,12 @@ public class CustomAuthenticationHandler implements AuthenticationFailureHandler
 
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType("application/json");
-        response.getOutputStream().println("{error: \"" + exception.getMessage() + " for request: " + requestBody.toJSONString() + "\"}");
+        if (requestBody != null) {
+            response.getOutputStream().println("{error: \"" + exception.getMessage() + " for request: " + requestBody.toJSONString() + "\"}");
+        } else {
+            response.getOutputStream().println("{error: \"" + exception.getMessage() + "\"}");
+        }
+
     }
 
     @Override

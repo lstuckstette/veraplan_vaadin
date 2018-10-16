@@ -15,7 +15,7 @@
 
 <!-- Login Form -->
 <link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
-<link rel="import" href="bower_components/iron-form/iron-form.html">
+<link rel="import" href="bower_components/vaadin-form-layout/theme/material/vaadin-form-layout.html">
 <link rel="import" href="bower_components/vaadin-text-field/theme/material/vaadin-text-field.html">
 <link rel="import" href="bower_components/vaadin-text-field/theme/material/vaadin-password-field.html">
 <link rel="import" href="bower_components/vaadin-button/theme/material/vaadin-button.html">
@@ -133,6 +133,17 @@
             .container p {
                 line-height: 1.5;
             }
+
+            paper-dialog {
+                @apply --layout-vertical;
+                @apply --layout-center-center;
+                padding-bottom: 20px;
+
+            }
+
+            .loginWrapper {
+                max-width: fit-content;
+            }
         </style>
 
         <app-header-layout>
@@ -210,8 +221,9 @@
 
         <paper-dialog id="loginDialog" modal>
 
-
+            <p>Login:</p>
             <div class="loginWrapper">
+
                 <vaadin-text-field
                         name="username"
                         label="Username/Email"
@@ -223,17 +235,18 @@
                         id="passwordField"
                         name="password"
                         label="Password"
-                        error-message="Password/Username combination invalid"
-                        value="{{user.password}}">
+                        value="{{user.password}}"
+                        required>
                 </vaadin-password-field>
                 <br>
+                <span id="loginError" style="color:red;display:none">Invalid Username/Email Password combination. Try again.</span>
 
-                <br>
-                <br>
+            </div>
+            <div class="login-buttons">
                 <vaadin-button theme="outlined" dialog-dismiss>Cancel</vaadin-button>
                 <vaadin-button theme="outlined" on-click="submitLogin">Submit</vaadin-button>
-                <br>
             </div>
+
 
             <iron-ajax
                     id="loginAjax"
@@ -303,6 +316,7 @@
 
             handleLoginError(event) {
                 console.log("error: ", event);
+                this.$.loginError.style.display="block";
             }
 
 
