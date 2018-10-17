@@ -27,6 +27,8 @@
             vaadin-button {
                 margin-left: 20px;
             }
+
+
         </style>
 
         <vaadin-tabs id="menu-tabs" selected="-1">
@@ -72,7 +74,7 @@
                         <paper-item>Messages</paper-item>
                         <paper-item>Settings</paper-item>
                         <paper-item>Help</paper-item>
-                        <paper-item onclick="document.querySelector('main-view').$.showLogoutDialog()">Log out</paper-item>
+                        <paper-item onclick="document.querySelector('main-view').$.logoutDialog.open()">Log out</paper-item>
                     </paper-listbox>
                 </paper-menu-button>
             </template>

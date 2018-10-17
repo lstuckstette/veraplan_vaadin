@@ -21,6 +21,7 @@ import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.dependency.StyleSheet;
 
 
+import com.vaadin.flow.component.page.BodySize;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.component.tabs.Tabs;
@@ -39,8 +40,7 @@ import com.volavis.veraplan.spring.views.HelpView;
 import org.springframework.security.access.AccessDeniedException;
 
 
-@StyleSheet("https://www.w3schools.com/w3css/4/w3.css")
-@StyleSheet("https://www.w3schools.com/lib/w3-theme-blue-grey.css")
+@BodySize()
 @Tag("main-view")
 @HtmlImport("main-view.html")
 @Theme(value = Material.class, variant = Material.LIGHT)

@@ -21,6 +21,8 @@
 <link rel="import" href="bower_components/paper-item/paper-item.html">
 <link rel="import" href="bower_components/neon-animation/web-animations.html">
 
+<link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
+
 <dom-module id="main-view">
     <template>
         <style include="shared-styles">
@@ -88,6 +90,13 @@
                 background-color: #DADADA;
                 font-size: 24px;
                 color: #646ECB;
+            }
+
+            paper-dialog {
+                @apply --layout-vertical;
+                @apply --layout-center-center;
+                padding-bottom: 20px;
+
             }
         </style>
 
