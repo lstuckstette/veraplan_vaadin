@@ -29,7 +29,7 @@
 
             :root {
                 --footer-height: 50px;
-                --full-menu-height: 108px;
+                --full-menu-height: 113px;
             }
 
             app-header {
@@ -80,7 +80,7 @@
             .content {
                 text-align: center;
                 /*FOOTER*/
-                min-height: calc(100vh - (132px + var(--footer-height))); /* 132 = TopNav-height (112) + 20px*/
+                min-height: calc(100vh - (var(--full-menu-height) + var(--footer-height)));
             }
 
             footer {

@@ -1,5 +1,6 @@
 <link rel="import" href="bower_components/polymer/polymer-element.html">
 <link rel="import" href="styles/shared-styles.html">
+<link rel="import" href="styles/veraplan-material-theme.html">
 
 <link rel="import" href="components/app-navigation.html">
 
@@ -23,17 +24,22 @@
 
 <link rel="import" href="bower_components/paper-dialog/paper-dialog.html">
 
+<link rel="import" href="bower_components/paper-styles/color.html">
+<link rel="import" href="bower_components/paper-styles/shadow.html">
+<link rel="import" href="bower_components/paper-styles/typography.html">
+
 <dom-module id="main-view">
     <template>
-        <style include="shared-styles">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">
+        <style include="veraplan-material-theme shadow typography">
 
             :root {
                 --footer-height: 50px;
-                --full-menu-height: 108px;
+                --full-menu-height: 113px;
             }
 
             app-header {
-                /*background-color: rgba(218, 218, 218, 0.95);*/
+                /*TODO: apply styles from veraplan-material-theme like background ect... + copy to landing-view*/
                 background-color: var(--material-background-color);
 
                 --app-header-shadow: {
@@ -80,12 +86,12 @@
             .content {
                 text-align: center;
                 /*FOOTER*/
-                min-height: calc(100vh - (132px + var(--footer-height))); /* 132 = TopNav-height (112) + 20px*/
+                min-height: calc(100vh - (var(--full-menu-height) + var(--footer-height)));
             }
 
             footer {
                 height: var(--footer-height);
-                line-height: 50px;
+                line-height: var(--footer-height);
                 text-align: center;
                 background-color: #DADADA;
                 font-size: 24px;
@@ -114,8 +120,10 @@
 
             </app-header>
 
+            <div class="content">
+                <slot></slot>
+            </div>
 
-            <slot class="content"></slot>
 
             <footer>
                 <div class="w3-xlarge w3-padding-32">
@@ -147,7 +155,7 @@
                 return 'main-view';
             }
 
-            showLogoutDialog(){
+            showLogoutDialog() {
                 this.$.logoutDialog.open();
             }
         }

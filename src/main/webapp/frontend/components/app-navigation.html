@@ -65,16 +65,18 @@
             <slot name="registerButton"></slot>
             -->
             <template is="dom-if" if="[[isLoggedIn]]">
-                <span>[[userName]]</span>
+                <span></span>
                 <paper-menu-button horizontal-align=right no-overlap>
-
-                    <paper-icon-button icon="menu" slot="dropdown-trigger"
-                                       aria-label="Account"></paper-icon-button>
+                    <vaadin-button slot="dropdown-trigger">
+                        <iron-icon icon="menu" slot="suffix"></iron-icon>
+                        [[userName]]
+                    </vaadin-button>
                     <paper-listbox slot="dropdown-content">
                         <paper-item>Messages</paper-item>
                         <paper-item>Settings</paper-item>
                         <paper-item>Help</paper-item>
-                        <paper-item onclick="document.querySelector('main-view').$.logoutDialog.open()">Log out</paper-item>
+                        <paper-item onclick="document.querySelector('main-view').$.logoutDialog.open()">Log out
+                        </paper-item>
                     </paper-listbox>
                 </paper-menu-button>
             </template>
