@@ -69,7 +69,7 @@ public class PopulateDemoDatabaseService {
 
     private void createUsers() {
         createUser("Johnathan Frakes", "jfrakes", "frakes@web.de", "test", RoleName.ROLE_USER);
-        createUser("aname", "admin", "admin@admin.de", "password", RoleName.ROLE_ADMIN);
+        createUser("The Admin", "admin", "admin@admin.de", "password", RoleName.ROLE_ADMIN);
     }
 
     private void createUser(String name, String username, String email, String password, RoleName... rolenames) {

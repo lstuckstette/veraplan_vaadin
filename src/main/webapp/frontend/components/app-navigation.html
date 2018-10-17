@@ -44,27 +44,40 @@
         </vaadin-tabs>
 
         <div id="accountsettings">
-            <!--
-            <vaadin-button theme="contained" onclick="document.querySelector('landing-view').$.loginDialog.open()">
-                Login
-            </vaadin-button>
+            <template is="dom-if" if="[[!isLoggedIn]]">
+                <vaadin-button
+                        theme="contained"
+                        onclick="document.querySelector('landing-view').$.loginDialog.open()">
+                    Login
+                </vaadin-button>
 
-            <vaadin-button theme="outlined" on-click="showRegisterDialog">Register</vaadin-button>
-            -->
+                <vaadin-button
+                        theme="outlined"
+                        on-click="showRegisterDialog">
+                    Register
+                </vaadin-button>
+            </template>
+
+            <!--
             <slot name="loginButton"></slot>
             <slot name="registerButton"></slot>
+            -->
+            <template is="dom-if" if="[[isLoggedIn]]">
+                <span>[[userName]]</span>
+                <paper-menu-button horizontal-align=right no-overlap>
 
-            <paper-menu-button no-overlap>
-                <paper-icon-button icon="account-circle" slot="dropdown-trigger"
-                                   aria-label="Account"></paper-icon-button>
-                <paper-listbox slot="dropdown-content">
-                    <paper-item on-click="showLoginDialog">Login</paper-item>
-                    <paper-item>Register</paper-item>
-                    <paper-item>Help</paper-item>
+                    <paper-icon-button icon="menu" slot="dropdown-trigger"
+                                       aria-label="Account"></paper-icon-button>
+                    <paper-listbox slot="dropdown-content">
+                        <paper-item>Messages</paper-item>
+                        <paper-item>Settings</paper-item>
+                        <paper-item>Help</paper-item>
+                        <paper-item onclick="document.querySelector('main-view').$.showLogoutDialog()">Log out</paper-item>
+                    </paper-listbox>
+                </paper-menu-button>
+            </template>
 
-                </paper-listbox>
-            </paper-menu-button>
-
+            <!--
             <paper-menu-button horizontal-align=right no-overlap>
                 <paper-icon-button icon="more-vert" slot="dropdown-trigger"
                                    aria-label="Other options"></paper-icon-button>
@@ -74,6 +87,7 @@
                     <paper-item>Help</paper-item>
                 </paper-listbox>
             </paper-menu-button>
+            -->
         </div>
 
     </template>

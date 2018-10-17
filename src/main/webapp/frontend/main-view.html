@@ -121,11 +121,25 @@
 
         </app-header-layout>
 
+        <paper-dialog id="logoutDialog" modal>
+            <h2>Are you sure you want to log out?</h2>
+            <br>
+            <p>Unsaved changes may be lost!</p>
+            <div>
+                <vaadin-button dialog-dismiss>Cancel</vaadin-button>
+                <vaadin-button onclick="location.assign('logout')">Log out</vaadin-button>
+            </div>
+        </paper-dialog>
+
     </template>
     <script>
         class MainView extends Polymer.Element {
             static get is() {
                 return 'main-view';
+            }
+
+            showLogoutDialog(){
+                this.$.logoutDialog.open();
             }
         }
 

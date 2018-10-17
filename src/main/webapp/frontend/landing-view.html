@@ -221,7 +221,7 @@
 
         <paper-dialog id="loginDialog" modal>
 
-            <p>Login:</p>
+            <h2>Login:</h2>
             <div class="loginWrapper">
 
                 <vaadin-text-field
@@ -258,6 +258,8 @@
             </iron-ajax>
 
         </paper-dialog>
+
+
 
     </template>
     <script>
@@ -318,6 +320,8 @@
                 console.log("error: ", event);
                 this.$.loginError.style.display="block";
             }
+
+
 
 
         }

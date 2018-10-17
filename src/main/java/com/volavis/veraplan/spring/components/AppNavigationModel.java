@@ -6,5 +6,6 @@ public interface AppNavigationModel extends TemplateModel {
 
     void setIsLoggedIn (boolean loggedIn);
 
+    void setUserName(String userName);
 
 }

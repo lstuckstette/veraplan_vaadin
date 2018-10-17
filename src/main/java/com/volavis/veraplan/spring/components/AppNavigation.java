@@ -11,7 +11,9 @@ import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.AfterNavigationEvent;
 import com.vaadin.flow.router.AfterNavigationObserver;
 import com.vaadin.flow.templatemodel.TemplateModel;
+import com.volavis.veraplan.spring.persistence.service.UserService;
 import com.volavis.veraplan.spring.security.SecurityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 
 @Tag("app-navigation")
@@ -24,8 +26,14 @@ public class AppNavigation extends PolymerTemplate<AppNavigationModel> implement
     @Id("accountsettings")
     private Div accountsettings;
 
-    public AppNavigation(){
-        this.getModel().setIsLoggedIn(SecurityUtils.isUserLoggedIn()); //TODO: http://www.baasic.com/2014/11/28/Baasic-Polymer-demo-part-2/
+    @Autowired
+    public AppNavigation(UserService userService) {
+        boolean loggedIn = SecurityUtils.isUserLoggedIn();
+        this.getModel().setIsLoggedIn(loggedIn); //TODO: http://www.baasic.com/2014/11/28/Baasic-Polymer-demo-part-2/
+        if (loggedIn) {
+            this.getModel().setUserName(userService.getName(SecurityUtils.getUsername()));
+        }
+
     }
 
     public void setTabs(NavigationTab... navigationTabs) {
