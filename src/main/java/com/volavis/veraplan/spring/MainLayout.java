@@ -37,6 +37,7 @@ import com.volavis.veraplan.spring.components.NavigationTab;
 import com.volavis.veraplan.spring.security.SecurityUtils;
 import com.volavis.veraplan.spring.views.DashboardView;
 import com.volavis.veraplan.spring.views.HelpView;
+import com.volavis.veraplan.spring.views.UsersView;
 import org.springframework.security.access.AccessDeniedException;
 
 
@@ -54,8 +55,9 @@ public class MainLayout extends PolymerTemplate<TemplateModel> implements Router
 
         NavigationTab dash = new NavigationItemBuilder().text("Dashboard").target(DashboardView.class).build();
         NavigationTab help = new NavigationItemBuilder().text("Help").target(HelpView.class).build();
+        NavigationTab users = new NavigationItemBuilder().text("Users").target(UsersView.class).build();
 
-        appNavigation.setTabs(dash, help);
+        appNavigation.setTabs(dash, help,users);
     }
 
 

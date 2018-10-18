@@ -8,7 +8,7 @@ import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
 /**
  * HttpSessionRequestCache that avoids saving internal framework requests.
  */
-class CustomRequestCache extends HttpSessionRequestCache {
+public class CustomRequestCache extends HttpSessionRequestCache {
 	/**
 	 * {@inheritDoc}
 	 *

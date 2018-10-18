@@ -10,6 +10,8 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class UserService {
 
@@ -24,9 +26,14 @@ public class UserService {
         passwordEncoder = new BCryptPasswordEncoder();
     }
 
-    public String getName(String emailOrUsername) throws UsernameNotFoundException {
-        return userRepository.findByUsernameOrEmail(emailOrUsername, emailOrUsername).orElseThrow(() -> {
+    public String getFullName(String emailOrUsername) throws UsernameNotFoundException {
+        User user = userRepository.findByUsernameOrEmail(emailOrUsername, emailOrUsername).orElseThrow(() -> {
             throw new UsernameNotFoundException("Unknown user for input '" + emailOrUsername + "' !'");
-        }).getName();
+        });
+        return user.getFirst_name() + " " + user.getLast_name();
+    }
+
+    public List<User> getAllUsers(){
+        return userRepository.findAll();
     }
 }

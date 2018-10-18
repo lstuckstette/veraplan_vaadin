@@ -1,13 +1,14 @@
-package com.volavis.veraplan.spring.security;
+package com.volavis.veraplan.spring.configuration;
 
 import com.vaadin.external.org.slf4j.Logger;
 import com.vaadin.external.org.slf4j.LoggerFactory;
-import com.volavis.veraplan.spring.persistence.model.Role;
 import com.volavis.veraplan.spring.persistence.model.RoleName;
 import com.volavis.veraplan.spring.persistence.model.User;
 import com.volavis.veraplan.spring.persistence.repository.UserRepository;
-import com.volavis.veraplan.spring.persistence.service.PopulateDemoDatabaseService;
+import com.volavis.veraplan.spring.security.CustomAuthenticationHandler;
+
 import com.volavis.veraplan.spring.security.CustomRequestCache;
+import com.volavis.veraplan.spring.security.CustomUsernamePasswordAuthenticationFilter;
 import com.volavis.veraplan.spring.security.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.config.ConfigurableBeanFactory;
@@ -23,8 +24,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.AuthenticationFailureHandler;
-import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 

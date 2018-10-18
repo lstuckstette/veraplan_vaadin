@@ -3,7 +3,7 @@ package com.volavis.veraplan.spring;
 import com.volavis.veraplan.spring.persistence.model.User;
 import com.volavis.veraplan.spring.persistence.repository.UserRepository;
 import com.volavis.veraplan.spring.persistence.service.PopulateDemoDatabaseService;
-import com.volavis.veraplan.spring.security.SecurityConfig;
+import com.volavis.veraplan.spring.configuration.SecurityConfig;
 import com.volavis.veraplan.spring.views.DashboardView;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

@@ -1,5 +1,6 @@
 package com.volavis.veraplan.spring.persistence.service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaadin.external.org.slf4j.Logger;
 import com.vaadin.external.org.slf4j.LoggerFactory;
 import com.volavis.veraplan.spring.persistence.model.Role;
@@ -13,12 +14,13 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 
 import javax.annotation.PostConstruct;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.*;
 
 @Service
 public class PopulateDemoDatabaseService {
@@ -68,18 +70,39 @@ public class PopulateDemoDatabaseService {
     }
 
     private void createUsers() {
-        createUser("Johnathan Frakes", "jfrakes", "frakes@web.de", "test", RoleName.ROLE_USER);
-        createUser("The Admin", "admin", "admin@admin.de", "password", RoleName.ROLE_ADMIN);
+        createUser("The", "Admin", "admin", "admin@admin.de", "password", RoleName.ROLE_ADMIN);
+
+        //Read dummy-file to byte []
+        try {
+            byte[] dummyData = Files.readAllBytes(ResourceUtils.getFile("classpath:database_dummydata/MOCK_DATA.json").toPath());
+            ObjectMapper objectMapper = new ObjectMapper();
+            List<User> dummyUsers = objectMapper.readValue(dummyData, objectMapper.getTypeFactory().constructCollectionType(List.class, User.class));
+            dummyUsers.forEach((user -> createUser(user,RoleName.ROLE_USER)));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
-    private void createUser(String name, String username, String email, String password, RoleName... rolenames) {
+    private void createUser(User user, RoleName... rolenames) {
+        createUser(
+                user.getFirst_name(),
+                user.getLast_name(),
+                user.getUsername(),
+                user.getEmail(),
+                user.getPassword(),
+                rolenames
+        );
+    }
+
+    private void createUser(String firstName, String lastName, String username, String email, String password, RoleName... rolenames) {
 
         //check existing username/email:
         if (userRepository.findByUsernameOrEmail(username, email).isPresent()) {
             return;
         }
 
-        User user = new User(name, username, email, passwordEncoder.encode(password));
+        User user = new User(firstName, lastName, username, email, passwordEncoder.encode(password));
 
         //Create Role Set:
         ArrayList<Role> roles = new ArrayList<>();

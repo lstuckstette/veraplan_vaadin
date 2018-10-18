@@ -2,6 +2,7 @@ package com.volavis.veraplan.spring.persistence.model;
 
 import com.volavis.veraplan.spring.persistence.audit.DateAudit;
 import org.hibernate.annotations.NaturalId;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -25,7 +26,11 @@ public class User extends DateAudit {
 
     @NotBlank
     @Size(max = 40)
-    private String name;
+    private String first_name;
+
+    @NotBlank
+    @Size(max = 40)
+    private String last_name;
 
     @NotBlank
     @Size(max = 15)
@@ -51,8 +56,9 @@ public class User extends DateAudit {
 
     }
 
-    public User(String name, String username, String email, String password) {
-        this.name = name;
+    public User(String first_name, String last_name, String username, String email, String password) {
+        this.first_name = first_name;
+        this.last_name = last_name;
         this.username = username;
         this.email = email;
         this.password = password;
@@ -74,12 +80,20 @@ public class User extends DateAudit {
         this.username = username;
     }
 
-    public String getName() {
-        return name;
+    public String getFirst_name() {
+        return first_name;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirst_name(String name) {
+        this.first_name = name;
+    }
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public void setLast_name(String name) {
+        this.last_name = name;
     }
 
     public String getEmail() {
