@@ -33,7 +33,7 @@ public class UserService {
         return user.getFirst_name() + " " + user.getLast_name();
     }
 
-    public List<User> getAllUsers(){
+    public List<User> getAllUsers() {
         return userRepository.findAll();
     }
 }

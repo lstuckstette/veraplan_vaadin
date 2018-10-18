@@ -1,0 +1,20 @@
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+
+
+<dom-module id="drawing-view">
+    <template>
+        <style></style>
+
+        <h2>Drawing test:</h2>
+
+    </template>
+    <script>
+        class DrawingView extends Polymer.Element {
+            static get is() {
+                return 'drawing-view';
+            }
+        }
+
+        window.customElements.define(DrawingView.is, DrawingView);
+    </script>
+</dom-module>
