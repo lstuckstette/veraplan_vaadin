@@ -37,34 +37,14 @@ public class CustomAuthenticationHandler implements AuthenticationFailureHandler
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
 
-        // TODO: rework login using ajax or something.... https://www.webucator.com/how-to/how-create-login-form-with-ajax.cfm
-
-
-        JsonReader reader = new JsonReader(new InputStreamReader(request.getInputStream()));
-        JsonElement element = new JsonParser().parse(reader);
-        JsonObject object = element.getAsJsonObject();
-
-        /*
-        JSONParser jsonParser = new JSONParser();
-        JSONObject requestBody = null;
-        try {
-            requestBody = (JSONObject) jsonParser.parse(new InputStreamReader(request.getInputStream()));
-        } catch (ParseException e) {
-            e.printStackTrace();
-        }
-        */
+        logger.info("login error: "+exception.getMessage());
+        String requestBody = new BufferedReader(new InputStreamReader(request.getInputStream())).lines().collect(Collectors.joining());
+        requestBody.replaceAll("\"", "'");
 
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType("application/json");
-        /*
-        if (requestBody != null) {
-            response.getOutputStream().println("{error: \"" + exception.getMessage() + " for request: " + requestBody.toJSONString() + "\"}");
-        } else {
-            response.getOutputStream().println("{error: \"" + exception.getMessage() + "\"}");
-        }
-        */
 
-        response.getOutputStream().println("{error: \"" + exception.getMessage() + " for request: " + object.toString() + "\"}");
+        response.getOutputStream().println("{error: \"" + exception.getMessage() + " for request: " + requestBody + "\"}");
 
     }
 

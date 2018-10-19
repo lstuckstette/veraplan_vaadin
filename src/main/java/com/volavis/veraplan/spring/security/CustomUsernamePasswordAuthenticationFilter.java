@@ -69,7 +69,9 @@ public class CustomUsernamePasswordAuthenticationFilter extends UsernamePassword
             if (object.has(this.getUsernameParameter()) && object.has(this.getPasswordParameter())) {
 
                 this.jsonPassword = object.get(this.getPasswordParameter()).getAsString();
-                this.jsonUsername = object.get(this.getPasswordParameter()).getAsString();
+                this.jsonUsername = object.get(this.getUsernameParameter()).getAsString();
+
+                logger.info("loggin attemp " + jsonUsername + ":" + jsonPassword);
 
             } else {
                 throw new InternalAuthenticationServiceException("Malformed authentication request body");
