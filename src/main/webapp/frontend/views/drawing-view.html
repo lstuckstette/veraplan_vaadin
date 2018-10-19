@@ -6,12 +6,22 @@
         <style></style>
 
         <h2>Drawing test:</h2>
+        <button on-click="start"></button>
 
     </template>
     <script>
         class DrawingView extends Polymer.Element {
             static get is() {
                 return 'drawing-view';
+            }
+
+            ready(){
+                super.ready();
+
+            }
+
+            start(){
+
             }
         }
 

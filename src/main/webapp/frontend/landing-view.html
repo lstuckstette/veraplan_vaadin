@@ -20,6 +20,7 @@
 <link rel="import" href="bower_components/vaadin-text-field/theme/material/vaadin-password-field.html">
 <link rel="import" href="bower_components/vaadin-button/theme/material/vaadin-button.html">
 <link rel="import" href="bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="bower_components/iron-a11y-keys/iron-a11y-keys.html">
 
 
 <dom-module id="landing-view">
@@ -223,7 +224,12 @@
 
             <h2>Login:</h2>
             <div class="loginWrapper">
-
+                <iron-a11y-keys
+                        id="ally"
+                        target="[[enterTarget]]"
+                        keys="enter"
+                        on-keys-pressed="submitLogin">
+                </iron-a11y-keys>
                 <vaadin-text-field
                         name="username"
                         label="Username/Email"
@@ -260,7 +266,6 @@
         </paper-dialog>
 
 
-
     </template>
     <script>
         class LandingView extends Polymer.Element {
@@ -273,13 +278,16 @@
                     user: {
                         type: Object,
                         value: {}
+                    },
+                    enterTarget: {
+                        type: Object
                     }
                 }
             }
 
             ready() {
                 super.ready();
-
+                this.enterTarget=this.$.passwordField;
             }
 
             scrollAbout() {
@@ -318,10 +326,8 @@
 
             handleLoginError(event) {
                 console.log("error: ", event);
-                this.$.loginError.style.display="block";
+                this.$.loginError.style.display = "block";
             }
-
-
 
 
         }

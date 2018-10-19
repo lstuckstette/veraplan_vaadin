@@ -1,11 +1,13 @@
 package com.volavis.veraplan.spring.security;
 
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 import com.vaadin.external.org.slf4j.Logger;
 import com.vaadin.external.org.slf4j.LoggerFactory;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -50,32 +52,30 @@ public class CustomUsernamePasswordAuthenticationFilter extends UsernamePassword
 
     //Used to handle JSON based Login instead of plain XHR-post
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) {
 
         if ("application/json".equals(request.getHeader("Content-Type"))) {
-            JSONParser jsonParser = new JSONParser();
 
+            JsonReader reader = null;
             try {
-                JSONObject requestBody = (JSONObject) jsonParser.parse(new InputStreamReader(request.getInputStream()));
-
-                if (!requestBody.isEmpty()
-                        && requestBody.containsKey(this.getUsernameParameter())
-                        && requestBody.containsKey(this.getPasswordParameter())) {
-                    //return new UsernamePasswordAuthenticationToken(requestBody.get("username"), requestBody.get("password"));
-                    this.jsonPassword = (String) requestBody.get(this.getPasswordParameter());
-                    this.jsonUsername = (String) requestBody.get(this.getUsernameParameter());
-                    logger.info("got JSON: " + jsonUsername + " " + jsonPassword);
-                } else {
-                    throw new InternalAuthenticationServiceException("Malformed authentication request body");
-                }
-
+                reader = new JsonReader(new InputStreamReader(request.getInputStream()));
             } catch (IOException e) {
                 e.printStackTrace();
-                throw new InternalAuthenticationServiceException("Failed to fetch authentication request body");
-            } catch (ParseException e) {
-                e.printStackTrace();
-                throw new InternalAuthenticationServiceException("Failed to parse authentication request body");
+                throw new InternalAuthenticationServiceException("Non-JSON authentication request body");
             }
+            JsonElement element = new JsonParser().parse(reader);
+            JsonObject object = element.getAsJsonObject();
+
+            if (object.has(this.getUsernameParameter()) && object.has(this.getPasswordParameter())) {
+
+                this.jsonPassword = object.get(this.getPasswordParameter()).getAsString();
+                this.jsonUsername = object.get(this.getPasswordParameter()).getAsString();
+
+            } else {
+                throw new InternalAuthenticationServiceException("Malformed authentication request body");
+            }
+
+
         }
         return super.attemptAuthentication(request, response);
     }

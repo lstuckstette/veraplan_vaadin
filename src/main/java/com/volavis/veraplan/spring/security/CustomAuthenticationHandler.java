@@ -1,13 +1,14 @@
 package com.volavis.veraplan.spring.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import com.google.gson.stream.JsonReader;
 import com.vaadin.external.org.slf4j.Logger;
 import com.vaadin.external.org.slf4j.LoggerFactory;
-import com.volavis.veraplan.spring.persistence.service.PopulateDemoDatabaseService;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
-import org.springframework.context.annotation.Bean;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.Reader;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
@@ -36,6 +38,13 @@ public class CustomAuthenticationHandler implements AuthenticationFailureHandler
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
 
         // TODO: rework login using ajax or something.... https://www.webucator.com/how-to/how-create-login-form-with-ajax.cfm
+
+
+        JsonReader reader = new JsonReader(new InputStreamReader(request.getInputStream()));
+        JsonElement element = new JsonParser().parse(reader);
+        JsonObject object = element.getAsJsonObject();
+
+        /*
         JSONParser jsonParser = new JSONParser();
         JSONObject requestBody = null;
         try {
@@ -43,15 +52,19 @@ public class CustomAuthenticationHandler implements AuthenticationFailureHandler
         } catch (ParseException e) {
             e.printStackTrace();
         }
-
+        */
 
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         response.setContentType("application/json");
+        /*
         if (requestBody != null) {
             response.getOutputStream().println("{error: \"" + exception.getMessage() + " for request: " + requestBody.toJSONString() + "\"}");
         } else {
             response.getOutputStream().println("{error: \"" + exception.getMessage() + "\"}");
         }
+        */
+
+        response.getOutputStream().println("{error: \"" + exception.getMessage() + " for request: " + object.toString() + "\"}");
 
     }
 
