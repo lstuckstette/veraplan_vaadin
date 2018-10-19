@@ -9,9 +9,9 @@ import com.vaadin.external.org.slf4j.Logger;
 import com.vaadin.external.org.slf4j.LoggerFactory;
 
 import org.springframework.security.authentication.InternalAuthenticationServiceException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.AuthenticationException;
+
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +28,7 @@ public class CustomUsernamePasswordAuthenticationFilter extends UsernamePassword
 
     @Override
     protected String obtainUsername(HttpServletRequest request) {
-        String username = null;
+        String username;
 
         if ("application/json".equals(request.getHeader("Content-Type"))) {
             username = this.jsonUsername;
@@ -40,7 +40,7 @@ public class CustomUsernamePasswordAuthenticationFilter extends UsernamePassword
 
     @Override
     protected String obtainPassword(HttpServletRequest request) {
-        String password = null;
+        String password;
 
         if ("application/json".equals(request.getHeader("Content-Type"))) {
             password = this.jsonPassword;
@@ -56,7 +56,7 @@ public class CustomUsernamePasswordAuthenticationFilter extends UsernamePassword
 
         if ("application/json".equals(request.getHeader("Content-Type"))) {
 
-            JsonReader reader = null;
+            JsonReader reader;
             try {
                 reader = new JsonReader(new InputStreamReader(request.getInputStream()));
             } catch (IOException e) {

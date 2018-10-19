@@ -1,12 +1,19 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 
-
 <dom-module id="drawing-view">
     <template>
         <style></style>
 
         <h2>Drawing test:</h2>
-        <button on-click="start"></button>
+        <button on-click="connectWebsocket">Connect</button>
+        <br>
+        <button on-click="sendHello">Send Hello</button>
+        <br>
+
+        <br>
+        <span>(see console)</span>
+        <br>
+        <span id="result"></span>
 
     </template>
     <script>
@@ -15,14 +22,37 @@
                 return 'drawing-view';
             }
 
-            ready(){
+            ready() {
                 super.ready();
 
             }
 
-            start(){
+            connectWebsocket() {
+                var socket = new SockJS('/chat');
+                this.stompClient = webstomp.over(socket);
 
+                this.stompClient.connect({}, (client) => {
+                    console.log('Connected: ' + client);
+                    this.stompClient.subscribe('/subscribe/hello', (data) => {
+                        console.log("GOT: ",data.body);
+                        this.$.result.textContent = data.body;
+                    });
+                });
             }
+
+            disconnectWebsocket() {
+                if (this.stompClient !== null) {
+                    this.stompClient.disconnect();
+                }
+                console.log("Disconnected");
+            }
+
+            sendHello() {
+                console.log("Hello!", true);
+                this.stompClient.send("/client/hello", {}, JSON.stringify({text: "wuppifluppi"}));
+            }
+
+
         }
 
         window.customElements.define(DrawingView.is, DrawingView);

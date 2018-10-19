@@ -29,7 +29,7 @@ public class AppNavigation extends PolymerTemplate<AppNavigationModel> implement
     @Autowired
     public AppNavigation(UserService userService) {
         boolean loggedIn = SecurityUtils.isUserLoggedIn();
-        this.getModel().setIsLoggedIn(loggedIn); //TODO: http://www.baasic.com/2014/11/28/Baasic-Polymer-demo-part-2/
+        this.getModel().setIsLoggedIn(loggedIn);
         if (loggedIn) {
             this.getModel().setUserName(userService.getFullName(SecurityUtils.getUsername()));
         }
