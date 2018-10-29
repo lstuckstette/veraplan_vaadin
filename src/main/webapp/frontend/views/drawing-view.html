@@ -1,4 +1,5 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="script" href="../js/two.min.js">
 
 <dom-module id="drawing-view">
     <template>
@@ -7,11 +8,15 @@
         <h2>Drawing test:</h2>
         <button on-click="connectWebsocket">Connect</button>
         <br>
+        <button on-click="disconnectWebsocket">Disconnect</button>
+        <br>
         <button on-click="sendHello">Send Hello</button>
         <br>
-
+        <button on-click="draw">draw</button>
+        <br>
         <br>
         <span>(see console)</span>
+        <br>
         <br>
         <span id="result"></span>
 
@@ -25,16 +30,84 @@
             ready() {
                 super.ready();
 
+                //window.addEventListener("mousedown", this);
+
+                this.paths = [];
+                this.currentPath = [];
+
+                this.two = new Two({
+                    fullscreen: true,
+                    autostart: true
+                }).appendTo(document.body);
+
+            //TODO: https://dzone.com/articles/all-mouse-events-javascript -> HTML5 dragging
+            }
+            /*
+            handleEvent(event) {
+                switch (event.type) {
+                    case "mousedown":
+                        console.log("DRAG START");
+                        window.addEventListener("mousemove", this);
+                        window.addEventListener("mouseup", this);
+                        break;
+
+                    case "mouseup":
+                        console.log("DRAGEND - " + this.paths.length);
+                        this.paths.push(this.currentPath);
+                        this.currentPath = [];
+                        window.removeEventListener("mousemove", this);
+                        window.removeEventListener("mouseup", this);
+                        break;
+
+                    case "mousemove":
+                        //save current position
+                        //console.log("RAW: ", event.clientX + " | " + event.clientY)
+                        let currentPoint = new Point(event.clientX, event.clientY);
+                        this.currentPath.push(currentPoint);
+
+                        let currentPath = new Path({
+                            segments: this.currentPath,
+                            strokeColor: 'red',
+                            closed: false
+                        });
+                        currentPath.smooth();
+                        view.draw();
+
+
+
+
+                        break;
+                    default:
+                        console.log("unknown event oO?");
+                        return;
+                }
+            }*/
+
+            handleMouseDragEnd(event) {
+                console.log("DRAG END");
+
+            }
+
+            handleMouseDrag(event) {
+
+            }
+
+            draw() {
+
+                paper.setup(document.body);
+
+                let path = paper.Path();
+
             }
 
             connectWebsocket() {
-                var socket = new SockJS('/chat');
+                let socket = new SockJS('/chat');
                 this.stompClient = webstomp.over(socket);
 
                 this.stompClient.connect({}, (client) => {
                     console.log('Connected: ' + client);
                     this.stompClient.subscribe('/subscribe/hello', (data) => {
-                        console.log("GOT: ",data.body);
+                        console.log("GOT: ", data.body);
                         this.$.result.textContent = data.body;
                     });
                 });

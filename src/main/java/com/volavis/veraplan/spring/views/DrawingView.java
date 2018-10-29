@@ -10,16 +10,17 @@ import com.volavis.veraplan.spring.MainLayout;
 
 @Tag("drawing-view")
 @HtmlImport("views/drawing-view.html")
-@JavaScript("js/webstomp.js")
-@JavaScript("js/sockjs.js")
+@JavaScript("js/webstomp.min.js")
+@JavaScript("js/sockjs.min.js")
+@JavaScript("js/two.min.js")
 @Route(value = "drawing", layout = MainLayout.class)
 public class DrawingView extends PolymerTemplate<TemplateModel> {
 
-    public DrawingView(){
-    init();
+    public DrawingView() {
+        init();
     }
 
-    private void init(){
+    private void init() {
 
     }
 }

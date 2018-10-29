@@ -1,13 +1,9 @@
 package com.volavis.veraplan.spring.websocket;
 
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
 import com.vaadin.external.org.slf4j.Logger;
 import com.vaadin.external.org.slf4j.LoggerFactory;
-import com.volavis.veraplan.spring.persistence.service.PopulateDemoDatabaseService;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
@@ -17,7 +13,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import org.springframework.stereotype.Controller;
 
-import java.util.Map;
+
 
 @Controller
 public class WebSocketHandler {
@@ -29,8 +25,15 @@ public class WebSocketHandler {
 
     @MessageMapping("/hello")
     @SendTo("/subscribe/hello")
-    public String processMessageFromClient(@Payload String message, SimpMessageHeaderAccessor headerAccessor) {
+    public String helloWorld(@Payload String message, SimpMessageHeaderAccessor headerAccessor) {
         logger.info("got WS: " + message);
+        return "Hey there  " + headerAccessor.getSessionId() + " !";
+    }
+
+
+    @MessageMapping("/drawing")
+    @SendTo("")
+    public String handleDrawing(@Payload String vertices, SimpMessageHeaderAccessor headerAccessor){
         return "Hey there  " + headerAccessor.getSessionId() + " !";
     }
 
