@@ -85,7 +85,8 @@
                 };
 
                 tool.onMouseUp = (event) => {
-                    let currentPathObject = {owner: 'self', color: 'red', path: currentPath};
+                    //TODO: translate point coords to relative position against screen size...
+                    let currentPathObject = {owner: 'self', color: 'red', segments: currentPath.segments};
                     //add to repo
                     this.pathRepository.push(currentPathObject);
                     //remove last drawn Path from canvas:
@@ -102,13 +103,14 @@
                 //clear everything:
                 paper.project.activeLayer.removeChildren();
                 //repaint
-                this.pathRepository.forEach((pathObject) =>{
-                    //TODO: ignore owner for now....
+                this.pathRepository.forEach((pathObject) => {
+                    //TODO: ignoring owner for now -> add hover-owner-label!
 
-                    let path = pathObject.path;
+                    let path = new paper.Path();
+                    pathObject.segments.forEach((data) => {
+                        path.add(new paper.Point(data[1], data[2]));
+                    });
                     path.strokeColor = pathObject.color;
-                    paper.project.activeLayer.addChild(path);
-
                 });
             }
 
@@ -117,42 +119,6 @@
                 this.$.fabDraw.icon = this.$.fabDraw.icon === "create" ? 'close' : 'create';
                 this.$.fabDraw.style.background = this.$.fabDraw.icon === 'create' ? 'green' : 'red';
             }
-
-            /*
-            handleEvent(event) {
-                switch (event.type) {
-                    case "mousedown":
-                        console.log("DRAG START");
-                        window.addEventListener("mousemove", this);
-                        window.addEventListener("mouseup", this);
-                        break;
-
-                    case "mouseup":
-                        console.log("DRAGEND - " + this.paths.length);
-                        this.paths.push(this.currentPath);
-                        this.currentPath = [];
-                        window.removeEventListener("mousemove", this);
-                        window.removeEventListener("mouseup", this);
-                        break;
-
-                    case "mousemove":
-                        //save current position
-                        console.log("RAW: ", event.clientX + " | " + event.clientY)
-                        let currentPoint = new Two.Vector(event.clientX, event.clientY);//{x: event.clientX, y: event.clientY};
-                        this.currentPath.push(currentPoint);
-
-                        //draw current line:
-                        let curve = this.two.makeCurve(this.currentPath,true);
-                        curve.linewidth = 2;
-
-                        this.two.update();
-
-                        break;
-                    default:
-                        console.log("unknown event oO?");
-                        return;
-                }
-            }*/
 
             connectWebsocket() {
                 let socket = new SockJS('/chat');
@@ -164,23 +130,41 @@
                         console.log("GOT: ", data.body);
                         this.$.result.textContent = data.body;
                     });
+                    this.stompClient.subscribe('/subscribe/drawing', (data) => {
+
+                        let pathObject = JSON.parse(data.body);
+                        console.log("got", pathObject);
+                        this.pathRepository.push(pathObject);
+                        this.repaintPathRepository();
+                    });
                 });
             }
 
             disconnectWebsocket() {
-                if (this.stompClient !== null) {
+                if (this.stompClient !== undefined) {
                     this.stompClient.disconnect();
                 }
                 console.log("Disconnected");
             }
 
-            sendPathToWebsocket(pathObject){
+            sendPathToWebsocket(pathObject) {
+
+                if (this.stompClient.connected) {
+                    console.log("send path.");
+                    this.stompClient.send('/client/drawing', JSON.stringify(pathObject));
+                } else {
+                    console.log("not connected!");
+                }
 
             }
 
             sendHello() {
-                console.log("Hello!", true);
-                this.stompClient.send("/client/hello", {}, JSON.stringify({text: "wuppifluppi"}));
+                if (this.stompClient.connected) {
+                    console.log("send hello.");
+                    this.stompClient.send("/client/hello", {}, JSON.stringify({text: "wuppifluppi"}));
+                } else {
+                    console.log("not connected!");
+                }
             }
 
 

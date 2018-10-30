@@ -70,7 +70,8 @@ public class PopulateDemoDatabaseService {
     }
 
     private void createUsers() {
-        createUser("The", "Admin", "admin", "admin@admin.de", "password", RoleName.ROLE_ADMIN);
+        createUser("The", "Admin", "admin", "admin@admin.de", "admin", RoleName.ROLE_ADMIN);
+        createUser("Lukas", "Stuck", "test", "test@test.de", "test", RoleName.ROLE_ADMIN);
 
         //Read dummy-file to byte []
         try {

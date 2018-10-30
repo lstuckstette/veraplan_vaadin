@@ -1,6 +1,7 @@
 package com.volavis.veraplan.spring.websocket;
 
 
+import com.google.gson.Gson;
 import com.vaadin.external.org.slf4j.Logger;
 import com.vaadin.external.org.slf4j.LoggerFactory;
 
@@ -13,6 +14,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import org.springframework.stereotype.Controller;
 
+import java.util.Map;
 
 
 @Controller
@@ -23,6 +25,8 @@ public class WebSocketHandler {
     @Autowired
     SimpMessagingTemplate messagingTemplate;
 
+    private Gson gson = new Gson();
+
     @MessageMapping("/hello")
     @SendTo("/subscribe/hello")
     public String helloWorld(@Payload String message, SimpMessageHeaderAccessor headerAccessor) {
@@ -32,9 +36,12 @@ public class WebSocketHandler {
 
 
     @MessageMapping("/drawing")
-    @SendTo("")
-    public String handleDrawing(@Payload String vertices, SimpMessageHeaderAccessor headerAccessor){
-        return "Hey there  " + headerAccessor.getSessionId() + " !";
+    @SendTo("/subscribe/drawing")
+    public String handleDrawing(@Payload String drawing) {
+        //TODO: on-connect assign random color
+        logger.info("got WS-path");
+        logger.info(gson.fromJson(drawing, Map.class).toString());
+        return drawing;
     }
 
 
