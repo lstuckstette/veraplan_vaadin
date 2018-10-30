@@ -13,6 +13,7 @@ import com.volavis.veraplan.spring.MainLayout;
 @JavaScript("js/webstomp.min.js")
 @JavaScript("js/sockjs.min.js")
 @JavaScript("js/two.min.js")
+@JavaScript("js/paper-full.min.js")
 @Route(value = "drawing", layout = MainLayout.class)
 public class DrawingView extends PolymerTemplate<TemplateModel> {
 

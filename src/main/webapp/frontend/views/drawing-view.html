@@ -1,24 +1,54 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
-<link rel="script" href="../js/two.min.js">
+<link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+
 
 <dom-module id="drawing-view">
     <template>
-        <style></style>
+        <style>
 
-        <h2>Drawing test:</h2>
-        <button on-click="connectWebsocket">Connect</button>
-        <br>
-        <button on-click="disconnectWebsocket">Disconnect</button>
-        <br>
-        <button on-click="sendHello">Send Hello</button>
-        <br>
-        <button on-click="draw">draw</button>
-        <br>
-        <br>
-        <span>(see console)</span>
-        <br>
-        <br>
-        <span id="result"></span>
+            #drawingCanvas {
+                visibility: hidden;
+                position: absolute;
+                top: 0px;
+                left: 50px;
+                right: 50px;
+                width: 100%;
+            }
+
+            #content {
+            }
+
+            #fabDraw {
+                position: fixed;
+                left: 10px;
+                bottom: 50%;
+                background: green;
+            }
+
+        </style>
+
+
+        <paper-fab mini id="fabDraw" icon="create" label="derp" on-click="toggleCanvas"></paper-fab>
+
+        <canvas id="drawingCanvas"></canvas>
+
+        <div id="content">
+
+            <h2>Drawing test:</h2>
+            <button on-click="connectWebsocket">Connect</button>
+            <br>
+            <button on-click="disconnectWebsocket">Disconnect</button>
+            <br>
+            <button on-click="sendHello">Send Hello</button>
+            <br>
+            <br>
+            <span>(see console)</span>
+            <br>
+            <br>
+            <span id="result"></span>
+
+        </div>
+
 
     </template>
     <script>
@@ -32,16 +62,62 @@
 
                 //window.addEventListener("mousedown", this);
 
-                this.paths = [];
-                this.currentPath = [];
+                this.pathRepository = [];
 
-                this.two = new Two({
-                    fullscreen: true,
-                    autostart: true
-                }).appendTo(document.body);
 
-            //TODO: https://dzone.com/articles/all-mouse-events-javascript -> HTML5 dragging
+                paper.install(this);
+                paper.setup(this.$.drawingCanvas);
+
+
+                let tool = new paper.Tool();
+                let currentPath = new paper.Path();
+
+                // Define a mousedown, mousedrag and mouseup handler
+                tool.onMouseDown = (event) => {
+                    currentPath = new paper.Path();
+                    currentPath.strokeColor = 'red';
+                    currentPath.add(event.point);
+                };
+
+                tool.onMouseDrag = (event) => {
+                    currentPath.add(event.point);
+
+                };
+
+                tool.onMouseUp = (event) => {
+                    let currentPathObject = {owner: 'self', color: 'red', path: currentPath};
+                    //add to repo
+                    this.pathRepository.push(currentPathObject);
+                    //remove last drawn Path from canvas:
+                    currentPath.remove();
+                    //repaint the hole thing
+                    this.repaintPathRepository();
+                    //send new Path to Websocket:
+                    this.sendPathToWebsocket(currentPathObject);
+                };
+
             }
+
+            repaintPathRepository() {
+                //clear everything:
+                paper.project.activeLayer.removeChildren();
+                //repaint
+                this.pathRepository.forEach((pathObject) =>{
+                    //TODO: ignore owner for now....
+
+                    let path = pathObject.path;
+                    path.strokeColor = pathObject.color;
+                    paper.project.activeLayer.addChild(path);
+
+                });
+            }
+
+            toggleCanvas() {
+                this.$.drawingCanvas.style.visibility = this.$.drawingCanvas.style.visibility === 'visible' ? 'hidden' : 'visible';
+                this.$.fabDraw.icon = this.$.fabDraw.icon === "create" ? 'close' : 'create';
+                this.$.fabDraw.style.background = this.$.fabDraw.icon === 'create' ? 'green' : 'red';
+            }
+
             /*
             handleEvent(event) {
                 switch (event.type) {
@@ -61,20 +137,15 @@
 
                     case "mousemove":
                         //save current position
-                        //console.log("RAW: ", event.clientX + " | " + event.clientY)
-                        let currentPoint = new Point(event.clientX, event.clientY);
+                        console.log("RAW: ", event.clientX + " | " + event.clientY)
+                        let currentPoint = new Two.Vector(event.clientX, event.clientY);//{x: event.clientX, y: event.clientY};
                         this.currentPath.push(currentPoint);
 
-                        let currentPath = new Path({
-                            segments: this.currentPath,
-                            strokeColor: 'red',
-                            closed: false
-                        });
-                        currentPath.smooth();
-                        view.draw();
+                        //draw current line:
+                        let curve = this.two.makeCurve(this.currentPath,true);
+                        curve.linewidth = 2;
 
-
-
+                        this.two.update();
 
                         break;
                     default:
@@ -82,23 +153,6 @@
                         return;
                 }
             }*/
-
-            handleMouseDragEnd(event) {
-                console.log("DRAG END");
-
-            }
-
-            handleMouseDrag(event) {
-
-            }
-
-            draw() {
-
-                paper.setup(document.body);
-
-                let path = paper.Path();
-
-            }
 
             connectWebsocket() {
                 let socket = new SockJS('/chat');
@@ -118,6 +172,10 @@
                     this.stompClient.disconnect();
                 }
                 console.log("Disconnected");
+            }
+
+            sendPathToWebsocket(pathObject){
+
             }
 
             sendHello() {

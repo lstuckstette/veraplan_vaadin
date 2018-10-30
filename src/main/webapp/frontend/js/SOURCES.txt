@@ -1,3 +1,4 @@
-two.min.js  : https://github.com/jonobr1/two.js/
-webstomp.js : https://github.com/JSteunou/webstomp-client
-sockjs.js   : https://github.com/sockjs/sockjs-client
+two.min.js     : https://github.com/jonobr1/two.js/
+paper-full.js  : http://paperjs.org/download/
+webstomp.js    : https://github.com/JSteunou/webstomp-client
+sockjs.js      : https://github.com/sockjs/sockjs-client
