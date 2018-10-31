@@ -61,7 +61,7 @@
                 super.ready();
 
                 //window.addEventListener("mousedown", this);
-
+                this.labelcooldown = false;
                 this.pathRepository = [];
 
 
@@ -76,6 +76,7 @@
                 tool.onMouseDown = (event) => {
                     currentPath = new paper.Path();
                     currentPath.strokeColor = 'red';
+                    currentPath.strokeWidth = 4;
                     currentPath.add(event.point);
                 };
 
@@ -85,8 +86,18 @@
                 };
 
                 tool.onMouseUp = (event) => {
-                    //TODO: translate point coords to relative position against screen size...
-                    let currentPathObject = {owner: 'self', color: 'red', segments: currentPath.segments};
+                    //
+
+                    let currentPathObject = {owner: 'self', color: 'red', points: []};
+                    //translate point (currentPath.segments.[1]=x & [2]=y) to relative point against screen size: (works with identicle browsers...)
+                    let windowWidth = window.innerWidth;
+                    let windowHeight = window.innerHeight;
+                    currentPath.segments.forEach((data) => {
+
+                        currentPathObject.points.push([data.point.x / windowWidth, data.point.y / windowHeight]);
+
+                    });
+
                     //add to repo
                     this.pathRepository.push(currentPathObject);
                     //remove last drawn Path from canvas:
@@ -103,14 +114,61 @@
                 //clear everything:
                 paper.project.activeLayer.removeChildren();
                 //repaint
+                let windowWidth = window.innerWidth;
+                let windowHeight = window.innerHeight;
                 this.pathRepository.forEach((pathObject) => {
-                    //TODO: ignoring owner for now -> add hover-owner-label!
 
                     let path = new paper.Path();
-                    pathObject.segments.forEach((data) => {
-                        path.add(new paper.Point(data[1], data[2]));
+                    //show owner label on hover
+                    path.onMouseEnter = (event) => {
+                        //check canvas is visible & label not on cooldown:
+                        if (this.$.drawingCanvas.style.visibility === 'visible' && !this.labelcooldown) {
+                            this.labelcooldown = true;
+
+                            console.log("path entered at: ", event.point);
+                            //create label:
+                            /*let label = new paper.Path.Rectangle(event.point, new paper.Size(100, 20));
+                            label.strokeColor = pathObject.color;
+                            label.fillColor = 'grey';
+                            pathObject.label = label;*/
+                            //create label text
+                            let labelText = new paper.PointText(label.center);
+                            labelText.content = pathObject.owner;
+                            labelText.style = {
+                                fontFamily: 'Courier New',
+                                fontWeight: 'bold',
+                                fontSize: 14,
+                                /*fillColor: 'red',*/
+                                justification: 'center'
+                            };
+                            pathObject.labelText = labelText;
+
+                            //label show delay:
+                            setTimeout(() => {
+                                this.labelcooldown = false;
+                            }, 1000); //delay new
+                        }
+                    };
+
+                    path.onMouseLeave = (event) => {
+                        if (this.$.drawingCanvas.style.visibility === 'visible') {
+
+
+                            console.log("path left at: ", event.point);
+                            setTimeout(() => { //delay removal of label 750 msec.
+                                pathObject.labelText.remove();
+
+                            }, 750);
+
+
+                        }
+                    };
+                    pathObject.points.forEach((data) => {
+
+                        path.add(new paper.Point(data[0] * windowWidth, data[1] * windowHeight));
                     });
                     path.strokeColor = pathObject.color;
+                    path.strokeWidth = 4;
                 });
             }
 
@@ -149,7 +207,7 @@
 
             sendPathToWebsocket(pathObject) {
 
-                if (this.stompClient.connected) {
+                if (this.stompClient !== undefined && this.stompClient.connected) {
                     console.log("send path.");
                     this.stompClient.send('/client/drawing', JSON.stringify(pathObject));
                 } else {
