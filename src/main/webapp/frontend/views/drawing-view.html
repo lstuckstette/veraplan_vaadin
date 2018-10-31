@@ -1,5 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/paper-fab/paper-fab.html">
+<link rel="import" href="../bower_components/paper-swatch-picker/paper-swatch-picker.html">
 
 
 <dom-module id="drawing-view">
@@ -25,10 +26,18 @@
                 background: green;
             }
 
+            #colorpicker {
+                position: fixed;
+                left: 5px;
+                bottom: 42%;
+            }
+
         </style>
 
 
         <paper-fab mini id="fabDraw" icon="create" label="derp" on-click="toggleCanvas"></paper-fab>
+
+        <paper-swatch-picker id="colorpicker" color="{{selectedColor}}"></paper-swatch-picker>
 
         <canvas id="drawingCanvas"></canvas>
 
@@ -57,6 +66,15 @@
                 return 'drawing-view';
             }
 
+            static get properties() {
+                return {
+                    selectedColor: {
+                        type: String,
+                        value: '#E91E63'
+                    }
+                }
+            }
+
             ready() {
                 super.ready();
 
@@ -75,7 +93,7 @@
                 // Define a mousedown, mousedrag and mouseup handler
                 tool.onMouseDown = (event) => {
                     currentPath = new paper.Path();
-                    currentPath.strokeColor = 'red';
+                    currentPath.strokeColor = this.get('selectedColor');
                     currentPath.strokeWidth = 4;
                     currentPath.add(event.point);
                 };
@@ -88,7 +106,7 @@
                 tool.onMouseUp = (event) => {
                     //
 
-                    let currentPathObject = {owner: 'self', color: 'red', points: []};
+                    let currentPathObject = {owner: this.get('userName'), color: this.get('selectedColor'), points: []};
                     //translate point (currentPath.segments.[1]=x & [2]=y) to relative point against screen size: (works with identicle browsers...)
                     let windowWidth = window.innerWidth;
                     let windowHeight = window.innerHeight;
@@ -125,21 +143,15 @@
                         if (this.$.drawingCanvas.style.visibility === 'visible' && !this.labelcooldown) {
                             this.labelcooldown = true;
 
-                            console.log("path entered at: ", event.point);
-                            //create label:
-                            /*let label = new paper.Path.Rectangle(event.point, new paper.Size(100, 20));
-                            label.strokeColor = pathObject.color;
-                            label.fillColor = 'grey';
-                            pathObject.label = label;*/
-                            //create label text
-                            let labelText = new paper.PointText(label.center);
+                            let labelPoint = event.point;
+                            labelPoint.x += 20;
+                            let labelText = new paper.PointText(labelPoint);
                             labelText.content = pathObject.owner;
                             labelText.style = {
                                 fontFamily: 'Courier New',
                                 fontWeight: 'bold',
                                 fontSize: 14,
-                                /*fillColor: 'red',*/
-                                justification: 'center'
+                                justification: 'left'
                             };
                             pathObject.labelText = labelText;
 
@@ -152,15 +164,9 @@
 
                     path.onMouseLeave = (event) => {
                         if (this.$.drawingCanvas.style.visibility === 'visible') {
-
-
-                            console.log("path left at: ", event.point);
                             setTimeout(() => { //delay removal of label 750 msec.
                                 pathObject.labelText.remove();
-
                             }, 750);
-
-
                         }
                     };
                     pathObject.points.forEach((data) => {
@@ -176,15 +182,16 @@
                 this.$.drawingCanvas.style.visibility = this.$.drawingCanvas.style.visibility === 'visible' ? 'hidden' : 'visible';
                 this.$.fabDraw.icon = this.$.fabDraw.icon === "create" ? 'close' : 'create';
                 this.$.fabDraw.style.background = this.$.fabDraw.icon === 'create' ? 'green' : 'red';
+                //this.$.colorpicker.style.visibility = this.$.colorpicker.style.visibility === 'visible' ? 'hidden' : 'visible';
             }
 
             connectWebsocket() {
-                let socket = new SockJS('/chat');
+                let socket = new SockJS('/communication');
                 this.stompClient = webstomp.over(socket);
 
                 this.stompClient.connect({}, (client) => {
                     console.log('Connected: ' + client);
-                    this.stompClient.subscribe('/subscribe/hello', (data) => {
+                    this.stompClient.subscribe('/subscribe/chat', (data) => {
                         console.log("GOT: ", data.body);
                         this.$.result.textContent = data.body;
                     });
@@ -216,14 +223,7 @@
 
             }
 
-            sendHello() {
-                if (this.stompClient.connected) {
-                    console.log("send hello.");
-                    this.stompClient.send("/client/hello", {}, JSON.stringify({text: "wuppifluppi"}));
-                } else {
-                    console.log("not connected!");
-                }
-            }
+
 
 
         }

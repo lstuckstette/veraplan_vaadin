@@ -7,6 +7,9 @@ import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.router.Route;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import com.volavis.veraplan.spring.MainLayout;
+import com.volavis.veraplan.spring.persistence.service.UserService;
+import com.volavis.veraplan.spring.security.SecurityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 @Tag("drawing-view")
 @HtmlImport("views/drawing-view.html")
@@ -15,9 +18,11 @@ import com.volavis.veraplan.spring.MainLayout;
 @JavaScript("js/two.min.js")
 @JavaScript("js/paper-full.min.js")
 @Route(value = "drawing", layout = MainLayout.class)
-public class DrawingView extends PolymerTemplate<TemplateModel> {
+public class DrawingView extends PolymerTemplate<DrawingViewModel> {
 
-    public DrawingView() {
+    @Autowired
+    public DrawingView(UserService userService) {
+        this.getModel().setUserName(userService.getFullName(SecurityUtils.getUsername()));
         init();
     }
 

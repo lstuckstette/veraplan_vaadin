@@ -5,6 +5,7 @@ import com.volavis.veraplan.spring.persistence.repository.UserRepository;
 import com.volavis.veraplan.spring.persistence.service.PopulateDemoDatabaseService;
 import com.volavis.veraplan.spring.configuration.SecurityConfig;
 import com.volavis.veraplan.spring.views.DashboardView;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.domain.EntityScan;
@@ -17,8 +18,13 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @EnableJpaRepositories(basePackageClasses = {UserRepository.class})
 @EnableJpaAuditing
 @EntityScan(basePackageClasses = {User.class})
-@SpringBootApplication(scanBasePackageClasses = {Application.class,SecurityConfig.class, PopulateDemoDatabaseService.class, DashboardView.class})
+@SpringBootApplication(scanBasePackageClasses = {Application.class, SecurityConfig.class, PopulateDemoDatabaseService.class, DashboardView.class})
 public class Application {
+
+
+    public Application(@Autowired PopulateDemoDatabaseService populateDemoDatabaseService) {
+        populateDemoDatabaseService.populate();
+    }
 
     public static void main(String[] args) {
         SpringApplication.run(Application.class, args);

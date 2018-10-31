@@ -24,97 +24,36 @@ import java.util.*;
 
 @Service
 public class PopulateDemoDatabaseService {
-    @Autowired
-    private UserRepository userRepository;
-    @Autowired
-    private RoleRepository roleRepository;
 
-    private PasswordEncoder passwordEncoder;
+    @Autowired
+    private UserService userService;
 
+    @Autowired
+    private RoleService roleService;
 
     private static final Logger logger = LoggerFactory.getLogger(PopulateDemoDatabaseService.class);
 
-    //@Autowired
-    public PopulateDemoDatabaseService() {
-        passwordEncoder = new BCryptPasswordEncoder();
-    }
-
-    @PostConstruct
     public void populate() {
-        createRoles();
-        createUsers();
+        roleService.createAllRoles();
+        createDummyUsers();
         logger.info("Populated Demo Database.");
     }
 
-    private void createRoles() {
-        // Create specific Roles:
-        //Role adminRole = new Role(RoleName.ROLE_ADMIN);
-        //Role userRole = new Role(RoleName.ROLE_USER);
-        //createRole(adminRole, userRole);
+    private void createDummyUsers() {
+        userService.createUser("The", "Admin", "admin", "admin@admin.de", "admin", RoleName.ROLE_ADMIN);
+        userService.createUser("Lukas", "Stuck", "test", "test@test.de", "test", RoleName.ROLE_ADMIN);
 
-        // Create all possible Roles of enum:
-        for (RoleName rName : RoleName.values()) {
-            createRole(new Role(rName));
-        }
-
-
-    }
-
-    private void createRole(Role... roles) {
-        for (Role role : roles) {
-            if (!roleRepository.findByName(role.getName()).isPresent()) {
-                roleRepository.saveAndFlush(role);
-            }
-        }
-
-    }
-
-    private void createUsers() {
-        createUser("The", "Admin", "admin", "admin@admin.de", "admin", RoleName.ROLE_ADMIN);
-        createUser("Lukas", "Stuck", "test", "test@test.de", "test", RoleName.ROLE_ADMIN);
-
-        //Read dummy-file to byte []
+        //Read dummy-file and create all Users:
         try {
             byte[] dummyData = Files.readAllBytes(ResourceUtils.getFile("classpath:database_dummydata/MOCK_DATA.json").toPath());
             ObjectMapper objectMapper = new ObjectMapper();
             List<User> dummyUsers = objectMapper.readValue(dummyData, objectMapper.getTypeFactory().constructCollectionType(List.class, User.class));
-            dummyUsers.forEach((user -> createUser(user,RoleName.ROLE_USER)));
+            dummyUsers.forEach((user -> userService.createUser(user, RoleName.ROLE_USER)));
         } catch (IOException e) {
             e.printStackTrace();
         }
 
     }
 
-    private void createUser(User user, RoleName... rolenames) {
-        createUser(
-                user.getFirst_name(),
-                user.getLast_name(),
-                user.getUsername(),
-                user.getEmail(),
-                user.getPassword(),
-                rolenames
-        );
-    }
 
-    private void createUser(String firstName, String lastName, String username, String email, String password, RoleName... rolenames) {
-
-        //check existing username/email:
-        if (userRepository.findByUsernameOrEmail(username, email).isPresent()) {
-            return;
-        }
-
-        User user = new User(firstName, lastName, username, email, passwordEncoder.encode(password));
-
-        //Create Role Set:
-        ArrayList<Role> roles = new ArrayList<>();
-        for (RoleName rname : rolenames) {
-            roleRepository.findByName(rname).ifPresent(role -> roles.add(role));
-        }
-        //Create User if Roles not empty:
-        if (!roles.isEmpty()) {
-            user.setRoles(new HashSet<>(roles));
-            User result = userRepository.save(user);
-
-        }
-    }
 }
