@@ -42,13 +42,14 @@ public class WebSocketHandler {
     public String helloWorld(@Payload String message, @DestinationVariable String channelId, SimpMessageHeaderAccessor headerAccessor) {
         logger.info("got CHAT on channel: " + channelId);
         User currentUser = userService.getByUsernameOrEmail(headerAccessor.getUser().getName());
-        Channel currentChannel = channelService.getByName(channelId);
+        /*Channel currentChannel = channelService.getByName(channelId);
         //TODO: handle runtime Exception for above
         if (channelService.userInChannel(currentChannel, currentUser)) {
             return message;
         } else {
             return "{error: 403}";
-        }
+        }*/
+        return message;
     }
 
 
