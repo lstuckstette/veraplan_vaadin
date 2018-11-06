@@ -38,7 +38,12 @@
                 --full-menu-height: 113px;
             }
 
+            app-header-layout {
+
+            }
+
             app-header {
+
                 /*TODO: apply styles from veraplan-material-theme like background ect... + copy to landing-view*/
                 background-color: var(--material-background-color);
 
@@ -54,7 +59,7 @@
             }
 
             #mainToolbar {
-                height: 64px;
+                /*height: 64px;*/
             }
 
             .logo {
@@ -84,13 +89,17 @@
             }
 
             .content {
+                @apply --layout-flex;
                 text-align: center;
                 /*FOOTER*/
-                min-height: calc(100vh - (var(--full-menu-height) + var(--footer-height)));
+                /*min-height: calc(100vh - (var(--full-menu-height) + var(--footer-height)));*/
+
             }
 
             footer {
-                height: var(--footer-height);
+
+                height: 50px;
+
                 line-height: var(--footer-height);
                 text-align: center;
                 background-color: #DADADA;
@@ -106,7 +115,7 @@
             }
         </style>
 
-        <app-header-layout>
+        <app-header-layout fullbleed>
 
             <app-header slot="header" effects="waterfall" condenses reveals>
                 <app-toolbar id="mainToolbar">

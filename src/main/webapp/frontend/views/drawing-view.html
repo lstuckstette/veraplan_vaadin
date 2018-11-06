@@ -1,22 +1,42 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 <link rel="import" href="../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="../bower_components/paper-swatch-picker/paper-swatch-picker.html">
+<link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 
 
 <dom-module id="drawing-view">
     <template>
         <style>
 
+            #container {
+                display: flex;
+                width: 100%;
+
+            }
+
             #drawingCanvas {
                 visibility: hidden;
                 position: absolute;
                 top: 0px;
-                left: 50px;
-                right: 50px;
-                width: 100%;
+                left: 5%;
+                /*right: 5%;*/
+                width: 95%;
+            }
+
+            #toggle-container {
+                width: 5%;
+            }
+
+            #chat {
+
+                background: grey;
+                width: 20%;
+
             }
 
             #content {
+                background: greenyellow;
+                width: 75%;
             }
 
             #fabDraw {
@@ -34,30 +54,37 @@
 
         </style>
 
+        <div id="container">
 
-        <paper-fab mini id="fabDraw" icon="create" label="derp" on-click="toggleCanvas"></paper-fab>
+            <div id="toggle-container">
+                <paper-fab mini id="fabDraw" icon="create" label="derp" on-click="toggleCanvas"></paper-fab>
 
-        <paper-swatch-picker id="colorpicker" color="{{selectedColor}}"></paper-swatch-picker>
+                <paper-swatch-picker id="colorpicker" color="{{selectedColor}}"></paper-swatch-picker>
+            </div>
 
-        <canvas id="drawingCanvas"></canvas>
+            <canvas id="drawingCanvas"></canvas>
 
-        <div id="content">
+            <div id="chat">
+                <span>CHAT</span>
+            </div>
 
-            <h2>Drawing test:</h2>
-            <button on-click="connectWebsocket">Connect</button>
-            <br>
-            <button on-click="disconnectWebsocket">Disconnect</button>
-            <br>
-            <button on-click="sendHello">Send Hello</button>
-            <br>
-            <br>
-            <span>(see console)</span>
-            <br>
-            <br>
-            <span id="result"></span>
+            <div id="content">
 
+                <h2>Drawing test:</h2>
+                <button on-click="connectWebsocket">Connect</button>
+                <br>
+                <button on-click="disconnectWebsocket">Disconnect</button>
+                <br>
+                <button on-click="sendHello">Send Hello</button>
+                <br>
+                <br>
+                <span>(see console)</span>
+                <br>
+                <br>
+                <span id="result"></span>
+
+            </div>
         </div>
-
 
     </template>
     <script>
@@ -222,8 +249,6 @@
                 }
 
             }
-
-
 
 
         }
