@@ -8,7 +8,8 @@ Import the project to the IDE of your choosing as a Maven project.
 - Spring Boot
 - Spring Security
 - Spring Data
-- Spring Websocket
+- Spring WebSocket
+- MySQL Database
 - Vaadin 10/11 Flow
 - Polymer 2 Templates
 - Material Design
