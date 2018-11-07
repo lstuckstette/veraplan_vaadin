@@ -119,4 +119,11 @@ public class User extends DateAudit {
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
     }
+
+    @Override
+    public boolean equals(Object that) {
+        if (that instanceof User)
+            return this.id.equals(((User) that).id);
+        return false;
+    }
 }

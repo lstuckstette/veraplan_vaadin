@@ -1,5 +1,7 @@
 package com.volavis.veraplan.spring.persistence.model;
 
+import com.volavis.veraplan.spring.persistence.audit.DateAudit;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -8,7 +10,7 @@ import java.util.Set;
 
 @Entity
 @Table(name = "channels")
-public class Channel {
+public class Channel extends DateAudit {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +25,10 @@ public class Channel {
             joinColumns = @JoinColumn(name = "channel_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private Set<User> users = new HashSet<>();
+
+    public Channel(){
+
+    }
 
     public Channel(@NotBlank @Size(max = 40) String name) {
         this.name = name;

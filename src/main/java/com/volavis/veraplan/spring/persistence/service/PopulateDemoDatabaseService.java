@@ -3,9 +3,11 @@ package com.volavis.veraplan.spring.persistence.service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vaadin.external.org.slf4j.Logger;
 import com.vaadin.external.org.slf4j.LoggerFactory;
+import com.volavis.veraplan.spring.persistence.model.Channel;
 import com.volavis.veraplan.spring.persistence.model.Role;
 import com.volavis.veraplan.spring.persistence.model.RoleName;
 import com.volavis.veraplan.spring.persistence.model.User;
+import com.volavis.veraplan.spring.persistence.repository.ChannelAlreadyExistsException;
 import com.volavis.veraplan.spring.persistence.repository.RoleRepository;
 import com.volavis.veraplan.spring.persistence.repository.UserRepository;
 import org.atmosphere.config.service.Post;
@@ -31,12 +33,25 @@ public class PopulateDemoDatabaseService {
     @Autowired
     private RoleService roleService;
 
+    @Autowired
+    private ChannelService channelService;
+
     private static final Logger logger = LoggerFactory.getLogger(PopulateDemoDatabaseService.class);
 
     public void populate() {
         roleService.createAllRoles();
         createDummyUsers();
+        createDummyChannel();
         logger.info("Populated Demo Database.");
+    }
+
+    private void createDummyChannel() {
+        //contains all users
+        try {
+            channelService.createChannel(userService.getAllUsers(), "1337");
+        } catch(ChannelAlreadyExistsException e){
+            //this is fine.
+        }
     }
 
     private void createDummyUsers() {

@@ -3,12 +3,18 @@
 <link rel="import" href="../bower_components/paper-swatch-picker/paper-swatch-picker.html">
 <link rel="import" href="../bower_components/iron-flex-layout/iron-flex-layout-classes.html">
 <link rel="import" href="../bower_components/paper-styles/color.html">
+<link rel="import" href="../bower_components/paper-styles/typography.html">
 <!-- CHAT: -->
 <link rel="import" href="../bower_components/paper-listbox/paper-listbox.html">
 <link rel="import" href="../bower_components/paper-item/paper-icon-item.html">
 <link rel="import" href="../bower_components/paper-item/paper-item-body.html">
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
+
+<!-- -->
+<link rel="import" href="../bower_components/paper-toast/paper-toast.html">
+<link rel="import" href="../bower_components/iron-scroll-target-behavior/iron-scroll-target-behavior.html">
+<link rel="import" href="../bower_components/iron-a11y-keys/iron-a11y-keys.html">
 
 
 <dom-module id="drawing-view">
@@ -26,30 +32,37 @@
             #drawingCanvas {
                 visibility: hidden;
                 position: absolute;
-                top: 0px;
-
-                left: 5%;
-                /*right: 5%;*/
-                width: 95%;
+                top: 0%;
+                left: 25%;
+                width: 75%;
+                height: 100%;
 
             }
 
             #toggle-container {
+                flex-grow: 1;
+                left: 0%;
                 background: var(--google-grey-100);
                 width: 5%;
             }
 
             #chat {
-                flex-direction: column;
+                flex-grow: 1;
+                @apply --layout-vertical;
+
                 background: var(--google-grey-300);
+                left: 5%;
+
                 width: 20%;
 
             }
 
             #content {
-
-                background: var(--google-grey-100);
+                flex-grow: 5;
+                left: 25%;
                 width: 75%;
+                background: var(--google-grey-100);
+
             }
 
             #fabDraw {
@@ -65,27 +78,39 @@
                 bottom: 42%;
             }
 
-            #chatbox {
-                @apply --layout-vertical;
-                @apply --layout-start;
-                @apply --layout-center-center;
+            #chatheader {
+                background: var(--paper-deep-purple-300);
+                min-height: 10%;
+            }
 
+            #chatbox {
+                flex-grow: 1;
+                word-wrap: break-word;
+                overflow: auto;
             }
 
             #chatcontrol {
-                @apply --layout-horizontal;
-                @apply --layout-center-center;
+                margin-left: 10px;
+                margin-right: 10px;
+                margin-bottom: 10px;
             }
 
-            #chatsubmit {
-                height: 25px;
+            #messageheader {
+                @apply --paper-font-caption;
+            }
+
+            #chatitem {
+                background: white;
+
             }
 
         </style>
 
-        <canvas id="drawingCanvas"></canvas>
+
 
         <div id="container">
+
+            <canvas id="drawingCanvas"></canvas>
 
             <div id="toggle-container">
                 <paper-fab mini id="fabDraw" icon="create" label="derp" on-click="toggleCanvas"></paper-fab>
@@ -95,31 +120,42 @@
 
 
             <div id="chat">
+
                 <paper-list-box id="chatbox">
-                    <paper-item>
+                    <paper-item id="chatheader">
                         <paper-item-body two-line>
-                            <div>Chat </div>
+                            <div>Chat</div>
                             <div secondary>Channel: [[channel]]</div>
                         </paper-item-body>
                     </paper-item>
 
                     <template is="dom-repeat" items="[[messages]]" as="message">
-                        <paper-icon-item>
-                            <iron-icon icon="account-box" slot="item-icon"></iron-icon>
-                            <paper-item-body two-line>
-                                <div>{{message.author}}</div>
-                                <div> {{message.message}}</div>
-                            </paper-item-body>
+                        <span id="messageheader">{{message.author}} - at {{message.timestamp}}</span>
+                        <paper-icon-item id="chatitem">
+                            <iron-icon icon="account-box" slot="item-icon" title="{{message.author}}"></iron-icon>
+                            {{message.message}}
                         </paper-icon-item>
+                        <br>
                     </template>
 
                 </paper-list-box>
                 <br>
                 <div id="chatcontrol">
-                    <paper-input id="chatinput" label="Input" always-float-label required></paper-input>
+                    <iron-a11y-keys
+                            id="chatEnterSubmit"
+                            keys="enter"
+                            on-keys-pressed="sendChatMessageToWebsocket">
+                    </iron-a11y-keys>
+                    <paper-input id="chatinput" placeholder="Type here!" required>
+                        <iron-icon icon="send" slot="suffix" on-click="sendChatMessageToWebsocket"></iron-icon>
+                    </paper-input>
 
-                    <paper-button id="chatsubmit" on-click="sendChatMessageToWebsocket" raised>Send</paper-button>
+                    <!--
+                    <paper-fab id="chatsubmit" icon="send" on-click="sendChatMessageToWebsocket" mini>Send
+                    </paper-fab>
+                    -->
                 </div>
+
             </div>
 
             <div id="content">
@@ -129,17 +165,17 @@
                 <br><br>
                 <paper-button raised on-click="disconnectWebsocket">Disconnect</paper-button>
                 <br><br>
-                <paper-button raised on-click="sendHello">Send Hello</paper-button>
-                <br>
-                <br>
                 <span>(see console)</span>
                 <br>
-                <br>
-                <span id="result"></span>
+                <!--<br><br><br><br><br><br><br><br><br><br><br><br>
+                <br><br><br><br><br><br><br><br><br><br><br><br>
+                <br><br><br><br><br><br><br><br><br><br><br><br>-->
+
+                <span>derp</span>
 
             </div>
         </div>
-
+        <paper-toast id="notification" class="fit-bottom"></paper-toast>
     </template>
     <script>
         class DrawingView extends Polymer.Element {
@@ -149,6 +185,10 @@
 
             static get properties() {
                 return {
+                    stompClient: {
+                        type: Object
+                        //value: () => {return webstomp.over(new SockJS('/communication'));}
+                    },
                     selectedColor: {
                         type: String,
                         value: '#E91E63'
@@ -168,6 +208,8 @@
 
             ready() {
                 super.ready();
+
+                this.$.chatEnterSubmit.target = this.$.chatinput;
 
                 //window.addEventListener("mousedown", this);
                 this.labelcooldown = false;
@@ -281,29 +323,59 @@
             connectWebsocket() {
                 this.disconnectWebsocket();
 
-                let socket = new SockJS('/communication');
-                this.stompClient = webstomp.over(socket);
+                this.stompClient = webstomp.over(new SockJS('/communication'));
 
-                this.stompClient.connect({}, (client) => {
-                    console.log('Connected: ' + client);
-                    this.stompClient.subscribe('/subscribe/chat', (data) => {
-                        console.log("GOT: ", data.body);
-                        this.$.result.textContent = data.body;
-                    });
-                    this.stompClient.subscribe('/subscribe/drawing', (data) => {
+                this.stompClient.connect({}, this.webSocketOnConnect.bind(this), this.webSocketOnError.bind(this));
+                this.stompClient.debug = (message, data) => {
+                    if (data !== undefined) {
+                        //console.log(message, data);
+                    } else {
+                        //console.log(message);
+                    }
 
-                        let pathObject = JSON.parse(data.body);
-                        console.log("got", pathObject);
-                        this.pathRepository.push(pathObject);
-                        this.repaintPathRepository();
-                    });
+                };
+            }
 
-                    this.stompClient.subscribe('/subscribe/chat/' + this.get('channel'), (data) => {
-                        console.log("got chat message: ", data.body);
-                        let newMessage = JSON.parse(data.body);
-                        this.push('messages', newMessage);
-                    });
+            webSocketOnConnect(client) {
+                console.log('Connected: ', client);
+                this.stompClient.subscribe('/subscribe/chat', (data) => {
+                    console.log("GOT: ", data.body);
+                    this.$.result.textContent = data.body;
                 });
+                this.stompClient.subscribe('/subscribe/drawing', (data) => {
+
+                    let pathObject = JSON.parse(data.body);
+                    console.log("got", pathObject);
+                    this.pathRepository.push(pathObject);
+                    this.repaintPathRepository();
+                });
+
+                this.stompClient.subscribe('/subscribe/chat/' + this.get('channel'), (data) => {
+                    console.log("got chat message: ", data.body);
+                    let newMessage = JSON.parse(data.body);
+                    this.push('messages', newMessage);
+                });
+            }
+
+            webSocketOnError(client) {
+                console.log('WebSocket Error:', client);
+                //show notification:
+                if (client.headers !== undefined) {
+                    this.showNotification(client.headers.message);
+                } else {
+                    this.showNotification('WebSocket error. - reconnecting')
+                }
+                setTimeout(() => {
+                    this.connectWebsocket();
+                }, 2000); //delay new
+
+            }
+
+            showNotification(text) {
+                this.$.notification.setAttribute("text", text + " - reconnecting");
+                //this.$.notification.style["--paper-toast-background-color"] = 'red';
+                //this.$.notification.style["--paper-toast-color"] = 'white';
+                this.$.notification.open();
             }
 
             disconnectWebsocket() {
@@ -329,7 +401,7 @@
                     console.log("send message.");
 
                     let message = {
-                        author: this.get('userName'),
+                        //author: this.get('userName'),
                         channel: this.get('channel'),
                         message: this.$.chatinput.value
                     };
@@ -338,6 +410,8 @@
                 } else {
                     console.log("not connected!");
                 }
+
+                this.$.chatinput.value = '';
             }
 
 
