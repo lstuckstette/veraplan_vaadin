@@ -37,7 +37,7 @@ public class DashboardView extends Div {
 
         add(new Label("This is the home target for this demo"));
         Button button = new Button("Click me",
-                event -> Notification.show("derp"));
+                event -> Notification.show("Notification test~"));
         add(button);
 
     }

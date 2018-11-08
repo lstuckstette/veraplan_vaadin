@@ -11,10 +11,12 @@
 <link rel="import" href="../bower_components/paper-input/paper-input.html">
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 
-<!-- -->
+<!-- MISC -->
 <link rel="import" href="../bower_components/paper-toast/paper-toast.html">
 <link rel="import" href="../bower_components/iron-scroll-target-behavior/iron-scroll-target-behavior.html">
 <link rel="import" href="../bower_components/iron-a11y-keys/iron-a11y-keys.html">
+
+
 
 
 <dom-module id="drawing-view">
@@ -32,11 +34,15 @@
             #drawingCanvas {
                 visibility: hidden;
                 position: absolute;
-                top: 0%;
+                top: 10%;
                 left: 25%;
                 width: 75%;
                 height: 100%;
 
+            }
+
+            #canvasoverlay{
+                opacity: 0.1;
             }
 
             #toggle-container {
@@ -106,8 +112,6 @@
 
         </style>
 
-
-
         <div id="container">
 
             <canvas id="drawingCanvas"></canvas>
@@ -117,7 +121,6 @@
 
                 <paper-swatch-picker id="colorpicker" color="{{selectedColor}}"></paper-swatch-picker>
             </div>
-
 
             <div id="chat">
 
@@ -175,6 +178,9 @@
 
             </div>
         </div>
+
+
+
         <paper-toast id="notification" class="fit-bottom"></paper-toast>
     </template>
     <script>

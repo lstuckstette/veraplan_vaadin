@@ -75,11 +75,13 @@
             <artifactId>gson</artifactId>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.vaadin/vaadin-material-theme -->
         <dependency>
             <groupId>com.vaadin</groupId>
             <artifactId>vaadin-material-theme</artifactId>
-            <version>1.1.0</version>
+            <version>1.2.0</version>
         </dependency>
+
 
         <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -> for random string generation -->
         <dependency>

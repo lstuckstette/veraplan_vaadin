@@ -18,13 +18,11 @@ package com.volavis.veraplan.spring;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.HtmlImport;
-import com.vaadin.flow.component.dependency.StyleSheet;
-
 
 import com.vaadin.flow.component.page.BodySize;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
-import com.vaadin.flow.component.tabs.Tabs;
+
 import com.vaadin.flow.router.*;
 
 import com.vaadin.flow.templatemodel.TemplateModel;
@@ -59,7 +57,7 @@ public class MainLayout extends PolymerTemplate<TemplateModel> implements Router
         NavigationTab users = new NavigationItemBuilder().text("Users").target(UsersView.class).build();
         NavigationTab drawing = new NavigationItemBuilder().text("Drawing").target(DrawingView.class).build();
 
-        appNavigation.setTabs(dash, help,users,drawing);
+        appNavigation.setTabs(dash, help, users, drawing);
     }
 
 
