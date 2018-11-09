@@ -1,5 +1,6 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
 
+<link rel="import" href="../styles/shared-styles.html">
 
 <link rel="import" href="../bower_components/vaadin-tabs/theme/material/vaadin-tabs.html">
 <link rel="import" href="../bower_components/vaadin-button/theme/material/vaadin-button.html">
@@ -15,7 +16,7 @@
 
 <dom-module id="app-navigation">
     <template>
-        <style>
+        <style include="shared-styles">
             #accountsettings {
                 @apply --layout-horizontal;
                 @apply --layout-center-center;
@@ -23,6 +24,8 @@
                 position: absolute;
                 margin-left: 20px;
             }
+
+
 
             vaadin-button {
                 margin-left: 20px;
@@ -32,17 +35,6 @@
         </style>
 
         <vaadin-tabs id="menu-tabs" selected="-1">
-            <!--
-            <vaadin-tab onclick="document.querySelector('landing-view').$.aboutAnchor.scrollIntoView()">
-                About
-            </vaadin-tab>
-            <vaadin-tab onclick="document.querySelector('landing-view').$.servicesAnchor.scrollIntoView()">
-                Services
-            </vaadin-tab>
-            <vaadin-tab onclick="document.querySelector('landing-view').$.contactAnchor.scrollIntoView()">
-                Contact
-            </vaadin-tab>
-            -->
         </vaadin-tabs>
 
         <div id="accountsettings">
@@ -60,10 +52,6 @@
                 </vaadin-button>
             </template>
 
-            <!--
-            <slot name="loginButton"></slot>
-            <slot name="registerButton"></slot>
-            -->
             <template is="dom-if" if="[[isLoggedIn]]">
                 <span></span>
                 <paper-menu-button horizontal-align=right no-overlap>
@@ -81,17 +69,8 @@
                 </paper-menu-button>
             </template>
 
-            <!--
-            <paper-menu-button horizontal-align=right no-overlap>
-                <paper-icon-button icon="more-vert" slot="dropdown-trigger"
-                                   aria-label="Other options"></paper-icon-button>
-                <paper-listbox slot="dropdown-content">
-                    <paper-item>Share</paper-item>
-                    <paper-item>Settings</paper-item>
-                    <paper-item>Help</paper-item>
-                </paper-listbox>
             </paper-menu-button>
-            -->
+
         </div>
 
     </template>

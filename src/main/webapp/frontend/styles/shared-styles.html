@@ -1,16 +1,27 @@
-<link rel="import" href="../bower_components/polymer/lib/elements/custom-style.html">
+<link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../bower_components/polymer/polymer.html">
 
+<link rel="import" href="../bower_components/paper-styles/color.html">
+<link rel="import" href="../bower_components/paper-styles/typography.html">
+<link rel="import" href="../bower_components/paper-styles/shadow.html">
 
 
 <dom-module id="shared-styles">
     <temaplate>
         <style>
+            :root {
+                --menu-logo-background: var(--paper-grey-200);
+                --menu-navigation-background: var(--paper-grey-400);
+                --footer-background: var(--paper-grey-400);
+                --content-background: var(--paper-grey-50);
 
+            }
 
         </style>
     </temaplate>
 </dom-module>
 
+<!-- Vaadin Stuff... -->
 <custom-style>
     <style is="custom-style">
         @keyframes v-progress-start {
