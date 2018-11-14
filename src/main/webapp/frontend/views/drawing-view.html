@@ -16,80 +16,102 @@
 <link rel="import" href="../bower_components/iron-scroll-target-behavior/iron-scroll-target-behavior.html">
 <link rel="import" href="../bower_components/iron-a11y-keys/iron-a11y-keys.html">
 
+<link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
+<link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
+
 
 <dom-module id="drawing-view">
     <template>
         <style>
 
-            #container {
-                display: flex;
-                flex-direction: row;
+            :host {
+                --app-drawer-width: 25vw;
+            }
+
+            #wrapper {
                 width: 100%;
-                height: 100%;
+                hieght: 100%;
+            }
+
+            app-drawer-layout {
+                background: black;
             }
 
             #drawingCanvas {
                 visibility: hidden;
                 position: absolute;
-                top: 10%;
-                left: 25%;
-                width: 75%;
+
+                top: 0px;
+                left: 0px;
+
+                width: 75vw; /*10px padding...*/
                 height: 100%;
+
             }
 
             #toggle-container {
-                @apply --layout-fixed-left;
 
-                padding-top: 10%;
+                @apply --layout-self-center;
+
                 padding-left: 10px;
-                left: 0%;
+
                 background: var(--google-grey-100);
-                width: 5%;
+
             }
 
             #chat {
-                @apply --layout-fixed-left;
-                @apply --layout-vertical;
+                @apply --layout-flex;
 
-                overflow-y: auto;
                 background: var(--google-grey-300);
-                top: 10%;
-                left: 5%;
-                width: 20%;
 
+            }
+
+            #leftdrawer {
+
+                margin-top: 120px;
+                margin-bottom: 120px;
+                overflow-y: auto;
+                background: var(--google-grey-100);
+                --app-drawer-content-container: {
+                    background: var(--google-grey-100);
+                }
+
+            }
+
+            #drawer-content {
+                @apply --layout-horizontal;
+                width: 100%;
+                height: 100%;
             }
 
             #content {
 
-                @apply --layout-vertical;
+                @apply --layout-flex;
                 @apply --layout-center-center;
-
-                left: 25%;
-                width: 75%;
                 background: var(--google-grey-100);
             }
 
-            #fabDraw {
-
+            #controlDraw {
                 background: green;
             }
 
-            #colorpicker {
-
-            }
-
             #chatheader {
+
+                @apply --paper-font-caption;
                 background: var(--paper-deep-purple-300);
-                min-height: 10%;
+                height: 10%;
             }
 
             #chatbox {
-                flex-grow: 1;
+
                 word-wrap: break-word;
-                overflow: auto;
+                overflow-y: auto;
+                height: 80%;
+
             }
 
             #chatcontrol {
+                height: 10%;
                 margin-left: 10px;
                 margin-right: 10px;
                 margin-bottom: 10px;
@@ -105,78 +127,82 @@
 
         </style>
 
-        <div id="container">
+        <div id="wrapper">
 
-            <canvas id="drawingCanvas"></canvas>
 
-            <div id="toggle-container">
-                <paper-fab mini id="fabDraw" icon="create" label="derp" on-click="toggleCanvas"></paper-fab>
+            <app-drawer-layout>
 
-                <paper-swatch-picker id="colorpicker" color="{{selectedColor}}"></paper-swatch-picker>
-            </div>
+                <app-drawer id="leftdrawer" slot="drawer" position="left" opened>
+                    <div id="drawer-content">
 
-            <div id="chat">
-                <div id="chatheader">
-                    <span>Chat</span>
-                    <br>
-                    <span>Channel: [[channel]]</span>
-                </div>
-                <paper-list-box id="chatbox">
-                    <!--<paper-item id="chatheader">
-                        <paper-item-body two-line>
-                            <div>Chat</div>
-                            <div secondary>Channel: [[channel]]</div>
-                        </paper-item-body>
-                    </paper-item>-->
+                        <div id="toggle-container">
+                            <paper-fab mini id="controlDraw" icon="create" label="derp"
+                                       on-click="toggleCanvas"></paper-fab>
 
-                    <template is="dom-repeat" items="[[messages]]" as="message">
-                        <span id="messageheader">{{message.author}} - at {{message.timestamp}}</span>
-                        <paper-icon-item id="chatitem">
-                            <iron-icon icon="account-box" slot="item-icon" title="{{message.author}}"></iron-icon>
-                            {{message.message}}
-                        </paper-icon-item>
+                            <paper-swatch-picker id="controlColor" color="{{selectedColor}}"></paper-swatch-picker>
+                        </div>
+
+                        <div id="chat">
+                            <div id="chatheader">
+                                <span>Chat</span>
+                                <br>
+                                <span>Channel: [[channel]]</span>
+                            </div>
+                            <div id="chatbox">
+                                <template id="chatboxtemplate" is="dom-repeat" items="[[messages]]" as="message">
+                                    <span id="messageheader">{{message.author}} - at {{message.timestamp}}</span>
+                                    <paper-icon-item id="chatitem">
+                                        <iron-icon icon="account-box" slot="item-icon"
+                                                   title="{{message.author}}"></iron-icon>
+                                        {{message.message}}
+                                    </paper-icon-item>
+                                    <br>
+                                </template>
+
+                            </div>
+
+                            <div id="chatcontrol">
+                                <iron-a11y-keys
+                                        id="chatEnterSubmit"
+                                        keys="enter"
+                                        on-keys-pressed="sendChatMessageToWebsocket">
+                                </iron-a11y-keys>
+                                <paper-input id="chatinput" placeholder="Type here!" required>
+                                    <iron-icon icon="send" slot="suffix"
+                                               on-click="sendChatMessageToWebsocket"></iron-icon>
+                                </paper-input>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </app-drawer>
+
+
+                <div>
+
+                    <canvas id="drawingCanvas"></canvas>
+
+                    <div id="content">
+
+                        <h2>Drawing test:</h2>
+                        <paper-button raised on-click="connectWebsocket">Connect</paper-button>
+                        <br><br>
+                        <paper-button raised on-click="disconnectWebsocket">Disconnect</paper-button>
+                        <br><br>
+                        <span>(see console)</span>
                         <br>
-                    </template>
+                        <br><br><br><br><br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br><br><br><br><br>
+                        <br><br><br><br><br><br><br><br><br><br><br><br>
+                        <span>derp</span>
 
-                </paper-list-box>
-                <br>
-                <div id="chatcontrol">
-                    <iron-a11y-keys
-                            id="chatEnterSubmit"
-                            keys="enter"
-                            on-keys-pressed="sendChatMessageToWebsocket">
-                    </iron-a11y-keys>
-                    <paper-input id="chatinput" placeholder="Type here!" required>
-                        <iron-icon icon="send" slot="suffix" on-click="sendChatMessageToWebsocket"></iron-icon>
-                    </paper-input>
+                    </div>
 
-                    <!--
-                    <paper-fab id="chatsubmit" icon="send" on-click="sendChatMessageToWebsocket" mini>Send
-                    </paper-fab>
-                    -->
                 </div>
 
-            </div>
-
-            <div id="content">
-
-                <h2>Drawing test:</h2>
-                <paper-button raised on-click="connectWebsocket">Connect</paper-button>
-                <br><br>
-                <paper-button raised on-click="disconnectWebsocket">Disconnect</paper-button>
-                <br><br>
-                <span>(see console)</span>
-                <br>
-                <br><br><br><br><br><br><br><br><br><br><br><br>
-                <br><br><br><br><br><br><br><br><br><br><br><br>
-                <br><br><br><br><br><br><br><br><br><br><br><br>
-                <span>derp</span>
-
-            </div>
-
+            </app-drawer-layout>
         </div>
-
-
         <paper-toast id="notification" class="fit-bottom"></paper-toast>
     </template>
     <script>
@@ -260,6 +286,11 @@
                     //send new Path to Websocket:
                     this.sendPathToWebsocket(currentPathObject);
                 };
+                //on new message -> scroll chat-window-to-bottom
+                this.$.chatboxtemplate.addEventListener('dom-change',(event)=>{
+
+                    this.$.chatbox.scrollTop = this.$.chatbox.scrollHeight;
+                });
 
                 this.connectWebsocket();
 
@@ -317,8 +348,8 @@
 
             toggleCanvas() {
                 this.$.drawingCanvas.style.visibility = this.$.drawingCanvas.style.visibility === 'visible' ? 'hidden' : 'visible';
-                this.$.fabDraw.icon = this.$.fabDraw.icon === "create" ? 'close' : 'create';
-                this.$.fabDraw.style.background = this.$.fabDraw.icon === 'create' ? 'green' : 'red';
+                this.$.controlDraw.icon = this.$.controlDraw.icon === "create" ? 'close' : 'create';
+                this.$.controlDraw.style.background = this.$.controlDraw.icon === 'create' ? 'green' : 'red';
                 //this.$.colorpicker.style.visibility = this.$.colorpicker.style.visibility === 'visible' ? 'hidden' : 'visible';
             }
 
@@ -356,6 +387,7 @@
                     console.log("got chat message: ", data.body);
                     let newMessage = JSON.parse(data.body);
                     this.push('messages', newMessage);
+
                 });
             }
 
