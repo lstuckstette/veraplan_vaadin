@@ -48,6 +48,7 @@ public class UserService {
 
 
     public List<User> getAllUsers() {
+        //TODO: THIS THROWS LAZY LOAD NO PROXY EXCEPTION!
         List<User> users = userRepository.findAll();
         return users;
     }
