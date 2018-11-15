@@ -2,8 +2,8 @@ package com.volavis.veraplan.spring.persistence.service;
 
 import com.volavis.veraplan.spring.persistence.model.Channel;
 import com.volavis.veraplan.spring.persistence.model.User;
-import com.volavis.veraplan.spring.persistence.repository.ChannelAlreadyExistsException;
-import com.volavis.veraplan.spring.persistence.repository.ChannelNotFoundException;
+import com.volavis.veraplan.spring.persistence.exception.EntityAlreadyExistsException;
+import com.volavis.veraplan.spring.persistence.exception.ChannelNotFoundException;
 import com.volavis.veraplan.spring.persistence.repository.ChannelRepository;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +37,7 @@ public class ChannelService {
     public Channel createChannel(List<User> users, String name) {
         //check existing:
         if (channelRepository.existsByName(name)) {
-            throw new ChannelAlreadyExistsException("Channel already exists!");
+            throw new EntityAlreadyExistsException("Channel already exists!");
         }
 
         Channel newChannel = new Channel(name);

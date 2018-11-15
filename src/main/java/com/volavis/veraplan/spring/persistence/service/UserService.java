@@ -1,16 +1,19 @@
 package com.volavis.veraplan.spring.persistence.service;
 
 import com.vaadin.flow.spring.annotation.VaadinSessionScope;
+import com.volavis.veraplan.spring.persistence.exception.EntityAlreadyExistsException;
 import com.volavis.veraplan.spring.persistence.model.Role;
 import com.volavis.veraplan.spring.persistence.model.RoleName;
 import com.volavis.veraplan.spring.persistence.model.User;
 import com.volavis.veraplan.spring.persistence.repository.RoleRepository;
 import com.volavis.veraplan.spring.persistence.repository.UserRepository;
+import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -43,8 +46,10 @@ public class UserService {
         });
     }
 
+
     public List<User> getAllUsers() {
-        return userRepository.findAll();
+        List<User> users = userRepository.findAll();
+        return users;
     }
 
     public void createUser(User user, RoleName... rolenames) {
@@ -62,7 +67,7 @@ public class UserService {
 
         //check existing username/email:
         if (userRepository.findByUsernameOrEmail(username, email).isPresent()) {
-            return;
+            throw new EntityAlreadyExistsException("User with name '" + username + " " + lastName + "' and email '" + email + "' already exists.");
         }
 
         User user = new User(firstName, lastName, username, email, passwordEncoder.encode(password));

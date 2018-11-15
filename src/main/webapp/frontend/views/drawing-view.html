@@ -44,7 +44,7 @@
                 top: 0px;
                 left: 0px;
 
-                width: 75vw; /*10px padding...*/
+                width: 74vw; /*10px padding...*/
                 height: 100%;
 
             }
@@ -148,7 +148,7 @@
                                 <br>
                                 <span>Channel: [[channel]]</span>
                             </div>
-                            <div id="chatbox">
+                            <div id="chatbox"> <!-- TODO: port to paper-material  -->
                                 <template id="chatboxtemplate" is="dom-repeat" items="[[messages]]" as="message">
                                     <span id="messageheader">{{message.author}} - at {{message.timestamp}}</span>
                                     <paper-icon-item id="chatitem">

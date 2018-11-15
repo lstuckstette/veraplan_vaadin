@@ -6,9 +6,8 @@ import com.google.gson.GsonBuilder;
 import com.vaadin.external.org.slf4j.Logger;
 import com.vaadin.external.org.slf4j.LoggerFactory;
 
-import com.volavis.veraplan.spring.persistence.model.Channel;
 import com.volavis.veraplan.spring.persistence.model.User;
-import com.volavis.veraplan.spring.persistence.repository.ChannelNotFoundException;
+import com.volavis.veraplan.spring.persistence.exception.ChannelNotFoundException;
 import com.volavis.veraplan.spring.persistence.service.ChannelService;
 import com.volavis.veraplan.spring.persistence.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +15,7 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.messaging.MessageChannel;
 import org.springframework.messaging.handler.annotation.*;
 import org.springframework.messaging.simp.SimpMessageHeaderAccessor;
-import org.springframework.messaging.simp.SimpMessagingTemplate;
 
-import org.springframework.messaging.simp.annotation.SendToUser;
 import org.springframework.messaging.simp.annotation.SubscribeMapping;
 import org.springframework.messaging.simp.stomp.StompCommand;
 import org.springframework.messaging.simp.stomp.StompHeaderAccessor;
