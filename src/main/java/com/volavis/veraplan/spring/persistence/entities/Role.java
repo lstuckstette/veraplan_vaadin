@@ -1,4 +1,4 @@
-package com.volavis.veraplan.spring.persistence.model;
+package com.volavis.veraplan.spring.persistence.entities;
 
 import org.hibernate.annotations.NaturalId;
 import javax.persistence.*;

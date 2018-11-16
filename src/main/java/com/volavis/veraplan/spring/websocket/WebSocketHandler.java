@@ -6,7 +6,7 @@ import com.google.gson.GsonBuilder;
 import com.vaadin.external.org.slf4j.Logger;
 import com.vaadin.external.org.slf4j.LoggerFactory;
 
-import com.volavis.veraplan.spring.persistence.model.User;
+import com.volavis.veraplan.spring.persistence.entities.User;
 import com.volavis.veraplan.spring.persistence.exception.ChannelNotFoundException;
 import com.volavis.veraplan.spring.persistence.service.ChannelService;
 import com.volavis.veraplan.spring.persistence.service.UserService;

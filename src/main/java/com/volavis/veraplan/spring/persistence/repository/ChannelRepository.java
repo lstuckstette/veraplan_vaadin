@@ -1,6 +1,6 @@
 package com.volavis.veraplan.spring.persistence.repository;
 
-import com.volavis.veraplan.spring.persistence.model.Channel;
+import com.volavis.veraplan.spring.persistence.entities.communication.Channel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

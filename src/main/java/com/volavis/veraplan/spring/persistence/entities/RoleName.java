@@ -1,4 +1,4 @@
-package com.volavis.veraplan.spring.persistence.model;
+package com.volavis.veraplan.spring.persistence.entities;
 
 import java.util.ArrayList;
 

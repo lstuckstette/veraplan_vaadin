@@ -1,13 +1,10 @@
 package com.volavis.veraplan.spring.security;
 
-import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Optional;
 
 
-import com.volavis.veraplan.spring.persistence.model.Role;
-import com.volavis.veraplan.spring.persistence.model.User;
+import com.volavis.veraplan.spring.persistence.entities.Role;
+import com.volavis.veraplan.spring.persistence.entities.User;
 import com.volavis.veraplan.spring.persistence.repository.UserRepository;
 
 

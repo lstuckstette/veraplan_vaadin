@@ -1,7 +1,7 @@
 package com.volavis.veraplan.spring.persistence.service;
 
-import com.volavis.veraplan.spring.persistence.model.Role;
-import com.volavis.veraplan.spring.persistence.model.RoleName;
+import com.volavis.veraplan.spring.persistence.entities.Role;
+import com.volavis.veraplan.spring.persistence.entities.RoleName;
 import com.volavis.veraplan.spring.persistence.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

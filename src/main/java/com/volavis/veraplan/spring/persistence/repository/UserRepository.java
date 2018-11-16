@@ -1,6 +1,6 @@
 package com.volavis.veraplan.spring.persistence.repository;
 
-import com.volavis.veraplan.spring.persistence.model.User;
+import com.volavis.veraplan.spring.persistence.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

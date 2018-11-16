@@ -1,6 +1,7 @@
-package com.volavis.veraplan.spring.persistence.model;
+package com.volavis.veraplan.spring.persistence.entities.communication;
 
 import com.volavis.veraplan.spring.persistence.audit.DateAudit;
+import com.volavis.veraplan.spring.persistence.entities.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;

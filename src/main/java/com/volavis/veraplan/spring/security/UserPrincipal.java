@@ -2,7 +2,7 @@ package com.volavis.veraplan.spring.security;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.volavis.veraplan.spring.persistence.model.User;
+import com.volavis.veraplan.spring.persistence.entities.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

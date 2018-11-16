@@ -11,8 +11,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 import com.volavis.veraplan.spring.MainLayout;
-import com.volavis.veraplan.spring.persistence.model.Role;
-import com.volavis.veraplan.spring.persistence.model.User;
+import com.volavis.veraplan.spring.persistence.entities.User;
 import com.volavis.veraplan.spring.persistence.service.RoleService;
 import com.volavis.veraplan.spring.persistence.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

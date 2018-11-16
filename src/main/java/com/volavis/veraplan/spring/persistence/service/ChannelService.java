@@ -1,7 +1,7 @@
 package com.volavis.veraplan.spring.persistence.service;
 
-import com.volavis.veraplan.spring.persistence.model.Channel;
-import com.volavis.veraplan.spring.persistence.model.User;
+import com.volavis.veraplan.spring.persistence.entities.communication.Channel;
+import com.volavis.veraplan.spring.persistence.entities.User;
 import com.volavis.veraplan.spring.persistence.exception.EntityAlreadyExistsException;
 import com.volavis.veraplan.spring.persistence.exception.ChannelNotFoundException;
 import com.volavis.veraplan.spring.persistence.repository.ChannelRepository;

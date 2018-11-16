@@ -1,4 +1,4 @@
-package com.volavis.veraplan.spring.persistence.model;
+package com.volavis.veraplan.spring.persistence.entities;
 
 import com.volavis.veraplan.spring.persistence.audit.DateAudit;
 import org.hibernate.annotations.NaturalId;

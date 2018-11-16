@@ -1,19 +1,16 @@
 package com.volavis.veraplan.spring.persistence.service;
 
-import com.vaadin.flow.spring.annotation.VaadinSessionScope;
 import com.volavis.veraplan.spring.persistence.exception.EntityAlreadyExistsException;
-import com.volavis.veraplan.spring.persistence.model.Role;
-import com.volavis.veraplan.spring.persistence.model.RoleName;
-import com.volavis.veraplan.spring.persistence.model.User;
+import com.volavis.veraplan.spring.persistence.entities.Role;
+import com.volavis.veraplan.spring.persistence.entities.RoleName;
+import com.volavis.veraplan.spring.persistence.entities.User;
 import com.volavis.veraplan.spring.persistence.repository.RoleRepository;
 import com.volavis.veraplan.spring.persistence.repository.UserRepository;
-import org.hibernate.Hibernate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.HashSet;

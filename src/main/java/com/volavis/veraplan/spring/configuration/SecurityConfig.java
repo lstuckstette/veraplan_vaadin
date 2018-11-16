@@ -2,8 +2,8 @@ package com.volavis.veraplan.spring.configuration;
 
 import com.vaadin.external.org.slf4j.Logger;
 import com.vaadin.external.org.slf4j.LoggerFactory;
-import com.volavis.veraplan.spring.persistence.model.RoleName;
-import com.volavis.veraplan.spring.persistence.model.User;
+import com.volavis.veraplan.spring.persistence.entities.RoleName;
+import com.volavis.veraplan.spring.persistence.entities.User;
 import com.volavis.veraplan.spring.persistence.repository.UserRepository;
 import com.volavis.veraplan.spring.security.CustomAuthenticationHandler;
 
