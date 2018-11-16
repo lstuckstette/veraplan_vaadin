@@ -11,6 +11,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 import com.volavis.veraplan.spring.MainLayout;
+import com.volavis.veraplan.spring.persistence.model.Role;
 import com.volavis.veraplan.spring.persistence.model.User;
 import com.volavis.veraplan.spring.persistence.service.RoleService;
 import com.volavis.veraplan.spring.persistence.service.UserService;
@@ -47,10 +48,9 @@ public class UsersView extends Div {
         grid.addColumn(User::getPassword).setHeader("Password").setFlexGrow(1);
         grid.addComponentColumn(user -> {
             ComboBox<String> roleBox = new ComboBox<>();
-
-            roleBox.setItems(user.getRoles().stream().map(Object::toString));
+            roleBox.setItems(user.getRoles().stream().map(role -> role.getName().toString()));
             return roleBox;
-        });
+        }).setHeader("Roles");
 
 
         verticalLayout.add(grid);
