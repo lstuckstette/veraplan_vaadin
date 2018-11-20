@@ -17,7 +17,7 @@ Import the project to the IDE of your choosing as a Maven project.
 
 ### Running the Application
 
-1. Start DB by instantiating a docker-container using dockerfile `Docker/MySQL/Dockerfile`
+1. Start external services (DB, Message broker) by running Docker Compose File `Docker/docker-compose.yml`
 
 2. Run `bower install` in directory `src/main/webapp/frontend/`
 

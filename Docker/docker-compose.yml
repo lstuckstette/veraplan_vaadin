@@ -1,0 +1,21 @@
+# Docker Compose file for veraplanspring starting mysql-database and rabbitmq-messaging-broker
+# with custom credentials.
+version: '3'
+services:
+  mysql:
+    image: "mysql/mysql-server:latest"
+    environment:
+      - MYSQL_DATABASE=vp_mysql
+      - MYSQL_USER=vp_root
+      - MYSQL_PASSWORD=volavis
+      - MYSQL_ROOT_PASSWORD=volavisroot
+    ports:
+      - "3306:3306"
+  rabbitmq:
+    image: "rabbitmq:management"
+    environment:
+      - RABBITMQ_DEFAULT_USER=root
+      - RABBITMQ_DEFAULT_PASS=volavis
+    ports:
+      - "5672:5672"
+      - "15672:15672"
