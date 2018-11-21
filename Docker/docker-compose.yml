@@ -11,11 +11,11 @@ services:
       - MYSQL_ROOT_PASSWORD=volavisroot
     ports:
       - "3306:3306"
-  rabbitmq:
-    image: "rabbitmq:management"
-    environment:
-      - RABBITMQ_DEFAULT_USER=root
-      - RABBITMQ_DEFAULT_PASS=volavis
-    ports:
-      - "5672:5672"
-      - "15672:15672"
+#  rabbitmq:
+#    image: "rabbitmq:management"
+#    environment:
+#      - RABBITMQ_DEFAULT_USER=root
+#      - RABBITMQ_DEFAULT_PASS=volavis
+#    ports:
+#      - "5672:5672"
+#      - "15672:15672"

@@ -8,7 +8,7 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "message")
+@Table(name = "messages")
 public class Message extends DateAudit {
     //TODO: implement
 
@@ -19,14 +19,13 @@ public class Message extends DateAudit {
     @NotBlank
     private User sender;
 
-    @NotBlank
     private User recipient;
 
     @Size(max=80)
     private String subject;
 
     @NotBlank
-    @Size(max=2000)
+    @Size(max=10000)
     private String body;
 
     public Message(){}

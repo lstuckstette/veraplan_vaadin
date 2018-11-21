@@ -1,6 +1,7 @@
 package com.volavis.veraplan.spring.persistence.entities;
 
 import com.volavis.veraplan.spring.persistence.audit.DateAudit;
+import com.volavis.veraplan.spring.persistence.entities.communication.Notification;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
@@ -45,6 +46,9 @@ public class User extends DateAudit {
     @NotBlank
     @Size(max = 100)
     private String password;
+
+    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "user")
+    private Set<Notification> notifications = new HashSet<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "user_roles",
