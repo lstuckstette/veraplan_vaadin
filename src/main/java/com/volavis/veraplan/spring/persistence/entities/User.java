@@ -2,6 +2,7 @@ package com.volavis.veraplan.spring.persistence.entities;
 
 import com.volavis.veraplan.spring.persistence.audit.DateAudit;
 import com.volavis.veraplan.spring.persistence.entities.communication.Notification;
+import com.volavis.veraplan.spring.persistence.entities.ressources.TimeConstraint;
 import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
@@ -58,6 +59,12 @@ public class User extends DateAudit {
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles = new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "user_timeconstraints",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "timeconstraint_id"))
+    private List<TimeConstraint> timeConstraints = new ArrayList<>();
 
     public User() {
 
