@@ -1,9 +1,13 @@
 package com.volavis.veraplan.spring.persistence.entities.organisation;
 
+import com.volavis.veraplan.spring.persistence.entities.User;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -19,11 +23,17 @@ public class Department {
     private String name;
 
     @ManyToOne(optional = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "parentdepartment_id")
+    @JoinColumn(name = "PARENTDEPARTMENT_ID")
     private Department parentDepartment;
 
     @OneToMany(mappedBy = "parentDepartment")
-    private Set<Department> subDepartments = new HashSet<>();
+    private List<Department> subDepartments = new ArrayList<>();
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name = "department_users",
+            joinColumns = @JoinColumn(name = "department_id"),
+            inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private List<User> users = new ArrayList<>();
 
     public Department() {
     }
@@ -52,11 +62,11 @@ public class Department {
         this.parentDepartment = parentDepartment;
     }
 
-    public Set<Department> getSubDepartments() {
+    public List<Department> getSubDepartments() {
         return subDepartments;
     }
 
-    public void setSubDepartments(Set<Department> subDepartments) {
+    public void setSubDepartments(List<Department> subDepartments) {
         this.subDepartments = subDepartments;
     }
 }

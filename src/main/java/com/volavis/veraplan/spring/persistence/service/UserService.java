@@ -76,7 +76,7 @@ public class UserService {
         }
         //Create User if Roles not empty:
         if (!roles.isEmpty()) {
-            user.setRoles(new HashSet<>(roles));
+            user.setRoles(roles);
             User result = userRepository.save(user);
 
         }

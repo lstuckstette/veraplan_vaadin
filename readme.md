@@ -17,12 +17,13 @@ Import the project to the IDE of your choosing as a Maven project.
 
 ### Running the Application
 
-1. Start external services (DB, RabbitMQ message-broker) by running Docker Compose File
+1. Start external services (DB, ...) by running Docker Compose File
  `Docker/docker-compose.yml` through command `docker-compose up` in directory `Docker`
 
 2. Run `bower install` in directory `src/main/webapp/frontend/` to fetch frontend-dependencies
 
 3. Run application using `mvn spring-boot:run` or directly running Application class from your IDE
+(first start may take several seconds due to database initialization...)
 
 4. Open `http://localhost:8080/` in browser
 

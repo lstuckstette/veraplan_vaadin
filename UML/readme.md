@@ -5,3 +5,4 @@ Created with [StarUML](http://staruml.io/).
 - Package diagram
 - class diagrams
 - activity diagrams
+- data model

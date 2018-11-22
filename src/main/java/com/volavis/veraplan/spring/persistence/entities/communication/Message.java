@@ -17,18 +17,23 @@ public class Message extends DateAudit {
     private Long id;
 
     @NotBlank
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "sender_id")
     private User sender;
 
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "recipient_id")
     private User recipient;
 
-    @Size(max=80)
+    @Size(max = 80)
     private String subject;
 
     @NotBlank
-    @Size(max=10000)
+    @Size(max = 10000)
     private String body;
 
-    public Message(){}
+    public Message() {
+    }
 
     public Long getId() {
         return id;

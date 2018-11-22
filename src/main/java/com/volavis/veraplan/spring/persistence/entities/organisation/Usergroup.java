@@ -1,39 +1,35 @@
-package com.volavis.veraplan.spring.persistence.entities.communication;
+package com.volavis.veraplan.spring.persistence.entities.organisation;
 
-import com.volavis.veraplan.spring.persistence.audit.DateAudit;
 import com.volavis.veraplan.spring.persistence.entities.User;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
-@Table(name = "channels")
-public class Channel extends DateAudit {
+@Table(name = "usergroups")
+public class Usergroup {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotBlank
-    @Size(max = 40)
+    @Size(max = 100)
     private String name;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "channel_users",
-            joinColumns = @JoinColumn(name = "channel_id"),
+    @JoinTable(name = "usergroup_users",
+            joinColumns = @JoinColumn(name = "group_id"),
             inverseJoinColumns = @JoinColumn(name = "user_id"))
     private List<User> users = new ArrayList<>();
 
-    public Channel() {
-
+    public Usergroup() {
     }
 
-    public Channel(@NotBlank @Size(max = 40) String name) {
+    public Usergroup(@NotBlank @Size(max = 100) String name) {
         this.name = name;
     }
 

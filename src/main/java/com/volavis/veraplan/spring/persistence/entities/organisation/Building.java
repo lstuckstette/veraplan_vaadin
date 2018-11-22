@@ -1,10 +1,14 @@
 package com.volavis.veraplan.spring.persistence.entities.organisation;
 
 
+import com.volavis.veraplan.spring.persistence.entities.ressources.Room;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -23,7 +27,11 @@ public class Building {
     @JoinTable(name = "building_departments",
             joinColumns = @JoinColumn(name = "building_id"),
             inverseJoinColumns = @JoinColumn(name = "department_id"))
-    private Set<Department> departments = new HashSet<>();
+    private List<Department> departments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "building")
+    private List<Room> rooms;
+
 
     public Building() {
     }
@@ -32,7 +40,7 @@ public class Building {
         this.name = name;
     }
 
-    public Building(@NotBlank @Size(max = 100) String name, Set<Department> departments) {
+    public Building(@NotBlank @Size(max = 100) String name, List<Department> departments) {
         this.name = name;
         this.departments = departments;
     }
@@ -53,11 +61,11 @@ public class Building {
         this.name = name;
     }
 
-    public Set<Department> getDepartments() {
+    public List<Department> getDepartments() {
         return departments;
     }
 
-    public void setDepartments(Set<Department> departments) {
+    public void setDepartments(List<Department> departments) {
         this.departments = departments;
     }
 }

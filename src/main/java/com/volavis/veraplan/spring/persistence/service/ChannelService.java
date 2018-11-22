@@ -41,7 +41,7 @@ public class ChannelService {
         }
 
         Channel newChannel = new Channel(name);
-        newChannel.setUsers(new HashSet<>(users));
+        newChannel.setUsers(users);
         return channelRepository.save(newChannel);
     }
 
@@ -54,7 +54,7 @@ public class ChannelService {
     }
 
     public Channel addUsersToChannel(Channel channel, User... users) {
-        Set<User> set = channel.getUsers();
+        List<User> set = channel.getUsers();
         for (User user : users) {
             if (!set.contains(user)) {
                 set.add(user);
@@ -65,7 +65,7 @@ public class ChannelService {
     }
 
     public Channel removeUsersFromChannel(Channel channel, User... users) {
-        Set<User> set = channel.getUsers();
+        List<User> set = channel.getUsers();
         for (User user : users) {
             if (set.contains(user)) {
                 set.remove(user);
