@@ -26,7 +26,6 @@
             }
 
 
-
             vaadin-button {
                 margin-left: 20px;
             }
@@ -41,7 +40,7 @@
             <template is="dom-if" if="[[!isLoggedIn]]">
                 <vaadin-button
                         theme="contained"
-                        onclick="document.querySelector('landing-view').$.loginDialog.open()">
+                        onclick="document.querySelector('login-view').showLoginDialog()">
                     Login
                 </vaadin-button>
 
@@ -59,10 +58,13 @@
                         <iron-icon icon="menu" slot="suffix"></iron-icon>
                         [[userName]]
                     </vaadin-button>
-                    <paper-listbox slot="dropdown-content">
+                    <paper-listbox slot="dropdown-content" id="dropdown-list">
+                        <!-- TODO: add Profile - implement other entries - add settings to data-model! -->
                         <paper-item>Messages</paper-item>
                         <paper-item>Settings</paper-item>
-                        <paper-item>Help</paper-item>
+                        <a router-link href="help">
+                            <paper-item>Help</paper-item>
+                        </a>
                         <paper-item onclick="document.querySelector('main-view').$.logoutDialog.open()">Log out
                         </paper-item>
                     </paper-listbox>

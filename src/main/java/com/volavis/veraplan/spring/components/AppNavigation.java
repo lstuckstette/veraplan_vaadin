@@ -1,16 +1,19 @@
 package com.volavis.veraplan.spring.components;
 
+import com.vaadin.external.org.slf4j.Logger;
+import com.vaadin.external.org.slf4j.LoggerFactory;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.HtmlImport;
+import com.vaadin.flow.component.html.Anchor;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
+import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
-import com.vaadin.flow.router.AfterNavigationEvent;
-import com.vaadin.flow.router.AfterNavigationObserver;
-import com.vaadin.flow.templatemodel.TemplateModel;
+import com.vaadin.flow.dom.Element;
+import com.vaadin.flow.router.*;
+import com.volavis.veraplan.spring.configuration.SecurityConfig;
 import com.volavis.veraplan.spring.persistence.service.UserService;
 import com.volavis.veraplan.spring.security.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +21,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @Tag("app-navigation")
 @HtmlImport("components/app-navigation.html")
-public class AppNavigation extends PolymerTemplate<AppNavigationModel> implements AfterNavigationObserver {
+public class AppNavigation extends PolymerTemplate<AppNavigationModel> implements AfterNavigationObserver, BeforeEnterObserver {
+
+    private static final Logger logger = LoggerFactory.getLogger(AppNavigation.class);
 
     @Id("menu-tabs")
     private Tabs tabs;
+
 
     @Id("accountsettings")
     private Div accountsettings;
@@ -33,37 +39,14 @@ public class AppNavigation extends PolymerTemplate<AppNavigationModel> implement
         if (loggedIn) {
             this.getModel().setUserName(userService.getFullName(SecurityUtils.getUsername()));
         }
-
     }
 
     public void setTabs(NavigationTab... navigationTabs) {
+        tabs.removeAll();
         tabs.add(navigationTabs);
         tabs.addSelectedChangeListener(e -> navigateTo());
     }
 
-    public void showLoginButton() {
-        Button loginButton = new Button();
-        loginButton.setText("Login");
-        loginButton.getElement().setAttribute("theme", "contained");
-        loginButton.getElement().setAttribute("onclick", "document.querySelector('landing-view').$.loginDialog.open()");
-        loginButton.getElement().setAttribute("slot", "loginButton");
-        loginButton.getStyle().set("margin-left", "20px");
-        this.getElement().appendChild(loginButton.getElement());
-    }
-
-    public void showRegisterButton() {
-        Button registerButton = new Button();
-        registerButton.setText("Register");
-        registerButton.getElement().setAttribute("theme", "outlined");
-        registerButton.getElement().setAttribute("onclick", "document.querySelector('landing-view').$.registerDialog.open()");
-        registerButton.getElement().setAttribute("slot", "registerButton");
-        registerButton.getStyle().set("margin-left", "20px");
-        this.getElement().appendChild(registerButton.getElement());
-    }
-
-    public void showUserAccountMenu() {
-
-    }
 
     private void navigateTo() {
         if (tabs.getSelectedTab() instanceof NavigationTab) {
@@ -78,6 +61,26 @@ public class AppNavigation extends PolymerTemplate<AppNavigationModel> implement
 
     @Override
     public void afterNavigation(AfterNavigationEvent event) {
+
+
+    }
+
+    @Override
+    public void beforeEnter(BeforeEnterEvent event) {
+        //set selected nav-tab after custom navigation:
+        logger.info("current route: " + event.getNavigationTarget());
+        tabs.getChildren().forEach(tab -> {
+            if (tab instanceof NavigationTab) {
+
+                if (((NavigationTab) tab).getTarget() != null) {
+                    logger.info("tab: " + ((NavigationTab) tab).getTarget());
+                    if (((NavigationTab) tab).getTarget().equals(event.getNavigationTarget())) {
+                        logger.info("match!");
+                        tab.getElement().setAttribute("selected", "");
+                    }
+                }
+            }
+        });
 
     }
 }
