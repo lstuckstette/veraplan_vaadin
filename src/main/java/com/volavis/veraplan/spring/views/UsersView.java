@@ -21,12 +21,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class UsersView extends Div {
 
     private UserService userService;
-    private RoleService roleService;
+
 
     @Autowired
-    public UsersView(UserService userService, RoleService roleService) {
+    public UsersView(UserService userService) {
         this.userService = userService;
-        this.roleService = roleService;
+
         UI.getCurrent().getPage().addStyleSheet("https://use.fontawesome.com/releases/v5.3.1/css/all.css");
         init();
     }

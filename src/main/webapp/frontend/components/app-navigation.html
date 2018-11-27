@@ -17,6 +17,7 @@
 <dom-module id="app-navigation">
     <template>
         <style include="shared-styles">
+
             #accountsettings {
                 @apply --layout-horizontal;
                 @apply --layout-center-center;
@@ -26,55 +27,82 @@
             }
 
 
+            #dropdown-list {
+                @apply --layout-vertical;
+            }
+
+            .menu {
+                @apply --layout-horizontal;
+                @apply --layout-center-center;
+                width: 100%;
+                background-color: var(--menu-navigation-background);
+
+            }
+
+            .submenu {
+                @apply --layout-horizontal;
+                @apply --layout-center-center;
+                width: 100%;
+                background-color: var(--menu-submenu-background);
+            }
+
             vaadin-button {
                 margin-left: 20px;
             }
-
-
         </style>
 
-        <vaadin-tabs id="menu-tabs" selected="-1">
-        </vaadin-tabs>
+        <div class="menu">
 
-        <div id="accountsettings">
-            <template is="dom-if" if="[[!isLoggedIn]]">
-                <vaadin-button
-                        theme="contained"
-                        onclick="document.querySelector('login-view').showLoginDialog()">
-                    Login
-                </vaadin-button>
+            <vaadin-tabs id="menu-tabs" selected="-1">
+                <!-- main menu-tabs injected here -->
+            </vaadin-tabs>
 
-                <vaadin-button
-                        theme="outlined"
-                        on-click="showRegisterDialog">
-                    Register
-                </vaadin-button>
-            </template>
 
-            <template is="dom-if" if="[[isLoggedIn]]">
-                <span></span>
-                <paper-menu-button horizontal-align=right no-overlap>
-                    <vaadin-button slot="dropdown-trigger">
-                        <iron-icon icon="menu" slot="suffix"></iron-icon>
-                        [[userName]]
+            <!-- show login/register buttons: -->
+            <div id="accountsettings">
+                <template is="dom-if" if="[[!isLoggedIn]]">
+                    <vaadin-button
+                            theme="contained"
+                            onclick="document.querySelector('login-view').showLoginDialog()">
+                        Login
                     </vaadin-button>
-                    <paper-listbox slot="dropdown-content" id="dropdown-list">
-                        <!-- TODO: add Profile - implement other entries - add settings to data-model! -->
-                        <paper-item>Messages</paper-item>
-                        <paper-item>Settings</paper-item>
-                        <a router-link href="help">
-                            <paper-item>Help</paper-item>
-                        </a>
-                        <paper-item onclick="document.querySelector('main-view').$.logoutDialog.open()">Log out
-                        </paper-item>
-                    </paper-listbox>
+
+                    <vaadin-button
+                            theme="outlined"
+                            on-click="showRegisterDialog">
+                        Register
+                    </vaadin-button>
+                </template>
+
+                <!-- Show user drop-down menu -->
+                <template is="dom-if" if="[[isLoggedIn]]">
+                    <span></span>
+                    <paper-menu-button horizontal-align=right no-overlap>
+                        <vaadin-button slot="dropdown-trigger">
+                            <iron-icon icon="menu" slot="suffix"></iron-icon>
+                            [[userName]]
+                        </vaadin-button>
+                        <paper-listbox slot="dropdown-content" id="dropdown-list">
+                            <!-- TODO: add Profile - implement other entries - add settings to data-model!
+                            -->
+                            <slot name="user-menu"></slot>
+
+                        </paper-listbox>
+                    </paper-menu-button>
+                </template>
+
                 </paper-menu-button>
-            </template>
 
-            </paper-menu-button>
-
+            </div>
         </div>
 
+        <!-- optional submenu: -->
+        <div class="submenu" id="sub-menu">
+
+            <!--
+            submenu optinally injected here...
+            -->
+        </div>
     </template>
     <script>
         class AppNavigation extends Polymer.Element {

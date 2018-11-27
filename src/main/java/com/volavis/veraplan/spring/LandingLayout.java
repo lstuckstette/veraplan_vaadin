@@ -12,14 +12,10 @@ import com.vaadin.flow.router.RouterLayout;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.material.Material;
-import com.volavis.veraplan.spring.components.AppNavigation;
-import com.volavis.veraplan.spring.components.NavigationItemBuilder;
-import com.volavis.veraplan.spring.components.NavigationTab;
+import com.volavis.veraplan.spring.views.components.AppNavigation;
+import com.volavis.veraplan.spring.views.components.NavigationItemBuilder;
+import com.volavis.veraplan.spring.views.components.NavigationTab;
 import com.volavis.veraplan.spring.security.SecurityUtils;
-import com.volavis.veraplan.spring.views.DashboardView;
-import com.volavis.veraplan.spring.views.DrawingView;
-import com.volavis.veraplan.spring.views.HelpView;
-import com.volavis.veraplan.spring.views.UsersView;
 import org.springframework.security.access.AccessDeniedException;
 
 @BodySize()
@@ -39,7 +35,7 @@ public class LandingLayout extends PolymerTemplate<TemplateModel> implements Rou
         NavigationTab services = new NavigationItemBuilder().text("Services").action("document.querySelector('login-view').$.servicesAnchor.scrollIntoView()").build();
         NavigationTab contact = new NavigationItemBuilder().text("Contact").action("document.querySelector('login-view').$.contactAnchor.scrollIntoView()").build();
 
-        appNavigation.setTabs(about, services, contact);
+        appNavigation.setMenuTabs(about, services, contact);
     }
 
 

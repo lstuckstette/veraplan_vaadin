@@ -12,8 +12,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Transactional;
+
+
 import java.util.ArrayList;
-import java.util.HashSet;
+
 import java.util.List;
 
 @Service
@@ -37,6 +40,7 @@ public class UserService {
         return user.getFirst_name() + " " + user.getLast_name();
     }
 
+
     public User getByUsernameOrEmail(String emailOrUsername) {
         return userRepository.findByUsernameOrEmail(emailOrUsername, emailOrUsername).orElseThrow(() -> {
             throw new UsernameNotFoundException("Unknown user for input '" + emailOrUsername + "' !'");
@@ -45,7 +49,7 @@ public class UserService {
 
 
     public List<User> getAllUsers() {
-        List<User> users = userRepository.findAllWithRoles();
+        List<User> users = userRepository.findAll();
         return users;
     }
 
@@ -69,7 +73,7 @@ public class UserService {
 
         User user = new User(firstName, lastName, username, email, passwordEncoder.encode(password));
 
-        //Create Role Set:
+        //Create Role List:
         ArrayList<Role> roles = new ArrayList<>();
         for (RoleName rname : rolenames) {
             roleRepository.findByName(rname).ifPresent(role -> roles.add(role));

@@ -28,15 +28,12 @@ import com.vaadin.flow.router.*;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.material.Material;
-import com.volavis.veraplan.spring.components.AppNavigation;
-import com.volavis.veraplan.spring.components.NavigationItemBuilder;
+import com.volavis.veraplan.spring.views.*;
+import com.volavis.veraplan.spring.views.components.AppNavigation;
+import com.volavis.veraplan.spring.views.components.NavigationItemBuilder;
 
-import com.volavis.veraplan.spring.components.NavigationTab;
+import com.volavis.veraplan.spring.views.components.NavigationTab;
 import com.volavis.veraplan.spring.security.SecurityUtils;
-import com.volavis.veraplan.spring.views.DashboardView;
-import com.volavis.veraplan.spring.views.DrawingView;
-import com.volavis.veraplan.spring.views.HelpView;
-import com.volavis.veraplan.spring.views.UsersView;
 import org.springframework.security.access.AccessDeniedException;
 
 
@@ -53,12 +50,24 @@ public class MainLayout extends PolymerTemplate<TemplateModel> implements Router
         UI.getCurrent().getPage().addStyleSheet("https://use.fontawesome.com/releases/v5.3.1/css/all.css");
 
         //Fill NavigationBar:
-        NavigationTab dash = new NavigationItemBuilder().text("Dashboard").target(DashboardView.class).build();
         NavigationTab help = new NavigationItemBuilder().text("Help").target(HelpView.class).build();
         NavigationTab users = new NavigationItemBuilder().text("Users").target(UsersView.class).build();
         NavigationTab drawing = new NavigationItemBuilder().text("Drawing").target(DrawingView.class).build();
 
-        appNavigation.setTabs(dash, help, users, drawing);
+        NavigationTab dash = new NavigationItemBuilder().text("Dashboard").target(DashboardView.class).build();
+
+        appNavigation.setMenuTabs(dash, help, users, drawing);
+
+        //Fill User-Menu (right side)
+        appNavigation.addUsermenuTab("Profile", ProfileView.class);
+        appNavigation.addUserMenuTab("Mesages", "");
+        appNavigation.addUserMenuTab("Settings", "");
+        appNavigation.addUsermenuTab("Help", HelpView.class);
+        appNavigation.addUserMenuTab("Log Out", "document.querySelector('main-view').$.logoutDialog.open()");
+
+        //NavigationTab sub1 = new NavigationItemBuilder().text("sub1").build();
+        //NavigationTab sub2 = new NavigationItemBuilder().text("sub2").build();
+        //appNavigation.setSubMenu(sub1, sub2);
     }
 
 

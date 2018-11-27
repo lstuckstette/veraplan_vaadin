@@ -51,11 +51,7 @@
                 #mainToolbar {
                     background-color: var(--menu-logo-background);
                 }
-
-                #app-navigation {
-                    background-color: var(--menu-navigation-background);
-                }
-
+                
                 .logo {
                     @apply --layout;
                     @apply --layout-flex-auto;
@@ -63,7 +59,7 @@
                 }
 
                 .toolbar {
-                    @apply --layout-horizontal;
+                    @apply --layout-vertical;
                     @apply --layout-center-center;
                     position: relative;
                 }
@@ -144,8 +140,8 @@
             <br>
             <p>Unsaved changes may be lost!</p>
             <div>
-                <vaadin-button dialog-dismiss>Cancel</vaadin-button>
-                <vaadin-button onclick="location.assign('logout')">Log out</vaadin-button>
+                <vaadin-button theme="contained" dialog-dismiss>Cancel</vaadin-button>
+                <vaadin-button theme="outlined" onclick="location.assign('logout')">Log out</vaadin-button>
             </div>
         </paper-dialog>
 

@@ -14,6 +14,7 @@ import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.scheduling.annotation.EnableScheduling;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 
 /**
@@ -21,6 +22,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  */
 @EnableJpaRepositories(basePackageClasses = {UserRepository.class})
 @EnableJpaAuditing
+@EnableTransactionManagement
 @EntityScan(basePackageClasses = {User.class})
 @SpringBootApplication(scanBasePackageClasses = {Application.class, SecurityConfig.class, PopulateDemoDatabaseService.class, DashboardView.class})
 @EnableScheduling //for messaging test..

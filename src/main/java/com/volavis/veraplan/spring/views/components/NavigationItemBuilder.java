@@ -1,13 +1,16 @@
-package com.volavis.veraplan.spring.components;
+package com.volavis.veraplan.spring.views.components;
 
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.tabs.Tab;
-import com.vaadin.flow.router.RouterLink;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class NavigationItemBuilder {
 
     private String text = "";
     private Class<? extends Component> target = null;
+    private List<NavigationTab> submenu = new ArrayList<>();
 
 
     private String action = "";
@@ -23,12 +26,18 @@ public class NavigationItemBuilder {
 
         tab.setTarget(target);
         tab.getElement().setText(text);
+        tab.setSubmenu(submenu);
 
         return tab;
     }
 
     public NavigationItemBuilder text(String linkText) {
         this.text = linkText;
+        return this;
+    }
+
+    public NavigationItemBuilder submenu(NavigationTab... tabs) {
+        submenu.addAll(Arrays.asList(tabs));
         return this;
     }
 

@@ -8,7 +8,7 @@ import com.vaadin.flow.router.Route;
 import com.volavis.veraplan.spring.MainLayout;
 import com.volavis.veraplan.spring.persistence.service.UserService;
 import com.volavis.veraplan.spring.security.SecurityUtils;
-import com.volavis.veraplan.spring.views.PolymerTemplateModel.DrawingViewModel;
+import com.volavis.veraplan.spring.views.templateModels.DrawingViewModel;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Tag("drawing-view")

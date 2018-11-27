@@ -1,4 +1,4 @@
-package com.volavis.veraplan.spring.views.PolymerTemplateModel;
+package com.volavis.veraplan.spring.views.templateModels;
 
 import com.vaadin.flow.templatemodel.TemplateModel;
 
