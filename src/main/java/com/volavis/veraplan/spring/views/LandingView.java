@@ -12,7 +12,7 @@ import com.volavis.veraplan.spring.LandingLayout;
 @Tag("login-view")
 @HtmlImport("views/login-view.html")
 @Route(value = "landing", layout = LandingLayout.class)
-public class LandingView extends PolymerTemplate<TemplateModel> implements HasUrlParameter<String> {
+public class LandingView extends PolymerTemplate<TemplateModel> {
 
 
 
@@ -21,9 +21,5 @@ public class LandingView extends PolymerTemplate<TemplateModel> implements HasUr
 
             }
 
-    @Override
-    public void setParameter(BeforeEvent event, @OptionalParameter String parameter) {
-
-    }
 
 }

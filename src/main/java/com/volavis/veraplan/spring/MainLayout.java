@@ -49,14 +49,44 @@ public class MainLayout extends PolymerTemplate<TemplateModel> implements Router
     public MainLayout() {
         UI.getCurrent().getPage().addStyleSheet("https://use.fontawesome.com/releases/v5.3.1/css/all.css");
 
-        //Fill NavigationBar:
+
+        //Submenus
+        NavigationTab administration_manageusers = new NavigationItemBuilder().text("Manage users").target(null).build();
+        NavigationTab administration_manageressources = new NavigationItemBuilder().text("Manage users").target(null).build(); //TODO: do this for all entity-groups?
+        NavigationTab administration_exportplan = new NavigationItemBuilder().text("Export plan").target(null).build();
+        NavigationTab administration_generateplan = new NavigationItemBuilder().text("Generate plan").target(null).build();
+
+        NavigationTab coredata_enterbuilding = new NavigationItemBuilder().text("Enter buildings").target(null).build();
+        NavigationTab coredata_enterroom = new NavigationItemBuilder().text("Enter rooms").target(null).build();
+        NavigationTab coredata_enterdepartment = new NavigationItemBuilder().text("Enter departments").target(null).build();
+        NavigationTab coredata_entertimeslots = new NavigationItemBuilder().text("Enter timeslots").target(null).build();
+
+        NavigationTab planing_preference = new NavigationItemBuilder().text("Enter personal preferences").target(null).build();
+        NavigationTab planing_assignment = new NavigationItemBuilder().text("Enter ressource assignment").target(null).build();
+
+        //Mainmenu
+        NavigationTab dashboard = new NavigationItemBuilder().text("Dashboard").target(DashboardView.class).build();
+
+        NavigationTab administration = new NavigationItemBuilder().text("Administration").target(AdministrationView.class)
+                .submenu(administration_manageusers, administration_manageressources,
+                        administration_exportplan, administration_generateplan).build();
+
+        NavigationTab coredata = new NavigationItemBuilder().text("Core data").target(CoreDataView.class)
+                .submenu(coredata_enterbuilding, coredata_enterroom,
+                        coredata_enterdepartment, coredata_entertimeslots).build();
+
+        NavigationTab planing = new NavigationItemBuilder().text("Planing").target(PlaningView.class)
+                .submenu(planing_preference, planing_assignment).build();
+
+        NavigationTab plan = new NavigationItemBuilder().text("View Plans").target(PlanView.class).build();
+
+        //Demo NavigationBar:
         NavigationTab help = new NavigationItemBuilder().text("Help").target(HelpView.class).build();
         NavigationTab users = new NavigationItemBuilder().text("Users").target(UsersView.class).build();
         NavigationTab drawing = new NavigationItemBuilder().text("Drawing").target(DrawingView.class).build();
 
-        NavigationTab dash = new NavigationItemBuilder().text("Dashboard").target(DashboardView.class).build();
 
-        appNavigation.setMenuTabs(dash, help, users, drawing);
+        appNavigation.setMenuTabs(dashboard, administration, coredata, planing, plan, drawing);
 
         //Fill User-Menu (right side)
         appNavigation.addUsermenuTab("Profile", ProfileView.class);
@@ -65,9 +95,6 @@ public class MainLayout extends PolymerTemplate<TemplateModel> implements Router
         appNavigation.addUsermenuTab("Help", HelpView.class);
         appNavigation.addUserMenuTab("Log Out", "document.querySelector('main-view').$.logoutDialog.open()");
 
-        //NavigationTab sub1 = new NavigationItemBuilder().text("sub1").build();
-        //NavigationTab sub2 = new NavigationItemBuilder().text("sub2").build();
-        //appNavigation.setSubMenu(sub1, sub2);
     }
 
 

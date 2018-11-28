@@ -10,7 +10,6 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "messages")
 public class Message extends DateAudit {
-    //TODO: implement
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

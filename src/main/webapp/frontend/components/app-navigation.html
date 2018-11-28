@@ -40,7 +40,8 @@
             }
 
             .submenu {
-                @apply --layout-horizontal;
+                display: none;
+                /*@apply --layout-horizontal;*/
                 @apply --layout-center-center;
                 width: 100%;
                 background-color: var(--menu-submenu-background);
@@ -99,9 +100,9 @@
         <!-- optional submenu: -->
         <div class="submenu" id="sub-menu">
 
-            <!--
-            submenu optinally injected here...
-            -->
+            <vaadin-tabs id="submenu-tabs" selected="-1">
+                <!-- main menu-tabs injected here -->
+            </vaadin-tabs>
         </div>
     </template>
     <script>

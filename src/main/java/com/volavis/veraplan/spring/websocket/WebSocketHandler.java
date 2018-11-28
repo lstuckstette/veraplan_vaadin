@@ -73,7 +73,6 @@ public class WebSocketHandler {
 
     //HANDLE MESSAGES:
 
-    //TODO: implement error handling: https://stackoverflow.com/questions/33741511/how-to-send-error-message-to-stomp-clients-with-spring-websocket
     @MessageMapping("/chat/{channelId}")
     @SendTo("/subscribe/chat/{channelId}")
     public String handleChatMessage(@Payload String message, @DestinationVariable String channelId, SimpMessageHeaderAccessor headerAccessor) {
@@ -87,27 +86,24 @@ public class WebSocketHandler {
         jsonMapping.put("timestamp", new SimpleDateFormat("HH:mm").format(new Date()));
         logger.info("got CHAT on channel: " + channelId + " by User: " + fullName);
 
-
         try {
             if (channelService.userInChannel(channelId, currentUser)) {
                 return new GsonBuilder().create().toJson(jsonMapping);
             } else {
-                StompHeaderAccessor stompHeaderAccessor = StompHeaderAccessor.create(StompCommand.ERROR);
-                stompHeaderAccessor.setMessage("Unauthorized access to channel '" + channelId + "'.");
-                stompHeaderAccessor.setSessionId(headerAccessor.getSessionId());
-                this.clientOutboundChannel.send(MessageBuilder.createMessage(new byte[0], stompHeaderAccessor.getMessageHeaders()));
+                this.sendError(headerAccessor, "Unauthorized access to channel '" + channelId + "'.");
                 return null;
             }
         } catch (ChannelNotFoundException e) {
-            StompHeaderAccessor stompHeaderAccessor = StompHeaderAccessor.create(StompCommand.ERROR);
-            stompHeaderAccessor.setMessage(e.getMessage());
-            stompHeaderAccessor.setSessionId(headerAccessor.getSessionId());
-            this.clientOutboundChannel.send(MessageBuilder.createMessage(new byte[0], stompHeaderAccessor.getMessageHeaders()));
+            this.sendError(headerAccessor, e.getMessage());
             return null;
         }
+    }
 
-
-        //return new GsonBuilder().create().toJson(jsonMapping);
+    private void sendError(SimpMessageHeaderAccessor headerAccessor, String errorText) {
+        StompHeaderAccessor stompHeaderAccessor = StompHeaderAccessor.create(StompCommand.ERROR);
+        stompHeaderAccessor.setMessage(errorText);
+        stompHeaderAccessor.setSessionId(headerAccessor.getSessionId());
+        this.clientOutboundChannel.send(MessageBuilder.createMessage(new byte[0], stompHeaderAccessor.getMessageHeaders()));
     }
 
 
