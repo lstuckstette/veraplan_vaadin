@@ -6,8 +6,12 @@
     <template>
         <style>
             :host {
-                background: cyan;
+                /*background: cyan;*/
+
             }
+
+
+
         </style>
         <slot></slot>
 
@@ -18,8 +22,12 @@
     Polymer({
         is: 'canvas-overlay',
 
-        behaviors: [Polymer.IronOverlayBehavior]
+        behaviors: [Polymer.IronOverlayBehavior],
 
+        ready: () =>{
+
+            console.log("OVERLAY READY!");
+        }
 
     });
 </script>

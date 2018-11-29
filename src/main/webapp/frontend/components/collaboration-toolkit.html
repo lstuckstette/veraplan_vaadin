@@ -1,4 +1,5 @@
 <link rel="import" href="../bower_components/polymer/polymer-element.html">
+<link rel="import" href="../styles/shared-styles.html">
 
 <link rel="import" href="../bower_components/paper-fab/paper-fab.html">
 <link rel="import" href="../bower_components/paper-swatch-picker/paper-swatch-picker.html">
@@ -22,23 +23,12 @@
 
 <link rel="import" href="canvas-overlay.html">
 
+
 <dom-module id="collaboration-toolkit">
     <template>
-        <style>
+        <style include="shared-styles">
             :host {
                 --app-drawer-width: 25vw;
-            }
-
-            .wrapper {
-                width: 100%;
-                height: 100%;
-            }
-
-            #drawingCanvas {
-                /*border: 1px solid green;*/
-                width: 300px;
-                background: red;
-
             }
 
             #toggle-container {
@@ -68,12 +58,22 @@
                 height: 100%;
             }
 
-            #content {
-                @apply --layout-vertical;
-                @apply --layout-center-center;
+            #canvasoverlay {
+                @apply --layout-fit;
+
+            }
+
+            #drawingCanvas {
+                /*@apply --layout-flex;*/
+                @apply --layout-flex;
                 width: 100%;
                 height: 100%;
-                /*background: var(--google-grey-100);*/
+                background: blue;
+            }
+
+            #content {
+                @apply --layout-flex;
+
             }
 
             #controlDraw {
@@ -113,7 +113,7 @@
         </style>
 
 
-        <app-drawer-layout>
+        <app-drawer-layout id="drawerLayout">
 
             <app-drawer id="leftdrawer" slot="drawer" position="left" opened>
                 <div id="drawer-content">
@@ -161,24 +161,20 @@
                 </div>
             </app-drawer>
 
-            <!--<canvas id="drawingCanvas"></canvas>-->
-
 
             <div id="content">
-
                 <!-- content injected here -->
                 <slot></slot>
-
             </div>
 
 
+            <canvas-overlay id="canvasoverlay" scroll-action="refit" no-cancel-on-outside-click>
+                <canvas id="drawingCanvas"></canvas>
+
+            </canvas-overlay>
+
         </app-drawer-layout>
 
-        <!--TODO: work in progress...-->
-        <canvas-overlay id="canvasoverlay" scroll-action="refit" no-overlap
-                        tabindex=-1>
-            <canvas id="drawingCanvas"></canvas>
-        </canvas-overlay>
 
         <paper-toast id="notification" class="fit-bottom"></paper-toast>
     </template>
@@ -207,6 +203,9 @@
                         type: Array,
                         value: [],
                         notify: true
+                    },
+                    canvas: {
+                        type: Object
                     }
                 }
             }
@@ -214,15 +213,31 @@
             ready() {
                 super.ready();
 
+                //init overlay:
+                this.$.canvasoverlay.open();
+                this.$.canvasoverlay.close();
+
                 this.$.chatEnterSubmit.target = this.$.chatinput;
+
 
                 this.labelcooldown = false;
                 this.pathRepository = [];
 
+                //on new message -> scroll chat-window-to-bottom
+                this.$.chatboxtemplate.addEventListener('dom-change', (event) => {
 
+                    this.$.chatbox.scrollTop = this.$.chatbox.scrollHeight;
+                });
+
+                this.initPaper();
+
+                this.connectWebsocket();
+
+            }
+
+            initPaper() {
                 paper.install(this);
-                paper.setup(this.$.drawingCanvas);
-
+                paper.setup(this.$.drawingCanvas); //TODO: fix - this breaks drawingcanvas size....
 
                 let tool = new paper.Tool();
                 let currentPath = new paper.Path();
@@ -244,7 +259,7 @@
                     //
 
                     let currentPathObject = {owner: this.get('userName'), color: this.get('selectedColor'), points: []};
-                    //translate point (currentPath.segments.[1]=x & [2]=y) to relative point against screen size: (works with identicle browsers...)
+                    //translate point (currentPath.segments.[1]=x & [2]=y) to relative point against screen size: (works with identical browsers...)
                     let windowWidth = window.innerWidth;
                     let windowHeight = window.innerHeight;
                     currentPath.segments.forEach((data) => {
@@ -262,14 +277,6 @@
                     //send new Path to Websocket:
                     this.sendPathToWebsocket(currentPathObject);
                 };
-                //on new message -> scroll chat-window-to-bottom
-                this.$.chatboxtemplate.addEventListener('dom-change', (event) => {
-
-                    this.$.chatbox.scrollTop = this.$.chatbox.scrollHeight;
-                });
-
-                this.connectWebsocket();
-
             }
 
             repaintPathRepository() {
@@ -284,7 +291,8 @@
                     //show owner label on hover
                     path.onMouseEnter = (event) => {
                         //check canvas is visible & label not on cooldown:
-                        if (this.$.drawingCanvas.style.visibility === 'visible' && !this.labelcooldown) {
+                        // if (this.$.drawingCanvas.style.visibility === 'visible' && !this.labelcooldown) {
+                        if (!this.labelcooldown) {
                             this.labelcooldown = true;
 
                             let labelPoint = event.point;
@@ -307,11 +315,11 @@
                     };
 
                     path.onMouseLeave = (event) => {
-                        if (this.$.drawingCanvas.style.visibility === 'visible') {
-                            setTimeout(() => { //delay removal of label 750 msec.
-                                pathObject.labelText.remove();
-                            }, 750);
-                        }
+                        // if (this.$.drawingCanvas.style.visibility === 'visible') {
+                        setTimeout(() => { //delay removal of label 750 msec.
+                            pathObject.labelText.remove();
+                        }, 750);
+                        // }
                     };
                     pathObject.points.forEach((data) => {
 
@@ -322,13 +330,15 @@
                 });
             }
 
+
             toggleCanvas() {
-                // this.$.drawingCanvas.style.visibility = this.$.drawingCanvas.style.visibility === 'visible' ? 'hidden' : 'visible';
                 if (this.$.canvasoverlay.opened) {
                     this.$.canvasoverlay.close();
                 } else {
                     this.$.canvasoverlay.open();
                 }
+
+
                 this.$.controlDraw.icon = this.$.controlDraw.icon === "create" ? 'close' : 'create';
                 this.$.controlDraw.style.background = this.$.controlDraw.icon === 'create' ? 'green' : 'red';
                 //this.$.colorpicker.style.visibility = this.$.colorpicker.style.visibility === 'visible' ? 'hidden' : 'visible';
