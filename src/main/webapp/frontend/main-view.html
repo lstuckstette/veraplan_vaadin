@@ -45,7 +45,7 @@
                 }
 
                 app-header:not([shadow]) {
-                    border-bottom: 1px solid #ddd;
+                    /*border-bottom: 1px solid #ddd;*/
                 }
 
                 #mainToolbar {
@@ -79,6 +79,7 @@
                 }
 
                 footer {
+                    @apply --layout-flex-none;
                     @apply --layout-vertical;
                     @apply --layout-center-center;
                     height: 50px;
@@ -144,7 +145,6 @@
                 <vaadin-button theme="outlined" onclick="location.assign('logout')">Log out</vaadin-button>
             </div>
         </paper-dialog>
-
 
 
     </template>

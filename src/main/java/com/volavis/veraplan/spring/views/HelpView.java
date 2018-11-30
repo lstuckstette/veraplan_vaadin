@@ -29,7 +29,7 @@ public class HelpView extends Div {
 
 
 
-        for (int i = 0; i < 5; i++) {
+        for (int i = 0; i < 25; i++) {
             verticalLayout.add(new Paragraph("derp "+ i));
         }
 
