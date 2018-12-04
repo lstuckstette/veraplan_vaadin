@@ -21,7 +21,7 @@ public class PlanView extends Div {
 
     @Autowired
     public PlanView(UserService userService) {
-        this.toolkit = new CollaborationToolkit(userService);
+        this.toolkit = new CollaborationToolkit(userService, "1337");
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
 

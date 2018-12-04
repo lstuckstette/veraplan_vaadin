@@ -83,10 +83,10 @@ public class MainLayout extends PolymerTemplate<TemplateModel> implements Router
         //Demo NavigationBar:
         NavigationTab help = new NavigationItemBuilder().text("Help").target(HelpView.class).build();
         NavigationTab users = new NavigationItemBuilder().text("Users").target(UsersView.class).build();
-        NavigationTab drawing = new NavigationItemBuilder().text("Drawing").target(DrawingView.class).build();
 
 
-        appNavigation.setMenuTabs(dashboard, administration, coredata, planing, plan, drawing);
+
+        appNavigation.setMenuTabs(dashboard, administration, coredata, planing, plan);
 
         //Fill User-Menu (right side)
         appNavigation.addUsermenuTab("Profile", ProfileView.class);

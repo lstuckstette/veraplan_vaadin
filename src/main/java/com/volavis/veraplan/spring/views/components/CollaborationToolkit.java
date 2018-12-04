@@ -7,18 +7,17 @@ import com.vaadin.flow.component.dependency.JavaScript;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.volavis.veraplan.spring.persistence.service.UserService;
 import com.volavis.veraplan.spring.security.SecurityUtils;
-import com.volavis.veraplan.spring.views.templateModels.DrawingViewModel;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
+import com.volavis.veraplan.spring.views.templateModels.CollaborationToolkitModel;
 
 @Tag("collaboration-toolkit")
 @HtmlImport("components/collaboration-toolkit.html")
 @JavaScript("js/webstomp.min.js")
 @JavaScript("js/sockjs.min.js")
 @JavaScript("js/paper-full.min.js")
-public class CollaborationToolkit extends PolymerTemplate<DrawingViewModel> implements HasComponents {
+public class CollaborationToolkit extends PolymerTemplate<CollaborationToolkitModel> implements HasComponents {
 
-    public CollaborationToolkit(UserService userService) {
+    public CollaborationToolkit(UserService userService, String channelID) {
         this.getModel().setUserName(userService.getFullName(SecurityUtils.getUsername()));
+        this.getModel().setChannel(channelID);
     }
 }

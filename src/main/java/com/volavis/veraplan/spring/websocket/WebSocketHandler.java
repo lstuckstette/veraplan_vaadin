@@ -25,6 +25,7 @@ import org.springframework.stereotype.Controller;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
+import java.util.Objects;
 
 
 @Controller
@@ -46,6 +47,7 @@ public class WebSocketHandler {
 
 
     //HANDLE SUBSCRIPTIONS
+
 
     @SubscribeMapping("/subscribe/chat/{channelId}")
     public void handleChatSub(@DestinationVariable String channelId, SimpMessageHeaderAccessor headerAccessor) {
@@ -70,6 +72,10 @@ public class WebSocketHandler {
 
     }
 
+    @SubscribeMapping("/subscribe/drawing/{channelId}")
+    public void handleDrawingSub(@DestinationVariable String channelId, SimpMessageHeaderAccessor headerAccessor){
+        //TODO: implement this & generalize channel check
+    }
 
     //HANDLE MESSAGES:
 
@@ -78,26 +84,50 @@ public class WebSocketHandler {
     public String handleChatMessage(@Payload String message, @DestinationVariable String channelId, SimpMessageHeaderAccessor headerAccessor) {
 
         Map jsonMapping = gson.fromJson(message, Map.class);
-        User currentUser = userService.getByUsernameOrEmail(headerAccessor.getUser().getName());
+
+        if (!this.checkUserExists(headerAccessor)) {
+            return null;
+        }
+
+        User currentUser = userService.getByUsernameOrEmail(Objects.requireNonNull(headerAccessor.getUser()).getName());
 
         //Set username:
         String fullName = currentUser.getFirst_name() + " " + currentUser.getLast_name();
         jsonMapping.put("author", fullName);
         jsonMapping.put("timestamp", new SimpleDateFormat("HH:mm").format(new Date()));
-        logger.info("got CHAT on channel: " + channelId + " by User: " + fullName);
+        logger.info("got CHAT from " + fullName + " on channel " +channelId );
 
-        try {
-            if (channelService.userInChannel(channelId, currentUser)) {
-                return new GsonBuilder().create().toJson(jsonMapping);
-            } else {
-                this.sendError(headerAccessor, "Unauthorized access to channel '" + channelId + "'.");
-                return null;
-            }
-        } catch (ChannelNotFoundException e) {
-            this.sendError(headerAccessor, e.getMessage());
+        if (checkUserInChannel(headerAccessor, currentUser, channelId)) {
+            return new GsonBuilder().create().toJson(jsonMapping);
+        } else {
             return null;
         }
+
     }
+
+    @MessageMapping("/drawing/{channelId}")
+    @SendTo("/subscribe/drawing/{channelId}")
+    public String handleDrawing(@Payload String drawing, @DestinationVariable String channelId, SimpMessageHeaderAccessor headerAccessor) {
+        Map jsonMapping = gson.fromJson(drawing, Map.class);
+
+        User currentUser = userService.getByUsernameOrEmail(Objects.requireNonNull(headerAccessor.getUser()).getName());
+        String fullName = currentUser.getFirst_name() + " " + currentUser.getLast_name();
+        logger.info("got DRAW from " + fullName + " on channel " +channelId);
+
+        jsonMapping.put("author", fullName);
+        jsonMapping.put("timestamp", new SimpleDateFormat("HH:mm").format(new Date()));
+
+        if (checkUserInChannel(headerAccessor, currentUser, channelId)) {
+            return new GsonBuilder().create().toJson(jsonMapping);
+        } else {
+            return null;
+        }
+
+
+    }
+
+
+    // HELPER METHODS
 
     private void sendError(SimpMessageHeaderAccessor headerAccessor, String errorText) {
         StompHeaderAccessor stompHeaderAccessor = StompHeaderAccessor.create(StompCommand.ERROR);
@@ -106,16 +136,30 @@ public class WebSocketHandler {
         this.clientOutboundChannel.send(MessageBuilder.createMessage(new byte[0], stompHeaderAccessor.getMessageHeaders()));
     }
 
-
-    //TODO: port to channel-based communication
-    @MessageMapping("/drawing")
-    @SendTo("/subscribe/drawing")
-    public String handleDrawing(@Payload String drawing) {
-        Map jsonMapping = gson.fromJson(drawing, Map.class);
-        logger.info("got websocket-drawing from " + jsonMapping.get("owner"));
-        //logger.info(jsonMapping.toString());
-        return drawing;
+    private boolean checkUserExists(SimpMessageHeaderAccessor headerAccessor) {
+        if (headerAccessor.getUser() == null || headerAccessor.getUser().getName() == null) {
+            this.sendError(headerAccessor, "Invalid user.");
+            return false;
+        }
+        return true;
     }
+
+    private boolean checkUserInChannel(SimpMessageHeaderAccessor headerAccessor, User user, String channelId) {
+        try {
+            if (channelService.userInChannel(channelId, user)) {
+                return true;
+            } else {
+                this.sendError(headerAccessor, "Unauthorized access to channel '" + channelId + "'."); //TODO: pull this error handling out of this method...
+                return false;
+            }
+        } catch (ChannelNotFoundException e) {
+            this.sendError(headerAccessor, e.getMessage());
+            return false;
+        }
+    }
+
+
+
 
 
 }

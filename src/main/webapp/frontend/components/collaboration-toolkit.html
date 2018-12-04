@@ -21,8 +21,6 @@
 <link rel="import" href="../bower_components/app-layout/app-drawer-layout/app-drawer-layout.html">
 <link rel="import" href="../bower_components/app-layout/app-drawer/app-drawer.html">
 
-<link rel="import" href="canvas-overlay.html">
-
 
 <dom-module id="collaboration-toolkit">
     <template>
@@ -88,8 +86,8 @@
                 z-index: 2;
                 /*height: 100% !important;*/
 
-                box-sizing: border-box;
-                border: thin inset red;
+                /*box-sizing: border-box;*/
+                /*border: thin inset red;*/
             }
 
             #content {
@@ -213,11 +211,10 @@
                         type: String,
                         value: '#E91E63'
                     },
-                    channel: {
-                        type: String,
-                        value: '1337'
-                    },
-
+                    // channel: {
+                    //     type: String,
+                    //     value: '1337'
+                    // },
                     messages: {
                         type: Array,
                         value: [],
@@ -234,7 +231,7 @@
 
 
                 //load canvas-dimensions and inject paper.js
-                window.onload = this.setupCanvas.bind(this, this);
+                window.onload = this.setupCanvas.bind(this, this); //TODO: somewhat wobbly... (sometimes doesnt get called...)
 
 
                 //on new message -> scroll chat-window-to-bottom
@@ -257,7 +254,6 @@
                 this.$.drawingCanvas.height = canHeight;
                 //initialize paper.js
                 this.initPaper();
-
             }
 
             initPaper() {
@@ -381,12 +377,12 @@
             }
 
             webSocketOnConnect(client) {
-                console.log('Connected: ', client);
-                this.stompClient.subscribe('/subscribe/chat', (data) => {
-                    console.log("GOT: ", data.body);
-                    this.$.result.textContent = data.body;
-                });
-                this.stompClient.subscribe('/subscribe/drawing', (data) => {
+                console.log('Connected to WS!');
+                // this.stompClient.subscribe('/subscribe/chat', (data) => {
+                //     console.log("GOT: ", data.body);
+                //     this.$.result.textContent = data.body;
+                // });
+                this.stompClient.subscribe('/subscribe/drawing/' + this.get('channel'), (data) => {
 
                     let pathObject = JSON.parse(data.body);
                     console.log("got", pathObject);
@@ -434,7 +430,7 @@
 
                 if (this.stompClient !== undefined && this.stompClient.connected) {
                     // console.log("send path.");
-                    this.stompClient.send('/client/drawing', JSON.stringify(pathObject));
+                    this.stompClient.send('/client/drawing/' + this.get('channel'), JSON.stringify(pathObject));
                 } else {
                     console.log("not connected!");
                 }
@@ -446,7 +442,6 @@
                     console.log("send message.");
 
                     let message = {
-                        //author: this.get('userName'),
                         channel: this.get('channel'),
                         message: this.$.chatinput.value
                     };

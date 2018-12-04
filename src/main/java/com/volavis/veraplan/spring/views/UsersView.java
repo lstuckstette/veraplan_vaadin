@@ -22,7 +22,7 @@ public class UsersView extends Div {
 
     private UserService userService;
 
-    //TODO: port this to manageUsersView
+    //TODO: port this to manageUsersView & delete this
 
     @Autowired
     public UsersView(UserService userService) {

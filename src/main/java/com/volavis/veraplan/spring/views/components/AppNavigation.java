@@ -100,7 +100,6 @@ public class AppNavigation extends PolymerTemplate<AppNavigationModel> implement
     public void beforeEnter(BeforeEnterEvent event) {
         //set selected nav-tab after custom navigation:
         //logger.info("current route: " + event.getNavigationTarget());
-        //TODO: NOT WORKING!?
         menutabs.getChildren().forEach(tab -> {
             if (tab instanceof NavigationTab) {
 
