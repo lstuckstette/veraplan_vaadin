@@ -27,15 +27,19 @@
 <dom-module id="collaboration-toolkit">
     <template>
         <style include="shared-styles">
-            :host {
-                --app-drawer-width: 25vw;
+
+            #wrapper {
+                /*@apply --layout-fit;*/
+                @apply --layout-horizontal;
+                /*@apply --layout-center-center;*/
+                /*width: 100vw !important;*/
+
+                width: 100%;
+                height: 100%;
             }
 
-            #drawerLayout {
-                @apply --layout-flex;
-            }
 
-            #toggle-container {
+            #toggles {
                 @apply --layout-self-center;
                 padding-left: 10px;
             }
@@ -63,42 +67,39 @@
                 height: 100%;
             }
 
-            #canvasoverlay {
-                /*@apply --layout-flex;*/
-                /*@apply --layout-fit;*/
+            #collab-sidebar {
+                /*@apply --layout-flex-2;*/
+                @apply --layout-fixed-left;
+                @apply --layout-horizontal;
+                top: 25%;
+                left: 0;
+                bottom: 25%;
+                width: 25%;
 
             }
 
-            #wrapper {
-                /*@apply --layout-flex-none;*/
-                /*@apply --layout-flex;*/
-            }
 
             #drawingCanvas {
-                /*@apply --layout-relative;*/
+                visibility: hidden;
                 @apply --layout-fit;
-                /*@apply --layout-relative;*/
-                /*position: absolute;*/
-                /*width: 75vw;*/
-                /*height: 100%;*/
-                /*top: 0;*/
-                /*left: 0;*/
+                width: 100% !important; /*weird...*/
+                height: 100% !important;
 
-                width: 74vw ;
-                height: 100% ;
+                z-index: 2;
+                /*height: 100% !important;*/
 
-                border: 1px solid red;
-                background: blue;
-                /*z-index: 10;*/
+                box-sizing: border-box;
+                border: thin inset red;
             }
 
             #content {
-                /*@apply --layout-fit;*/
-                /*@apply --layout-relative;*/
-                /*top: 0;*/
-                /*left: 0;*/
-                /*z-index: 20;*/
-
+                @apply --layout-flex-none;
+                @apply --layout-relative;
+                left: 25%;
+                /*right: 0;*/
+                width: 75%;
+                z-index: 1;
+                /*background: yellow;*/
             }
 
             #controlDraw {
@@ -134,68 +135,64 @@
 
         </style>
 
+        <div id="wrapper">
 
-        <app-drawer-layout id="drawerLayout">
+            <div id="collab-sidebar">
 
-            <app-drawer id="leftdrawer" slot="drawer" position="left" opened>
-                <div id="drawer-content">
+                <div id="toggles">
+                    <paper-fab mini id="controlDraw" icon="create" label="derp"
+                               on-click="toggleCanvas"></paper-fab>
 
-                    <div id="toggle-container">
-                        <paper-fab mini id="controlDraw" icon="create" label="derp"
-                                   on-click="toggleCanvas"></paper-fab>
-
-                        <paper-swatch-picker id="controlColor" color="{{selectedColor}}"></paper-swatch-picker>
-                    </div>
-
-                    <div id="chat">
-                        <div id="chatheader">
-                            <span>Chat</span>
-                            <br>
-                            <span>Channel: [[channel]]</span>
-                        </div>
-                        <div id="chatbox"> <!-- TODO: port to paper-material  -->
-                            <template id="chatboxtemplate" is="dom-repeat" items="[[messages]]" as="message">
-                                <span id="messageheader">{{message.author}} - at {{message.timestamp}}</span>
-                                <paper-icon-item id="chatitem">
-                                    <iron-icon icon="account-box" slot="item-icon"
-                                               title="{{message.author}}"></iron-icon>
-                                    {{message.message}}
-                                </paper-icon-item>
-                                <br>
-                            </template>
-
-                        </div>
-
-                        <div id="chatcontrol">
-                            <iron-a11y-keys
-                                    id="chatEnterSubmit"
-                                    keys="enter"
-                                    on-keys-pressed="sendChatMessageToWebsocket">
-                            </iron-a11y-keys>
-                            <paper-input id="chatinput" placeholder="Type here!" required>
-                                <iron-icon icon="send" slot="suffix"
-                                           on-click="sendChatMessageToWebsocket"></iron-icon>
-                            </paper-input>
-                        </div>
-
-                    </div>
-
+                    <paper-swatch-picker id="controlColor" color="{{selectedColor}}"></paper-swatch-picker>
                 </div>
-            </app-drawer>
 
-            <div id="wrapper">
+                <div id="chat">
+                    <div id="chatheader">
+                        <span>Chat</span>
+                        <br>
+                        <span>Channel: [[channel]]</span>
+                    </div>
+                    <div id="chatbox"> <!-- TODO: port to paper-material  -->
+                        <template id="chatboxtemplate" is="dom-repeat" items="[[messages]]" as="message">
+                            <span id="messageheader">{{message.author}} - at {{message.timestamp}}</span>
+                            <paper-icon-item id="chatitem">
+                                <iron-icon icon="account-box" slot="item-icon"
+                                           title="{{message.author}}"></iron-icon>
+                                {{message.message}}
+                            </paper-icon-item>
+                            <br>
+                        </template>
 
-                <!--<canvas-overlay id="canvasoverlay" scroll-action="refit" no-cancel-on-outside-click>-->
-                <canvas id="drawingCanvas"></canvas>
-                <!--</canvas-overlay>-->
+                    </div>
 
-                <div id="content">
-                    <!-- content injected here -->
-                    <slot></slot>
+                    <div id="chatcontrol">
+                        <iron-a11y-keys
+                                id="chatEnterSubmit"
+                                keys="enter"
+                                on-keys-pressed="sendChatMessageToWebsocket">
+                        </iron-a11y-keys>
+                        <paper-input id="chatinput" placeholder="Type here!" required>
+                            <iron-icon icon="send" slot="suffix"
+                                       on-click="sendChatMessageToWebsocket"></iron-icon>
+                        </paper-input>
+                    </div>
+
                 </div>
 
             </div>
-        </app-drawer-layout>
+
+
+            <div id="content">
+
+                <canvas id="drawingCanvas"></canvas>
+
+
+                <!-- content injected here -->
+                <slot id="slotContent"></slot>
+            </div>
+
+
+        </div>
 
 
         <paper-toast id="notification" class="fit-bottom"></paper-toast>
@@ -235,9 +232,8 @@
             ready() {
                 super.ready();
 
-                this.$.chatEnterSubmit.target = this.$.chatinput;
 
-
+                window.onload = this.setupCanvas.bind(this, this);
                 this.labelcooldown = false;
                 this.pathRepository = [];
 
@@ -247,49 +243,16 @@
                     this.$.chatbox.scrollTop = this.$.chatbox.scrollHeight;
                 });
 
-                let canStyle = window.getComputedStyle(this.$.drawingCanvas);
-                let canWidth = canStyle.getPropertyValue("width");
-                let canHeight = canStyle.getPropertyValue("height");
-                console.log(canWidth, canHeight);
-
-                this.initPaper();
-                // this.initCanvas2D();
-
                 this.connectWebsocket();
 
             }
 
-            initCanvas2D() {
-                const ctx = this.$.drawingCanvas.getContext("2d");
-                let dragging = false;
-                let currentPath;
-
-                this.$.drawingCanvas.onmousedown = (event) => {
-                    //activate dragging:
-                    dragging = true;
-                    //current position in canvas:
-                    let viewportOffset = this.$.drawingCanvas.getBoundingClientRect();
-                    let canvasX = event.clientX - viewportOffset.left;
-                    let canvasY = event.clientY - viewportOffset.top;
-                    // initialize currentPath
-                    currentPath = new Path2D();
-                    currentPath.moveTo(canvasX, canvasY);
-                };
-                this.$.drawingCanvas.onmousemove = (event) => {
-
-                    if (dragging) {
-                        let viewportOffset = this.$.drawingCanvas.getBoundingClientRect();
-                        let canvasX = event.clientX - viewportOffset.left;
-                        let canvasY = event.clientY - viewportOffset.top;
-                        currentPath.lineTo(canvasX, canvasY);
-                        // console.log("X:" + canvasX + " Y:" + canvasY);
-                    }
-
-                };
-                this.$.drawingCanvas.onmouseup = (event) => {
-                    ctx.stroke(currentPath);
-                    dragging = false;
-                };
+            setupCanvas() {
+                let canWidth = this.$.drawingCanvas.clientWidth;
+                let canHeight = this.$.drawingCanvas.clientHeight;
+                this.$.drawingCanvas.width = canWidth;
+                this.$.drawingCanvas.height = canHeight;
+                this.initPaper();
 
             }
 
@@ -297,7 +260,7 @@
                 paper.install(this);
 
 
-                paper.setup(this.$.drawingCanvas); //TODO: fix - this breaks drawingcanvas size....
+                paper.setup(this.$.drawingCanvas);
 
                 let tool = new paper.Tool();
                 let currentPath = new paper.Path();
@@ -308,6 +271,7 @@
                     currentPath.strokeColor = this.get('selectedColor');
                     currentPath.strokeWidth = 4;
                     currentPath.add(event.point);
+                    console.log("mdown");
                 };
 
                 tool.onMouseDrag = (event) => {
@@ -317,7 +281,7 @@
 
                 tool.onMouseUp = (event) => {
                     //
-
+                    console.log("mup");
                     let currentPathObject = {owner: this.get('userName'), color: this.get('selectedColor'), points: []};
                     //translate point (currentPath.segments.[1]=x & [2]=y) to relative point against screen size: (works with identical browsers...)
                     let windowWidth = window.innerWidth;
@@ -392,12 +356,7 @@
 
 
             toggleCanvas() {
-                if (this.$.canvasoverlay.opened) {
-                    this.$.canvasoverlay.close();
-                } else {
-                    this.$.canvasoverlay.open();
-                }
-
+                this.$.drawingCanvas.style.visibility = this.$.drawingCanvas.style.visibility === "hidden" ? "visible" : "hidden"; //TODO: doesnt work first time...
 
                 this.$.controlDraw.icon = this.$.controlDraw.icon === "create" ? 'close' : 'create';
                 this.$.controlDraw.style.background = this.$.controlDraw.icon === 'create' ? 'green' : 'red';
@@ -429,7 +388,7 @@
                 this.stompClient.subscribe('/subscribe/drawing', (data) => {
 
                     let pathObject = JSON.parse(data.body);
-                    console.log("got", pathObject);
+                    // console.log("got", pathObject);
                     this.pathRepository.push(pathObject);
                     this.repaintPathRepository();
                 });
@@ -473,7 +432,7 @@
             sendPathToWebsocket(pathObject) {
 
                 if (this.stompClient !== undefined && this.stompClient.connected) {
-                    console.log("send path.");
+                    // console.log("send path.");
                     this.stompClient.send('/client/drawing', JSON.stringify(pathObject));
                 } else {
                     console.log("not connected!");
