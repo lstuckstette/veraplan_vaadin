@@ -71,9 +71,9 @@
                 /*@apply --layout-flex-2;*/
                 @apply --layout-fixed-left;
                 @apply --layout-horizontal;
-                top: 25%;
+                top: 18%;
                 left: 0;
-                bottom: 25%;
+                bottom: 18%;
                 width: 25%;
 
             }
@@ -233,9 +233,9 @@
                 super.ready();
 
 
+                //load canvas-dimensions and inject paper.js
                 window.onload = this.setupCanvas.bind(this, this);
-                this.labelcooldown = false;
-                this.pathRepository = [];
+
 
                 //on new message -> scroll chat-window-to-bottom
                 this.$.chatboxtemplate.addEventListener('dom-change', (event) => {
@@ -243,20 +243,28 @@
                     this.$.chatbox.scrollTop = this.$.chatbox.scrollHeight;
                 });
 
+                //start websocket-connection:
                 this.connectWebsocket();
 
             }
 
             setupCanvas() {
+                //get canvas style based width/height
                 let canWidth = this.$.drawingCanvas.clientWidth;
                 let canHeight = this.$.drawingCanvas.clientHeight;
+                //assign style w/h to graphic context w/h
                 this.$.drawingCanvas.width = canWidth;
                 this.$.drawingCanvas.height = canHeight;
+                //initialize paper.js
                 this.initPaper();
 
             }
 
             initPaper() {
+
+                this.labelcooldown = false;
+                this.pathRepository = [];
+
                 paper.install(this);
 
 
@@ -271,25 +279,19 @@
                     currentPath.strokeColor = this.get('selectedColor');
                     currentPath.strokeWidth = 4;
                     currentPath.add(event.point);
-                    console.log("mdown");
                 };
 
                 tool.onMouseDrag = (event) => {
                     currentPath.add(event.point);
-
                 };
 
                 tool.onMouseUp = (event) => {
-                    //
-                    console.log("mup");
                     let currentPathObject = {owner: this.get('userName'), color: this.get('selectedColor'), points: []};
                     //translate point (currentPath.segments.[1]=x & [2]=y) to relative point against screen size: (works with identical browsers...)
                     let windowWidth = window.innerWidth;
                     let windowHeight = window.innerHeight;
                     currentPath.segments.forEach((data) => {
-
                         currentPathObject.points.push([data.point.x / windowWidth, data.point.y / windowHeight]);
-
                     });
 
                     //add to repo
@@ -356,8 +358,7 @@
 
 
             toggleCanvas() {
-                this.$.drawingCanvas.style.visibility = this.$.drawingCanvas.style.visibility === "hidden" ? "visible" : "hidden"; //TODO: doesnt work first time...
-
+                this.$.drawingCanvas.style.visibility = this.$.drawingCanvas.style.visibility === 'visible' ? 'hidden' : 'visible';
                 this.$.controlDraw.icon = this.$.controlDraw.icon === "create" ? 'close' : 'create';
                 this.$.controlDraw.style.background = this.$.controlDraw.icon === 'create' ? 'green' : 'red';
                 //this.$.colorpicker.style.visibility = this.$.colorpicker.style.visibility === 'visible' ? 'hidden' : 'visible';
@@ -388,7 +389,7 @@
                 this.stompClient.subscribe('/subscribe/drawing', (data) => {
 
                     let pathObject = JSON.parse(data.body);
-                    // console.log("got", pathObject);
+                    console.log("got", pathObject);
                     this.pathRepository.push(pathObject);
                     this.repaintPathRepository();
                 });
