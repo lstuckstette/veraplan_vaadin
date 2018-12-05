@@ -16,16 +16,16 @@ import com.volavis.veraplan.spring.persistence.service.RoleService;
 import com.volavis.veraplan.spring.persistence.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
-@PageTitle("Users")
-@Route(value = "users", layout = MainLayout.class)
-public class UsersView extends Div {
+@PageTitle("Veraplan - Manage Users")
+@Route(value = "administration/users", layout = MainLayout.class)
+public class ManageUsersView extends Div {
 
     private UserService userService;
 
     //TODO: port this to manageUsersView & delete this
 
     @Autowired
-    public UsersView(UserService userService) {
+    public ManageUsersView(UserService userService) {
         this.userService = userService;
 
         UI.getCurrent().getPage().addStyleSheet("https://use.fontawesome.com/releases/v5.3.1/css/all.css");

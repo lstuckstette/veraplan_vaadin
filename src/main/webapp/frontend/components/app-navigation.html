@@ -14,6 +14,9 @@
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../bower_components/neon-animation/web-animations.html">
 
+<link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../bower_components/paper-tabs/paper-tab.html">
+
 <dom-module id="app-navigation">
     <template>
         <style include="shared-styles">
@@ -58,6 +61,14 @@
                 <!-- main menu-tabs injected here -->
             </vaadin-tabs>
 
+            <!--<paper-tabs>-->
+                <!--<template is="dom-repeat" items="[[menutabs]]" as="tab">-->
+                    <!--<paper-tab>-->
+                        <!--<a routerlink href="[[tab.target]]"></a>-->
+                    <!--</paper-tab>-->
+                <!--</template>-->
+            <!--</paper-tabs>-->
+
 
             <!-- show login/register buttons: -->
             <div id="accountsettings">
@@ -101,7 +112,7 @@
         <div class="submenu" id="sub-menu">
 
             <vaadin-tabs id="submenu-tabs" selected="-1">
-                <!-- main menu-tabs injected here -->
+                <!-- sub menu-tabs injected here -->
             </vaadin-tabs>
         </div>
     </template>
@@ -110,6 +121,22 @@
             static get is() {
                 return 'app-navigation';
             }
+
+            // static get properties() {
+            //     return {
+            //         menutabs: {
+            //             type: Array,
+            //             value: [],
+            //             notify: true
+            //         },
+            //         submenutabs: {
+            //             type: Array,
+            //             value: [],
+            //             notify: true
+            //         }
+            //     }
+            //
+            // }
         }
 
         window.customElements.define(AppNavigation.is, AppNavigation);

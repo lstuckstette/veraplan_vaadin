@@ -10,9 +10,9 @@ import com.volavis.veraplan.spring.MainLayout;
 
 @PageTitle("Administration")
 @Route(value = "administration", layout = MainLayout.class)
-public class AdministrationView extends Div {
+public class AdministrationDashboardView extends Div {
 
-    public AdministrationView() {
+    public AdministrationDashboardView() {
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
 

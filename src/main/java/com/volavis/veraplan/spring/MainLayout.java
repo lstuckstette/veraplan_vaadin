@@ -51,8 +51,9 @@ public class MainLayout extends PolymerTemplate<TemplateModel> implements Router
 
 
         //Submenus
-        NavigationTab administration_manageusers = new NavigationItemBuilder().text("Manage users").target(null).build();
-        NavigationTab administration_manageressources = new NavigationItemBuilder().text("Manage users").target(null).build(); //TODO: do this for all entity-groups?
+
+        NavigationTab administration_manageusers = new NavigationItemBuilder().text("Manage users").target(ManageUsersView.class).build();
+        NavigationTab administration_manageressources = new NavigationItemBuilder().text("Manage ressources").target(null).build(); //TODO: do this for all entity-groups?
         NavigationTab administration_exportplan = new NavigationItemBuilder().text("Export plan").target(null).build();
         NavigationTab administration_generateplan = new NavigationItemBuilder().text("Generate plan").target(null).build();
 
@@ -64,35 +65,100 @@ public class MainLayout extends PolymerTemplate<TemplateModel> implements Router
         NavigationTab planing_preference = new NavigationItemBuilder().text("Enter personal preferences").target(null).build();
         NavigationTab planing_assignment = new NavigationItemBuilder().text("Enter ressource assignment").target(null).build();
 
+
+        //add submenu to submenus...
+        administration_manageusers.setSubmenu(
+                administration_manageusers,
+                administration_manageressources,
+                administration_exportplan,
+                administration_generateplan
+        );
+        administration_manageressources.setSubmenu(
+                administration_manageusers,
+                administration_manageressources,
+                administration_exportplan,
+                administration_generateplan
+        );
+
+        administration_exportplan.setSubmenu(
+                administration_manageusers,
+                administration_manageressources,
+                administration_exportplan,
+                administration_generateplan
+        );
+
+        administration_generateplan.setSubmenu(
+                administration_manageusers,
+                administration_manageressources,
+                administration_exportplan,
+                administration_generateplan
+        );
+        coredata_enterbuilding.setSubmenu(
+                coredata_enterbuilding,
+                coredata_enterroom,
+                coredata_enterdepartment,
+                coredata_entertimeslots
+        );
+        coredata_enterroom.setSubmenu(
+                coredata_enterbuilding,
+                coredata_enterroom,
+                coredata_enterdepartment,
+                coredata_entertimeslots
+        );
+        coredata_enterdepartment.setSubmenu(
+                coredata_enterbuilding,
+                coredata_enterroom,
+                coredata_enterdepartment,
+                coredata_entertimeslots
+        );
+        coredata_entertimeslots.setSubmenu(
+                coredata_enterbuilding,
+                coredata_enterroom,
+                coredata_enterdepartment,
+                coredata_entertimeslots
+        );
+        planing_preference.setSubmenu(
+                planing_preference,
+                planing_assignment
+        );
+        planing_assignment.setSubmenu(
+                planing_preference,
+                planing_assignment
+        );
+
+
         //Mainmenu
         NavigationTab dashboard = new NavigationItemBuilder().text("Dashboard").target(DashboardView.class).build();
 
-        NavigationTab administration = new NavigationItemBuilder().text("Administration").target(AdministrationView.class)
-                .submenu(administration_manageusers, administration_manageressources,
-                        administration_exportplan, administration_generateplan).build();
+        NavigationTab administration = new NavigationItemBuilder().text("Administration").target(null)
+                .submenu(administration_manageusers,
+                        administration_manageressources,
+                        administration_exportplan,
+                        administration_generateplan)
+                .build();
 
         NavigationTab coredata = new NavigationItemBuilder().text("Core data").target(CoreDataView.class)
-                .submenu(coredata_enterbuilding, coredata_enterroom,
-                        coredata_enterdepartment, coredata_entertimeslots).build();
+                .submenu(coredata_enterbuilding,
+                        coredata_enterroom,
+                        coredata_enterdepartment,
+                        coredata_entertimeslots)
+                .build();
 
         NavigationTab planing = new NavigationItemBuilder().text("Planing").target(PlaningView.class)
-                .submenu(planing_preference, planing_assignment).build();
+                .submenu(planing_preference,
+                        planing_assignment)
+                .build();
 
         NavigationTab plan = new NavigationItemBuilder().text("View Plans").target(PlanView.class).build();
-
-        //Demo NavigationBar:
-        NavigationTab help = new NavigationItemBuilder().text("Help").target(HelpView.class).build();
-        NavigationTab users = new NavigationItemBuilder().text("Users").target(UsersView.class).build();
-
 
 
         appNavigation.setMenuTabs(dashboard, administration, coredata, planing, plan);
 
         //Fill User-Menu (right side)
-        appNavigation.addUsermenuTab("Profile", ProfileView.class);
+        appNavigation.addUserMenuTab("Profile", ProfileView.class);
         appNavigation.addUserMenuTab("Mesages", "");
         appNavigation.addUserMenuTab("Settings", "");
-        appNavigation.addUsermenuTab("Help", HelpView.class);
+        appNavigation.addUserMenuTab("Help", HelpView.class);
         appNavigation.addUserMenuTab("Log Out", "document.querySelector('main-view').$.logoutDialog.open()");
 
     }
