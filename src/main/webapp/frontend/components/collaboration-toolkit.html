@@ -86,8 +86,8 @@
                 z-index: 2;
                 /*height: 100% !important;*/
 
-                /*box-sizing: border-box;*/
-                /*border: thin inset red;*/
+                box-sizing: border-box;
+                border: thin inset red;
             }
 
             #content {
@@ -233,6 +233,9 @@
                 //load canvas-dimensions and inject paper.js
                 window.onload = this.setupCanvas.bind(this, this); //TODO: somewhat wobbly... (sometimes doesnt get called...)
 
+                //initialize drawing gloabal variables
+                this.labelcooldown = false;
+                this.pathRepository = [];
 
                 //on new message -> scroll chat-window-to-bottom
                 this.$.chatboxtemplate.addEventListener('dom-change', (event) => {
@@ -254,12 +257,12 @@
                 this.$.drawingCanvas.height = canHeight;
                 //initialize paper.js
                 this.initPaper();
+                //fire repaint because changing dimensions clears canvas...
+                this.repaintPathRepository();
             }
 
             initPaper() {
 
-                this.labelcooldown = false;
-                this.pathRepository = [];
 
                 paper.install(this);
 
@@ -299,6 +302,8 @@
                     //send new Path to Websocket:
                     this.sendPathToWebsocket(currentPathObject);
                 };
+
+                console.log("PAPER initialized!")
             }
 
             repaintPathRepository() {
@@ -339,7 +344,9 @@
                     path.onMouseLeave = (event) => {
                         // if (this.$.drawingCanvas.style.visibility === 'visible') {
                         setTimeout(() => { //delay removal of label 750 msec.
-                            pathObject.labelText.remove();
+                            if (pathObject.labelText !== undefined) {
+                                pathObject.labelText.remove();
+                            }
                         }, 750);
                         // }
                     };
@@ -358,6 +365,7 @@
                 this.$.controlDraw.icon = this.$.controlDraw.icon === "create" ? 'close' : 'create';
                 this.$.controlDraw.style.background = this.$.controlDraw.icon === 'create' ? 'green' : 'red';
                 //this.$.colorpicker.style.visibility = this.$.colorpicker.style.visibility === 'visible' ? 'hidden' : 'visible';
+                this.setupCanvas();
             }
 
             connectWebsocket() {
