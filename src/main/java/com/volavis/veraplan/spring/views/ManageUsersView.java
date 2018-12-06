@@ -7,18 +7,24 @@ import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.provider.CallbackDataProvider;
+import com.vaadin.flow.data.provider.ConfigurableFilterDataProvider;
 import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
 import com.volavis.veraplan.spring.MainLayout;
 import com.volavis.veraplan.spring.persistence.entities.User;
-import com.volavis.veraplan.spring.persistence.service.RoleService;
+import com.volavis.veraplan.spring.views.components.UserField;
 import com.volavis.veraplan.spring.persistence.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+
+import java.util.Optional;
 
 @PageTitle("Veraplan - Manage Users")
 @Route(value = "administration/users", layout = MainLayout.class)
@@ -41,24 +47,55 @@ public class ManageUsersView extends Div {
     private void init() {
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
-        verticalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+        //Headline
         verticalLayout.add(new H1("Manage Users"));
 
+        //Filter
+        HorizontalLayout filterLayout = new HorizontalLayout();
+        filterLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+        Span filterLabel = new Span("Filter by");
+
+        ComboBox<UserField> filterSelector = new ComboBox<>("Type");
+        filterSelector.setRequired(true);
+        filterSelector.setItemLabelGenerator(UserField::toString);
+        filterSelector.setItems(UserField.values());
+        filterSelector.setValue(UserField.USERNAME);
+
+        TextField filterTextField = new TextField("Filter string");
+
+        filterLayout.add(filterLabel,filterSelector, filterTextField);
+        verticalLayout.add(filterLayout);
 
         Grid<User> grid = new Grid<>();
         grid.setPageSize(25); //this is variable...
 
-//        grid.setItems(userService.getAllUsers());
-        grid.setDataProvider(DataProvider.fromCallbacks(
+
+        CallbackDataProvider<User, String> dataProvider = DataProvider.fromFilteringCallbacks(
                 query -> {
+
                     int offset = query.getOffset();
 //                    int limit = 20;
                     int limit = query.getLimit();
+                    Optional<String> filter = query.getFilter();
+                    UserField filterType = filterSelector.getValue();
 
                     return userService.getAllInRange(offset, limit);
                 },
                 query -> userService.countAll()
-        ));
+        );
+        //Filtering
+        ConfigurableFilterDataProvider<User, Void, String> filterWrapper =
+                dataProvider.withConfigurableFilter();
+
+        filterTextField.addValueChangeListener(event -> {
+            String filterText = event.getValue();
+            if (filterText.trim().isEmpty() && filterText.trim().length() > 2) {
+                filterText = null;
+            }
+            filterWrapper.setFilter(filterText);
+        });
+        //grid body
+        grid.setDataProvider(dataProvider);
         grid.addColumn(User::getId).setHeader("Id");
         grid.addColumn(User::getFirst_name).setHeader("Firstname");
         grid.addColumn(User::getLast_name).setHeader("Lastname");

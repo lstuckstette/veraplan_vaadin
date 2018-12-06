@@ -9,6 +9,7 @@ import com.volavis.veraplan.spring.persistence.entities.User;
 import com.volavis.veraplan.spring.persistence.repository.RoleRepository;
 import com.volavis.veraplan.spring.persistence.repository.UserRepository;
 import com.volavis.veraplan.spring.views.components.AppNavigation;
+import com.volavis.veraplan.spring.views.components.UserField;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -22,6 +23,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 @Service
@@ -59,6 +61,14 @@ public class UserService {
         List<User> userList = userRepository.findByIdBetween(offset+1, offset+limit);
         logger.info("return "+userList.size());
         return userList.stream();
+    }
+
+    public Stream<User> getAllinRange(Optional<String> filter, UserField filterType, int offset, int limit){
+        if(!filter.isPresent()){
+            return getAllInRange(offset,limit);
+        }
+        //TODO: build switch(filterType), and call startswith-repoMethod... possibly with range, too!
+        return null;
     }
 
 
