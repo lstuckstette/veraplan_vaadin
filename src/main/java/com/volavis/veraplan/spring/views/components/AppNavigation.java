@@ -14,6 +14,8 @@ import com.vaadin.flow.component.polymertemplate.ModelItem;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.Tabs;
+import com.vaadin.flow.dom.DomEvent;
+import com.vaadin.flow.dom.DomEventListener;
 import com.vaadin.flow.dom.ElementFactory;
 import com.vaadin.flow.router.*;
 import com.volavis.veraplan.spring.persistence.service.UserService;
@@ -26,7 +28,7 @@ import java.util.Arrays;
 
 @Tag("app-navigation")
 @HtmlImport("components/app-navigation.html")
-public class AppNavigation extends PolymerTemplate<AppNavigationModel> implements BeforeEnterObserver, AfterNavigationObserver {
+public class AppNavigation extends PolymerTemplate<AppNavigationModel> implements BeforeEnterObserver {
 
     private static final Logger logger = LoggerFactory.getLogger(AppNavigation.class);
 
@@ -51,11 +53,31 @@ public class AppNavigation extends PolymerTemplate<AppNavigationModel> implement
     }
 
 
-
     public void setMenuTabs(NavigationTab... navigationTabs) {
         menutabs.removeAll();
         menutabs.add(navigationTabs);
-        menutabs.addSelectedChangeListener(this::navigateTo);
+        Arrays.stream(navigationTabs).forEach(tab -> {
+            tab.getElement().addEventListener("click", domEvent -> {
+
+
+                if (!tab.getSubmenu().isEmpty()) {
+                    setSubMenu(tab.getSubmenu().stream().toArray(NavigationTab[]::new));
+                } else {
+                    removeSubMenu();
+                }
+                //deselect submenu 'selected'
+                submenutabs.getChildren().forEach(subtab -> {
+                    if (subtab instanceof NavigationTab) {
+                        ((NavigationTab) subtab).setSelected(false);
+                    }
+                });
+
+                menutabs.setSelectedTab(tab);
+                if (tab.getTarget() != null) {
+                    UI.getCurrent().navigate(tab.getTarget());
+                }
+            });
+        });
     }
 
     public void addUserMenuTab(String text, String jsOnClick) {
@@ -72,49 +94,45 @@ public class AppNavigation extends PolymerTemplate<AppNavigationModel> implement
         this.getElement().appendChild(button.getElement());
     }
 
-    public void setSubMenu(NavigationTab... navigationTabs) {
+    private void setSubMenu(NavigationTab... navigationTabs) {
         submenutabs.removeAll();
         submenutabs.add(navigationTabs);
-        submenutabs.addSelectedChangeListener(this::navigateTo);
-        Arrays.stream(navigationTabs).forEach(tab -> {
-            tab.setSelected(false);
-            tab.getElement().setAttribute("tabindex", "-1");
-        });
-        submenu.getStyle().set("display", "flex");
 
+
+        //add eventlistener with navigate action
+        Arrays.stream(navigationTabs).forEach(tab -> {
+            tab.getElement().addEventListener("click", domEvent -> {
+
+                submenutabs.setSelectedTab(tab);
+                if (tab.getTarget() != null) {
+                    UI.getCurrent().navigate(tab.getTarget());
+                }
+            });
+        });
+//        submenutabs.getElement().removeAttribute("selected");
+        submenu.getStyle().set("display", "flex");
     }
 
     private void removeSubMenu() {
+
+        //deselect everything...
+//        submenutabs.getChildren().forEach(tab -> {
+//            if (tab instanceof NavigationTab) {
+//                ((NavigationTab) tab).setSelected(false);
+//            }
+//        });
         submenutabs.removeAll();
         submenu.getStyle().set("display", "none");
     }
 
-
-    private void navigateTo(Tabs.SelectedChangeEvent event) { //TODO something is very wrong... complete rework?
-        logger.info("navTo!");
-        if (event.getSource().getSelectedTab() instanceof NavigationTab) {
-            NavigationTab selected = (NavigationTab) event.getSource().getSelectedTab();
-
-//            selected.getElement().setAttribute("selected", "");
-
-            if (!selected.getSubmenu().isEmpty()) {
-                setSubMenu(selected.getSubmenu().stream().toArray(NavigationTab[]::new));
-            } else {
-                removeSubMenu();
-            }
-            if (selected.getTarget() != null) {
-                UI.getCurrent().navigate(selected.getTarget());
-            }
-        }
-    }
 
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
         //set selected nav-tab after custom navigation:
         //logger.info("current route: " + event.getNavigationTarget());
 
-        selectTargetTab(event, menutabs);
-        selectTargetTab(event, submenutabs);
+//        selectTargetTab(event, menutabs);
+//        selectTargetTab(event, submenutabs);
 
 
     }
@@ -133,10 +151,5 @@ public class AppNavigation extends PolymerTemplate<AppNavigationModel> implement
                 }
             }
         });
-    }
-
-    @Override
-    public void afterNavigation(AfterNavigationEvent event) {
-
     }
 }

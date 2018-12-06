@@ -4,6 +4,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -35,8 +36,8 @@ public class ManageUsersView extends Div {
     private void init() {
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
-        verticalLayout.add(new H2("User Overview:"));
-        //verticalLayout.add(new Button("derp"));
+        verticalLayout.add(new H1("Manage Users"));
+
 
 
         Grid<User> grid = new Grid<>();

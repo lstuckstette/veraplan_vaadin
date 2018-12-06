@@ -14,8 +14,6 @@
 <link rel="import" href="../bower_components/paper-item/paper-item.html">
 <link rel="import" href="../bower_components/neon-animation/web-animations.html">
 
-<link rel="import" href="../bower_components/paper-tabs/paper-tabs.html">
-<link rel="import" href="../bower_components/paper-tabs/paper-tab.html">
 
 <dom-module id="app-navigation">
     <template>
@@ -57,18 +55,9 @@
 
         <div class="menu">
 
-            <vaadin-tabs id="menu-tabs" selected="-1">
+            <vaadin-tabs id="menu-tabs" selected="0">
                 <!-- main menu-tabs injected here -->
             </vaadin-tabs>
-
-            <!--<paper-tabs>-->
-                <!--<template is="dom-repeat" items="[[menutabs]]" as="tab">-->
-                    <!--<paper-tab>-->
-                        <!--<a routerlink href="[[tab.target]]"></a>-->
-                    <!--</paper-tab>-->
-                <!--</template>-->
-            <!--</paper-tabs>-->
-
 
             <!-- show login/register buttons: -->
             <div id="accountsettings">

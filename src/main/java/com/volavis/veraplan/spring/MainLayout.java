@@ -130,7 +130,7 @@ public class MainLayout extends PolymerTemplate<TemplateModel> implements Router
         //Mainmenu
         NavigationTab dashboard = new NavigationItemBuilder().text("Dashboard").target(DashboardView.class).build();
 
-        NavigationTab administration = new NavigationItemBuilder().text("Administration").target(null)
+        NavigationTab administration = new NavigationItemBuilder().text("Administration").target(AdministrationDashboardView.class)
                 .submenu(administration_manageusers,
                         administration_manageressources,
                         administration_exportplan,
