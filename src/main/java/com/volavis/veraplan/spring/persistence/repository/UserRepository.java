@@ -13,6 +13,7 @@ import java.util.Optional;
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
 
+    List<User> findByIdBetween(long offset, long limit);
     
     Optional<User> findByUsernameOrEmail(String username, String email);
 
