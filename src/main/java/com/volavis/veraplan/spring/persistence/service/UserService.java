@@ -10,7 +10,10 @@ import com.volavis.veraplan.spring.persistence.repository.RoleRepository;
 import com.volavis.veraplan.spring.persistence.repository.UserRepository;
 import com.volavis.veraplan.spring.views.components.AppNavigation;
 import com.volavis.veraplan.spring.views.components.UserField;
+import com.volavis.veraplan.spring.views.components.UserFilter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,9 +25,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Stream;
+
+import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.startsWith;
 
 @Service
 public class UserService {
@@ -49,26 +55,81 @@ public class UserService {
         return user.getFirst_name() + " " + user.getLast_name();
     }
 
-    public int countAll(){
-        int count= (int) userRepository.count();
-        logger.info("COUNT: "+count);
+    public int countAll() {
+        int count = (int) userRepository.count();
+//        logger.info("CA: " + count);
         return count;
     }
 
-    public Stream<User> getAllInRange(int offset, int limit){
-        logger.info("getAll ("+offset+","+(offset+limit)+")");
-//        return userRepository.findAll(PageRequest.of(offset, limit)).getContent().stream();
-        List<User> userList = userRepository.findByIdBetween(offset+1, offset+limit);
-        logger.info("return "+userList.size());
-        return userList.stream();
+    public int countAll(UserFilter filter) {
+        int count = (int) userRepository.count(getExampleFromFilter(filter));
+        logger.info("CF: " + count);
+        return count;
     }
 
-    public Stream<User> getAllinRange(Optional<String> filter, UserField filterType, int offset, int limit){
-        if(!filter.isPresent()){
-            return getAllInRange(offset,limit);
+    public Stream<User> getAllInRange(int pageIndex, int pageSize) {
+//        logger.info("GAIR (i=" + pageIndex + " s=" + pageSize + ")");
+        List<User> userList = userRepository.findAll(PageRequest.of(pageIndex, pageSize)).getContent();
+
+        logger.info("returning " + userList.size());
+        return userList.stream();
+
+        //        List<User> userList = userRepository.findByIdBetween(offset + 1, offset + limit);
+    }
+
+    public Stream<User> getAllInRange(UserFilter userFilter, int pageIndex, int pageSize) {
+//        logger.info("GAIR: f= " + userFilter.getFilterText() + " ft=" + userFilter.getType().toString() + " i=" + pageIndex + " s=" + pageSize);
+
+        List<User> findAll = userRepository.findAll(getExampleFromFilter(userFilter), PageRequest.of(pageIndex, pageSize)).getContent();
+        logger.info("returning " + findAll.size() + " items.");
+        return findAll.stream();
+
+
+    }
+
+    private Example<User> getExampleFromFilter(UserFilter filter) {
+        User user = new User();
+
+        switch (filter.getType()) {
+            case USERNAME:
+                user.setUsername(filter.getFilterText());
+                break;
+            case FIRSTNAME:
+                user.setFirst_name(filter.getFilterText());
+                break;
+            case LASTNAME:
+                user.setLast_name(filter.getFilterText());
+                break;
+            case EMAIL:
+                user.setEmail(filter.getFilterText());
+                break;
+//            case ID:
+//                try {
+//                    user.setId(Long.valueOf(filter.getFilterText()));
+//                } catch (Exception e) {
+//                    user.setId(-1337l); //show nothing...
+//                }
+//                break;
+//            case ROLE:
+//                RoleName roleName = RoleName.fromString(filter.getFilterText());
+//
+//                if (roleName != null) {
+//                    logger.info("rolename found: " + roleName.toString());
+//                    user.setRoles(Arrays.asList(new Role(roleName)));
+//                } else {
+//                    logger.warn("No RoleName found for filterText: " + filter.getFilterText());
+//                    user.setId(-1337l); //show nothing...
+//                }
+//                break;
+            default:
+                user.setId(-1337l); //show nothing...
         }
-        //TODO: build switch(filterType), and call startswith-repoMethod... possibly with range, too!
-        return null;
+
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withIgnoreCase()
+                .withStringMatcher(ExampleMatcher.StringMatcher.STARTING);
+        return Example.of(user, matcher);
+
     }
 
 

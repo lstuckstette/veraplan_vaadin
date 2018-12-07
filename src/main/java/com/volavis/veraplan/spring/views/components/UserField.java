@@ -6,12 +6,10 @@ import java.util.ArrayList;
 
 public enum UserField {
 
-    ID("Id"),
     FIRSTNAME("Firstname"),
     LASTNAME("Lastname"),
     USERNAME("Username"),
-    EMAIL("Email"),
-    ROLE("Role");
+    EMAIL("Email");
 
     private final String text;
 
@@ -25,10 +23,10 @@ public enum UserField {
     }
 
     public static String[] getAllUserFields() {
-        ArrayList<String> rnames = new ArrayList<>();
-        for (RoleName rname : RoleName.values()) {
-            rnames.add(rname.toString());
+        ArrayList<String> ufields = new ArrayList<>();
+        for (UserField ufield : UserField.values()) {
+            ufields.add(ufield.toString());
         }
-        return rnames.toArray(new String[0]);
+        return ufields.toArray(new String[0]);
     }
 }

@@ -24,4 +24,13 @@ public enum RoleName {
         }
         return rnames.toArray(new String[0]);
     }
+
+    public static RoleName fromString(String roleString) {
+        for (RoleName roleName : RoleName.values()) {
+            if (roleName.toString().contains(roleString.toUpperCase())) {
+                return roleName;
+            }
+        }
+        return null;
+    }
 }
