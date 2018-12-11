@@ -2,6 +2,7 @@ package com.volavis.veraplan.spring.persistence.service;
 
 import com.volavis.veraplan.spring.persistence.entities.Role;
 import com.volavis.veraplan.spring.persistence.entities.RoleName;
+import com.volavis.veraplan.spring.persistence.exception.RoleNotFoundException;
 import com.volavis.veraplan.spring.persistence.repository.RoleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -25,6 +26,14 @@ public class RoleService {
         }
 
 
+    }
+
+    public Role getRole(String roleName) {
+        return getRole(RoleName.fromString(roleName));
+    }
+
+    public Role getRole(RoleName roleName) {
+        return roleRepository.findByName(roleName).orElseThrow(RoleNotFoundException::new);
     }
 
     public void createRole(Role... roles) {

@@ -156,6 +156,11 @@ public class UserService {
         );
     }
 
+    @Transactional
+    public void saveChanges(User user) {
+        userRepository.save(user);
+    }
+
     public void createUser(String firstName, String lastName, String username, String email, String password, RoleName... rolenames) {
 
         //check existing username/email:
