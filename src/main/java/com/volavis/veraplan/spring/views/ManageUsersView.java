@@ -95,7 +95,9 @@ public class ManageUsersView extends Div {
 
         Grid<User> grid = new Grid<>();
 
-        grid.setHeightByRows(true);
+
+//        grid.setHeightByRows(true);
+        grid.setHeight("80vh");
         grid.setPageSize(25); //this is variable...
 
         //Lazy-loading filtered data-provider:
@@ -287,21 +289,23 @@ public class ManageUsersView extends Div {
 
                     int offset = query.getOffset();
                     int limit = query.getLimit();
-                    int pageSize = grid.getPageSize(); //TODO: this is still buggy! see VisualStudioCode...
-                    int pageIndex = offset / pageSize;
+//                    int pageSize = grid.getPageSize();
+//                    int pageIndex = offset / pageSize;
+//
+//                    if (offset == 0) { //rare case of 'fetch all' e.x. (0,52)
+//                        pageSize = limit;
+//                    }
 
-                    if (offset == 0) { //rare case of 'fetch all' e.x. (0,52)
-                        pageSize = limit;
-                    }
-
-                    logger.info("(" + offset + "," + limit + ") -> (" + pageIndex + "," + pageSize + ")");
+//                    logger.info("(" + offset + "," + limit + ") -> (" + pageIndex + "," + pageSize + ")");
 
                     Optional<UserFilter> filter = query.getFilter();
 
                     if (filter.isPresent()) {
-                        return userService.getAllInRange(filter.get(), pageIndex, pageSize);
+                        return userService.getAllInRange(filter.get(), offset, limit);
+//                        return userService.getAllInRange(filter.get(), pageIndex, pageSize);
                     } else {
-                        return userService.getAllInRange(pageIndex, pageSize);
+                        return userService.getAllInRange(offset, limit);
+//                        return userService.getAllInRange(pageIndex, pageSize);
                     }
 
                 },
@@ -312,7 +316,7 @@ public class ManageUsersView extends Div {
                     } else {
                         count = userService.countAll();
                     }
-                    logger.info("Count: " + count);
+//                    logger.info("Count: " + count);
                     return count;
                 }
         );

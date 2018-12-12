@@ -6,15 +6,13 @@ import com.volavis.veraplan.spring.persistence.exception.EntityAlreadyExistsExce
 import com.volavis.veraplan.spring.persistence.entities.Role;
 import com.volavis.veraplan.spring.persistence.entities.RoleName;
 import com.volavis.veraplan.spring.persistence.entities.User;
+import com.volavis.veraplan.spring.persistence.repository.OffsetLimitRequest;
 import com.volavis.veraplan.spring.persistence.repository.RoleRepository;
 import com.volavis.veraplan.spring.persistence.repository.UserRepository;
-import com.volavis.veraplan.spring.views.components.AppNavigation;
-import com.volavis.veraplan.spring.views.components.UserField;
 import com.volavis.veraplan.spring.views.components.UserFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -25,12 +23,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Stream;
-
-import static org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers.startsWith;
 
 @Service
 public class UserService {
@@ -57,7 +51,7 @@ public class UserService {
 
     public int countAll() {
         int count = (int) userRepository.count();
-//        logger.info("CA: " + count);
+        logger.info("CA: " + count);
         return count;
     }
 
@@ -67,20 +61,18 @@ public class UserService {
         return count;
     }
 
-    public Stream<User> getAllInRange(int pageIndex, int pageSize) {
-//        logger.info("GAIR (i=" + pageIndex + " s=" + pageSize + ")");
-        List<User> userList = userRepository.findAll(PageRequest.of(pageIndex, pageSize)).getContent();
-
+    public Stream<User> getAllInRange(int offset, int limit) {
+        logger.info("GAIR (o=" + offset + " l=" + limit + ")");
+        List<User> userList = userRepository.findAll(new OffsetLimitRequest(offset, limit)).getContent();
         logger.info("returning " + userList.size());
         return userList.stream();
-
-        //        List<User> userList = userRepository.findByIdBetween(offset + 1, offset + limit);
     }
 
-    public Stream<User> getAllInRange(UserFilter userFilter, int pageIndex, int pageSize) {
-//        logger.info("GAIR: f= " + userFilter.getFilterText() + " ft=" + userFilter.getType().toString() + " i=" + pageIndex + " s=" + pageSize);
+    public Stream<User> getAllInRange(UserFilter userFilter, int offset, int limit) {
+        logger.info("GAIR: f= " + userFilter.getFilterText() + " ft=" + userFilter.getType().toString() + " o=" + offset + " l=" + limit);
 
-        List<User> findAll = userRepository.findAll(getExampleFromFilter(userFilter), PageRequest.of(pageIndex, pageSize)).getContent();
+        List<User> findAll = userRepository.findAll(getExampleFromFilter(userFilter), new OffsetLimitRequest(offset, limit)).getContent();
+//        List<User> findAll = userRepository.findAll(getExampleFromFilter(userFilter), PageRequest.of(offset, limit)).getContent();
         logger.info("returning " + findAll.size() + " items.");
         return findAll.stream();
 
