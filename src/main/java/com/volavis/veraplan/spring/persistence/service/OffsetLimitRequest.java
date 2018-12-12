@@ -1,4 +1,4 @@
-package com.volavis.veraplan.spring.persistence.repository;
+package com.volavis.veraplan.spring.persistence.service;
 
 
 

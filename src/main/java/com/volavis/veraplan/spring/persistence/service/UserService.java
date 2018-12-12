@@ -6,7 +6,6 @@ import com.volavis.veraplan.spring.persistence.exception.EntityAlreadyExistsExce
 import com.volavis.veraplan.spring.persistence.entities.Role;
 import com.volavis.veraplan.spring.persistence.entities.RoleName;
 import com.volavis.veraplan.spring.persistence.entities.User;
-import com.volavis.veraplan.spring.persistence.repository.OffsetLimitRequest;
 import com.volavis.veraplan.spring.persistence.repository.RoleRepository;
 import com.volavis.veraplan.spring.persistence.repository.UserRepository;
 import com.volavis.veraplan.spring.views.components.UserFilter;

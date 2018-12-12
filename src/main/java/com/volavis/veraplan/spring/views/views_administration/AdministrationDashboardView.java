@@ -1,4 +1,4 @@
-package com.volavis.veraplan.spring.views;
+package com.volavis.veraplan.spring.views.views_administration;
 
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
@@ -8,7 +8,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.volavis.veraplan.spring.MainLayout;
 
-@PageTitle("Administration")
+@PageTitle("Veraplan - Administration")
 @Route(value = "administration", layout = MainLayout.class)
 public class AdministrationDashboardView extends Div {
 

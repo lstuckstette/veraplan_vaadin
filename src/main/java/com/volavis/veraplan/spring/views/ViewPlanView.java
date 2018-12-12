@@ -14,18 +14,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @PageTitle("Plan")
 @Route(value = "plan", layout = MainLayout.class)
-public class PlanView extends Div {
+public class ViewPlanView extends Div {
 
 
     private CollaborationToolkit toolkit;
 
     @Autowired
-    public PlanView(UserService userService) {
+    public ViewPlanView(UserService userService) {
+
         this.toolkit = new CollaborationToolkit(userService, "1337");
+
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
 
-        verticalLayout.add(new H2("Plan"));
+        verticalLayout.add(new H1("Plan"));
 
         for (int i = 0; i < 60; i++) {
             verticalLayout.add(new Span("derpy!"));

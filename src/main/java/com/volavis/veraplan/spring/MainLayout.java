@@ -29,11 +29,16 @@ import com.vaadin.flow.templatemodel.TemplateModel;
 import com.vaadin.flow.theme.Theme;
 import com.vaadin.flow.theme.material.Material;
 import com.volavis.veraplan.spring.views.*;
+import com.volavis.veraplan.spring.views.views_administration.*;
 import com.volavis.veraplan.spring.views.components.AppNavigation;
 import com.volavis.veraplan.spring.views.components.NavigationItemBuilder;
 
 import com.volavis.veraplan.spring.views.components.NavigationTab;
 import com.volavis.veraplan.spring.security.SecurityUtils;
+import com.volavis.veraplan.spring.views.views_coredata.*;
+import com.volavis.veraplan.spring.views.views_planing.EnterAssignmentView;
+import com.volavis.veraplan.spring.views.views_planing.EnterPreferenceView;
+import com.volavis.veraplan.spring.views.views_planing.PlaningView;
 import org.springframework.security.access.AccessDeniedException;
 
 
@@ -53,17 +58,18 @@ public class MainLayout extends PolymerTemplate<TemplateModel> implements Router
         //Submenus
 
         NavigationTab administration_manageusers = new NavigationItemBuilder().text("Manage users").target(ManageUsersView.class).build();
-        NavigationTab administration_manageressources = new NavigationItemBuilder().text("Manage ressources").target(null).build(); //TODO: do this for all entity-groups?
-        NavigationTab administration_exportplan = new NavigationItemBuilder().text("Export plan").target(null).build();
-        NavigationTab administration_generateplan = new NavigationItemBuilder().text("Generate plan").target(null).build();
+        NavigationTab administration_manageressources = new NavigationItemBuilder().text("Manage ressources").target(ManageRessourcesView.class).build(); //TODO: do this for all entity-groups?
+        NavigationTab administration_exportplan = new NavigationItemBuilder().text("Export plan").target(ExportPlanView.class).build();
+        NavigationTab administration_generateplan = new NavigationItemBuilder().text("Generate plan").target(GeneratePlanView.class).build();
 
-        NavigationTab coredata_enterbuilding = new NavigationItemBuilder().text("Enter buildings").target(null).build();
-        NavigationTab coredata_enterroom = new NavigationItemBuilder().text("Enter rooms").target(null).build();
-        NavigationTab coredata_enterdepartment = new NavigationItemBuilder().text("Enter departments").target(null).build();
-        NavigationTab coredata_entertimeslots = new NavigationItemBuilder().text("Enter timeslots").target(null).build();
+        NavigationTab coredata_enterbuilding = new NavigationItemBuilder().text("Enter buildings").target(EnterBuildingsView.class).build();
+        NavigationTab coredata_enterroom = new NavigationItemBuilder().text("Enter rooms").target(EnterRoomsView.class).build();
+        NavigationTab coredata_enterdepartment = new NavigationItemBuilder().text("Enter departments").target(EnterDepartmentsView.class).build();
+        NavigationTab coredata_enterusergroup = new NavigationItemBuilder().text("Enter usergroups").target(EnterUsergroupsView.class).build();
+        NavigationTab coredata_entertimeslots = new NavigationItemBuilder().text("Enter timeslots").target(EnterTimeslotsView.class).build();
 
-        NavigationTab planing_preference = new NavigationItemBuilder().text("Enter personal preferences").target(null).build();
-        NavigationTab planing_assignment = new NavigationItemBuilder().text("Enter ressource assignment").target(null).build();
+        NavigationTab planing_preference = new NavigationItemBuilder().text("Enter personal preferences").target(EnterPreferenceView.class).build();
+        NavigationTab planing_assignment = new NavigationItemBuilder().text("Enter ressource assignment").target(EnterAssignmentView.class).build();
 
 
         //add submenu to submenus...
@@ -97,24 +103,35 @@ public class MainLayout extends PolymerTemplate<TemplateModel> implements Router
                 coredata_enterbuilding,
                 coredata_enterroom,
                 coredata_enterdepartment,
+                coredata_enterusergroup,
                 coredata_entertimeslots
         );
         coredata_enterroom.setSubmenu(
                 coredata_enterbuilding,
                 coredata_enterroom,
                 coredata_enterdepartment,
+                coredata_enterusergroup,
                 coredata_entertimeslots
         );
         coredata_enterdepartment.setSubmenu(
                 coredata_enterbuilding,
                 coredata_enterroom,
                 coredata_enterdepartment,
+                coredata_enterusergroup,
+                coredata_entertimeslots
+        );
+        coredata_enterusergroup.setSubmenu(
+                coredata_enterbuilding,
+                coredata_enterroom,
+                coredata_enterdepartment,
+                coredata_enterusergroup,
                 coredata_entertimeslots
         );
         coredata_entertimeslots.setSubmenu(
                 coredata_enterbuilding,
                 coredata_enterroom,
                 coredata_enterdepartment,
+                coredata_enterusergroup,
                 coredata_entertimeslots
         );
         planing_preference.setSubmenu(
@@ -141,6 +158,7 @@ public class MainLayout extends PolymerTemplate<TemplateModel> implements Router
                 .submenu(coredata_enterbuilding,
                         coredata_enterroom,
                         coredata_enterdepartment,
+                        coredata_enterusergroup,
                         coredata_entertimeslots)
                 .build();
 
@@ -149,7 +167,7 @@ public class MainLayout extends PolymerTemplate<TemplateModel> implements Router
                         planing_assignment)
                 .build();
 
-        NavigationTab plan = new NavigationItemBuilder().text("View Plans").target(PlanView.class).build();
+        NavigationTab plan = new NavigationItemBuilder().text("View Plans").target(ViewPlanView.class).build();
 
 
         appNavigation.setMenuTabs(dashboard, administration, coredata, planing, plan);

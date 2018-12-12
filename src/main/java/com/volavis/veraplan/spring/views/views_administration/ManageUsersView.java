@@ -1,4 +1,4 @@
-package com.volavis.veraplan.spring.views;
+package com.volavis.veraplan.spring.views.views_administration;
 
 import com.vaadin.external.org.slf4j.Logger;
 import com.vaadin.external.org.slf4j.LoggerFactory;

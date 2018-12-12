@@ -1,4 +1,4 @@
-package com.volavis.veraplan.spring.views;
+package com.volavis.veraplan.spring.views.views_planing;
 
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.H1;
@@ -8,15 +8,15 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.volavis.veraplan.spring.MainLayout;
 
-@PageTitle("coredata")
-@Route(value = "coredata", layout = MainLayout.class)
-public class CoreDataView extends Div {
+@PageTitle("Planing")
+@Route(value = "planing", layout = MainLayout.class)
+public class PlaningView extends Div {
 
-    public CoreDataView() {
+    public PlaningView() {
         VerticalLayout verticalLayout = new VerticalLayout();
         verticalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
 
-        verticalLayout.add(new H1("Coredata"));
+        verticalLayout.add(new H1("Planing"));
 
         this.add(verticalLayout);
     }

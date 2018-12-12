@@ -8,7 +8,7 @@ import com.vaadin.flow.router.*;
 import com.vaadin.flow.templatemodel.TemplateModel;
 import com.volavis.veraplan.spring.LandingLayout;
 
-@PageTitle("LandingView")
+@PageTitle("Veraplan")
 @Tag("login-view")
 @HtmlImport("views/login-view.html")
 @Route(value = "landing", layout = LandingLayout.class)

@@ -20,6 +20,10 @@ public class Room {
     @Size(max = 100)
     private String name;
 
+    @NotBlank
+    @Size(max= 50)
+    private String shortName;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "building_id")
     private Building building;
@@ -49,6 +53,14 @@ public class Room {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public String getShortName() {
+        return shortName;
+    }
+
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
     }
 
     public Building getBuilding() {
