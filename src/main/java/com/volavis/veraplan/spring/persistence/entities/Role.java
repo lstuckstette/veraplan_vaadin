@@ -1,6 +1,7 @@
 package com.volavis.veraplan.spring.persistence.entities;
 
 import org.hibernate.annotations.NaturalId;
+
 import javax.persistence.*;
 
 @Entity
@@ -38,4 +39,13 @@ public class Role {
     public void setName(RoleName name) {
         this.name = name;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (!(other instanceof Role)) {
+            return false;
+        }
+        return ((Role) other).id.equals(this.id);
+    }
+
 }

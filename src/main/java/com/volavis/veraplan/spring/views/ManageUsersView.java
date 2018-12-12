@@ -3,6 +3,7 @@ package com.volavis.veraplan.spring.views;
 import com.vaadin.external.org.slf4j.Logger;
 import com.vaadin.external.org.slf4j.LoggerFactory;
 import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HtmlComponent;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
@@ -24,6 +25,7 @@ import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.validator.StringLengthValidator;
 import com.vaadin.flow.data.value.ValueChangeMode;
+import com.vaadin.flow.function.SerializablePredicate;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 
@@ -36,7 +38,6 @@ import com.volavis.veraplan.spring.persistence.service.RoleService;
 import com.volavis.veraplan.spring.views.components.UserField;
 import com.volavis.veraplan.spring.persistence.service.UserService;
 import com.volavis.veraplan.spring.views.components.UserFilter;
-import org.hibernate.annotations.Check;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -44,7 +45,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @PageTitle("Veraplan - Manage Users")
@@ -127,7 +127,7 @@ public class ManageUsersView extends Div {
         grid.addComponentColumn(user -> {
 
             Div container = new Div();
-            user.getRoles().forEach(role -> container.add(new Span(role.getName().toString())));
+            user.getRoles().forEach(role -> container.add(new Span(role.getName().toString() + ";")));
             return container;
         }).setHeader("Roles");
         //enable detail view on click:
@@ -141,6 +141,8 @@ public class ManageUsersView extends Div {
 
     private Component getUserEditor(User user) {
         //layout + binder
+        VerticalLayout verticalLayout = new VerticalLayout();
+        verticalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
         FormLayout layout = new FormLayout();
         Binder<User> binder = new Binder<>();
 
@@ -157,21 +159,28 @@ public class ManageUsersView extends Div {
         TextField email = new TextField();
         email.setValueChangeMode(ValueChangeMode.EAGER);
 
+        Checkbox passwordChangeEnabler = new Checkbox("Change Password"); //Toggles password + retypePassword active
+
         PasswordField password = new PasswordField();
+        password.setLabel("New Password");
         password.setValueChangeMode(ValueChangeMode.EAGER);
+        password.setEnabled(false);
+
+        PasswordField retypePassword = new PasswordField();
+        retypePassword.setLabel("Retype new Password");
+        retypePassword.setValueChangeMode(ValueChangeMode.EAGER);
+        retypePassword.setEnabled(false);
 
 
         ListBox<Checkbox> roles = new ListBox<>();
         roles.setRenderer(new ComponentRenderer<>(cb -> cb)); //somehow this is needed...
         List<Checkbox> roleItems = Arrays.stream(RoleName.values()).map(rname -> new Checkbox(rname.toString())).collect(Collectors.toList());
         roles.setItems(roleItems);
-//        VerticalLayout roles = new VerticalLayout(); // TODO:
-//        Arrays.asList(RoleName.values()).forEach(rname -> roles.add(new Checkbox(rname.toString())));
-
 
         //controls:
         Label infoLabel = new Label();
         Button save = new Button("Save");
+        save.getElement().setAttribute("theme", "contained");
         Button reset = new Button("Reset");
 
         //add inputs to layout:
@@ -179,14 +188,35 @@ public class ManageUsersView extends Div {
         layout.addFormItem(lastname, "Lastname");
         layout.addFormItem(username, "Username");
         layout.addFormItem(email, "Email");
-        layout.addFormItem(password, "Password");
+
+        FormLayout.FormItem pfi = layout.addFormItem(passwordChangeEnabler, "Password");
+        pfi.add(new HtmlComponent("br"));
+        pfi.add(password);
+        pfi.add(new HtmlComponent("br"));
+        pfi.add(retypePassword);
+//        VerticalLayout passwordGroup = new VerticalLayout(password, retypePassword);
+//        passwordGroup.setAlignSelf(FlexComponent.Alignment.START);
+
+//        layout.addFormItem(passwordGroup, passwordChangeEnabler);
+
+
+//        layout.addFormItem(password, "Password");
+//        layout.addFormItem(retypePassword, "Retype Password");
         layout.addFormItem(roles, "Roles");
         layout.add(infoLabel);
+        layout.add(new HtmlComponent("br"));
 
         //add controlls to layout:
         HorizontalLayout actions = new HorizontalLayout();
+        actions.setAlignItems(FlexComponent.Alignment.CENTER);
         actions.add(save, reset);
-        layout.add(actions);
+
+
+        //only update password, if retype is not empty and equals password
+        SerializablePredicate<String> retypePasswordNotEmpty = value ->
+                retypePassword.getValue().trim().isEmpty();
+        SerializablePredicate<String> retypePasswordEqualsPassword = value ->
+                retypePassword.getValue().equals(password.getValue());
 
         //setup binder(s):
         binder.forField(firstname)
@@ -202,31 +232,66 @@ public class ManageUsersView extends Div {
                 .withValidator(new StringLengthValidator("Email can not be emtpy.", 1, null))
                 .bind(User::getEmail, User::setEmail);
         PasswordEncoder encoder = new BCryptPasswordEncoder();
-        binder.forField(password)
-                .withValidator(new StringLengthValidator("Password can not be emtpy.", 1, null))
-                .bind(User::getPassword, (usr, pass) -> {
-                    usr.setPassword(encoder.encode(pass));
-                });
+
+
+        //setup password condition based binder:
+
+        passwordChangeEnabler.addValueChangeListener(state -> {
+            password.setEnabled(state.getValue());
+            retypePassword.setEnabled(state.getValue());
+            if (state.getValue()) { //checkbox checked:
+                binder.forField(password)
+                        .withValidator(new StringLengthValidator("Password can not be emtpy.", 1, null))
+                        .withValidator(retypePasswordEqualsPassword, "Passwords do not match.")
+                        .bind(User::getPassword, (usr, pass) -> {
+                            usr.setPassword(encoder.encode(pass));
+
+                        });
+            } else {
+                binder.removeBinding(password);
+            }
+        });
 
         roleItems.forEach(roleCb -> {
             binder.forField(roleCb)
                     .withValidator(getAtLeastOneRoleSelectedValidator(roleItems))
                     .bind((usr) -> {
                         return usr.getRoles().stream().anyMatch(role -> role.getName().equals(RoleName.fromString(roleCb.getLabel())));
-                        //TODO check role exists by roleCB.label
                     }, (usr, value) -> {
-                        Role newRole = null;
+
+                        //Fetch distinct Role from DB:
+                        Role currentRole = null;
                         try {
-                            newRole = roleService.getRole(roleCb.getLabel());
+                            currentRole = roleService.getRole(roleCb.getLabel());
                         } catch (RoleNotFoundException e) {
                             //oO
                         }
-                        if (newRole != null) {
+                        if (currentRole != null) {
+                            //add/remove Role depending on value:
                             List<Role> userRoles = usr.getRoles();
-                            userRoles.add(newRole);
-                            usr.setRoles(userRoles);
+                            if (value) {
+                                //set role
+
+                                if (!userRoles.contains(currentRole)) {
+                                    logger.info("set role");
+                                    userRoles.add(currentRole);
+                                    usr.setRoles(userRoles);
+
+                                }
+
+                            } else {
+                                //remove role
+
+                                if (userRoles.contains(currentRole)) {
+                                    logger.info("remove role");
+                                    userRoles.remove(currentRole);
+                                    usr.setRoles(userRoles);
+
+                                }
+                            }
+
+
                         }
-                        //TODO: add single role by roleCb.label
                     });
         });
 
@@ -242,7 +307,9 @@ public class ManageUsersView extends Div {
             wLayout.add(new Span("Do you really want to save entered changes? This can not be reversed!"));
             Button wConfirm = new Button("Confirm", evt -> {
                 if (binder.writeBeanIfValid(user)) {
-                    //userService.saveChanges(user);
+
+                    userService.saveChanges(user);
+
                     infoLabel.setText("Successfully saved changes.");
                 } else {
                     BinderValidationStatus<User> validate = binder.validate();
@@ -270,7 +337,12 @@ public class ManageUsersView extends Div {
 
         //load current user:
         binder.readBean(user);
-        return layout;
+
+        //connect layouts
+        verticalLayout.add(layout);
+        verticalLayout.add(actions);
+
+        return verticalLayout;
     }
 
     private Validator<? super Boolean> getAtLeastOneRoleSelectedValidator(List<Checkbox> roleList) {

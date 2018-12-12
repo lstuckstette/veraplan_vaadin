@@ -51,29 +51,29 @@ public class UserService {
 
     public int countAll() {
         int count = (int) userRepository.count();
-        logger.info("CA: " + count);
+//        logger.info("CA: " + count);
         return count;
     }
 
     public int countAll(UserFilter filter) {
         int count = (int) userRepository.count(getExampleFromFilter(filter));
-        logger.info("CF: " + count);
+//        logger.info("CF: " + count);
         return count;
     }
 
     public Stream<User> getAllInRange(int offset, int limit) {
-        logger.info("GAIR (o=" + offset + " l=" + limit + ")");
+//        logger.info("GAIR (o=" + offset + " l=" + limit + ")");
         List<User> userList = userRepository.findAll(new OffsetLimitRequest(offset, limit)).getContent();
-        logger.info("returning " + userList.size());
+        logger.info("returning " + userList.size()+" items.");
         return userList.stream();
     }
 
     public Stream<User> getAllInRange(UserFilter userFilter, int offset, int limit) {
-        logger.info("GAIR: f= " + userFilter.getFilterText() + " ft=" + userFilter.getType().toString() + " o=" + offset + " l=" + limit);
+//        logger.info("GAIR: f= " + userFilter.getFilterText() + " ft=" + userFilter.getType().toString() + " o=" + offset + " l=" + limit);
 
         List<User> findAll = userRepository.findAll(getExampleFromFilter(userFilter), new OffsetLimitRequest(offset, limit)).getContent();
 //        List<User> findAll = userRepository.findAll(getExampleFromFilter(userFilter), PageRequest.of(offset, limit)).getContent();
-        logger.info("returning " + findAll.size() + " items.");
+        logger.info("returning " + findAll.size() + " filtered items.");
         return findAll.stream();
 
 
