@@ -48,7 +48,7 @@ public final class SecurityUtils {
 	 * @param securedClass
 	 * @return true if access is granted, false otherwise.
 	 */
-	public static boolean isAccessGranted(Class<?> securedClass) {
+	public static boolean isAccessGranted(Class<?> securedClass) { //TODO: implement this!
 		Secured secured = AnnotationUtils.findAnnotation(securedClass, Secured.class);
 		if (secured == null) {
 			return true;

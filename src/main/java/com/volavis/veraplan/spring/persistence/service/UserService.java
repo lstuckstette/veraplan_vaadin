@@ -8,6 +8,8 @@ import com.volavis.veraplan.spring.persistence.entities.RoleName;
 import com.volavis.veraplan.spring.persistence.entities.User;
 import com.volavis.veraplan.spring.persistence.repository.RoleRepository;
 import com.volavis.veraplan.spring.persistence.repository.UserRepository;
+import com.volavis.veraplan.spring.views.components.EntityFilter;
+import com.volavis.veraplan.spring.views.components.UserField;
 import com.volavis.veraplan.spring.views.components.UserFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
@@ -25,8 +27,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Stream;
 
+import static com.volavis.veraplan.spring.views.components.UserField.*;
+
 @Service
-public class UserService {
+public class UserService implements EntityService<User, EntityFilter<UserField>> {
 
     private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
@@ -50,24 +54,24 @@ public class UserService {
 
     public int countAll() {
         int count = (int) userRepository.count();
-//        logger.info("CA: " + count);
+        logger.info("CA: " + count);
         return count;
     }
 
-    public int countAll(UserFilter filter) {
+    public int countAll(EntityFilter filter) {
         int count = (int) userRepository.count(getExampleFromFilter(filter));
-//        logger.info("CF: " + count);
+        logger.info("CF: " + count);
         return count;
     }
 
     public Stream<User> getAllInRange(int offset, int limit) {
 //        logger.info("GAIR (o=" + offset + " l=" + limit + ")");
         List<User> userList = userRepository.findAll(new OffsetLimitRequest(offset, limit)).getContent();
-        logger.info("returning " + userList.size()+" items.");
+        logger.info("returning " + userList.size() + " items.");
         return userList.stream();
     }
 
-    public Stream<User> getAllInRange(UserFilter userFilter, int offset, int limit) {
+    public Stream<User> getAllInRange(EntityFilter userFilter, int offset, int limit) {
 //        logger.info("GAIR: f= " + userFilter.getFilterText() + " ft=" + userFilter.getType().toString() + " o=" + offset + " l=" + limit);
 
         List<User> findAll = userRepository.findAll(getExampleFromFilter(userFilter), new OffsetLimitRequest(offset, limit)).getContent();
@@ -78,42 +82,21 @@ public class UserService {
 
     }
 
-    private Example<User> getExampleFromFilter(UserFilter filter) {
+    private Example<User> getExampleFromFilter(EntityFilter filter) {
         User user = new User();
 
-        switch (filter.getType()) {
-            case USERNAME:
-                user.setUsername(filter.getFilterText());
-                break;
-            case FIRSTNAME:
-                user.setFirst_name(filter.getFilterText());
-                break;
-            case LASTNAME:
-                user.setLast_name(filter.getFilterText());
-                break;
-            case EMAIL:
-                user.setEmail(filter.getFilterText());
-                break;
-//            case ID:
-//                try {
-//                    user.setId(Long.valueOf(filter.getFilterText()));
-//                } catch (Exception e) {
-//                    user.setId(-1337l); //show nothing...
-//                }
-//                break;
-//            case ROLE:
-//                RoleName roleName = RoleName.fromString(filter.getFilterText());
-//
-//                if (roleName != null) {
-//                    logger.info("rolename found: " + roleName.toString());
-//                    user.setRoles(Arrays.asList(new Role(roleName)));
-//                } else {
-//                    logger.warn("No RoleName found for filterText: " + filter.getFilterText());
-//                    user.setId(-1337l); //show nothing...
-//                }
-//                break;
-            default:
-                user.setId(-1337l); //show nothing...
+        if (USERNAME.equals(filter.getType())) {
+            user.setUsername(filter.getFilterText());
+        } else if (FIRSTNAME.equals(filter.getType())) {
+            user.setFirst_name(filter.getFilterText());
+        } else if (LASTNAME.equals(filter.getType())) {
+            user.setLast_name(filter.getFilterText());
+        } else if (EMAIL.equals(filter.getType())) {
+            user.setEmail(filter.getFilterText());
+
+        } else {
+            user.setId(-1337l); //show nothing...
+            logger.warn("could not identify filter type!");
         }
 
         ExampleMatcher matcher = ExampleMatcher.matching()

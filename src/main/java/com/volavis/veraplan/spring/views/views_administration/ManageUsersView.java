@@ -21,7 +21,6 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.*;
 import com.vaadin.flow.data.provider.CallbackDataProvider;
 import com.vaadin.flow.data.provider.ConfigurableFilterDataProvider;
-import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.validator.StringLengthValidator;
 import com.vaadin.flow.data.value.ValueChangeMode;
@@ -35,9 +34,10 @@ import com.volavis.veraplan.spring.persistence.entities.RoleName;
 import com.volavis.veraplan.spring.persistence.entities.User;
 import com.volavis.veraplan.spring.persistence.exception.RoleNotFoundException;
 import com.volavis.veraplan.spring.persistence.service.RoleService;
+import com.volavis.veraplan.spring.views.components.ViewHelper;
+import com.volavis.veraplan.spring.views.components.EntityFilter;
 import com.volavis.veraplan.spring.views.components.UserField;
 import com.volavis.veraplan.spring.persistence.service.UserService;
-import com.volavis.veraplan.spring.views.components.UserFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -101,15 +101,16 @@ public class ManageUsersView extends Div {
         grid.setPageSize(25); //this is variable...
 
         //Lazy-loading filtered data-provider:
-        CallbackDataProvider<User, UserFilter> dataProvider = getDataProvider(grid);
-
-        ConfigurableFilterDataProvider<User, Void, UserFilter> filterWrapper =
+        CallbackDataProvider<User, EntityFilter<UserField>> dataProvider = ViewHelper.getFilterDataProvider(userService);
+//
+        ConfigurableFilterDataProvider<User, Void, EntityFilter<UserField>> filterWrapper =
                 dataProvider.withConfigurableFilter();
+
 
         filterTextField.addValueChangeListener(event -> {
             String filterText = event.getValue();
             if (!filterText.trim().isEmpty() && filterText.trim().length() > 1) {
-                filterWrapper.setFilter(new UserFilter(filterText, filterSelector.getValue()));
+                filterWrapper.setFilter(new EntityFilter<>(filterText, filterSelector.getValue()));
                 logger.info("filter set to: " + filterText);
             } else {
                 filterWrapper.setFilter(null);
@@ -118,6 +119,7 @@ public class ManageUsersView extends Div {
         });
         //<--
         //grid body
+
         grid.setDataProvider(filterWrapper);
         grid.addColumn(User::getId).setHeader("Id");
         grid.addColumn(User::getFirst_name).setHeader("Firstname");
@@ -299,34 +301,41 @@ public class ManageUsersView extends Div {
 
         save.addClickListener(event -> {
             //show warning Dialog:
-            Dialog warning = new Dialog();
-            warning.setCloseOnEsc(true);
-            warning.setCloseOnOutsideClick(true);
-            VerticalLayout wLayout = new VerticalLayout();
-            wLayout.setAlignItems(FlexComponent.Alignment.CENTER);
-            wLayout.add(new Span("Do you really want to save entered changes? This can not be reversed!"));
-            Button wConfirm = new Button("Confirm", evt -> {
+            Dialog warning;
+            warning = ViewHelper.getConfirmationDialog("Do you really want to save entered changes? This can not be reversed!", evt -> {
                 if (binder.writeBeanIfValid(user)) {
 
                     userService.saveChanges(user);
 
                     infoLabel.setText("Successfully saved changes.");
                 } else {
-                    BinderValidationStatus<User> validate = binder.validate();
-                    String errorText = validate.getFieldValidationStatuses()
-                            .stream().filter(BindingValidationStatus::isError)
-                            .map(BindingValidationStatus::getMessage)
-                            .map(Optional::get).distinct()
-                            .collect(Collectors.joining(", "));
+                    String errorText = ViewHelper.getBinderErrorMessage(binder);
                     infoLabel.setText("Error during save: " + errorText);
                 }
-                warning.close();
             });
-            Button wCancel = new Button("Cancel", evt -> warning.close());
-            HorizontalLayout wActions = new HorizontalLayout();
-            wActions.add(wConfirm, wCancel);
-            wLayout.add(wActions);
-            warning.add(wLayout);
+//            warning.setCloseOnEsc(true);
+//            warning.setCloseOnOutsideClick(true);
+//            VerticalLayout wLayout = new VerticalLayout();
+//            wLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+//            wLayout.add(new Span("Do you really want to save entered changes? This can not be reversed!"));
+//            Button wConfirm = new Button("Confirm", evt -> {
+//                if (binder.writeBeanIfValid(user)) {
+//
+//                    userService.saveChanges(user);
+//
+//                    infoLabel.setText("Successfully saved changes.");
+//                } else {
+//                    String errorText = ViewHelper.getBinderErrorMessage(binder);
+//                    infoLabel.setText("Error during save: " + errorText);
+//                }
+//                warning.close();
+//            });
+//            Button wCancel = new Button("Cancel", evt -> warning.close());
+//            HorizontalLayout wActions = new HorizontalLayout();
+//            wActions.add(wConfirm, wCancel);
+//            wLayout.add(wActions);
+//            warning.add(wLayout);
+
             warning.open();
         });
 
@@ -353,45 +362,6 @@ public class ManageUsersView extends Div {
                 return ValidationResult.error("At least one Role has to be selected.");
             }
         };
-    }
-
-    private CallbackDataProvider<User, UserFilter> getDataProvider(Grid grid) {
-        return DataProvider.fromFilteringCallbacks(
-                query -> {
-
-                    int offset = query.getOffset();
-                    int limit = query.getLimit();
-//                    int pageSize = grid.getPageSize();
-//                    int pageIndex = offset / pageSize;
-//
-//                    if (offset == 0) { //rare case of 'fetch all' e.x. (0,52)
-//                        pageSize = limit;
-//                    }
-
-//                    logger.info("(" + offset + "," + limit + ") -> (" + pageIndex + "," + pageSize + ")");
-
-                    Optional<UserFilter> filter = query.getFilter();
-
-                    if (filter.isPresent()) {
-                        return userService.getAllInRange(filter.get(), offset, limit);
-//                        return userService.getAllInRange(filter.get(), pageIndex, pageSize);
-                    } else {
-                        return userService.getAllInRange(offset, limit);
-//                        return userService.getAllInRange(pageIndex, pageSize);
-                    }
-
-                },
-                query -> {
-                    int count;
-                    if (query.getFilter().isPresent()) {
-                        count = userService.countAll(query.getFilter().get());
-                    } else {
-                        count = userService.countAll();
-                    }
-//                    logger.info("Count: " + count);
-                    return count;
-                }
-        );
     }
 
 }
