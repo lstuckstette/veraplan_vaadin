@@ -1,5 +1,7 @@
 /target/
 .idea/
+auxil/
+out/
 
 .classpath
 .metadata/
