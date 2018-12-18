@@ -10,7 +10,6 @@ import com.volavis.veraplan.spring.persistence.repository.RoleRepository;
 import com.volavis.veraplan.spring.persistence.repository.UserRepository;
 import com.volavis.veraplan.spring.views.components.EntityFilter;
 import com.volavis.veraplan.spring.views.components.UserField;
-import com.volavis.veraplan.spring.views.components.UserFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;

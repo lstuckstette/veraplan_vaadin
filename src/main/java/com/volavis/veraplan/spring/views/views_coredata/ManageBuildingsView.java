@@ -17,13 +17,16 @@ import com.vaadin.flow.data.binder.BinderValidationStatus;
 import com.vaadin.flow.data.binder.BindingValidationStatus;
 import com.vaadin.flow.data.provider.CallbackDataProvider;
 import com.vaadin.flow.data.provider.ConfigurableFilterDataProvider;
+import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.validator.StringLengthValidator;
+import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.volavis.veraplan.spring.MainLayout;
 import com.volavis.veraplan.spring.persistence.entities.organisation.Building;
 import com.volavis.veraplan.spring.persistence.service.BuildingService;
 import com.volavis.veraplan.spring.views.components.BuildingField;
+import com.volavis.veraplan.spring.views.components.UserField;
 import com.volavis.veraplan.spring.views.components.ViewHelper;
 import com.volavis.veraplan.spring.views.components.EntityFilter;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,10 +55,17 @@ public class ManageBuildingsView extends Div {
 
         //Action/Filter bar
         HorizontalLayout actionBarLayout = new HorizontalLayout();
+        actionBarLayout.setAlignItems(FlexComponent.Alignment.CENTER);
 
         Span filterText = new Span("Filter by");
         ComboBox<BuildingField> filtertype = new ComboBox<>();
+        filtertype.setRequired(true);
+        filtertype.setItemLabelGenerator(BuildingField::toString);
+        filtertype.setItems(BuildingField.values());
+        filtertype.setValue(BuildingField.NAME);
+
         TextField filterInput = new TextField();
+        filterInput.setValueChangeMode(ValueChangeMode.EAGER);
         Span addBuildingText = new Span("or ");
         Button addBuildingButton = new Button("Add Building");
 
@@ -64,9 +74,10 @@ public class ManageBuildingsView extends Div {
 
         //Main content
         HorizontalLayout contentLayout = new HorizontalLayout();
-
+        contentLayout.setWidth("100%");
         //Grid:
         Grid<Building> buildingGrid = new Grid<>(); //TODO width = 1px oO?
+
 
         //Dataprovider:
         CallbackDataProvider<Building, EntityFilter<BuildingField>> dataProvider = ViewHelper.getFilterDataProvider(buildingService);
@@ -85,14 +96,18 @@ public class ManageBuildingsView extends Div {
 
         buildingGrid.addColumn(Building::getId).setHeader("Id");
         buildingGrid.addColumn(Building::getName).setHeader("Name");
+        buildingGrid.addColumn(Building::getShortName).setHeader("Short Name");
+
+        buildingGrid.setItemDetailsRenderer(new ComponentRenderer<>(this::getBuildingEditor));
 
         contentLayout.add(buildingGrid);
         globalLayout.add(contentLayout);
 
 
-        //Add building pane(on button click)
+        //Add-building pane(on button click)
 
         VerticalLayout addNewBuildingLayout = getAddBuildingComponent();
+        addNewBuildingLayout.setAlignItems(FlexComponent.Alignment.CENTER);
 
         contentLayout.add(addNewBuildingLayout);
 
@@ -113,13 +128,14 @@ public class ManageBuildingsView extends Div {
         Label infoField = new Label();
 
         HorizontalLayout actionBar = new HorizontalLayout();
+        actionBar.setAlignItems(FlexComponent.Alignment.CENTER);
         Button save = new Button("Save");
         save.getElement().setAttribute("theme", "contained");
         Button reset = new Button("Reset");
         actionBar.add(save, reset);
 
         newBuildingFormLayout.addFormItem(buildingName, "Name");
-        newBuildingFormLayout.add(infoField, actionBar);
+        newBuildingFormLayout.add(infoField);
 
         //Action Listener:
         save.addClickListener(event -> {
@@ -144,6 +160,7 @@ public class ManageBuildingsView extends Div {
         });
 
         addNewBuildingLayout.add(newBuildingFormLayout);
+        addNewBuildingLayout.add(actionBar);
         return addNewBuildingLayout;
     }
 

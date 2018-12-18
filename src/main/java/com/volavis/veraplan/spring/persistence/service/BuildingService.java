@@ -61,6 +61,9 @@ public class BuildingService implements EntityService<Building, EntityFilter<Bui
             case NAME:
                 b.setName(filter.getFilterText());
                 break;
+            case SHORTNAME:
+                b.setShortName(filter.getFilterText());
+                break;
             default:
                 b.setId(-1337l);
 

@@ -23,6 +23,10 @@ public class Building {
     @Size(max = 100)
     private String name;
 
+    @NotBlank
+    @Size(max=40)
+    private String shortName;
+
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "building_departments",
             joinColumns = @JoinColumn(name = "building_id"),
@@ -43,6 +47,14 @@ public class Building {
     public Building(@NotBlank @Size(max = 100) String name, List<Department> departments) {
         this.name = name;
         this.departments = departments;
+    }
+
+    public String getShortName() {
+        return shortName;
+    }
+
+    public void setShortName(String shortName) {
+        this.shortName = shortName;
     }
 
     public Long getId() {

@@ -4,8 +4,9 @@ import java.util.ArrayList;
 
 public enum BuildingField {
 
-    ID("Firstname"),
-    NAME("Name");
+    ID("Id"),
+    NAME("Name"),
+    SHORTNAME("Short Name");
 
     private final String text;
 
