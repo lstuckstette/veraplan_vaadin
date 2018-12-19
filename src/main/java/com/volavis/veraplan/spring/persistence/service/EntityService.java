@@ -14,5 +14,7 @@ public interface EntityService<B, F extends EntityFilter> {
 
     Stream<B> getAllInRange(F filter, int offset, int limit);
 
+    void saveChanges(B entity);
+
 
 }

@@ -19,7 +19,7 @@ public enum BuildingField {
         return text;
     }
 
-    public static String[] getAllUserFields() {
+    public static String[] getAllBuildingFields() {
         ArrayList<String> efields = new ArrayList<>();
         for (BuildingField ufield : BuildingField.values()) {
             efields.add(ufield.toString());

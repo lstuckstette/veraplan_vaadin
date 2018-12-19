@@ -1,26 +1,57 @@
 package com.volavis.veraplan.spring.views.views_coredata;
 
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.volavis.veraplan.spring.MainLayout;
+import com.volavis.veraplan.spring.persistence.entities.User;
+import com.volavis.veraplan.spring.persistence.entities.organisation.Building;
+import com.volavis.veraplan.spring.persistence.service.BuildingService;
+import com.volavis.veraplan.spring.persistence.service.UserService;
+import com.volavis.veraplan.spring.views.components.BuildingField;
+import com.volavis.veraplan.spring.views.components.EntityManagerComponent;
+import com.volavis.veraplan.spring.views.components.UserField;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @PageTitle("Veraplan - Enter Rooms")
 @Route(value = "coredata/room", layout = MainLayout.class)
 public class EnterRoomsView extends Div {
 
-    public EnterRoomsView() {
+    private final UserService service;
+
+    @Autowired
+    public EnterRoomsView(UserService service) {
+        this.service = service;
         initView();
     }
 
     private void initView() {
-        VerticalLayout globalLayout = new VerticalLayout();
-        globalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
-        globalLayout.add(new H1("Enter Rooms"));
+        EntityManagerComponent<User, UserField> manageRooms = new EntityManagerComponent<>(service, UserField.class, "Manage Users <Generic>",
+                "Browse all Users or filter the List. Clicking on an item will show an editor window.");
 
-        this.add(globalLayout);
+        manageRooms.addGridColumn(User::getId, "Id");
+        manageRooms.addGridColumn(User::getFirst_name, "Firstname");
+        manageRooms.addGridColumn(User::getLast_name, "Lastname");
+        manageRooms.addGridColumn(User::getUsername, "Username");
+        manageRooms.addGridColumn(User::getEmail, "Email");
+        manageRooms.addGridComponentColumn(user -> {
+            Div container = new Div();
+            user.getRoles().forEach(role -> container.add(new Span(role.getName().toString() + ";")));
+            return container;
+        }, "Roles");
+
+
+        manageRooms.addEditEntityTextField("Firstname", User::getFirst_name, User::setFirst_name);
+        manageRooms.addEditEntityTextField("Lastname", User::getLast_name, User::setLast_name);
+        manageRooms.addEditEntityTextField("Username", User::getUsername, User::setUsername);
+        manageRooms.addEditEntityTextField("Email", User::getEmail, User::setEmail);
+        manageRooms.addEditEntityPasswordField("Password", User::getPassword,
+                (usr, pass) -> usr.setPassword(new BCryptPasswordEncoder().encode(pass)));
+//        manageRooms.addEditEntityCollection("Roles",User::getRoles,);
+
+
+        this.add(manageRooms);
     }
 }

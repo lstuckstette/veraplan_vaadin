@@ -1,11 +1,15 @@
 package com.volavis.veraplan.spring.persistence.service;
 
+import com.vaadin.external.org.slf4j.Logger;
+import com.vaadin.external.org.slf4j.LoggerFactory;
 import com.volavis.veraplan.spring.persistence.entities.organisation.Building;
 import com.volavis.veraplan.spring.persistence.repository.BuildingRepository;
 import com.volavis.veraplan.spring.views.components.BuildingField;
 import com.volavis.veraplan.spring.views.components.EntityFilter;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -15,7 +19,7 @@ import java.util.stream.Stream;
 @Service
 public class BuildingService implements EntityService<Building, EntityFilter<BuildingField>> {
 
-
+    private static final Logger logger = LoggerFactory.getLogger(BuildingService.class);
     private BuildingRepository buildingRepository;
 
     @Autowired
@@ -46,8 +50,15 @@ public class BuildingService implements EntityService<Building, EntityFilter<Bui
         return buildings.stream();
     }
 
+    @Override
+    public void saveChanges(Building entity) {
+        buildingRepository.save(entity);
+    }
+
     private Example<Building> getExampleFromFilter(EntityFilter<BuildingField> filter) {
         Building b = new Building();
+
+        logger.info(filter.toString());
 
         switch (filter.getType()) {
             case ID:
@@ -68,8 +79,11 @@ public class BuildingService implements EntityService<Building, EntityFilter<Bui
                 b.setId(-1337l);
 
         }
+        ExampleMatcher matcher = ExampleMatcher.matching()
+                .withIgnoreCase()
+                .withStringMatcher(ExampleMatcher.StringMatcher.STARTING);
 
-        return Example.of(b);
+        return Example.of(b, matcher);
     }
 
     @Transactional

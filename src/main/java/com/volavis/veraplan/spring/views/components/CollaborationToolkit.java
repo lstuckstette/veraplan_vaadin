@@ -16,6 +16,8 @@ import com.volavis.veraplan.spring.views.templateModels.CollaborationToolkitMode
 @JavaScript("js/paper-full.min.js")
 public class CollaborationToolkit extends PolymerTemplate<CollaborationToolkitModel> implements HasComponents {
 
+    //TODO: Add Dom-Event/Component-Event sharing!
+
     public CollaborationToolkit(UserService userService, String channelID) {
         this.getModel().setUserName(userService.getFullName(SecurityUtils.getUsername()));
         this.getModel().setChannel(channelID);

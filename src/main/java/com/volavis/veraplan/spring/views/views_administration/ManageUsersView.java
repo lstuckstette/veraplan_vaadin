@@ -196,14 +196,8 @@ public class ManageUsersView extends Div {
         pfi.add(password);
         pfi.add(new HtmlComponent("br"));
         pfi.add(retypePassword);
-//        VerticalLayout passwordGroup = new VerticalLayout(password, retypePassword);
-//        passwordGroup.setAlignSelf(FlexComponent.Alignment.START);
-
-//        layout.addFormItem(passwordGroup, passwordChangeEnabler);
 
 
-//        layout.addFormItem(password, "Password");
-//        layout.addFormItem(retypePassword, "Retype Password");
         layout.addFormItem(roles, "Roles");
         layout.add(infoLabel);
         layout.add(new HtmlComponent("br"));
@@ -260,7 +254,6 @@ public class ManageUsersView extends Div {
                     .bind((usr) -> {
                         return usr.getRoles().stream().anyMatch(role -> role.getName().equals(RoleName.fromString(roleCb.getLabel())));
                     }, (usr, value) -> {
-
                         //Fetch distinct Role from DB:
                         Role currentRole = null;
                         try {
@@ -273,26 +266,19 @@ public class ManageUsersView extends Div {
                             List<Role> userRoles = usr.getRoles();
                             if (value) {
                                 //set role
-
                                 if (!userRoles.contains(currentRole)) {
                                     logger.info("set role");
                                     userRoles.add(currentRole);
                                     usr.setRoles(userRoles);
-
                                 }
-
                             } else {
                                 //remove role
-
                                 if (userRoles.contains(currentRole)) {
                                     logger.info("remove role");
                                     userRoles.remove(currentRole);
                                     usr.setRoles(userRoles);
-
                                 }
                             }
-
-
                         }
                     });
         });
@@ -313,28 +299,6 @@ public class ManageUsersView extends Div {
                     infoLabel.setText("Error during save: " + errorText);
                 }
             });
-//            warning.setCloseOnEsc(true);
-//            warning.setCloseOnOutsideClick(true);
-//            VerticalLayout wLayout = new VerticalLayout();
-//            wLayout.setAlignItems(FlexComponent.Alignment.CENTER);
-//            wLayout.add(new Span("Do you really want to save entered changes? This can not be reversed!"));
-//            Button wConfirm = new Button("Confirm", evt -> {
-//                if (binder.writeBeanIfValid(user)) {
-//
-//                    userService.saveChanges(user);
-//
-//                    infoLabel.setText("Successfully saved changes.");
-//                } else {
-//                    String errorText = ViewHelper.getBinderErrorMessage(binder);
-//                    infoLabel.setText("Error during save: " + errorText);
-//                }
-//                warning.close();
-//            });
-//            Button wCancel = new Button("Cancel", evt -> warning.close());
-//            HorizontalLayout wActions = new HorizontalLayout();
-//            wActions.add(wConfirm, wCancel);
-//            wLayout.add(wActions);
-//            warning.add(wLayout);
 
             warning.open();
         });

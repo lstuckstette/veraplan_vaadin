@@ -27,4 +27,9 @@ public class EntityFilter<T extends Enum<T>> {
         this.type = type;
     }
 
+    @Override
+    public String toString() {
+        return "FILTER: type=" + type.name() + " text=" + filterText;
+    }
+
 }
