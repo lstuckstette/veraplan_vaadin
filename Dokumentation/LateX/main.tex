@@ -3,6 +3,8 @@
 %% 18.12.2018
 %%
 
+% template: http://edoc.sub.uni-hamburg.de/haw/volltexte/2013/2115/pdf/Masterarbeit_TR.pdf
+
 % Preamble
 \documentclass[a4paper,12pt,headsepline]{article}
 
@@ -43,15 +45,7 @@
     \tableofcontents
     \newpage
 
-    % Abbildungsverzeichnis
-    \addcontentsline{toc}{section}{Abbildungsverzeichnis}
-    \listoffigures
-    \newpage
 
-    % Tabellenverzeichnis
-    \addcontentsline{toc}{section}{Tabellenverzeichnis}
-    \listoftables
-    \newpage
 
     % Abkürzungsverzeichnis
 %    \addcontentsline{toc}{section}{Abkürzungsverzeichnis}
@@ -68,19 +62,19 @@
     \onehalfspacing
 
     % Kapitel
-    \input{03_einleitung.tex}
+    \input{02_einleitung.tex}
     \newpage
-    \input{04_standdertechnik.tex}
+    \input{03_grundlagen.tex}
     \newpage
-    \input{05_design}
+    \input{04_konzeption.tex}
     \newpage
-    \input{06_softwareentwurf}
+    \input{05_realisierung.tex}
     \newpage
-    \input{07_implementierung}
+    \input{06_implementierung.tex}
     \newpage
-    \input{08_showcase}
+    \input{07_showcase.tex}
     \newpage
-    \input{09_fazit}
+    \input{08_fazit.tex}
     \newpage
 
     %Literaturverzeichnis
@@ -92,14 +86,24 @@
     \bibliographystyle{alpha}
     \newpage
 
+    % Abbildungsverzeichnis
+    \addcontentsline{toc}{section}{Abbildungsverzeichnis}
+    \listoffigures
+    \newpage
+
+    % Tabellenverzeichnis
+    \addcontentsline{toc}{section}{Tabellenverzeichnis}
+    \listoftables
+    \newpage
+
     %Anhang
     \onehalfspacing
     \addcontentsline{toc}{section}{Anhang}
-    \input{10_anhang.tex}
+    \input{09_anhang.tex}
     \newpage
 
     %Eidesstattliche Erklaerung
-    \input{11_eidesstattliche_erklaerung.tex}
+    \input{eidesstattliche_erklaerung.tex}
 
     % leere Abschlussseite
     \newpage

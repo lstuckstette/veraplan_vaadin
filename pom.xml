@@ -39,10 +39,10 @@
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <!-- MESSAGING -->
-        <dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>gs-messaging-rabbitmq</artifactId>
-        </dependency>
+        <!--<dependency>-->
+        <!--<groupId>org.springframework</groupId>-->
+        <!--<artifactId>gs-messaging-rabbitmq</artifactId>-->
+        <!--</dependency>-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-amqp</artifactId>
@@ -115,6 +115,8 @@
             <version>5.3.7.Final</version>
         </dependency>
 
+        <!-- https://mvnrepository.com/artifact/com.vaadin/vaadin-maven-plugin -->
+
 
     </dependencies>
 
@@ -135,6 +137,22 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+
+            </plugin>
+            <plugin>
+
+                <groupId>com.vaadin</groupId>
+                <artifactId>vaadin-maven-plugin</artifactId>
+                <version>${vaadin.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>copy-production-files</goal>
+                            <goal>package-for-production</goal>
+                        </goals>
+                    </execution>
+                </executions>
+
             </plugin>
         </plugins>
     </build>
