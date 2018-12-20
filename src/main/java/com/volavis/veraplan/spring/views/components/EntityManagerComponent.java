@@ -1,7 +1,6 @@
 package com.volavis.veraplan.spring.views.components;
 
 import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.HasValue;
 import com.vaadin.flow.component.HtmlComponent;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.checkbox.Checkbox;
@@ -35,6 +34,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
+//@Deprecated()
 public class EntityManagerComponent<E, F extends Enum<F>> extends VerticalLayout {
 
     private EntityService<E, EntityFilter<F>> service;
@@ -208,7 +208,6 @@ public class EntityManagerComponent<E, F extends Enum<F>> extends VerticalLayout
         });
 
     }
-
 
     private VerticalLayout getEntityEditorComponent(E entity) {
 
