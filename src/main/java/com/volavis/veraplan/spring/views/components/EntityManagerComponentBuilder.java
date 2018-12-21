@@ -13,8 +13,11 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.CallbackDataProvider;
 import com.vaadin.flow.data.provider.ConfigurableFilterDataProvider;
+import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.data.renderer.Renderer;
 import com.vaadin.flow.data.value.ValueChangeMode;
+import com.vaadin.flow.function.SerializableFunction;
+import com.vaadin.flow.function.SerializableSupplier;
 import com.vaadin.flow.function.ValueProvider;
 import com.volavis.veraplan.spring.persistence.service.EntityService;
 
@@ -66,8 +69,8 @@ public class EntityManagerComponentBuilder<E, F extends Enum<F>> {
         return this;
     }
 
-    public EntityManagerComponentBuilder<E, F> setEditEntityRenderer(@NotNull Renderer<E> editEntityRenderer) {
-        this.editEntityRenderer = editEntityRenderer;
+    public EntityManagerComponentBuilder<E, F> setEditEntityRenderer(@NotNull SerializableFunction<E, ? extends Component> editEntityComponentSupplier) {
+        this.editEntityRenderer = new ComponentRenderer<>(editEntityComponentSupplier);
         this.hasEditEntityComponent = true;
         return this;
     }
@@ -79,7 +82,7 @@ public class EntityManagerComponentBuilder<E, F extends Enum<F>> {
         return this;
     }
 
-    public VerticalLayout buildComponent() {//TODO
+    public VerticalLayout buildComponent() {
 
         VerticalLayout globalLayout = new VerticalLayout();
 
@@ -138,17 +141,23 @@ public class EntityManagerComponentBuilder<E, F extends Enum<F>> {
             entityGrid.setItemDetailsRenderer(this.editEntityRenderer);
         }
 
-        globalLayout.add(entityGrid);
+        contentLayout.add(entityGrid);
         globalLayout.add(contentLayout);
 
 
         //Add-entity pane(on button click)
         if (this.hasAddNewEntityComponent) {
             contentLayout.add(this.addEntityComponent);
-            addEntityButton.addClickListener(event -> this.addEntityComponent.setVisible(!this.addEntityComponent.isVisible()));
+            addEntityButton.addClickListener(event -> {
+                this.addEntityComponent.setVisible(!this.addEntityComponent.isVisible());
+
+                if (this.addEntityComponent.isVisible()) {
+                    addEntityButton.setText("Hide add new Entry");
+                } else {
+                    addEntityButton.setText("Add new Entry");
+                }
+            });
         }
-
-
         return globalLayout;
     }
 

@@ -81,7 +81,7 @@ public class UserService implements EntityService<User, EntityFilter<UserField>>
 
     }
 
-    private Example<User> getExampleFromFilter(EntityFilter filter) {
+    public Example<User> getExampleFromFilter(EntityFilter filter) {
         User user = new User();
 
         if (USERNAME.equals(filter.getType())) {

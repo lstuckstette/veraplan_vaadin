@@ -3,6 +3,7 @@ package com.volavis.veraplan.spring.persistence.service;
 import com.vaadin.external.org.slf4j.Logger;
 import com.vaadin.external.org.slf4j.LoggerFactory;
 import com.volavis.veraplan.spring.persistence.entities.organisation.Building;
+import com.volavis.veraplan.spring.persistence.entities.organisation.Department;
 import com.volavis.veraplan.spring.persistence.repository.BuildingRepository;
 import com.volavis.veraplan.spring.views.components.BuildingField;
 import com.volavis.veraplan.spring.views.components.EntityFilter;
@@ -10,12 +11,14 @@ import com.volavis.veraplan.spring.views.components.EntityFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Stream;
 
+@Repository
 @Service
 public class BuildingService implements EntityService<Building, EntityFilter<BuildingField>> {
 
@@ -50,12 +53,19 @@ public class BuildingService implements EntityService<Building, EntityFilter<Bui
         return buildings.stream();
     }
 
+    @Transactional
+    public List<Department> getDepartments(Building b) {
+
+        Building building = buildingRepository.findOneWithDepartmentsById(b.getId());
+        return building.getDepartments();
+    }
+
     @Override
     public void saveChanges(Building entity) {
         buildingRepository.save(entity);
     }
 
-    private Example<Building> getExampleFromFilter(EntityFilter<BuildingField> filter) {
+    public Example<Building> getExampleFromFilter(EntityFilter<BuildingField> filter) {
         Building b = new Building();
 
         logger.info(filter.toString());
@@ -91,6 +101,7 @@ public class BuildingService implements EntityService<Building, EntityFilter<Bui
         buildingRepository.save(b);
     }
 
+    @Transactional
     public void removeBuilding(Building b) {
         buildingRepository.delete(b);
     }

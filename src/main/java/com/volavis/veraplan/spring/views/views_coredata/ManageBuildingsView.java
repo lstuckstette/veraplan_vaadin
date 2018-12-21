@@ -2,12 +2,14 @@ package com.volavis.veraplan.spring.views.views_coredata;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.checkbox.Checkbox;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.*;
 
+import com.vaadin.flow.component.listbox.ListBox;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -24,13 +26,14 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.volavis.veraplan.spring.MainLayout;
 import com.volavis.veraplan.spring.persistence.entities.organisation.Building;
+import com.volavis.veraplan.spring.persistence.entities.organisation.Department;
 import com.volavis.veraplan.spring.persistence.service.BuildingService;
-import com.volavis.veraplan.spring.views.components.BuildingField;
-import com.volavis.veraplan.spring.views.components.UserField;
-import com.volavis.veraplan.spring.views.components.ViewHelper;
-import com.volavis.veraplan.spring.views.components.EntityFilter;
+import com.volavis.veraplan.spring.persistence.service.DepartmentService;
+import com.volavis.veraplan.spring.views.components.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -39,106 +42,94 @@ import java.util.stream.Collectors;
 public class ManageBuildingsView extends Div {
 
     private BuildingService buildingService;
+    private DepartmentService departmentService;
 
     @Autowired
-    public ManageBuildingsView(BuildingService buildingService) {
+    public ManageBuildingsView(BuildingService buildingService, DepartmentService departmentService) {
         this.buildingService = buildingService;
+        this.departmentService = departmentService;
+
         initView();
     }
 
     private void initView() {
-        VerticalLayout globalLayout = new VerticalLayout();
-        globalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
-        //Headlines
-        globalLayout.add(new H1("Manage Buildings"));
-        globalLayout.add(new H2("Alter existing buildings or add a new one"));
+        EntityManagerComponentBuilder<Building, BuildingField> emcb = new EntityManagerComponentBuilder<>(buildingService, BuildingField.class);
+        emcb = emcb.setHeadline("Manage Buildings").setSubHeadline("Browse all buildings or filter the list. Clicking on an item will show an editor window.")
+                .addGridColumn(Building::getId, "Id")
+                .addGridColumn(Building::getShortName, "Short Name")
+                .addGridColumn(Building::getName, "Name")
+                .addGridComponentColumn(building -> {
+                    Div container = new Div();
+                    buildingService.getDepartments(building).forEach(dep -> container.add(new Span(dep.getName() + ";")));
+                    return container;
+                }, "Departments")
+                .setAddEntityComponent(this.getAddBuildingComponent())
+                .setEditEntityRenderer(this::getBuildingEditor);
 
-        //Action/Filter bar
-        HorizontalLayout actionBarLayout = new HorizontalLayout();
-        actionBarLayout.setAlignItems(FlexComponent.Alignment.CENTER);
-
-        Span filterText = new Span("Filter by");
-        ComboBox<BuildingField> filtertype = new ComboBox<>();
-        filtertype.setRequired(true);
-        filtertype.setItemLabelGenerator(BuildingField::toString);
-        filtertype.setItems(BuildingField.values());
-        filtertype.setValue(BuildingField.NAME);
-
-        TextField filterInput = new TextField();
-        filterInput.setValueChangeMode(ValueChangeMode.EAGER);
-        Span addBuildingText = new Span("or ");
-        Button addBuildingButton = new Button("Add Building");
-
-        actionBarLayout.add(filterText, filtertype, filterInput, addBuildingText, addBuildingButton);
-        globalLayout.add(actionBarLayout);
-
-        //Main content
-        HorizontalLayout contentLayout = new HorizontalLayout();
-        contentLayout.setWidth("100%");
-        //Grid:
-        Grid<Building> buildingGrid = new Grid<>(); //TODO width = 1px oO?
-
-
-        //Dataprovider:
-        CallbackDataProvider<Building, EntityFilter<BuildingField>> dataProvider = ViewHelper.getFilterDataProvider(buildingService);
-        ConfigurableFilterDataProvider<Building, Void, EntityFilter<BuildingField>> filterWrapper =
-                dataProvider.withConfigurableFilter();
-        buildingGrid.setDataProvider(filterWrapper);
-
-        filterInput.addValueChangeListener(event -> {
-            String text = event.getValue();
-            if (!text.trim().isEmpty() && text.trim().length() > 1) {
-                filterWrapper.setFilter(new EntityFilter<>(text, filtertype.getValue()));
-            } else {
-                filterWrapper.setFilter(null);
-            }
-        });
-
-        buildingGrid.addColumn(Building::getId).setHeader("Id");
-        buildingGrid.addColumn(Building::getName).setHeader("Name");
-        buildingGrid.addColumn(Building::getShortName).setHeader("Short Name");
-
-        buildingGrid.setItemDetailsRenderer(new ComponentRenderer<>(this::getBuildingEditor));
-
-        contentLayout.add(buildingGrid);
-        globalLayout.add(contentLayout);
-
-
-        //Add-building pane(on button click)
-
-        VerticalLayout addNewBuildingLayout = getAddBuildingComponent();
-        addNewBuildingLayout.setAlignItems(FlexComponent.Alignment.CENTER);
-
-        contentLayout.add(addNewBuildingLayout);
-
-        addBuildingButton.addClickListener(event -> addNewBuildingLayout.setVisible(!addNewBuildingLayout.isVisible()));
-
-
-        this.add(globalLayout);
+        this.add(emcb.buildComponent());
     }
 
-    public VerticalLayout getAddBuildingComponent() {
+    private VerticalLayout getAddBuildingComponent() {
         VerticalLayout addNewBuildingLayout = new VerticalLayout();
         addNewBuildingLayout.setVisible(false);
         addNewBuildingLayout.add(new H3("Add new Building"));
         addNewBuildingLayout.add(new H4("Enter information below:"));
         FormLayout newBuildingFormLayout = new FormLayout();
 
+        //Attribute fields:
         TextField buildingName = new TextField();
-        Label infoField = new Label();
+        TextField buildingShortName = new TextField();
 
+        ComboBox<Department> addDepartmentChooser = new ComboBox<>();
+        addDepartmentChooser.setRenderer(new ComponentRenderer<>(department -> new Span(department.getName())));
+        if (departmentService.countAll() > 0) {
+            addDepartmentChooser.setItems(departmentService.getAllInRange(0, departmentService.countAll()));
+        }
+        List<Department> addedDepartments = new ArrayList<>();
+        ListBox<Checkbox> buildingDepartments = new ListBox<>();
+
+        Button addDepartment = new Button("Add Department", buttonClickEvent -> {
+            if (addDepartmentChooser.getValue() != null) {
+                addedDepartments.add(addDepartmentChooser.getValue());
+            }
+            buildingDepartments.setItems(addedDepartments.stream().map(department -> {
+                Checkbox cb = new Checkbox(department.getName());
+                cb.addValueChangeListener(state -> {
+                    if (!state.getValue()) {
+                        addedDepartments.remove(department);
+                        buildingDepartments.remove(cb);
+                    }
+                });
+                return cb;
+            }));
+        });
+        newBuildingFormLayout.addFormItem(buildingName, "Name");
+        newBuildingFormLayout.addFormItem(buildingShortName, "Short Name");
+
+        newBuildingFormLayout.addFormItem(addDepartmentChooser, "Add Department").add(addDepartment);
+        newBuildingFormLayout.addFormItem(buildingDepartments, "Deparments");
+
+        Label infoField = new Label();
+        newBuildingFormLayout.add(infoField);
+        
         HorizontalLayout actionBar = new HorizontalLayout();
         actionBar.setAlignItems(FlexComponent.Alignment.CENTER);
         Button save = new Button("Save");
-        save.getElement().setAttribute("theme", "contained");
+        save.getElement().
+
+                setAttribute("theme", "contained");
+
         Button reset = new Button("Reset");
         actionBar.add(save, reset);
 
         newBuildingFormLayout.addFormItem(buildingName, "Name");
+        newBuildingFormLayout.addFormItem(buildingShortName, "Short Name");
         newBuildingFormLayout.add(infoField);
 
         //Action Listener:
-        save.addClickListener(event -> {
+        save.addClickListener(event ->
+
+        {
 
             //show warning Dialog:
             Dialog warning = ViewHelper.getConfirmationDialog("Do you really want to save this new Building?", evt -> {
@@ -147,7 +138,15 @@ public class ManageBuildingsView extends Div {
                 binder.forField(buildingName)
                         .withValidator(new StringLengthValidator("Building name can not be empty.", 1, null))
                         .bind(Building::getName, Building::setName);
+
+                binder.forField(buildingShortName)
+                        .withValidator(new StringLengthValidator("Building short name can not be empty.", 1, null))
+                        .bind(Building::getShortName, Building::setShortName);
+
                 if (binder.writeBeanIfValid(building)) {
+                    //add departments
+                    building.setDepartments(addedDepartments);
+                    //save
                     buildingService.saveBuilding(building);
                     infoField.setText("Successfully saved new building.");
                 } else {
@@ -164,9 +163,9 @@ public class ManageBuildingsView extends Div {
         return addNewBuildingLayout;
     }
 
-    public Component getBuildingEditor(Building building) {
+    private Component getBuildingEditor(Building building) {
 
-        return null;
+        return new VerticalLayout();
     }
 
 }

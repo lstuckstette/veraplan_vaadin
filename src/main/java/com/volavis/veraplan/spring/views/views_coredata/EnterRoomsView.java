@@ -2,6 +2,8 @@ package com.volavis.veraplan.spring.views.views_coredata;
 
 import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.volavis.veraplan.spring.MainLayout;
@@ -39,7 +41,8 @@ public class EnterRoomsView extends Div {
                     return container;
                 }, "Roles");
 
-        //TODO: test this - rebuild manage-users
+        emcb = emcb.setEditEntityRenderer(this::editEntityComponent)
+                .setAddEntityComponent(this.addEntityComponent());
 
         this.add(emcb.buildComponent());
 
@@ -69,4 +72,18 @@ public class EnterRoomsView extends Div {
 //
 //        this.add(manageRooms);
     }
+
+    private VerticalLayout editEntityComponent(User user) {
+        VerticalLayout editEntityLayout = new VerticalLayout();
+        editEntityLayout.add(new Span("EDIT"));
+        return editEntityLayout;
+    }
+
+    private VerticalLayout addEntityComponent() {
+        VerticalLayout addEntityLayout = new VerticalLayout();
+        addEntityLayout.setAlignItems(FlexComponent.Alignment.CENTER);
+        addEntityLayout.add(new Span("ADD"));
+        return addEntityLayout;
+    }
+
 }

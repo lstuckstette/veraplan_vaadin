@@ -57,7 +57,7 @@ public class ManageUsersView extends Div {
 
     private RoleService roleService;
 
-    //TODO: port this to manageUsersView & delete this
+
 
     @Autowired
     public ManageUsersView(UserService userService, RoleService roleService) {

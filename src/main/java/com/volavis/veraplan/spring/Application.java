@@ -20,10 +20,7 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 /**
  * The entry point of the Spring Boot application.
  */
-@EnableJpaRepositories(basePackageClasses = {UserRepository.class})
-@EnableJpaAuditing
-@EnableTransactionManagement
-@EntityScan(basePackageClasses = {User.class})
+
 @SpringBootApplication(scanBasePackageClasses = {Application.class, SecurityConfig.class, PopulateDemoDatabaseService.class, DashboardView.class})
 @EnableScheduling //for messaging test..
 public class Application {

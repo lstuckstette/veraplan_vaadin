@@ -34,7 +34,7 @@ import java.util.EnumSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
-//@Deprecated()
+@Deprecated()
 public class EntityManagerComponent<E, F extends Enum<F>> extends VerticalLayout {
 
     private EntityService<E, EntityFilter<F>> service;
@@ -49,6 +49,7 @@ public class EntityManagerComponent<E, F extends Enum<F>> extends VerticalLayout
     private Binder<E> editorBinder;
     private Label infoLabel;
 
+    @Deprecated
     public EntityManagerComponent(EntityService<E, EntityFilter<F>> service, Class<F> entityFields, String headline, String subHeadline) {
 
         super();
