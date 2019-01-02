@@ -35,8 +35,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
+
 
 @PageTitle("Veraplan - Manage Buildings")
 @Route(value = "coredata/building", layout = MainLayout.class)

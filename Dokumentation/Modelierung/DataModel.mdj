@@ -1012,7 +1012,7 @@
 									"font": "Arial;13;1",
 									"left": 640,
 									"top": 717,
-									"width": 88.2841796875,
+									"width": 101.51904296875,
 									"height": 13,
 									"text": "Timeslot"
 								},
@@ -1039,7 +1039,23 @@
 											"font": "Arial;13;0",
 											"left": 645,
 											"top": 740,
-											"width": 78.2841796875,
+											"width": 91.51904296875,
+											"height": 13
+										},
+										{
+											"_type": "ERDColumnView",
+											"_id": "AAAAAAFoDjOt1xMo67M=",
+											"_parent": {
+												"$ref": "AAAAAAFnOuZi9SGv+hI="
+											},
+											"model": {
+												"$ref": "AAAAAAFoDjOtxBMlEFA="
+											},
+											"fillColor": "#ffadad",
+											"font": "Arial;13;0",
+											"left": 645,
+											"top": 755,
+											"width": 91.51904296875,
 											"height": 13
 										},
 										{
@@ -1054,8 +1070,8 @@
 											"fillColor": "#ffadad",
 											"font": "Arial;13;0",
 											"left": 645,
-											"top": 755,
-											"width": 78.2841796875,
+											"top": 770,
+											"width": 91.51904296875,
 											"height": 13
 										},
 										{
@@ -1070,8 +1086,8 @@
 											"fillColor": "#ffadad",
 											"font": "Arial;13;0",
 											"left": 645,
-											"top": 770,
-											"width": 78.2841796875,
+											"top": 785,
+											"width": 91.51904296875,
 											"height": 13
 										}
 									],
@@ -1079,16 +1095,16 @@
 									"font": "Arial;13;0",
 									"left": 640,
 									"top": 735,
-									"width": 88.2841796875,
-									"height": 53
+									"width": 101.51904296875,
+									"height": 68
 								}
 							],
 							"fillColor": "#ffadad",
 							"font": "Arial;13;0",
 							"left": 640,
 							"top": 712,
-							"width": 88.2841796875,
-							"height": 76,
+							"width": 101.51904296875,
+							"height": 91,
 							"nameLabel": {
 								"$ref": "AAAAAAFnOuZi9CGuxp0="
 							},
@@ -3671,6 +3687,15 @@
 								"$ref": "AAAAAAFnOuZi9CGrZ+c="
 							},
 							"name": "date",
+							"length": 0
+						},
+						{
+							"_type": "ERDColumn",
+							"_id": "AAAAAAFoDjOtxBMlEFA=",
+							"_parent": {
+								"$ref": "AAAAAAFnOuZi9CGrZ+c="
+							},
+							"name": "enumerator",
 							"length": 0
 						},
 						{

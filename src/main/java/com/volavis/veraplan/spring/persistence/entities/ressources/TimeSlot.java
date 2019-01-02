@@ -15,6 +15,8 @@ public class TimeSlot {
     @Temporal(TemporalType.DATE)
     private Date date;
 
+    private int enumerator = -1;
+
     @NotBlank
     @Temporal(TemporalType.TIME)
     private Date startTime;
@@ -51,6 +53,14 @@ public class TimeSlot {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public int getEnumerator() {
+        return enumerator;
+    }
+
+    public void setEnumerator(int enumerator) {
+        this.enumerator = enumerator;
     }
 
     public Date getStartTime() {
