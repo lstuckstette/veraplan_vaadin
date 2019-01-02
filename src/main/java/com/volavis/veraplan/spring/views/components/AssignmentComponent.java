@@ -7,8 +7,10 @@ import com.volavis.veraplan.spring.persistence.entities.ressources.TimeSlot;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.List;
 
+@Deprecated
 public class AssignmentComponent extends VerticalLayout {
 
     private Assignment assignment;
@@ -51,6 +53,9 @@ public class AssignmentComponent extends VerticalLayout {
         for (TimeSlot t : assignment.getTimeSlots()) {
             indices.add(t.getEnumerator());
         }
+        //sort
+        indices.sort(Comparator.naturalOrder());
         return indices;
     }
+
 }

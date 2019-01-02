@@ -16,9 +16,14 @@ import com.vaadin.flow.data.binder.BindingValidationStatus;
 import com.vaadin.flow.data.provider.CallbackDataProvider;
 import com.vaadin.flow.data.provider.DataProvider;
 import com.vaadin.flow.data.validator.StringLengthValidator;
+import com.volavis.veraplan.spring.persistence.entities.organisation.Assignment;
 import com.volavis.veraplan.spring.persistence.entities.organisation.Building;
+import com.volavis.veraplan.spring.persistence.entities.ressources.TimeSlot;
 import com.volavis.veraplan.spring.persistence.service.EntityService;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -82,6 +87,25 @@ public abstract class ViewHelper {
                     return count;
                 }
         );
+    }
+
+    public static int getAssignmentDayOfWeek(Assignment assignment) {
+        Calendar calendar = Calendar.getInstance();
+
+        if (!assignment.getTimeSlots().isEmpty() && assignment.getTimeSlots().get(0).getDate() != null) {
+            calendar.setTime(assignment.getTimeSlots().get(0).getDate());
+            return calendar.get(Calendar.DAY_OF_WEEK);
+        } else {
+            return 0;
+        }
+    }
+
+    public static List<Integer> getAssignmentTimeSlotEnumerators(Assignment assignment) {
+        ArrayList<Integer> indices = new ArrayList<>();
+        for (TimeSlot t : assignment.getTimeSlots()) {
+            indices.add(t.getEnumerator());
+        }
+        return indices;
     }
 
 
