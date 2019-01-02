@@ -10,6 +10,7 @@ import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.*;
 
 import com.vaadin.flow.component.listbox.ListBox;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -71,6 +72,8 @@ public class ManageBuildingsView extends Div {
 
     private VerticalLayout getAddBuildingComponent() {
         VerticalLayout addNewBuildingLayout = new VerticalLayout();
+
+        addNewBuildingLayout.setAlignItems(FlexComponent.Alignment.CENTER);
         addNewBuildingLayout.setVisible(false);
         addNewBuildingLayout.add(new H3("Add new Building"));
         addNewBuildingLayout.add(new H4("Enter information below:"));
@@ -111,7 +114,7 @@ public class ManageBuildingsView extends Div {
 
         Label infoField = new Label();
         newBuildingFormLayout.add(infoField);
-        
+
         HorizontalLayout actionBar = new HorizontalLayout();
         actionBar.setAlignItems(FlexComponent.Alignment.CENTER);
         Button save = new Button("Save");
@@ -122,8 +125,7 @@ public class ManageBuildingsView extends Div {
         Button reset = new Button("Reset");
         actionBar.add(save, reset);
 
-        newBuildingFormLayout.addFormItem(buildingName, "Name");
-        newBuildingFormLayout.addFormItem(buildingShortName, "Short Name");
+
         newBuildingFormLayout.add(infoField);
 
         //Action Listener:
@@ -148,10 +150,18 @@ public class ManageBuildingsView extends Div {
                     building.setDepartments(addedDepartments);
                     //save
                     buildingService.saveBuilding(building);
-                    infoField.setText("Successfully saved new building.");
+                    Notification notification = new Notification();
+                    notification.setText("Successfully saved new building.");
+                    notification.open();
+
                 } else {
                     String errorText = ViewHelper.getBinderErrorMessage(binder);
-                    infoField.setText("Error during save: " + errorText);
+
+                    Notification notification = new Notification();
+                    notification.setText("Error during save: " + errorText);
+                    notification.open();
+
+//                    infoField.setText("Error during save: " + errorText);
                 }
 
             });
