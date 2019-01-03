@@ -21,6 +21,12 @@ import com.volavis.veraplan.spring.views.components.ViewHelper;
 import org.apache.commons.collections4.keyvalue.MultiKey;
 import org.apache.commons.collections4.map.MultiKeyMap;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.stomp.StompHeaders;
+import org.springframework.messaging.simp.stomp.StompSession;
+import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
+import org.springframework.web.socket.client.WebSocketClient;
+import org.springframework.web.socket.client.standard.StandardWebSocketClient;
+import org.springframework.web.socket.messaging.WebSocketStompClient;
 import org.vaadin.stefan.dnd.DndActivator;
 import org.vaadin.stefan.dnd.drag.DragSourceExtension;
 import org.vaadin.stefan.dnd.drop.DropTargetExtension;
@@ -49,6 +55,26 @@ public class ViewPlanView extends Div {
 
         toolkit.add(gloablLayout);
         this.add(toolkit);
+    }
+
+    private void setupWebsocketClient(){
+        WebSocketClient client = new StandardWebSocketClient();
+
+        WebSocketStompClient stompClient = new WebSocketStompClient(client);
+
+        StompSessionHandlerAdapter sessionHandler = new StompSessionHandlerAdapter() {
+            @Override
+            public void handleFrame(StompHeaders headers, Object payload) {
+                super.handleFrame(headers, payload);
+            }
+
+            @Override
+            public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
+                super.afterConnected(session, connectedHeaders);
+            }
+        }
+
+//        stompClient.connect
     }
 
     private Div renderPlanModel(MultiKeyMap<Integer, AssignmentContainer> model, int timeslotCount) {
