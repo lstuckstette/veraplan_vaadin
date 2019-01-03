@@ -57,7 +57,7 @@ public class ViewPlanView extends Div {
         this.add(toolkit);
     }
 
-    private void setupWebsocketClient(){
+    private void setupWebsocketClient() { //TODO!
         WebSocketClient client = new StandardWebSocketClient();
 
         WebSocketStompClient stompClient = new WebSocketStompClient(client);
@@ -66,15 +66,16 @@ public class ViewPlanView extends Div {
             @Override
             public void handleFrame(StompHeaders headers, Object payload) {
                 super.handleFrame(headers, payload);
+
             }
 
             @Override
             public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
                 super.afterConnected(session, connectedHeaders);
             }
-        }
+        };
 
-//        stompClient.connect
+        stompClient.connect("", sessionHandler);
     }
 
     private Div renderPlanModel(MultiKeyMap<Integer, AssignmentContainer> model, int timeslotCount) {
@@ -85,7 +86,6 @@ public class ViewPlanView extends Div {
         container.getStyle().set("display", "grid");
         container.getStyle().set("grid-template-columns", "repeat(8,auto)");
         container.getStyle().set("grid-gap", "10px 10px");
-
 
 
         // render top row
