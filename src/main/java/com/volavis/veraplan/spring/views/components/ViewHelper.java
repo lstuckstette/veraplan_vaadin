@@ -21,10 +21,7 @@ import com.volavis.veraplan.spring.persistence.entities.organisation.Building;
 import com.volavis.veraplan.spring.persistence.entities.ressources.TimeSlot;
 import com.volavis.veraplan.spring.persistence.service.EntityService;
 
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public abstract class ViewHelper {
@@ -94,7 +91,36 @@ public abstract class ViewHelper {
 
         if (!assignment.getTimeSlots().isEmpty() && assignment.getTimeSlots().get(0).getDate() != null) {
             calendar.setTime(assignment.getTimeSlots().get(0).getDate());
-            return calendar.get(Calendar.DAY_OF_WEEK);
+            int weekday = calendar.get(Calendar.DAY_OF_WEEK);
+            switch (weekday) {
+                case Calendar.MONDAY:
+                    return 1;
+                case Calendar.TUESDAY:
+                    return 2;
+                case Calendar.WEDNESDAY:
+                    return 3;
+                case Calendar.THURSDAY:
+                    return 4;
+                case Calendar.FRIDAY:
+                    return 5;
+                case Calendar.SATURDAY:
+                    return 6;
+                case Calendar.SUNDAY:
+                    return 7;
+                default:
+                    return 0;
+            }
+        } else {
+            return 0;
+        }
+    }
+
+    public static int getAssignmentTimeSlotSmallestEnumerator(Assignment assignment) {
+        List<Integer> enumerators = getAssignmentTimeSlotEnumerators(assignment);
+
+        if (!enumerators.isEmpty()) {
+            enumerators.sort(Comparator.naturalOrder());
+            return enumerators.get(0);
         } else {
             return 0;
         }

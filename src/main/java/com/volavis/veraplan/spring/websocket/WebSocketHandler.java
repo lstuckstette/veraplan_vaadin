@@ -10,6 +10,7 @@ import com.volavis.veraplan.spring.persistence.entities.User;
 import com.volavis.veraplan.spring.persistence.exception.ChannelNotFoundException;
 import com.volavis.veraplan.spring.persistence.service.ChannelService;
 import com.volavis.veraplan.spring.persistence.service.UserService;
+import org.atmosphere.config.service.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.messaging.MessageChannel;
@@ -70,7 +71,42 @@ public class WebSocketHandler {
         }
     }
 
+    @SubscribeMapping("/subscribe/dragdrop/{channelId}")
+    public void handleDragDropSub(@DestinationVariable String channelId, SimpMessageHeaderAccessor headerAccessor){
+        User currentUser = userService.getByUsernameOrEmail(Objects.requireNonNull(headerAccessor.getUser()).getName());
+        if(!checkUserInChannel(headerAccessor,currentUser,channelId)){
+            StompHeaderAccessor stompHeaderAccessor = StompHeaderAccessor.create(StompCommand.ERROR);
+            stompHeaderAccessor.setMessage("Unauthorized access to channel '" + channelId + "'.");
+            stompHeaderAccessor.setSessionId(headerAccessor.getSessionId());
+            this.clientOutboundChannel.send(MessageBuilder.createMessage(new byte[0], stompHeaderAccessor.getMessageHeaders()));
+        }
+    }
+
     //HANDLE MESSAGES:
+
+    @MessageMapping("/dragdrop/{channelId}")
+    @SendTo("/subscribe/chat/{channelId}")
+    public String handleDragDropMessage(@Payload String message, @DestinationVariable String channelId, SimpMessageHeaderAccessor headerAccessor){
+//        Map jsonMapping = gson.fromJson(message, Map.class);
+
+        User currentUser;
+        //get User
+        try {
+            currentUser = userService.getByUsernameOrEmail(Objects.requireNonNull(headerAccessor.getUser()).getName());
+        } catch (UsernameNotFoundException e){
+            this.sendError(headerAccessor, "Unauthorized access to channel '" + channelId + "'.");
+            return null;
+        }
+
+        if (checkUserInChannel(headerAccessor, currentUser, channelId)) {
+            return message;
+//            return new GsonBuilder().create().toJson(jsonMapping);
+        } else {
+            this.sendError(headerAccessor, "Unauthorized access to channel '" + channelId + "'.");
+            return null;
+        }
+
+    }
 
     @MessageMapping("/chat/{channelId}")
     @SendTo("/subscribe/chat/{channelId}")

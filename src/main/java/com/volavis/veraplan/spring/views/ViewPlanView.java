@@ -1,10 +1,10 @@
 package com.volavis.veraplan.spring.views;
 
-import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.dependency.JavaScript;
 import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.FlexLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 import com.vaadin.flow.router.PageTitle;
@@ -14,21 +14,32 @@ import com.volavis.veraplan.spring.persistence.entities.organisation.Assignment;
 import com.volavis.veraplan.spring.persistence.entities.ressources.TimeSlot;
 import com.volavis.veraplan.spring.persistence.service.UserService;
 import com.volavis.veraplan.spring.views.components.AssignmentComponent;
+import com.volavis.veraplan.spring.views.components.AssignmentContainer;
 import com.volavis.veraplan.spring.views.components.CollaborationToolkit;
 
 import com.volavis.veraplan.spring.views.components.ViewHelper;
+import org.apache.commons.collections4.keyvalue.MultiKey;
 import org.apache.commons.collections4.map.MultiKeyMap;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.vaadin.stefan.dnd.DndActivator;
+import org.vaadin.stefan.dnd.drag.DragSourceExtension;
+import org.vaadin.stefan.dnd.drop.DropTargetExtension;
 
 import java.util.*;
 
 @PageTitle("Plan")
 @Route(value = "plan", layout = MainLayout.class)
+//@JavaScript("bower_components/interactjs/interact.min.js")
 public class ViewPlanView extends Div {
+
+    private AssignmentComponent currentlyDraggedComponent;
 
 
     @Autowired
     public ViewPlanView(UserService userService) {
+
+        //activate drag&drop support
+        DndActivator.activateMobileDnd();
 
         CollaborationToolkit toolkit = new CollaborationToolkit(userService, "1337");
 
@@ -36,9 +47,116 @@ public class ViewPlanView extends Div {
 
         initView(gloablLayout);
 
-
         toolkit.add(gloablLayout);
         this.add(toolkit);
+    }
+
+    private Div renderPlanModel(MultiKeyMap<Integer, AssignmentContainer> model, int timeslotCount) {
+        Div container = new Div();
+
+        //setup container
+        container.setWidth("100%");
+        container.getStyle().set("display", "grid");
+        container.getStyle().set("grid-template-columns", "repeat(8,auto)");
+        container.getStyle().set("grid-gap", "10px 10px");
+
+
+
+        // render top row
+
+        Span timeslotLabel = new Span("Timeslot");
+        timeslotLabel.getStyle().set("grid-area", "1 / 1 / span 1 / span 1");
+        Span mondayLabel = new Span("Monday");
+        mondayLabel.getStyle().set("grid-area", "1 / 2 / span 1 / span 1");
+        Span tuesdayLabel = new Span("Tuesday");
+        tuesdayLabel.getStyle().set("grid-area", "1 / 3 / span 1 / span 1");
+        Span wednesdayLabel = new Span("Wednesday");
+        wednesdayLabel.getStyle().set("grid-area", "1 / 4 / span 1 / span 1");
+        Span thursdayLabel = new Span("Thursday");
+        thursdayLabel.getStyle().set("grid-area", "1 / 5 / span 1 / span 1");
+        Span fridayLabel = new Span("Friday");
+        fridayLabel.getStyle().set("grid-area", "1 / 6 / span 1 / span 1");
+        Span saturdayLabel = new Span("Saturday");
+        saturdayLabel.getStyle().set("grid-area", "1 / 7 / span 1 / span 1");
+        Span sundayLabel = new Span("Sunday");
+        sundayLabel.getStyle().set("grid-area", "1 / 8 / span 1 / span 1");
+
+        Span horizontalLine = new Span();
+        horizontalLine.getStyle().set("grid-area", "2 / 1 / span 1 / span 8");
+        horizontalLine.getStyle().set("border-top", "1px solid");
+
+        container.add(timeslotLabel, mondayLabel, tuesdayLabel, wednesdayLabel,
+                thursdayLabel, fridayLabel, saturdayLabel, sundayLabel, horizontalLine);
+
+        //render timeslots
+
+        for (int i = 1; i <= timeslotCount; i++) {
+            Span tsLabel = new Span(Integer.toString(i));
+            tsLabel.getStyle().set("grid-area", (i + 2) + " / 1 / span 1 / span 1");
+            container.add(tsLabel);
+        }
+
+        //add assignments
+
+        for (MultiKey<? extends Integer> entry : model.keySet()) { //model = timeslot x weekday --> assignmentcontainer
+            AssignmentContainer assignmentContainer = model.get(entry);
+            assignmentContainer.getStyle().set("grid-area", (entry.getKey(0) + 2) + " / " + (entry.getKey(1) + 1) + " /span 1 / span 1");
+
+
+            container.add(assignmentContainer);
+        }
+
+        return container;
+    }
+
+    private MultiKeyMap<Integer, AssignmentContainer> buildModel(List<Assignment> assignments, int timeslotCount) {
+        MultiKeyMap<Integer, AssignmentContainer> model = new MultiKeyMap<>();
+
+        //prefill model with empty assignment-components
+        for (int ts = 1; ts <= timeslotCount; ts++) {
+            for (int weekday = 1; weekday <= 7; weekday++) {
+                AssignmentContainer container = new AssignmentContainer(ts, weekday);
+
+                //Drag&Drop Target logic: every assignmentContainer can be a target, but only assigned Assignments can be source
+                DropTargetExtension<AssignmentContainer> target = DropTargetExtension.extend(container);
+                target.addDropListener(event -> {
+                    Notification.show("drop-into ["
+                            + event.getComponent().getTimeslotEnumerator() +
+                            "," + event.getComponent().getWeekday() + "] !");
+                    currentlyDraggedComponent.getParentContainer().removeAssignmentComponent(currentlyDraggedComponent);
+                    currentlyDraggedComponent.setParentContainer(event.getComponent());
+                    event.getComponent().addAssignmentComponent(currentlyDraggedComponent);
+                    event.getComponent().render();
+
+//                    this.currentlyDraggedComponent = null;
+                });
+                model.put(ts, weekday, container);
+            }
+        }
+        //add assignments to specific assignment components
+        for (Assignment assignment : assignments) {
+            int tsEnum = ViewHelper.getAssignmentTimeSlotSmallestEnumerator(assignment);
+            int dayOfWeek = ViewHelper.getAssignmentDayOfWeek(assignment);
+
+            AssignmentContainer assignmentContainer = model.get(tsEnum, dayOfWeek);
+
+            AssignmentComponent assignmentComponent = new AssignmentComponent(assignment, assignmentContainer);
+
+            assignmentContainer.addAssignmentComponent(assignmentComponent);
+
+            //Drag&Drop Source logic
+            DragSourceExtension<AssignmentComponent> source = DragSourceExtension.extend(assignmentComponent);
+
+            source.addDragStartListener(event -> {
+                Notification.show("drag-start ["
+                        + ViewHelper.getAssignmentTimeSlotSmallestEnumerator(event.getComponent().getAssignment()) +
+                        "," + ViewHelper.getAssignmentDayOfWeek(event.getComponent().getAssignment()) + "] !");
+                this.currentlyDraggedComponent = event.getComponent();
+            });
+
+
+        }
+        return model;
     }
 
     private void initView(VerticalLayout globalLayout) {
@@ -47,83 +165,15 @@ public class ViewPlanView extends Div {
         globalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
         globalLayout.add(new H1("Headline"));
 
+        int timeslotCount = 10;
+
+        Div planGrid = renderPlanModel(buildModel(getMockAssignments(), timeslotCount), timeslotCount);
+
+
         // map K1 x K2 x ... x KN -> V  -->  TimeSlotIndex x Weekday -> AssignmentComponent
-        MultiKeyMap<Integer, AssignmentComponent> planModel = new MultiKeyMap<>();
 
-
-        Div planGrid = new Div();
-        //TODO: use multikeymap as model for css-grid div...
-        // fill map and call render method
-        // handle map collision! (multiple assignments on same key pair...
-        // create custom div-element that holds timeslot & weekday
-        // ...
-        planGrid.setWidth("100%");
-        planGrid.getStyle().set("display", "grid");
-        planGrid.getStyle().set("grid-template-columns", "repeat(8,auto)");
-//        planGrid.getStyle().set("border-bottom", "1px solid");
-
-        Span timeslotLabel = new Span("Timeslot");
-        timeslotLabel.getStyle().set("grid-column", "1 / span 1");
-        Span mondayLabel = new Span("Monday");
-        mondayLabel.getStyle().set("grid-column", "2 / span 1");
-        Span tuesdayLabel = new Span("Tuesday");
-        tuesdayLabel.getStyle().set("grid-column", "3 / span 1");
-        Span wednesdayLabel = new Span("Wednesday");
-        wednesdayLabel.getStyle().set("grid-column", "4 / span 1");
-        Span thursdayLabel = new Span("Thursday");
-        thursdayLabel.getStyle().set("grid-column", "5 / span 1");
-        Span fridayLabel = new Span("Friday");
-        fridayLabel.getStyle().set("grid-column", "6 / span 1");
-        Span saturdayLabel = new Span("Saturday");
-        saturdayLabel.getStyle().set("grid-column", "7 / span 1");
-        Span sundayLabel = new Span("Sunday");
-        sundayLabel.getStyle().set("grid-column", "8 / span 1");
-
-        Span headerLine = new Span();
-        headerLine.getStyle().set("grid-column", "1 / span 8");
-        headerLine.getStyle().set("grid-row", "2 / span 1");
-        headerLine.getStyle().set("border-top", "1px solid");
-
-        for (int i = 1; i <= 10; i++) {
-            Span tsLabel = new Span(Integer.toString(i));
-            tsLabel.getStyle().set("grid-column", "1 /span 1");
-            tsLabel.getStyle().set("grid-row", (i + 1) + " /span 1");
-            planGrid.add(tsLabel);
-        }
-
-        planGrid.add(timeslotLabel, mondayLabel, tuesdayLabel, wednesdayLabel,
-                thursdayLabel, fridayLabel, saturdayLabel, sundayLabel, headerLine);
-
-        for (Assignment a : getMockAssignments()) {
-            addAssignmentToGrid(planGrid, a);
-        }
 
         globalLayout.add(planGrid);
-
-//        Grid<Assignment> planGrid = new Grid<>();
-//        planGrid.setSelectionMode(Grid.SelectionMode.NONE);
-//        planGrid.setItems(this.getMockAssignments());
-//
-//        Grid.Column<Assignment> timeslot = planGrid.addComponentColumn(assignment -> {
-//            AssignmentComponent ac = new AssignmentComponent(assignment);
-//            return new Span(Integer.toString(ac.getTimeslotIndices().get(0)));
-//        }).setHeader("Timeslot");
-//        Grid.Column<Assignment> monday = planGrid.addComponentColumn(assignment -> new AssignmentComponent(assignment, Calendar.MONDAY))
-//                .setHeader("Monday");
-//        Grid.Column<Assignment> tuesday = planGrid.addComponentColumn(assignment -> new AssignmentComponent(assignment, Calendar.TUESDAY))
-//                .setHeader("Tuesday");
-//        Grid.Column<Assignment> wednesday = planGrid.addComponentColumn(assignment -> new AssignmentComponent(assignment, Calendar.WEDNESDAY))
-//                .setHeader("Wednesday");
-//        Grid.Column<Assignment> thursday = planGrid.addComponentColumn(assignment -> new AssignmentComponent(assignment, Calendar.THURSDAY))
-//                .setHeader("Thursday");
-//        Grid.Column<Assignment> friday = planGrid.addComponentColumn(assignment -> new AssignmentComponent(assignment, Calendar.FRIDAY))
-//                .setHeader("Friday");
-//        Grid.Column<Assignment> saturday = planGrid.addComponentColumn(assignment -> new AssignmentComponent(assignment, Calendar.SATURDAY))
-//                .setHeader("Saturday");
-//        Grid.Column<Assignment> sunday = planGrid.addComponentColumn(assignment -> new AssignmentComponent(assignment, Calendar.SUNDAY))
-//                .setHeader("Sunday");
-//
-//
     }
 
     public void addAssignmentToGrid(Div grid, Assignment assignment) {
