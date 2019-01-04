@@ -1,9 +1,9 @@
 package com.volavis.veraplan.spring.views;
 
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.dependency.JavaScript;
+import com.vaadin.external.org.slf4j.Logger;
+import com.vaadin.external.org.slf4j.LoggerFactory;
+
 import com.vaadin.flow.component.html.*;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
@@ -13,20 +13,12 @@ import com.volavis.veraplan.spring.MainLayout;
 import com.volavis.veraplan.spring.persistence.entities.organisation.Assignment;
 import com.volavis.veraplan.spring.persistence.entities.ressources.TimeSlot;
 import com.volavis.veraplan.spring.persistence.service.UserService;
-import com.volavis.veraplan.spring.views.components.AssignmentComponent;
-import com.volavis.veraplan.spring.views.components.AssignmentContainer;
-import com.volavis.veraplan.spring.views.components.CollaborationToolkit;
+import com.volavis.veraplan.spring.views.components.*;
 
-import com.volavis.veraplan.spring.views.components.ViewHelper;
 import org.apache.commons.collections4.keyvalue.MultiKey;
 import org.apache.commons.collections4.map.MultiKeyMap;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.messaging.simp.stomp.StompHeaders;
-import org.springframework.messaging.simp.stomp.StompSession;
-import org.springframework.messaging.simp.stomp.StompSessionHandlerAdapter;
-import org.springframework.web.socket.client.WebSocketClient;
-import org.springframework.web.socket.client.standard.StandardWebSocketClient;
-import org.springframework.web.socket.messaging.WebSocketStompClient;
+
 import org.vaadin.stefan.dnd.DndActivator;
 import org.vaadin.stefan.dnd.drag.DragSourceExtension;
 import org.vaadin.stefan.dnd.drop.DropTargetExtension;
@@ -38,7 +30,13 @@ import java.util.*;
 //@JavaScript("bower_components/interactjs/interact.min.js")
 public class ViewPlanView extends Div {
 
+    private static final Logger logger = LoggerFactory.getLogger(ViewPlanView.class);
+
     private AssignmentComponent currentlyDraggedComponent;
+    private final CollaborationToolkit toolkit;
+    private Div planGrid = new Div();
+    private int timeslotCount = 10;
+    private MultiKeyMap<Integer, AssignmentContainer> model = new MultiKeyMap<>();
 
 
     @Autowired
@@ -47,45 +45,49 @@ public class ViewPlanView extends Div {
         //activate drag&drop support
         DndActivator.activateMobileDnd();
 
-        CollaborationToolkit toolkit = new CollaborationToolkit(userService, "1337");
+        toolkit = new CollaborationToolkit(userService, "1337");
 
         VerticalLayout gloablLayout = new VerticalLayout();
-
         initView(gloablLayout);
+
+        toolkit.addAssignmentDragDropEventListener(event -> {
+            receiveAssignmentMoveEvent(event);
+        });
+
 
         toolkit.add(gloablLayout);
         this.add(toolkit);
     }
 
-    private void setupWebsocketClient() { //TODO!
-        WebSocketClient client = new StandardWebSocketClient();
-
-        WebSocketStompClient stompClient = new WebSocketStompClient(client);
-
-        StompSessionHandlerAdapter sessionHandler = new StompSessionHandlerAdapter() {
-            @Override
-            public void handleFrame(StompHeaders headers, Object payload) {
-                super.handleFrame(headers, payload);
-
-            }
-
-            @Override
-            public void afterConnected(StompSession session, StompHeaders connectedHeaders) {
-                super.afterConnected(session, connectedHeaders);
-            }
-        };
-
-        stompClient.connect("", sessionHandler);
+    private void sendAssignmentMoveEvent(AssignmentComponentMoveEvent event) {
+        toolkit.sendDragDropEvent(event);
     }
 
-    private Div renderPlanModel(MultiKeyMap<Integer, AssignmentContainer> model, int timeslotCount) {
-        Div container = new Div();
+    private void receiveAssignmentMoveEvent(AssignmentComponentMoveEvent event) {
+        AssignmentContainer source = model.get(event.getSourceTimeslot(), event.getSourceWeekday());
+        AssignmentContainer target = model.get(event.getTargetTimeslot(), event.getTargetWeekday());
+        AssignmentComponent component = source.getAssignmentComponentFromAssignmentId(event.getComponentAssignmentId()).orElse(null);
+
+        logger.info("receiving: " + event.toString() + " C=" + component);
+        //check valid event
+        if (component != null) {
+            source.removeAssignmentComponent(component);
+            target.addAssignmentComponent(component);
+
+//            model.put(source.getTimeslotEnumerator(), source.getWeekday(), source);
+//            model.put(target.getTimeslotEnumerator(), target.getWeekday(), target);
+            renderPlanModel();
+        }
+    }
+
+    private void renderPlanModel() {
+        planGrid.removeAll();
 
         //setup container
-        container.setWidth("100%");
-        container.getStyle().set("display", "grid");
-        container.getStyle().set("grid-template-columns", "repeat(8,auto)");
-        container.getStyle().set("grid-gap", "10px 10px");
+        planGrid.setWidth("100%");
+        planGrid.getStyle().set("display", "grid");
+        planGrid.getStyle().set("grid-template-columns", "repeat(8,auto)");
+        planGrid.getStyle().set("grid-gap", "10px 10px");
 
 
         // render top row
@@ -111,7 +113,7 @@ public class ViewPlanView extends Div {
         horizontalLine.getStyle().set("grid-area", "2 / 1 / span 1 / span 8");
         horizontalLine.getStyle().set("border-top", "1px solid");
 
-        container.add(timeslotLabel, mondayLabel, tuesdayLabel, wednesdayLabel,
+        planGrid.add(timeslotLabel, mondayLabel, tuesdayLabel, wednesdayLabel,
                 thursdayLabel, fridayLabel, saturdayLabel, sundayLabel, horizontalLine);
 
         //render timeslots
@@ -119,7 +121,7 @@ public class ViewPlanView extends Div {
         for (int i = 1; i <= timeslotCount; i++) {
             Span tsLabel = new Span(Integer.toString(i));
             tsLabel.getStyle().set("grid-area", (i + 2) + " / 1 / span 1 / span 1");
-            container.add(tsLabel);
+            planGrid.add(tsLabel);
         }
 
         //add assignments
@@ -127,16 +129,14 @@ public class ViewPlanView extends Div {
         for (MultiKey<? extends Integer> entry : model.keySet()) { //model = timeslot x weekday --> assignmentcontainer
             AssignmentContainer assignmentContainer = model.get(entry);
             assignmentContainer.getStyle().set("grid-area", (entry.getKey(0) + 2) + " / " + (entry.getKey(1) + 1) + " /span 1 / span 1");
-
-
-            container.add(assignmentContainer);
+            planGrid.add(assignmentContainer);
         }
 
-        return container;
+
     }
 
-    private MultiKeyMap<Integer, AssignmentContainer> buildModel(List<Assignment> assignments, int timeslotCount) {
-        MultiKeyMap<Integer, AssignmentContainer> model = new MultiKeyMap<>();
+    private void buildModel(List<Assignment> assignments) {
+//        MultiKeyMap<Integer, AssignmentContainer> model =
 
         //prefill model with empty assignment-components
         for (int ts = 1; ts <= timeslotCount; ts++) {
@@ -145,16 +145,28 @@ public class ViewPlanView extends Div {
 
                 //Drag&Drop Target logic: every assignmentContainer can be a target, but only assigned Assignments can be source
                 DropTargetExtension<AssignmentContainer> target = DropTargetExtension.extend(container);
+
                 target.addDropListener(event -> {
-                    Notification.show("drop-into ["
-                            + event.getComponent().getTimeslotEnumerator() +
-                            "," + event.getComponent().getWeekday() + "] !");
+//                    Notification.show("drop-into ["
+//                            + event.getComponent().getTimeslotEnumerator() +
+//                            "," + event.getComponent().getWeekday() + "] !");
+
+                    AssignmentComponentMoveEvent acme = new AssignmentComponentMoveEvent(currentlyDraggedComponent.getAssignment().getId(),
+                            currentlyDraggedComponent.getParentContainer().getTimeslotEnumerator(),
+                            currentlyDraggedComponent.getParentContainer().getWeekday(),
+                            event.getComponent().getTimeslotEnumerator(),
+                            event.getComponent().getWeekday());
+
+//                    logger.info("sending: " + acme.toString());
+                    sendAssignmentMoveEvent(acme);
+
                     currentlyDraggedComponent.getParentContainer().removeAssignmentComponent(currentlyDraggedComponent);
                     currentlyDraggedComponent.setParentContainer(event.getComponent());
                     event.getComponent().addAssignmentComponent(currentlyDraggedComponent);
-                    event.getComponent().render();
 
-//                    this.currentlyDraggedComponent = null;
+//                    event.getComponent().render();
+
+
                 });
                 model.put(ts, weekday, container);
             }
@@ -174,15 +186,14 @@ public class ViewPlanView extends Div {
             DragSourceExtension<AssignmentComponent> source = DragSourceExtension.extend(assignmentComponent);
 
             source.addDragStartListener(event -> {
-                Notification.show("drag-start ["
-                        + ViewHelper.getAssignmentTimeSlotSmallestEnumerator(event.getComponent().getAssignment()) +
-                        "," + ViewHelper.getAssignmentDayOfWeek(event.getComponent().getAssignment()) + "] !");
+//                Notification.show("drag-start ["
+//                        + ViewHelper.getAssignmentTimeSlotSmallestEnumerator(event.getComponent().getAssignment()) +
+//                        "," + ViewHelper.getAssignmentDayOfWeek(event.getComponent().getAssignment()) + "] !");
                 this.currentlyDraggedComponent = event.getComponent();
             });
 
 
         }
-        return model;
     }
 
     private void initView(VerticalLayout globalLayout) {
@@ -191,9 +202,8 @@ public class ViewPlanView extends Div {
         globalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
         globalLayout.add(new H1("Headline"));
 
-        int timeslotCount = 10;
-
-        Div planGrid = renderPlanModel(buildModel(getMockAssignments(), timeslotCount), timeslotCount);
+        buildModel(getMockAssignments());
+        renderPlanModel();
 
 
         // map K1 x K2 x ... x KN -> V  -->  TimeSlotIndex x Weekday -> AssignmentComponent
@@ -202,25 +212,15 @@ public class ViewPlanView extends Div {
         globalLayout.add(planGrid);
     }
 
-    public void addAssignmentToGrid(Div grid, Assignment assignment) {
-
-        VerticalLayout verticalLayout = new VerticalLayout();
-        verticalLayout.getStyle().set("background", "plum");
-        verticalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
-        verticalLayout.add(new Span(assignment.getName()));
-        verticalLayout.getStyle().set("grid-column", ViewHelper.getAssignmentDayOfWeek(assignment) + " / span 1");
-        verticalLayout.getStyle().set("grid-row", ViewHelper.getAssignmentTimeSlotEnumerators(assignment).get(0) + 1
-                + " / span " + ViewHelper.getAssignmentTimeSlotEnumerators(assignment).size());
-        grid.add(verticalLayout);
-
-    }
 
     private List<Assignment> getMockAssignments() {
         ArrayList<Assignment> assignments = new ArrayList<>();
 
         Assignment a1 = new Assignment();
+        a1.setId(1L);
         a1.setName("a1");
         Assignment a2 = new Assignment();
+        a2.setId(2L);
         a2.setName("a2");
 
         List<TimeSlot> a1ts = new ArrayList<>();

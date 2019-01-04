@@ -52,7 +52,7 @@ public class WebSocketHandler {
     @SubscribeMapping("/subscribe/chat/{channelId}")
     public void handleChatSub(@DestinationVariable String channelId, SimpMessageHeaderAccessor headerAccessor) {
         User currentUser = userService.getByUsernameOrEmail(Objects.requireNonNull(headerAccessor.getUser()).getName());
-        if(!checkUserInChannel(headerAccessor,currentUser,channelId)){
+        if (!checkUserInChannel(headerAccessor, currentUser, channelId)) {
             StompHeaderAccessor stompHeaderAccessor = StompHeaderAccessor.create(StompCommand.ERROR);
             stompHeaderAccessor.setMessage("Unauthorized access to channel '" + channelId + "'.");
             stompHeaderAccessor.setSessionId(headerAccessor.getSessionId());
@@ -61,9 +61,9 @@ public class WebSocketHandler {
     }
 
     @SubscribeMapping("/subscribe/drawing/{channelId}")
-    public void handleDrawingSub(@DestinationVariable String channelId, SimpMessageHeaderAccessor headerAccessor){
+    public void handleDrawingSub(@DestinationVariable String channelId, SimpMessageHeaderAccessor headerAccessor) {
         User currentUser = userService.getByUsernameOrEmail(Objects.requireNonNull(headerAccessor.getUser()).getName());
-        if(!checkUserInChannel(headerAccessor,currentUser,channelId)){
+        if (!checkUserInChannel(headerAccessor, currentUser, channelId)) {
             StompHeaderAccessor stompHeaderAccessor = StompHeaderAccessor.create(StompCommand.ERROR);
             stompHeaderAccessor.setMessage("Unauthorized access to channel '" + channelId + "'.");
             stompHeaderAccessor.setSessionId(headerAccessor.getSessionId());
@@ -72,9 +72,9 @@ public class WebSocketHandler {
     }
 
     @SubscribeMapping("/subscribe/dragdrop/{channelId}")
-    public void handleDragDropSub(@DestinationVariable String channelId, SimpMessageHeaderAccessor headerAccessor){
+    public void handleDragDropSub(@DestinationVariable String channelId, SimpMessageHeaderAccessor headerAccessor) {
         User currentUser = userService.getByUsernameOrEmail(Objects.requireNonNull(headerAccessor.getUser()).getName());
-        if(!checkUserInChannel(headerAccessor,currentUser,channelId)){
+        if (!checkUserInChannel(headerAccessor, currentUser, channelId)) {
             StompHeaderAccessor stompHeaderAccessor = StompHeaderAccessor.create(StompCommand.ERROR);
             stompHeaderAccessor.setMessage("Unauthorized access to channel '" + channelId + "'.");
             stompHeaderAccessor.setSessionId(headerAccessor.getSessionId());
@@ -85,15 +85,15 @@ public class WebSocketHandler {
     //HANDLE MESSAGES:
 
     @MessageMapping("/dragdrop/{channelId}")
-    @SendTo("/subscribe/chat/{channelId}")
-    public String handleDragDropMessage(@Payload String message, @DestinationVariable String channelId, SimpMessageHeaderAccessor headerAccessor){
+    @SendTo("/subscribe/dragdrop/{channelId}")
+    public String handleDragDropMessage(@Payload String message, @DestinationVariable String channelId, SimpMessageHeaderAccessor headerAccessor) {
 //        Map jsonMapping = gson.fromJson(message, Map.class);
-
+//        logger.info("GOT DRAGDROP: "+message);
         User currentUser;
         //get User
         try {
             currentUser = userService.getByUsernameOrEmail(Objects.requireNonNull(headerAccessor.getUser()).getName());
-        } catch (UsernameNotFoundException e){
+        } catch (UsernameNotFoundException e) {
             this.sendError(headerAccessor, "Unauthorized access to channel '" + channelId + "'.");
             return null;
         }
@@ -118,7 +118,7 @@ public class WebSocketHandler {
         //get User
         try {
             currentUser = userService.getByUsernameOrEmail(Objects.requireNonNull(headerAccessor.getUser()).getName());
-        } catch (UsernameNotFoundException e){
+        } catch (UsernameNotFoundException e) {
             this.sendError(headerAccessor, "Unauthorized access to channel '" + channelId + "'.");
             return null;
         }
@@ -126,7 +126,7 @@ public class WebSocketHandler {
         String fullName = currentUser.getFirst_name() + " " + currentUser.getLast_name();
         jsonMapping.put("author", fullName);
         jsonMapping.put("timestamp", new SimpleDateFormat("HH:mm").format(new Date()));
-        logger.info("got CHAT from " + fullName + " on channel " +channelId );
+        logger.info("got CHAT from " + fullName + " on channel " + channelId);
 
         if (checkUserInChannel(headerAccessor, currentUser, channelId)) {
             return new GsonBuilder().create().toJson(jsonMapping);
@@ -146,12 +146,12 @@ public class WebSocketHandler {
         //get User
         try {
             currentUser = userService.getByUsernameOrEmail(Objects.requireNonNull(headerAccessor.getUser()).getName());
-        } catch (UsernameNotFoundException e){
+        } catch (UsernameNotFoundException e) {
             this.sendError(headerAccessor, "Unauthorized access to channel '" + channelId + "'.");
             return null;
         }
         String fullName = currentUser.getFirst_name() + " " + currentUser.getLast_name();
-        logger.info("got DRAW from " + fullName + " on channel " +channelId);
+        logger.info("got DRAW from " + fullName + " on channel " + channelId);
 
         //inject user/timestamp in message
         jsonMapping.put("author", fullName);
@@ -182,9 +182,6 @@ public class WebSocketHandler {
             return false;
         }
     }
-
-
-
 
 
 }

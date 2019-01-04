@@ -5,6 +5,7 @@ import com.vaadin.flow.component.html.Span;
 import com.volavis.veraplan.spring.persistence.entities.organisation.Assignment;
 
 import java.util.ArrayList;
+import java.util.Optional;
 
 public class AssignmentContainer extends Div {
 
@@ -49,6 +50,19 @@ public class AssignmentContainer extends Div {
     public void removeAssignmentComponent(AssignmentComponent assignmentComponent) {
         assignmentComponents.remove(assignmentComponent);
         this.render();
+    }
+
+    public boolean containsAssignmentComponent(AssignmentComponent assignmentComponent) {
+        return assignmentComponents.contains(assignmentComponent);
+    }
+
+    public Optional<AssignmentComponent> getAssignmentComponentFromAssignmentId(long id) {
+        for (AssignmentComponent ac : assignmentComponents) {
+            if (ac.getAssignment().getId() == id) {
+                return Optional.of(ac);
+            }
+        }
+        return Optional.empty();
     }
 
     public void render() {

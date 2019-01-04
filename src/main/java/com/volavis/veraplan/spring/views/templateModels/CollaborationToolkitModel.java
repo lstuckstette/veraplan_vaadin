@@ -7,4 +7,6 @@ public interface CollaborationToolkitModel extends TemplateModel {
     void setUserName(String userName);
 
     void setChannel(String channel);
+
+    void setDragDropEvent(String event);
 }

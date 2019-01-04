@@ -163,8 +163,8 @@
 
         </div>
 
-
         <paper-toast id="notification" class="fit-bottom"></paper-toast>
+
     </template>
 
     <script>
@@ -193,13 +193,26 @@
                     },
                     canvas: {
                         type: Object
+                    },
+                    dragDropEvent: {
+                        type: String,
+                        notify: true,
+                        observer: 'dragDropEventListener'
                     }
                 }
             }
 
+            //lifecycle-callback before properties set
+            created() {
+
+
+
+                super.created();
+            }
+
+            //lifecycle-callback after properties set
             ready() {
                 super.ready();
-
 
                 //load canvas-dimensions and inject paper.js
                 window.onload = this.setupCanvas.bind(this, this); //TODO: somewhat wobbly... (sometimes doesnt get called...)
@@ -330,6 +343,16 @@
                 });
             }
 
+            dragDropEventListener() {
+                if (this.stompClient !== undefined && this.stompClient.connected) {
+                    console.log("send dragdrop.");
+                    this.stompClient.send('/client/dragdrop/' + this.get('channel'), this.get('dragDropEvent'));
+                } else {
+                    console.log("dnd: ws not connected!");
+                    // setTimeout(this.dragDropEventListener(),500);
+
+                }
+            }
 
             toggleCanvas() {
                 this.$.drawingCanvas.style.visibility = this.$.drawingCanvas.style.visibility === 'visible' ? 'hidden' : 'visible';
@@ -374,6 +397,12 @@
                     let newMessage = JSON.parse(data.body);
                     this.push('messages', newMessage);
 
+                });
+
+                this.stompClient.subscribe('/subscribe/dragdrop/' + this.get('channel'), (data) => {
+                    console.log("got drag-drop");
+                    //propagate to server:
+                    this.$server.handleAssignmentDragDropEvent(data.body);
                 });
             }
 
