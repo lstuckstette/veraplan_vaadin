@@ -64,7 +64,10 @@ public class ViewPlanView extends Div {
     }
 
     private void receiveAssignmentMoveEvent(AssignmentComponentMoveEvent event) {
-        AssignmentContainer source = model.get(event.getSourceTimeslot(), event.getSourceWeekday());
+
+        AssignmentContainer source = model.values().stream().filter(container -> container.containsAssignmentComponent(event.getComponentAssignmentId())).findFirst().get();
+
+//        AssignmentContainer source = model.get(event.getSourceTimeslot(), event.getSourceWeekday());
         AssignmentContainer target = model.get(event.getTargetTimeslot(), event.getTargetWeekday());
         AssignmentComponent component = source.getAssignmentComponentFromAssignmentId(event.getComponentAssignmentId()).orElse(null);
 
@@ -74,8 +77,6 @@ public class ViewPlanView extends Div {
             source.removeAssignmentComponent(component);
             target.addAssignmentComponent(component);
 
-//            model.put(source.getTimeslotEnumerator(), source.getWeekday(), source);
-//            model.put(target.getTimeslotEnumerator(), target.getWeekday(), target);
             renderPlanModel();
         }
     }
@@ -152,8 +153,6 @@ public class ViewPlanView extends Div {
 //                            "," + event.getComponent().getWeekday() + "] !");
 
                     AssignmentComponentMoveEvent acme = new AssignmentComponentMoveEvent(currentlyDraggedComponent.getAssignment().getId(),
-                            currentlyDraggedComponent.getParentContainer().getTimeslotEnumerator(),
-                            currentlyDraggedComponent.getParentContainer().getWeekday(),
                             event.getComponent().getTimeslotEnumerator(),
                             event.getComponent().getWeekday());
 

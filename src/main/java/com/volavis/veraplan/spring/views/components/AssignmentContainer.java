@@ -56,6 +56,10 @@ public class AssignmentContainer extends Div {
         return assignmentComponents.contains(assignmentComponent);
     }
 
+    public boolean containsAssignmentComponent(long assignmentID) {
+        return assignmentComponents.stream().anyMatch(component -> component.getAssignment().getId() == assignmentID);
+    }
+
     public Optional<AssignmentComponent> getAssignmentComponentFromAssignmentId(long id) {
         for (AssignmentComponent ac : assignmentComponents) {
             if (ac.getAssignment().getId() == id) {
