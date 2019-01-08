@@ -2,6 +2,7 @@ package com.volavis.veraplan.spring.persistence.service;
 
 import com.vaadin.external.org.slf4j.Logger;
 import com.vaadin.external.org.slf4j.LoggerFactory;
+import com.volavis.veraplan.spring.persistence.entities.ressources.TimeConstraint;
 import com.volavis.veraplan.spring.persistence.exception.EntityAlreadyExistsException;
 import com.volavis.veraplan.spring.persistence.entities.Role;
 import com.volavis.veraplan.spring.persistence.entities.RoleName;
@@ -49,6 +50,12 @@ public class UserService implements EntityService<User, EntityFilter<UserField>>
             throw new UsernameNotFoundException("Unknown user for input '" + emailOrUsername + "' !'");
         });
         return user.getFirst_name() + " " + user.getLast_name();
+    }
+
+    public User getSingleUser(String emailOrUsername) {
+        return userRepository.findByUsernameOrEmail(emailOrUsername, emailOrUsername).orElseThrow(() -> {
+            throw new UsernameNotFoundException("Unknown user for input '" + emailOrUsername + "' !'");
+        });
     }
 
     public int countAll() {
@@ -103,6 +110,27 @@ public class UserService implements EntityService<User, EntityFilter<UserField>>
                 .withStringMatcher(ExampleMatcher.StringMatcher.STARTING);
         return Example.of(user, matcher);
 
+    }
+
+    public void addTimeConstraint(User user, TimeConstraint timeConstraint) {
+        //TODO: test
+        List<TimeConstraint> userTimeConstraints = user.getTimeConstraints();
+        userTimeConstraints.add(timeConstraint);
+        user.setTimeConstraints(userTimeConstraints);
+        userRepository.save(user);
+    }
+
+    public List<TimeConstraint> getTimeConstraints(User user) {
+        User withTimeConstraints = userRepository.findOneWithTimeConstraintsById(user.getId());
+        return withTimeConstraints.getTimeConstraints();
+    }
+
+    public void removeTimeConstraint(User user, TimeConstraint timeConstraint) {
+        //TODO: test
+        List<TimeConstraint> userTimeConstraints = user.getTimeConstraints();
+        userTimeConstraints.remove(timeConstraint);
+        user.setTimeConstraints(userTimeConstraints);
+        userRepository.save(user);
     }
 
 

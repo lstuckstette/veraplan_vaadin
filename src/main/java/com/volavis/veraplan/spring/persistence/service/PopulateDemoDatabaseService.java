@@ -51,7 +51,7 @@ public class PopulateDemoDatabaseService {
 
             //Read dummy-file and create all Users:
             try {
-                byte[] dummyData = Files.readAllBytes(ResourceUtils.getFile("classpath:database_dummydata/MOCK_DATA.json").toPath());
+                byte[] dummyData = Files.readAllBytes(ResourceUtils.getFile("classpath:database_dummydata/users.json").toPath());
                 ObjectMapper objectMapper = new ObjectMapper();
                 List<User> dummyUsers = objectMapper.readValue(dummyData, objectMapper.getTypeFactory().constructCollectionType(List.class, User.class));
                 dummyUsers.forEach((user -> userService.createUser(user, RoleName.ROLE_USER)));

@@ -1,6 +1,8 @@
 package com.volavis.veraplan.spring.persistence.repository;
 
 import com.volavis.veraplan.spring.persistence.entities.User;
+import com.volavis.veraplan.spring.persistence.entities.ressources.TimeConstraint;
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -14,8 +16,11 @@ public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmail(String email);
 
     List<User> findByIdBetween(long offset, long limit);
-    
+
     Optional<User> findByUsernameOrEmail(String username, String email);
+
+    @EntityGraph(attributePaths = "timeConstraints")
+    User findOneWithTimeConstraintsById(long id);
 
     @Query("select u from User u left join fetch u.roles")
     List<User> findAllWithRoles();

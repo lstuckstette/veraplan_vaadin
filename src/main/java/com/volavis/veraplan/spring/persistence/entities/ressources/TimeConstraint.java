@@ -1,6 +1,8 @@
 package com.volavis.veraplan.spring.persistence.entities.ressources;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +20,13 @@ public class TimeConstraint {
             inverseJoinColumns = @JoinColumn(name = "timeslot_id"))
     private List<TimeSlot> timeSlots = new ArrayList<>();
 
+    @NotBlank
+    @Size(max = 40)
+    private String name;
+
+    @Size(max = 256)
+    private String description;
+
     public TimeConstraint() {
     }
 
@@ -27,6 +36,22 @@ public class TimeConstraint {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public List<TimeSlot> getTimeSlots() {

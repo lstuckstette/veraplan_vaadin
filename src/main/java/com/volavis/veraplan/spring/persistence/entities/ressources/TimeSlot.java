@@ -15,13 +15,14 @@ public class TimeSlot {
     @Temporal(TemporalType.DATE)
     private Date date;
 
-    private int enumerator = -1;
+    private Integer enumerator;
 
-    @NotBlank
+    private Integer weekday;
+
     @Temporal(TemporalType.TIME)
     private Date startTime;
 
-    @NotBlank
+
     @Temporal(TemporalType.TIME)
     private Date endTime;
 
@@ -55,16 +56,24 @@ public class TimeSlot {
         this.date = date;
     }
 
-    public int getEnumerator() {
+    public Integer getEnumerator() {
         return enumerator;
     }
 
-    public void setEnumerator(int enumerator) {
+    public void setEnumerator(Integer enumerator) {
         this.enumerator = enumerator;
     }
 
     public Date getStartTime() {
         return startTime;
+    }
+
+    public Integer getWeekday() {
+        return weekday;
+    }
+
+    public void setWeekday(Integer weekday) {
+        this.weekday = weekday;
     }
 
     public void setStartTime(Date startTime) {

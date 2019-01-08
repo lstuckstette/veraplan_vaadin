@@ -134,6 +134,22 @@ public class User extends DateAudit {
         this.roles = roles;
     }
 
+    public List<Notification> getNotifications() {
+        return notifications;
+    }
+
+    public void setNotifications(List<Notification> notifications) {
+        this.notifications = notifications;
+    }
+
+    public List<TimeConstraint> getTimeConstraints() {
+        return timeConstraints;
+    }
+
+    public void setTimeConstraints(List<TimeConstraint> timeConstraints) {
+        this.timeConstraints = timeConstraints;
+    }
+
     @Override
     public boolean equals(Object that) {
         if (that instanceof User)

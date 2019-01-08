@@ -63,7 +63,7 @@ public class ViewPlanView extends Div {
         toolkit.sendDragDropEvent(event);
     }
 
-    private void receiveAssignmentMoveEvent(AssignmentComponentMoveEvent event) { //TODO: collision is buggy - sometimes throws array-index out of bounds
+    private void receiveAssignmentMoveEvent(AssignmentComponentMoveEvent event) {
 
         AssignmentContainer source = model.values().stream().filter(container -> container.containsAssignmentComponent(event.getComponentAssignmentId())).findFirst().get();
 
