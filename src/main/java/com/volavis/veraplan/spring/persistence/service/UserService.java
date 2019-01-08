@@ -114,10 +114,11 @@ public class UserService implements EntityService<User, EntityFilter<UserField>>
 
     public void addTimeConstraint(User user, TimeConstraint timeConstraint) {
         //TODO: test
-        List<TimeConstraint> userTimeConstraints = user.getTimeConstraints();
+        User withTimeConstraints = userRepository.findOneWithTimeConstraintsById(user.getId());
+        List<TimeConstraint> userTimeConstraints = withTimeConstraints.getTimeConstraints();
         userTimeConstraints.add(timeConstraint);
         user.setTimeConstraints(userTimeConstraints);
-        userRepository.save(user);
+        userRepository.save(withTimeConstraints);
     }
 
     public List<TimeConstraint> getTimeConstraints(User user) {
@@ -127,10 +128,11 @@ public class UserService implements EntityService<User, EntityFilter<UserField>>
 
     public void removeTimeConstraint(User user, TimeConstraint timeConstraint) {
         //TODO: test
-        List<TimeConstraint> userTimeConstraints = user.getTimeConstraints();
+        User withTimeConstraints = userRepository.findOneWithTimeConstraintsById(user.getId());
+        List<TimeConstraint> userTimeConstraints = withTimeConstraints.getTimeConstraints();
         userTimeConstraints.remove(timeConstraint);
-        user.setTimeConstraints(userTimeConstraints);
-        userRepository.save(user);
+        withTimeConstraints.setTimeConstraints(userTimeConstraints);
+        userRepository.save(withTimeConstraints);
     }
 
 

@@ -14,7 +14,7 @@ public class TimeConstraint {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.MERGE)
     @JoinTable(name = "timeconstraint_timeslots",
             joinColumns = @JoinColumn(name = "timeconstraint_id"),
             inverseJoinColumns = @JoinColumn(name = "timeslot_id"))

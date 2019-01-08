@@ -19,16 +19,20 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import com.volavis.veraplan.spring.MainLayout;
 import com.volavis.veraplan.spring.persistence.entities.ressources.TimeConstraint;
+import com.volavis.veraplan.spring.persistence.entities.ressources.TimeSlot;
 import com.volavis.veraplan.spring.persistence.service.TimeConstraintService;
 import com.volavis.veraplan.spring.persistence.service.UserService;
 import com.volavis.veraplan.spring.security.SecurityUtils;
 import com.volavis.veraplan.spring.views.components.ViewHelper;
+import org.apache.commons.collections4.keyvalue.MultiKey;
 import org.apache.commons.collections4.map.MultiKeyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.time.DayOfWeek;
 import java.time.format.TextStyle;
+import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 @PageTitle("Veraplan - Enter Preferences")
 @Route(value = "planing/preference", layout = MainLayout.class)
@@ -38,6 +42,7 @@ public class EnterPreferenceView extends Div {
     private UserService userService;
     private Div weekCalendar;
     private VerticalLayout addNewPreferenceComponent;
+    private int timeslotCount = 10;
 
     public EnterPreferenceView(@Autowired TimeConstraintService timeConstraintService, @Autowired UserService userService) {
 
@@ -77,23 +82,83 @@ public class EnterPreferenceView extends Div {
 
         contentLayout.add(weekCalendar, addNewPreferenceComponent);
 
-        contentLayout.add(weekCalendar);
+//        contentLayout.add(weekCalendar);
 
-
+        globalLayout.add(contentLayout);
         this.add(globalLayout);
     }
 
-    private Div renderWeekCalendar() {
-        Div calendar = new Div();
+    private void renderWeekCalendar() { //TODO: create context-menu with delete!
+        weekCalendar.removeAll();
+        //build model:
         MultiKeyMap<Integer, PreferenceComponent> model = new MultiKeyMap<>();
-//        userService.get
+        List<TimeConstraint> timeConstraints = userService.getTimeConstraints(userService.getSingleUser(SecurityUtils.getUsername()));
+
+        for (int ts = 1; ts <= timeslotCount; ts++) {
+            for (int weekday = 1; weekday <= 7; weekday++) {
+                model.put(ts, weekday, new PreferenceComponent());
+            }
+        }
+
+        for (TimeConstraint tc : timeConstraints) {
+            Optional<TimeSlot> optionalTimeSlot = timeConstraintService.getTimeSlots(tc).stream().findFirst();
+            if (optionalTimeSlot.isPresent()) {
+                TimeSlot timeSlot = optionalTimeSlot.get();
+                model.get(timeSlot.getEnumerator(), timeSlot.getWeekday()).setTimeConstraint(tc);
+//                model.put(timeSlot.getEnumerator(), timeSlot.getWeekday(), new PreferenceComponent(tc));
+            }
+        }
+
+        weekCalendar.setWidth("80%");
+        weekCalendar.getStyle().set("display", "grid");
+        weekCalendar.getStyle().set("grid-template-columns", "repeat(8,auto)");
+        weekCalendar.getStyle().set("grid-gap", "10px 10px");
+
+        Span timeslotLabel = new Span("Timeslot");
+        timeslotLabel.getStyle().set("grid-area", "1 / 1 / span 1 / span 1");
+        Span mondayLabel = new Span("Monday");
+        mondayLabel.getStyle().set("grid-area", "1 / 2 / span 1 / span 1");
+        Span tuesdayLabel = new Span("Tuesday");
+        tuesdayLabel.getStyle().set("grid-area", "1 / 3 / span 1 / span 1");
+        Span wednesdayLabel = new Span("Wednesday");
+        wednesdayLabel.getStyle().set("grid-area", "1 / 4 / span 1 / span 1");
+        Span thursdayLabel = new Span("Thursday");
+        thursdayLabel.getStyle().set("grid-area", "1 / 5 / span 1 / span 1");
+        Span fridayLabel = new Span("Friday");
+        fridayLabel.getStyle().set("grid-area", "1 / 6 / span 1 / span 1");
+        Span saturdayLabel = new Span("Saturday");
+        saturdayLabel.getStyle().set("grid-area", "1 / 7 / span 1 / span 1");
+        Span sundayLabel = new Span("Sunday");
+        sundayLabel.getStyle().set("grid-area", "1 / 8 / span 1 / span 1");
+
+        Span horizontalLine = new Span();
+        horizontalLine.getStyle().set("grid-area", "2 / 1 / span 1 / span 8");
+        horizontalLine.getStyle().set("border-top", "1px solid");
+
+        weekCalendar.add(timeslotLabel, mondayLabel, tuesdayLabel, wednesdayLabel,
+                thursdayLabel, fridayLabel, saturdayLabel, sundayLabel, horizontalLine);
+
+        //render timeslots
+
+        for (int i = 1; i <= timeslotCount; i++) {
+            Span tsLabel = new Span(Integer.toString(i));
+            tsLabel.getStyle().set("grid-area", (i + 2) + " / 1 / span 1 / span 1");
+            weekCalendar.add(tsLabel);
+        }
 
 
-        return calendar;
+        for (MultiKey<? extends Integer> entry : model.keySet()) { //model = timeslot x weekday --> assignmentcontainer
+            PreferenceComponent preferenceComponent = model.get(entry);
+            preferenceComponent.getStyle().set("grid-area", (entry.getKey(0) + 2) + " / " + (entry.getKey(1) + 1) + " /span 1 / span 1");
+            weekCalendar.add(preferenceComponent);
+        }
+
     }
 
     private VerticalLayout buildAddNewPreferenceComponent() {
         VerticalLayout layout = new VerticalLayout();
+        layout.setAlignItems(FlexComponent.Alignment.CENTER);
+        layout.setVisible(false);
         layout.add(new H2("Add new Preference:"));
 
         FormLayout formLayout = new FormLayout();
@@ -130,7 +195,7 @@ public class EnterPreferenceView extends Div {
                 //Add to Current User
                 userService.addTimeConstraint(userService.getSingleUser(SecurityUtils.getUsername()), timeConstraint);
             });
-
+            warning.open();
         });
         Button reset = new Button("Reset", buttonClickEvent -> {
             selectWeekday.setValue(DayOfWeek.MONDAY);
@@ -152,13 +217,29 @@ public class EnterPreferenceView extends Div {
     static class PreferenceComponent extends VerticalLayout {
         private TimeConstraint timeConstraint;
 
+
+        public PreferenceComponent() {
+            buildComponent();
+        }
+
         public PreferenceComponent(TimeConstraint timeConstraint) {
             this.timeConstraint = timeConstraint;
             buildComponent();
         }
 
+        public void setTimeConstraint(TimeConstraint timeConstraint) {
+            this.timeConstraint = timeConstraint;
+            buildComponent();
+        }
+
         private void buildComponent() {
-            this.add(new Span(timeConstraint.getName()));
+            if (timeConstraint != null) {
+                this.getStyle().remove("border");
+                this.add(new Span(timeConstraint.getName()));
+            } else {
+                this.getStyle().set("border", "1px dotted");
+            }
+
 
         }
     }
