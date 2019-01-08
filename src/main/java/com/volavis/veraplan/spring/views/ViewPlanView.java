@@ -76,6 +76,7 @@ public class ViewPlanView extends Div {
         if (component != null) {
             source.removeAssignmentComponent(component);
             target.addAssignmentComponent(component);
+            component.setParentContainer(target);
 
             renderPlanModel();
         }
