@@ -112,30 +112,6 @@ public class UserService implements EntityService<User, EntityFilter<UserField>>
 
     }
 
-    public void addTimeConstraint(User user, TimeConstraint timeConstraint) {
-        //TODO: test
-        User withTimeConstraints = userRepository.findOneWithTimeConstraintsById(user.getId());
-        List<TimeConstraint> userTimeConstraints = withTimeConstraints.getTimeConstraints();
-        userTimeConstraints.add(timeConstraint);
-        user.setTimeConstraints(userTimeConstraints);
-        userRepository.save(withTimeConstraints);
-    }
-
-    public List<TimeConstraint> getTimeConstraints(User user) {
-        User withTimeConstraints = userRepository.findOneWithTimeConstraintsById(user.getId());
-        return withTimeConstraints.getTimeConstraints();
-    }
-
-    public void removeTimeConstraint(User user, TimeConstraint timeConstraint) {
-        //TODO: test
-        User withTimeConstraints = userRepository.findOneWithTimeConstraintsById(user.getId());
-        List<TimeConstraint> userTimeConstraints = withTimeConstraints.getTimeConstraints();
-        userTimeConstraints.remove(timeConstraint);
-        withTimeConstraints.setTimeConstraints(userTimeConstraints);
-        userRepository.save(withTimeConstraints);
-    }
-
-
     public User getByUsernameOrEmail(String emailOrUsername) {
         return userRepository.findByUsernameOrEmail(emailOrUsername, emailOrUsername).orElseThrow(() -> {
             throw new UsernameNotFoundException("Unknown user for input '" + emailOrUsername + "' !'");

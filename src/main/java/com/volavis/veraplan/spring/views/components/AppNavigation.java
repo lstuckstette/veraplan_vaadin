@@ -49,9 +49,8 @@ public class AppNavigation extends PolymerTemplate<AppNavigationModel> implement
         if (loggedIn) {
             this.getModel().setUserName(userService.getFullName(SecurityUtils.getUsername()));
         }
-
+        submenu.getStyle().set("display", "none");
     }
-
 
     public void setMenuTabs(NavigationTab... navigationTabs) {
         menutabs.removeAll();
@@ -59,25 +58,64 @@ public class AppNavigation extends PolymerTemplate<AppNavigationModel> implement
         Arrays.stream(navigationTabs).forEach(tab -> {
             tab.getElement().addEventListener("click", domEvent -> {
 
-
+                //show submenu if not empty
                 if (!tab.getSubmenu().isEmpty()) {
-                    setSubMenu(tab.getSubmenu().stream().toArray(NavigationTab[]::new));
+                    setSubMenu(tab.getSubmenu().toArray(NavigationTab[]::new));
+                    boolean visible = submenu.getStyle().get("display").equals("flex");
+
+                    if (visible) {
+                        //check toogle-off (if has same origin)
+                        if (submenu.getElement().hasAttribute("origin") && submenu.getElement().getAttribute("origin").equals(tab.getLabel())) {
+                            submenu.getStyle().set("display", "none");
+                        } else {
+                            //put origin
+                            submenu.getElement().setAttribute("origin", tab.getLabel());
+                        }
+                    } else {
+                        //show + put origin
+                        submenu.getElement().setAttribute("origin", tab.getLabel());
+                        submenu.getStyle().set("display", "flex");
+                    }
+
                 } else {
+                    logger.info("remove submenu");
                     removeSubMenu();
                 }
-                //deselect submenu 'selected'
+                //deselect submenu 'selected' TODO: doesnt do anything!
                 submenutabs.getChildren().forEach(subtab -> {
                     if (subtab instanceof NavigationTab) {
                         ((NavigationTab) subtab).setSelected(false);
                     }
                 });
 
+                //navigate or toggle submenu
                 menutabs.setSelectedTab(tab);
                 if (tab.getTarget() != null) {
                     UI.getCurrent().navigate(tab.getTarget());
                 }
             });
         });
+    }
+
+    private void setSubMenu(NavigationTab... navigationTabs) {
+        submenutabs.removeAll();
+        submenutabs.add(navigationTabs);
+
+        //add eventlistener with navigate action
+        Arrays.stream(navigationTabs).forEach(tab -> {
+            tab.getElement().addEventListener("click", domEvent -> {
+
+                submenutabs.setSelectedTab(tab);
+                if (tab.getTarget() != null) {
+                    UI.getCurrent().navigate(tab.getTarget());
+                }
+            });
+        });
+    }
+
+    private void removeSubMenu() {
+        submenutabs.removeAll();
+        submenu.getStyle().set("display", "none");
     }
 
     public void addUserMenuTab(String text, String jsOnClick) {
@@ -94,62 +132,9 @@ public class AppNavigation extends PolymerTemplate<AppNavigationModel> implement
         this.getElement().appendChild(button.getElement());
     }
 
-    private void setSubMenu(NavigationTab... navigationTabs) {
-        submenutabs.removeAll();
-        submenutabs.add(navigationTabs);
-
-
-        //add eventlistener with navigate action
-        Arrays.stream(navigationTabs).forEach(tab -> {
-            tab.getElement().addEventListener("click", domEvent -> {
-
-                submenutabs.setSelectedTab(tab);
-                if (tab.getTarget() != null) {
-                    UI.getCurrent().navigate(tab.getTarget());
-                }
-            });
-        });
-//        submenutabs.getElement().removeAttribute("selected");
-        submenu.getStyle().set("display", "flex");
-    }
-
-    private void removeSubMenu() {
-
-        //deselect everything...
-//        submenutabs.getChildren().forEach(tab -> {
-//            if (tab instanceof NavigationTab) {
-//                ((NavigationTab) tab).setSelected(false);
-//            }
-//        });
-        submenutabs.removeAll();
-        submenu.getStyle().set("display", "none");
-    }
-
-
     @Override
     public void beforeEnter(BeforeEnterEvent event) {
-        //set selected nav-tab after custom navigation:
-        //logger.info("current route: " + event.getNavigationTarget());
-
-//        selectTargetTab(event, menutabs);
-//        selectTargetTab(event, submenutabs);
-
 
     }
 
-    private void selectTargetTab(BeforeEnterEvent event, Tabs tabs) {
-        tabs.getChildren().forEach(tab -> {
-            if (tab instanceof NavigationTab) {
-
-                if (((NavigationTab) tab).getTarget() != null) {
-                    //logger.info("tab: " + ((NavigationTab) tab).getTarget());
-                    if (((NavigationTab) tab).getTarget().equals(event.getNavigationTarget())) {
-                        //logger.info("match!");
-                        tabs.setSelectedTab((NavigationTab) tab);
-                        //tab.getElement().setAttribute("selected", "");
-                    }
-                }
-            }
-        });
-    }
 }

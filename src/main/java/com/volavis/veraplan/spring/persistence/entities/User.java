@@ -60,12 +60,6 @@ public class User extends DateAudit {
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles = new ArrayList<>();
 
-    @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_timeconstraints",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "timeconstraint_id"))
-    private List<TimeConstraint> timeConstraints = new ArrayList<>();
-
     public User() {
 
     }
@@ -140,14 +134,6 @@ public class User extends DateAudit {
 
     public void setNotifications(List<Notification> notifications) {
         this.notifications = notifications;
-    }
-
-    public List<TimeConstraint> getTimeConstraints() {
-        return timeConstraints;
-    }
-
-    public void setTimeConstraints(List<TimeConstraint> timeConstraints) {
-        this.timeConstraints = timeConstraints;
     }
 
     @Override

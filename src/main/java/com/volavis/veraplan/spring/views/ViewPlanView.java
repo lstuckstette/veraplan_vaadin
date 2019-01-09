@@ -3,8 +3,10 @@ package com.volavis.veraplan.spring.views;
 import com.vaadin.external.org.slf4j.Logger;
 import com.vaadin.external.org.slf4j.LoggerFactory;
 
+import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 import com.vaadin.flow.router.PageTitle;
@@ -50,9 +52,7 @@ public class ViewPlanView extends Div {
         VerticalLayout gloablLayout = new VerticalLayout();
         initView(gloablLayout);
 
-        toolkit.addAssignmentDragDropEventListener(event -> {
-            receiveAssignmentMoveEvent(event);
-        });
+        toolkit.addAssignmentDragDropEventListener(this::receiveAssignmentMoveEvent);
 
 
         toolkit.add(gloablLayout);
@@ -94,37 +94,39 @@ public class ViewPlanView extends Div {
 
         // render top row
 
-        Span timeslotLabel = new Span("Timeslot");
-        timeslotLabel.getStyle().set("grid-area", "1 / 1 / span 1 / span 1");
-        Span mondayLabel = new Span("Monday");
-        mondayLabel.getStyle().set("grid-area", "1 / 2 / span 1 / span 1");
-        Span tuesdayLabel = new Span("Tuesday");
-        tuesdayLabel.getStyle().set("grid-area", "1 / 3 / span 1 / span 1");
-        Span wednesdayLabel = new Span("Wednesday");
-        wednesdayLabel.getStyle().set("grid-area", "1 / 4 / span 1 / span 1");
-        Span thursdayLabel = new Span("Thursday");
-        thursdayLabel.getStyle().set("grid-area", "1 / 5 / span 1 / span 1");
-        Span fridayLabel = new Span("Friday");
-        fridayLabel.getStyle().set("grid-area", "1 / 6 / span 1 / span 1");
-        Span saturdayLabel = new Span("Saturday");
-        saturdayLabel.getStyle().set("grid-area", "1 / 7 / span 1 / span 1");
-        Span sundayLabel = new Span("Sunday");
-        sundayLabel.getStyle().set("grid-area", "1 / 8 / span 1 / span 1");
+        ViewHelper.setupWeekCalendar(planGrid, timeslotCount);
 
-        Span horizontalLine = new Span();
-        horizontalLine.getStyle().set("grid-area", "2 / 1 / span 1 / span 8");
-        horizontalLine.getStyle().set("border-top", "1px solid");
-
-        planGrid.add(timeslotLabel, mondayLabel, tuesdayLabel, wednesdayLabel,
-                thursdayLabel, fridayLabel, saturdayLabel, sundayLabel, horizontalLine);
-
-        //render timeslots
-
-        for (int i = 1; i <= timeslotCount; i++) {
-            Span tsLabel = new Span(Integer.toString(i));
-            tsLabel.getStyle().set("grid-area", (i + 2) + " / 1 / span 1 / span 1");
-            planGrid.add(tsLabel);
-        }
+//        Span timeslotLabel = new Span("Timeslot");
+//        timeslotLabel.getStyle().set("grid-area", "1 / 1 / span 1 / span 1");
+//        Span mondayLabel = new Span("Monday");
+//        mondayLabel.getStyle().set("grid-area", "1 / 2 / span 1 / span 1");
+//        Span tuesdayLabel = new Span("Tuesday");
+//        tuesdayLabel.getStyle().set("grid-area", "1 / 3 / span 1 / span 1");
+//        Span wednesdayLabel = new Span("Wednesday");
+//        wednesdayLabel.getStyle().set("grid-area", "1 / 4 / span 1 / span 1");
+//        Span thursdayLabel = new Span("Thursday");
+//        thursdayLabel.getStyle().set("grid-area", "1 / 5 / span 1 / span 1");
+//        Span fridayLabel = new Span("Friday");
+//        fridayLabel.getStyle().set("grid-area", "1 / 6 / span 1 / span 1");
+//        Span saturdayLabel = new Span("Saturday");
+//        saturdayLabel.getStyle().set("grid-area", "1 / 7 / span 1 / span 1");
+//        Span sundayLabel = new Span("Sunday");
+//        sundayLabel.getStyle().set("grid-area", "1 / 8 / span 1 / span 1");
+//
+//        Span horizontalLine = new Span();
+//        horizontalLine.getStyle().set("grid-area", "2 / 1 / span 1 / span 8");
+//        horizontalLine.getStyle().set("border-top", "1px solid");
+//
+//        planGrid.add(timeslotLabel, mondayLabel, tuesdayLabel, wednesdayLabel,
+//                thursdayLabel, fridayLabel, saturdayLabel, sundayLabel, horizontalLine);
+//
+//        //render timeslots
+//
+//        for (int i = 1; i <= timeslotCount; i++) {
+//            Span tsLabel = new Span(Integer.toString(i));
+//            tsLabel.getStyle().set("grid-area", (i + 2) + " / 1 / span 1 / span 1");
+//            planGrid.add(tsLabel);
+//        }
 
         //add assignments
 
@@ -200,16 +202,28 @@ public class ViewPlanView extends Div {
 
 
         globalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
-        globalLayout.add(new H1("Headline"));
+//        globalLayout.add(new H1("Headline"));
 
         buildModel(getMockAssignments());
         renderPlanModel();
 
 
-        // map K1 x K2 x ... x KN -> V  -->  TimeSlotIndex x Weekday -> AssignmentComponent
+        // Save + Cancel
+
+        HorizontalLayout buttonLayout = new HorizontalLayout();
+        Button saveChanges = new Button("Save", event -> {
+            //TODO: implement this - save changes to new plan
+        });
+        Button cancelChanges = new Button("Cancel", buttonClickEvent -> {
+            //reset changes:
+            buildModel(getMockAssignments());
+            renderPlanModel();
+        });
+        buttonLayout.add(saveChanges, cancelChanges);
 
 
         globalLayout.add(planGrid);
+        globalLayout.add(buttonLayout);
     }
 
 

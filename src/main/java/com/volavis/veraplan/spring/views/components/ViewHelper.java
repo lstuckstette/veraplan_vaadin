@@ -6,6 +6,7 @@ import com.vaadin.flow.component.ClickEvent;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
+import com.vaadin.flow.component.html.Div;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -112,6 +113,40 @@ public abstract class ViewHelper {
             }
         } else {
             return 0;
+        }
+    }
+
+    public static void setupWeekCalendar(Div grid, int timeslotCount){
+        Span timeslotLabel = new Span("Timeslot");
+        timeslotLabel.getStyle().set("grid-area", "1 / 1 / span 1 / span 1");
+        Span mondayLabel = new Span("Monday");
+        mondayLabel.getStyle().set("grid-area", "1 / 2 / span 1 / span 1");
+        Span tuesdayLabel = new Span("Tuesday");
+        tuesdayLabel.getStyle().set("grid-area", "1 / 3 / span 1 / span 1");
+        Span wednesdayLabel = new Span("Wednesday");
+        wednesdayLabel.getStyle().set("grid-area", "1 / 4 / span 1 / span 1");
+        Span thursdayLabel = new Span("Thursday");
+        thursdayLabel.getStyle().set("grid-area", "1 / 5 / span 1 / span 1");
+        Span fridayLabel = new Span("Friday");
+        fridayLabel.getStyle().set("grid-area", "1 / 6 / span 1 / span 1");
+        Span saturdayLabel = new Span("Saturday");
+        saturdayLabel.getStyle().set("grid-area", "1 / 7 / span 1 / span 1");
+        Span sundayLabel = new Span("Sunday");
+        sundayLabel.getStyle().set("grid-area", "1 / 8 / span 1 / span 1");
+
+        Span horizontalLine = new Span();
+        horizontalLine.getStyle().set("grid-area", "2 / 1 / span 1 / span 8");
+        horizontalLine.getStyle().set("border-top", "1px solid");
+
+        grid.add(timeslotLabel, mondayLabel, tuesdayLabel, wednesdayLabel,
+                thursdayLabel, fridayLabel, saturdayLabel, sundayLabel, horizontalLine);
+
+        //render timeslots
+
+        for (int i = 1; i <= timeslotCount; i++) {
+            Span tsLabel = new Span(Integer.toString(i));
+            tsLabel.getStyle().set("grid-area", (i + 2) + " / 1 / span 1 / span 1");
+            grid.add(tsLabel);
         }
     }
 

@@ -38,7 +38,6 @@ import com.volavis.veraplan.spring.security.SecurityUtils;
 import com.volavis.veraplan.spring.views.views_coredata.*;
 import com.volavis.veraplan.spring.views.views_planing.EnterAssignmentView;
 import com.volavis.veraplan.spring.views.views_planing.EnterPreferenceView;
-import com.volavis.veraplan.spring.views.views_planing.PlaningView;
 import org.springframework.security.access.AccessDeniedException;
 
 
@@ -147,14 +146,14 @@ public class MainLayout extends PolymerTemplate<TemplateModel> implements Router
         //Mainmenu
         NavigationTab dashboard = new NavigationItemBuilder().text("Dashboard").target(DashboardView.class).build();
 
-        NavigationTab administration = new NavigationItemBuilder().text("Administration").target(AdministrationDashboardView.class)
+        NavigationTab administration = new NavigationItemBuilder().text("Administration")
                 .submenu(administration_manageusers,
                         administration_manageressources,
                         administration_exportplan,
                         administration_generateplan)
                 .build();
 
-        NavigationTab coredata = new NavigationItemBuilder().text("Core data").target(CoreDataView.class)
+        NavigationTab coredata = new NavigationItemBuilder().text("Core data")
                 .submenu(coredata_managebuilding,
                         coredata_enterroom,
                         coredata_enterdepartment,
@@ -162,7 +161,7 @@ public class MainLayout extends PolymerTemplate<TemplateModel> implements Router
                         coredata_entertimeslots)
                 .build();
 
-        NavigationTab planing = new NavigationItemBuilder().text("Planing").target(PlaningView.class)
+        NavigationTab planing = new NavigationItemBuilder().text("Planing")
                 .submenu(planing_preference,
                         planing_assignment)
                 .build();

@@ -11,7 +11,7 @@ public class NavigationTab extends Tab {
 
     private Class<? extends Component> target;
 
-    private List<NavigationTab> submenu;
+    private List<NavigationTab> submenu = new ArrayList<>();
 
     public NavigationTab(String text) {
         super(text);
@@ -41,7 +41,7 @@ public class NavigationTab extends Tab {
         this.submenu = submenu;
     }
 
-    public void setSubmenu(NavigationTab ...tabs){
+    public void setSubmenu(NavigationTab... tabs) {
         this.submenu = new ArrayList<>(Arrays.asList(tabs));
 
     }

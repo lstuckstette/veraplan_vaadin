@@ -1,5 +1,7 @@
 package com.volavis.veraplan.spring.persistence.entities.ressources;
 
+import com.volavis.veraplan.spring.persistence.entities.User;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
@@ -26,6 +28,10 @@ public class TimeConstraint {
 
     @Size(max = 256)
     private String description;
+
+    @ManyToOne()
+    @JoinColumn(name = "user_id")
+    private User user;
 
     public TimeConstraint() {
     }
@@ -60,5 +66,13 @@ public class TimeConstraint {
 
     public void setTimeSlots(List<TimeSlot> timeSlots) {
         this.timeSlots = timeSlots;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
