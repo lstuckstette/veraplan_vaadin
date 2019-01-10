@@ -14,7 +14,6 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextArea;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.data.renderer.ComponentRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
@@ -64,30 +63,6 @@ public class EnterPreferenceView extends Div {
 
         globalLayout.add(new H1("Enter personal preferences"));
 
-//        HorizontalLayout buttonBar = new HorizontalLayout();
-
-//        Button addNewPrefButton = new Button("Add new Preference");
-//        addNewPrefButton.addClickListener(event -> {
-//            addNewPreferenceComponent.setVisible(!addNewPreferenceComponent.isVisible());
-//
-//            if (addNewPreferenceComponent.isVisible()) {
-//                addNewPrefButton.setText("Close Add new Preference");
-//            } else {
-//                addNewPrefButton.setText("Add new Preference");
-//            }
-//
-//        });
-//        Button saveChangesButton = new Button("Save Changes");
-//        buttonBar.add(saveChangesButton, addNewPrefButton);
-//
-//        globalLayout.add(buttonBar);
-
-//        HorizontalLayout contentLayout = new HorizontalLayout();
-//
-//        contentLayout.add(weekCalendar, addNewPreferenceComponent);
-
-//        contentLayout.add(weekCalendar);
-
         globalLayout.add(weekCalendar);
         this.add(globalLayout);
     }
@@ -108,8 +83,8 @@ public class EnterPreferenceView extends Div {
             Optional<TimeSlot> optionalTimeSlot = timeConstraintService.getTimeSlots(tc).stream().findFirst();
             if (optionalTimeSlot.isPresent()) {
                 TimeSlot timeSlot = optionalTimeSlot.get();
-                model.get(timeSlot.getEnumerator(), timeSlot.getWeekday()).setTimeConstraint(tc);
-//                model.put(timeSlot.getEnumerator(), timeSlot.getWeekday(), new PreferenceComponent(tc));
+                model.get(timeSlot.getTimeSlotIndex(), timeSlot.getWeekday()).setTimeConstraint(tc);
+//                model.put(timeSlot.getTimeSlotIndex(), timeSlot.getWeekday(), new PreferenceComponent(tc));
             }
         }
 
@@ -127,18 +102,19 @@ public class EnterPreferenceView extends Div {
             contextMenu.setTarget(preferenceComponent);
             if (preferenceComponent.isEmpty()) {
                 contextMenu.addItem("Add", menuItemClickEvent -> {
-                    Dialog addDialog = this.getEditOrAddPreferenceDialog(false, preferenceComponent);
+                    Dialog addDialog = this.getEditOrAddPreferenceDialog(false, preferenceComponent, entry.getKey(0), entry.getKey(1));
                     addDialog.open();
                 });
             } else {
                 contextMenu.addItem("Edit", menuItemClickEvent -> {
-                    Dialog editDialog = this.getEditOrAddPreferenceDialog(true, preferenceComponent);
+                    Dialog editDialog = this.getEditOrAddPreferenceDialog(true, preferenceComponent, entry.getKey(0), entry.getKey(1));
                     editDialog.open();
                 });
                 contextMenu.addItem("Delete", menuItemClickEvent -> {
                     Dialog confirmationDialog = ViewHelper.getConfirmationDialog("Are you sure you want to delete this Preference?", confirmed -> {
                         timeConstraintService.removeTimeConstraint(preferenceComponent.getTimeConstraint());
                         preferenceComponent.removeTimeConstraint();
+                        renderWeekCalendar();
                     });
                     confirmationDialog.open();
                 });
@@ -150,7 +126,7 @@ public class EnterPreferenceView extends Div {
         }
     }
 
-    private Dialog getEditOrAddPreferenceDialog(boolean isEdit, PreferenceComponent component) {
+    private Dialog getEditOrAddPreferenceDialog(boolean isEdit, PreferenceComponent component, int timeslotIndex, int weekday) {
         Dialog dialog = new Dialog();
         VerticalLayout layout = new VerticalLayout();
         layout.setAlignItems(FlexComponent.Alignment.CENTER);
@@ -169,12 +145,12 @@ public class EnterPreferenceView extends Div {
             return new Span(item.getDisplayName(TextStyle.FULL, Locale.ENGLISH));
         }));
         selectWeekday.setItems(DayOfWeek.values());
-        selectWeekday.setValue(DayOfWeek.MONDAY);
+        selectWeekday.setValue(DayOfWeek.of(weekday));
 
         ComboBox<Integer> selectTimeslot = new ComboBox<>();
         selectTimeslot.setRequired(true);
         selectTimeslot.setItems(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-        selectTimeslot.setValue(1);
+        selectTimeslot.setValue(timeslotIndex);
 
         TextField preferenceName = new TextField();
         TextArea preferenceDescription = new TextArea();
@@ -187,7 +163,7 @@ public class EnterPreferenceView extends Div {
 
         if (isEdit) {
             //prefill form-items with according data:
-            selectTimeslot.setValue(component.getTimeConstraint().getTimeSlots().get(0).getEnumerator()); //TODO fix get(0)
+            selectTimeslot.setValue(component.getTimeConstraint().getTimeSlots().get(0).getTimeSlotIndex()); //TODO fix get(0)
             selectWeekday.setValue(DayOfWeek.of(component.getTimeConstraint().getTimeSlots().get(0).getWeekday()));
             preferenceName.setValue(component.getTimeConstraint().getName());
             preferenceDescription.setValue(component.getTimeConstraint().getDescription());
@@ -214,7 +190,7 @@ public class EnterPreferenceView extends Div {
         });
         Button reset = new Button("Reset", buttonClickEvent -> {
             if (isEdit) {
-                selectTimeslot.setValue(component.getTimeConstraint().getTimeSlots().get(0).getEnumerator()); //TODO fix get(0)
+                selectTimeslot.setValue(component.getTimeConstraint().getTimeSlots().get(0).getTimeSlotIndex()); //TODO fix get(0)
                 selectWeekday.setValue(DayOfWeek.of(component.getTimeConstraint().getTimeSlots().get(0).getWeekday()));
                 preferenceName.setValue(component.getTimeConstraint().getName());
                 preferenceDescription.setValue(component.getTimeConstraint().getDescription());
@@ -240,62 +216,6 @@ public class EnterPreferenceView extends Div {
         return dialog;
     }
 
-//    private VerticalLayout buildAddNewPreferenceComponent() { //TODO: port to context-menu-dialog
-//        VerticalLayout layout = new VerticalLayout();
-//        layout.setAlignItems(FlexComponent.Alignment.CENTER);
-//        layout.setVisible(false);
-//        layout.add(new H2("Add new Preference:"));
-//
-//        FormLayout formLayout = new FormLayout();
-//
-//        ComboBox<DayOfWeek> selectWeekday = new ComboBox<>();
-//        selectWeekday.setRequired(true);
-//        selectWeekday.setRenderer(new ComponentRenderer<>(item -> {
-//            return new Span(item.getDisplayName(TextStyle.FULL, Locale.ENGLISH));
-//        }));
-//        selectWeekday.setItems(DayOfWeek.values());
-//        selectWeekday.setValue(DayOfWeek.MONDAY);
-//
-//        ComboBox<Integer> selectTimeslot = new ComboBox<>();
-//        selectTimeslot.setRequired(true);
-//        selectTimeslot.setItems(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-//        selectTimeslot.setValue(1);
-//
-//        TextField preferenceName = new TextField();
-//        TextArea preferenceDescription = new TextArea();
-//
-//        formLayout.addFormItem(selectWeekday, "Weekday");
-//        formLayout.addFormItem(selectTimeslot, "Timeslot");
-//        formLayout.addFormItem(preferenceName, "Preference Name");
-//        formLayout.addFormItem(preferenceDescription, "Description");
-//
-//
-//        HorizontalLayout buttonBar = new HorizontalLayout();
-//        Button save = new Button("Save", buttonClickEvent -> {
-//            //Create new TimeConstraint
-//            Dialog warning = ViewHelper.getConfirmationDialog("Do you really want to save this new preference?", confirmed -> {
-//                timeConstraintService.createTimeConstraint(selectTimeslot.getValue(), selectWeekday.getValue(),
-//                        preferenceName.getValue(), preferenceDescription.getValue(), currentUser);
-//                renderWeekCalendar();
-//            });
-//            warning.open();
-//        });
-//        Button reset = new Button("Reset", buttonClickEvent -> {
-//            selectWeekday.setValue(DayOfWeek.MONDAY);
-//            selectTimeslot.setValue(1);
-//            preferenceName.clear();
-//            preferenceDescription.clear();
-//        });
-//        Button cancel = new Button("Cancel", event -> {
-//            this.addNewPreferenceComponent.setVisible(false);
-//        });
-//
-//        buttonBar.add(save, reset, cancel);
-//
-//        layout.add(formLayout);
-//        layout.add(buttonBar);
-//        return layout;
-//    }
 
     static class PreferenceComponent extends VerticalLayout {
         private TimeConstraint timeConstraint;

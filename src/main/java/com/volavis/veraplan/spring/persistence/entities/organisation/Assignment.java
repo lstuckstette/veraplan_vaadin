@@ -1,6 +1,8 @@
 package com.volavis.veraplan.spring.persistence.entities.organisation;
 
+import com.volavis.veraplan.spring.persistence.entities.User;
 import com.volavis.veraplan.spring.persistence.entities.ressources.Room;
+import com.volavis.veraplan.spring.persistence.entities.ressources.Subject;
 import com.volavis.veraplan.spring.persistence.entities.ressources.TimeSlot;
 
 import javax.persistence.*;
@@ -22,6 +24,16 @@ public class Assignment {
     private String name;
 
     @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(name="assignment_leaders",
+                joinColumns = @JoinColumn(name="assignment_id"),
+                inverseJoinColumns = @JoinColumn(name="leaders_id"))
+    private List<User> leaders = new ArrayList<>();
+
+    @ManyToOne()
+    @JoinColumn(name = "subject_id")
+    private Subject subject;
+
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "assignment_timeslots",
             joinColumns = @JoinColumn(name = "assignment_id"),
             inverseJoinColumns = @JoinColumn(name = "timeslot_id"))
@@ -30,7 +42,7 @@ public class Assignment {
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "assignment_rooms",
             joinColumns = @JoinColumn(name = "assignment_id"),
-            inverseJoinColumns = @JoinColumn(name = "room_id"))
+            inverseJoinColumns = @JoinColumn(name = "rooms_id"))
     private List<Room> rooms = new ArrayList<>();
 
     @ManyToMany(fetch = FetchType.LAZY)
@@ -84,5 +96,21 @@ public class Assignment {
 
     public void setUsergroups(List<Usergroup> usergroups) {
         this.usergroups = usergroups;
+    }
+
+    public List<User> getLeaders() {
+        return leaders;
+    }
+
+    public void setLeaders(List<User> leaders) {
+        this.leaders = leaders;
+    }
+
+    public Subject getSubject() {
+        return subject;
+    }
+
+    public void setSubject(Subject subject) {
+        this.subject = subject;
     }
 }

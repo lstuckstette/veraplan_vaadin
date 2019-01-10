@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
-import java.time.DayOfWeek;
 import java.util.List;
 
 @Service
@@ -21,7 +20,7 @@ public class TimeSlotService {
 
     public TimeSlot findOrCreate(int timeslotEnum, int weekday) {
         TimeSlot example = new TimeSlot();
-        example.setEnumerator(timeslotEnum);
+        example.setTimeSlotIndex(timeslotEnum);
         example.setWeekday(weekday);
 
         List<TimeSlot> timeSlots = timeSlotRepository.findAll(Example.of(example));
@@ -30,5 +29,9 @@ public class TimeSlotService {
         } else {
             return timeSlots.get(0);
         }
+    }
+
+    public List<TimeSlot> saveAll(List<TimeSlot> timeSlots) {
+        return timeSlotRepository.saveAll(timeSlots);
     }
 }

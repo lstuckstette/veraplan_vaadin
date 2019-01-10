@@ -1,6 +1,7 @@
 package com.volavis.veraplan.spring.persistence.entities.ressources;
 
 import com.volavis.veraplan.spring.persistence.entities.organisation.Building;
+import org.hibernate.annotations.NaturalId;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
@@ -21,7 +22,7 @@ public class Room {
     private String name;
 
     @NotBlank
-    @Size(max= 50)
+    @Size(max = 50)
     private String shortName;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -30,6 +31,11 @@ public class Room {
 
     @OneToMany(mappedBy = "room")
     private List<Equipment> equipment = new ArrayList<>();
+
+    @Enumerated(EnumType.STRING)
+    @NaturalId
+    @Column(length = 60)
+    private RoomType type;
 
     public Room() {
     }
@@ -77,5 +83,13 @@ public class Room {
 
     public void setEquipment(List<Equipment> equipment) {
         this.equipment = equipment;
+    }
+
+    public RoomType getType() {
+        return type;
+    }
+
+    public void setType(RoomType type) {
+        this.type = type;
     }
 }

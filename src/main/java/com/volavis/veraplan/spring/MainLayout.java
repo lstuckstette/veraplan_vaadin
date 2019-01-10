@@ -63,7 +63,6 @@ public class MainLayout extends PolymerTemplate<TemplateModel> implements Router
 
         NavigationTab coredata_managebuilding = new NavigationItemBuilder().text("Manage buildings").target(ManageBuildingsView.class).build();
         NavigationTab coredata_enterroom = new NavigationItemBuilder().text("Enter rooms").target(EnterRoomsView.class).build();
-        NavigationTab coredata_enterdepartment = new NavigationItemBuilder().text("Enter departments").target(EnterDepartmentsView.class).build();
         NavigationTab coredata_enterusergroup = new NavigationItemBuilder().text("Enter usergroups").target(EnterUsergroupsView.class).build();
         NavigationTab coredata_entertimeslots = new NavigationItemBuilder().text("Enter timeslots").target(EnterTimeslotsView.class).build();
 
@@ -101,35 +100,24 @@ public class MainLayout extends PolymerTemplate<TemplateModel> implements Router
         coredata_managebuilding.setSubmenu(
                 coredata_managebuilding,
                 coredata_enterroom,
-                coredata_enterdepartment,
                 coredata_enterusergroup,
                 coredata_entertimeslots
         );
         coredata_enterroom.setSubmenu(
                 coredata_managebuilding,
                 coredata_enterroom,
-                coredata_enterdepartment,
-                coredata_enterusergroup,
-                coredata_entertimeslots
-        );
-        coredata_enterdepartment.setSubmenu(
-                coredata_managebuilding,
-                coredata_enterroom,
-                coredata_enterdepartment,
                 coredata_enterusergroup,
                 coredata_entertimeslots
         );
         coredata_enterusergroup.setSubmenu(
                 coredata_managebuilding,
                 coredata_enterroom,
-                coredata_enterdepartment,
                 coredata_enterusergroup,
                 coredata_entertimeslots
         );
         coredata_entertimeslots.setSubmenu(
                 coredata_managebuilding,
                 coredata_enterroom,
-                coredata_enterdepartment,
                 coredata_enterusergroup,
                 coredata_entertimeslots
         );
@@ -156,7 +144,6 @@ public class MainLayout extends PolymerTemplate<TemplateModel> implements Router
         NavigationTab coredata = new NavigationItemBuilder().text("Core data")
                 .submenu(coredata_managebuilding,
                         coredata_enterroom,
-                        coredata_enterdepartment,
                         coredata_enterusergroup,
                         coredata_entertimeslots)
                 .build();

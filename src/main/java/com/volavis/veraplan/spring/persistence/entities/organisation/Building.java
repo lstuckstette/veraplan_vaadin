@@ -27,12 +27,6 @@ public class Building {
     @Size(max=40)
     private String shortName;
 
-    @ManyToMany(fetch = FetchType.LAZY)
-    @JoinTable(name = "building_departments",
-            joinColumns = @JoinColumn(name = "building_id"),
-            inverseJoinColumns = @JoinColumn(name = "department_id"))
-    private List<Department> departments = new ArrayList<>();
-
     @OneToMany(mappedBy = "building")
     private List<Room> rooms;
 
@@ -44,10 +38,7 @@ public class Building {
         this.name = name;
     }
 
-    public Building(@NotBlank @Size(max = 100) String name, List<Department> departments) {
-        this.name = name;
-        this.departments = departments;
-    }
+
 
     public String getShortName() {
         return shortName;
@@ -73,11 +64,4 @@ public class Building {
         this.name = name;
     }
 
-    public List<Department> getDepartments() {
-        return departments;
-    }
-
-    public void setDepartments(List<Department> departments) {
-        this.departments = departments;
-    }
 }

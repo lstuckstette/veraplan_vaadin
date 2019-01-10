@@ -3,7 +3,6 @@ package com.volavis.veraplan.spring.persistence.service;
 import com.vaadin.external.org.slf4j.Logger;
 import com.vaadin.external.org.slf4j.LoggerFactory;
 import com.volavis.veraplan.spring.persistence.entities.organisation.Building;
-import com.volavis.veraplan.spring.persistence.entities.organisation.Department;
 import com.volavis.veraplan.spring.persistence.repository.BuildingRepository;
 import com.volavis.veraplan.spring.views.components.BuildingField;
 import com.volavis.veraplan.spring.views.components.EntityFilter;
@@ -53,12 +52,6 @@ public class BuildingService implements EntityService<Building, EntityFilter<Bui
         return buildings.stream();
     }
 
-    @Transactional
-    public List<Department> getDepartments(Building b) {
-
-        Building building = buildingRepository.findOneWithDepartmentsById(b.getId());
-        return building.getDepartments();
-    }
 
     @Override
     public void saveChanges(Building entity) {

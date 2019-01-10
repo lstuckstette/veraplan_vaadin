@@ -1,7 +1,6 @@
 package com.volavis.veraplan.spring.persistence.entities.ressources;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotBlank;
 import java.util.Date;
 
 @Entity
@@ -12,10 +11,7 @@ public class TimeSlot {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Temporal(TemporalType.DATE)
-    private Date date;
-
-    private Integer enumerator;
+    private Integer timeSlotIndex;
 
     private Integer weekday;
 
@@ -29,17 +25,6 @@ public class TimeSlot {
     public TimeSlot() {
     }
 
-    public TimeSlot(Date startTime, Date endTime) {
-        this.startTime = startTime;
-        this.endTime = endTime;
-    }
-
-    public TimeSlot(Date startTime, Date endTime, Date date) {
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.date = date;
-    }
-
     public Long getId() {
         return id;
     }
@@ -48,20 +33,12 @@ public class TimeSlot {
         this.id = id;
     }
 
-    public Date getDate() {
-        return date;
+    public Integer getTimeSlotIndex() {
+        return timeSlotIndex;
     }
 
-    public void setDate(Date date) {
-        this.date = date;
-    }
-
-    public Integer getEnumerator() {
-        return enumerator;
-    }
-
-    public void setEnumerator(Integer enumerator) {
-        this.enumerator = enumerator;
+    public void setTimeSlotIndex(Integer timeSlotIndex) {
+        this.timeSlotIndex = timeSlotIndex;
     }
 
     public Date getStartTime() {

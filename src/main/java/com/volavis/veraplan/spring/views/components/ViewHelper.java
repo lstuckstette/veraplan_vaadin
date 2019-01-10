@@ -16,9 +16,7 @@ import com.vaadin.flow.data.binder.BinderValidationStatus;
 import com.vaadin.flow.data.binder.BindingValidationStatus;
 import com.vaadin.flow.data.provider.CallbackDataProvider;
 import com.vaadin.flow.data.provider.DataProvider;
-import com.vaadin.flow.data.validator.StringLengthValidator;
 import com.volavis.veraplan.spring.persistence.entities.organisation.Assignment;
-import com.volavis.veraplan.spring.persistence.entities.organisation.Building;
 import com.volavis.veraplan.spring.persistence.entities.ressources.TimeSlot;
 import com.volavis.veraplan.spring.persistence.service.EntityService;
 
@@ -88,35 +86,16 @@ public abstract class ViewHelper {
     }
 
     public static int getAssignmentDayOfWeek(Assignment assignment) {
-        Calendar calendar = Calendar.getInstance();
 
-        if (!assignment.getTimeSlots().isEmpty() && assignment.getTimeSlots().get(0).getDate() != null) {
-            calendar.setTime(assignment.getTimeSlots().get(0).getDate());
-            int weekday = calendar.get(Calendar.DAY_OF_WEEK);
-            switch (weekday) {
-                case Calendar.MONDAY:
-                    return 1;
-                case Calendar.TUESDAY:
-                    return 2;
-                case Calendar.WEDNESDAY:
-                    return 3;
-                case Calendar.THURSDAY:
-                    return 4;
-                case Calendar.FRIDAY:
-                    return 5;
-                case Calendar.SATURDAY:
-                    return 6;
-                case Calendar.SUNDAY:
-                    return 7;
-                default:
-                    return 0;
-            }
-        } else {
+        if (assignment.getTimeSlots().isEmpty()) {
             return 0;
+        } else {
+            TimeSlot timeSlot = assignment.getTimeSlots().get(0);
+            return timeSlot.getWeekday();
         }
     }
 
-    public static void setupWeekCalendar(Div grid, int timeslotCount){
+    public static void setupWeekCalendar(Div grid, int timeslotCount) {
         Span timeslotLabel = new Span("Timeslot");
         timeslotLabel.getStyle().set("grid-area", "1 / 1 / span 1 / span 1");
         Span mondayLabel = new Span("Monday");
@@ -164,7 +143,7 @@ public abstract class ViewHelper {
     public static List<Integer> getAssignmentTimeSlotEnumerators(Assignment assignment) {
         ArrayList<Integer> indices = new ArrayList<>();
         for (TimeSlot t : assignment.getTimeSlots()) {
-            indices.add(t.getEnumerator());
+            indices.add(t.getTimeSlotIndex());
         }
         return indices;
     }

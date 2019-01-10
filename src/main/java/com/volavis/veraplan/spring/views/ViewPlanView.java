@@ -9,8 +9,7 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.*;
 import com.volavis.veraplan.spring.MainLayout;
 import com.volavis.veraplan.spring.persistence.entities.organisation.Assignment;
 import com.volavis.veraplan.spring.persistence.entities.ressources.TimeSlot;
@@ -25,14 +24,15 @@ import org.vaadin.stefan.dnd.DndActivator;
 import org.vaadin.stefan.dnd.drag.DragSourceExtension;
 import org.vaadin.stefan.dnd.drop.DropTargetExtension;
 
+import java.time.LocalDate;
 import java.util.*;
 
 @PageTitle("Plan")
 @Route(value = "plan", layout = MainLayout.class)
-//@JavaScript("bower_components/interactjs/interact.min.js")
-public class ViewPlanView extends Div {
+public class ViewPlanView extends Div implements HasUrlParameter<String> {
 
     private static final Logger logger = LoggerFactory.getLogger(ViewPlanView.class);
+    private Map<String, List<String>> queryParameters;
 
     private AssignmentComponent currentlyDraggedComponent;
     private final CollaborationToolkit toolkit;
@@ -204,7 +204,7 @@ public class ViewPlanView extends Div {
         globalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
 //        globalLayout.add(new H1("Headline"));
 
-        buildModel(getMockAssignments());
+        buildModel(readPlansFromQuery());
         renderPlanModel();
 
 
@@ -216,7 +216,7 @@ public class ViewPlanView extends Div {
         });
         Button cancelChanges = new Button("Cancel", buttonClickEvent -> {
             //reset changes:
-            buildModel(getMockAssignments());
+            buildModel(readPlansFromQuery());
             renderPlanModel();
         });
         buttonLayout.add(saveChanges, cancelChanges);
@@ -227,7 +227,16 @@ public class ViewPlanView extends Div {
     }
 
 
-    private List<Assignment> getMockAssignments() {
+    private List<Assignment> readPlansFromQuery() {
+
+        List<String> planParameters = queryParameters.get("plan");
+        //Case: empty parameter(s)
+        if (planParameters.isEmpty()) {
+            return new ArrayList<>(); //return empty list
+        }
+        Long singlePlanId = Long.valueOf(planParameters.get(0));
+
+
         ArrayList<Assignment> assignments = new ArrayList<>();
 
         Assignment a1 = new Assignment();
@@ -241,12 +250,12 @@ public class ViewPlanView extends Div {
         List<TimeSlot> a2ts = new ArrayList<>();
 
         TimeSlot t1 = new TimeSlot();
-        t1.setDate(Calendar.getInstance().getTime());
-        t1.setEnumerator(1);
+        t1.setWeekday(LocalDate.now().getDayOfWeek().getValue());
+        t1.setTimeSlotIndex(1);
 
         TimeSlot t2 = new TimeSlot();
-        t2.setDate(Calendar.getInstance().getTime());
-        t2.setEnumerator(3);
+        t2.setWeekday(LocalDate.now().getDayOfWeek().getValue());
+        t2.setTimeSlotIndex(3);
 
         a1ts.add(t1);
         a2ts.add(t2);
@@ -261,4 +270,10 @@ public class ViewPlanView extends Div {
     }
 
 
+    @Override
+    public void setParameter(BeforeEvent beforeEvent, @OptionalParameter String integer) {
+        Location location = beforeEvent.getLocation();
+        QueryParameters queryParameters = location.getQueryParameters();
+        this.queryParameters = queryParameters.getParameters();
+    }
 }
