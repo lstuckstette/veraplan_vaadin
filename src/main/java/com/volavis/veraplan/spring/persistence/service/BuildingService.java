@@ -52,6 +52,9 @@ public class BuildingService implements EntityService<Building, EntityFilter<Bui
         return buildings.stream();
     }
 
+    public Building getByID() {
+        return null;
+    }
 
     @Override
     public void saveChanges(Building entity) {

@@ -17,6 +17,7 @@ import com.vaadin.flow.router.Route;
 import com.volavis.veraplan.spring.MainLayout;
 
 
+import com.volavis.veraplan.spring.views.components.FlowTable;
 import org.springframework.security.access.annotation.Secured;
 
 @HtmlImport("styles/shared-styles.html")
@@ -52,6 +53,10 @@ public class DashboardView extends Div {
         rowTwo.add(upcomingEventsLayout);
 
         globalLayout.add(rowOne, rowTwo);
+
+        FlowTable table = new FlowTable(6, 10);
+        table.add(2, 2, new Span("wuppi"));
+        globalLayout.add(table);
 
         this.add(globalLayout);
 

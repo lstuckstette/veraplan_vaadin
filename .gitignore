@@ -1,7 +1,9 @@
-/target/
+target/
 .idea/
 auxil/
 out/
+
+src/resources/email.properties
 
 .classpath
 .metadata/

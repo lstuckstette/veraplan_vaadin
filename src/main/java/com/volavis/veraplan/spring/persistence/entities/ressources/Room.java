@@ -21,16 +21,19 @@ public class Room {
     @Size(max = 100)
     private String name;
 
-    @NotBlank
     @Size(max = 50)
     private String shortName;
+
+    private int chairCount;
+
+    private int capacity;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "building_id")
     private Building building;
 
-    @OneToMany(mappedBy = "room")
-    private List<Equipment> equipment = new ArrayList<>();
+//    @OneToMany(mappedBy = "room")
+//    private List<Equipment> equipment = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     @NaturalId
@@ -40,10 +43,6 @@ public class Room {
     public Room() {
     }
 
-    public Room(@NotBlank String name, Building building) {
-        this.name = name;
-        this.building = building;
-    }
 
     public Long getId() {
         return id;
@@ -69,6 +68,22 @@ public class Room {
         this.shortName = shortName;
     }
 
+    public int getChairCount() {
+        return chairCount;
+    }
+
+    public void setChairCount(int chairCount) {
+        this.chairCount = chairCount;
+    }
+
+    public int getCapacity() {
+        return capacity;
+    }
+
+    public void setCapacity(int capacity) {
+        this.capacity = capacity;
+    }
+
     public Building getBuilding() {
         return building;
     }
@@ -77,13 +92,13 @@ public class Room {
         this.building = building;
     }
 
-    public List<Equipment> getEquipment() {
-        return equipment;
-    }
-
-    public void setEquipment(List<Equipment> equipment) {
-        this.equipment = equipment;
-    }
+//    public List<Equipment> getEquipment() {
+//        return equipment;
+//    }
+//
+//    public void setEquipment(List<Equipment> equipment) {
+//        this.equipment = equipment;
+//    }
 
     public RoomType getType() {
         return type;

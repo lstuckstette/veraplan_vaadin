@@ -32,13 +32,14 @@ import java.util.*;
 public class ViewPlanView extends Div implements HasUrlParameter<String> {
 
     private static final Logger logger = LoggerFactory.getLogger(ViewPlanView.class);
-    private Map<String, List<String>> queryParameters;
+    private Map<String, List<String>> queryParameters;  // = new HashMap<>();
 
     private AssignmentComponent currentlyDraggedComponent;
     private final CollaborationToolkit toolkit;
     private Div planGrid = new Div();
     private int timeslotCount = 10;
     private MultiKeyMap<Integer, AssignmentContainer> model = new MultiKeyMap<>();
+    private final VerticalLayout gloablLayout;
 
 
     @Autowired
@@ -49,8 +50,8 @@ public class ViewPlanView extends Div implements HasUrlParameter<String> {
 
         toolkit = new CollaborationToolkit(userService, "1337");
 
-        VerticalLayout gloablLayout = new VerticalLayout();
-        initView(gloablLayout);
+        gloablLayout = new VerticalLayout();
+
 
         toolkit.addAssignmentDragDropEventListener(this::receiveAssignmentMoveEvent);
 
@@ -228,15 +229,27 @@ public class ViewPlanView extends Div implements HasUrlParameter<String> {
 
 
     private List<Assignment> readPlansFromQuery() {
+        logger.info("parameters: " + this.queryParameters);
 
-        List<String> planParameters = queryParameters.get("plan");
-        //Case: empty parameter(s)
-        if (planParameters.isEmpty()) {
-            return new ArrayList<>(); //return empty list
+        if (this.queryParameters.containsKey("collaboration")) {
+            List<String> collaborationParameters = queryParameters.get("collaboration");
+            return getCollaborationPlan();
         }
-        Long singlePlanId = Long.valueOf(planParameters.get(0));
+        return getOwnPlan();
+    }
 
+    private List<Assignment> getCollaborationPlan() {
+        ArrayList<Assignment> collabAssignments = new ArrayList<>();
 
+        //mark own assignments as 'own' or add origin to AssignmentContainer / AssignmentComponent, add to
+        //TODO
+
+        //add collab assignments with own color
+
+        return collabAssignments;
+    }
+
+    public List<Assignment> getOwnPlan() {
         ArrayList<Assignment> assignments = new ArrayList<>();
 
         Assignment a1 = new Assignment();
@@ -271,9 +284,12 @@ public class ViewPlanView extends Div implements HasUrlParameter<String> {
 
 
     @Override
-    public void setParameter(BeforeEvent beforeEvent, @OptionalParameter String integer) {
+
+    public void setParameter(BeforeEvent beforeEvent, @OptionalParameter String param) {
         Location location = beforeEvent.getLocation();
         QueryParameters queryParameters = location.getQueryParameters();
         this.queryParameters = queryParameters.getParameters();
+        initView(gloablLayout);
+//        logger.info("found parameters!"+this.queryParameters);
     }
 }
