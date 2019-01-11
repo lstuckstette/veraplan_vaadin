@@ -1,8 +1,6 @@
 package com.volavis.veraplan.spring.views.components;
 
 import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.Span;
-import com.volavis.veraplan.spring.persistence.entities.organisation.Assignment;
 
 import java.util.ArrayList;
 import java.util.Optional;

@@ -11,7 +11,8 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 import com.vaadin.flow.router.*;
 import com.volavis.veraplan.spring.MainLayout;
-import com.volavis.veraplan.spring.persistence.entities.organisation.Assignment;
+import com.volavis.veraplan.spring.persistence.entities.organisation.Usergroup;
+import com.volavis.veraplan.spring.persistence.entities.ressources.Assignment;
 import com.volavis.veraplan.spring.persistence.entities.ressources.TimeSlot;
 import com.volavis.veraplan.spring.persistence.service.UserService;
 import com.volavis.veraplan.spring.views.components.*;
@@ -249,12 +250,14 @@ public class ViewPlanView extends Div implements HasUrlParameter<String> {
         return collabAssignments;
     }
 
-    public List<Assignment> getOwnPlan() {
+    private List<Assignment> getOwnPlan() {
         ArrayList<Assignment> assignments = new ArrayList<>();
 
         Assignment a1 = new Assignment();
         a1.setId(1L);
-        a1.setName("a1");
+        Usergroup ug1 = new Usergroup();
+        ug1.setName("4a");
+        a1.setUsergroups(Collections.singletonList(ug1));
         Assignment a2 = new Assignment();
         a2.setId(2L);
         a2.setName("a2");

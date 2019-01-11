@@ -3,8 +3,7 @@ package com.volavis.veraplan.spring.views.components;
 import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.volavis.veraplan.spring.persistence.entities.organisation.Assignment;
-import com.volavis.veraplan.spring.persistence.entities.organisation.Usergroup;
+import com.volavis.veraplan.spring.persistence.entities.ressources.Assignment;
 
 public class AssignmentComponent extends VerticalLayout {
 
@@ -37,10 +36,15 @@ public class AssignmentComponent extends VerticalLayout {
         this.getStyle().set("background", "plum");
         this.setWidth("80%");
 
-        this.add(new Span("Klasse: " + assignment.getUsergroups().get(0).getName()));
-        this.add(new Span("Fach: " + assignment.getSubject().getName()));
-        this.add(new Span("Raum: " + assignment.getRooms().get(0).getName()));
-        this.add(new Span("Lehrer: " + assignment.getLeaders().get(0).getLast_name()));
+        String klasse = assignment.getUsergroups().isEmpty() ? "??" : assignment.getUsergroups().get(0).getName();
+        String subject = assignment.getSubject() == null ? "??" : assignment.getSubject().toString();
+        String room = assignment.getRooms().isEmpty() ? "??" : assignment.getRooms().get(0).getName();
+        String leader = assignment.getLeaders().isEmpty() ? "??" : assignment.getLeaders().get(0).getLast_name();
+
+        this.add(new Span("Klasse: " + klasse));
+        this.add(new Span("Fach: " + subject));
+        this.add(new Span("Raum: " + room));
+        this.add(new Span("Lehrer: " + leader));
 
     }
 }

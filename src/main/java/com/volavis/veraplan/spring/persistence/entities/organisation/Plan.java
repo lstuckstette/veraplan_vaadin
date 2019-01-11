@@ -1,5 +1,7 @@
 package com.volavis.veraplan.spring.persistence.entities.organisation;
 
+import com.volavis.veraplan.spring.persistence.entities.ressources.Assignment;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;

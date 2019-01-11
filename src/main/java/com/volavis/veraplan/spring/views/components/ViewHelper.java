@@ -16,7 +16,7 @@ import com.vaadin.flow.data.binder.BinderValidationStatus;
 import com.vaadin.flow.data.binder.BindingValidationStatus;
 import com.vaadin.flow.data.provider.CallbackDataProvider;
 import com.vaadin.flow.data.provider.DataProvider;
-import com.volavis.veraplan.spring.persistence.entities.organisation.Assignment;
+import com.volavis.veraplan.spring.persistence.entities.ressources.Assignment;
 import com.volavis.veraplan.spring.persistence.entities.ressources.TimeSlot;
 import com.volavis.veraplan.spring.persistence.service.EntityService;
 
@@ -148,5 +148,19 @@ public abstract class ViewHelper {
         return indices;
     }
 
+    public static FlowTable generateWeekCalendar() {
+        FlowTable flowTable = new FlowTable(6, 7);
+        flowTable.add(1, 1, new Span("Stunde"));
+        flowTable.add(2, 1, new Span("Montag"));
+        flowTable.add(3, 1, new Span("Dienstag"));
+        flowTable.add(4, 1, new Span("Mittwoch"));
+        flowTable.add(5, 1, new Span("Donnerstag"));
+        flowTable.add(6, 1, new Span("Freitag"));
+        //TimeSlots
+        for (int ts = 2; ts <= 7; ts++) {
+            flowTable.add(1, ts, new Span("" + (ts - 1)));
+        }
 
+        return flowTable;
+    }
 }

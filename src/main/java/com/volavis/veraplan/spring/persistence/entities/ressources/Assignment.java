@@ -1,6 +1,7 @@
-package com.volavis.veraplan.spring.persistence.entities.organisation;
+package com.volavis.veraplan.spring.persistence.entities.ressources;
 
 import com.volavis.veraplan.spring.persistence.entities.User;
+import com.volavis.veraplan.spring.persistence.entities.organisation.Usergroup;
 import com.volavis.veraplan.spring.persistence.entities.ressources.Room;
 import com.volavis.veraplan.spring.persistence.entities.ressources.Subject;
 import com.volavis.veraplan.spring.persistence.entities.ressources.TimeSlot;

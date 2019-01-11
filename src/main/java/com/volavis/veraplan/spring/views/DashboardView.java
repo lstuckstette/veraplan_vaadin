@@ -18,6 +18,7 @@ import com.volavis.veraplan.spring.MainLayout;
 
 
 import com.volavis.veraplan.spring.views.components.FlowTable;
+import com.volavis.veraplan.spring.views.components.ViewHelper;
 import org.springframework.security.access.annotation.Secured;
 
 @HtmlImport("styles/shared-styles.html")
@@ -54,8 +55,7 @@ public class DashboardView extends Div {
 
         globalLayout.add(rowOne, rowTwo);
 
-        FlowTable table = new FlowTable(6, 10);
-        table.add(2, 2, new Span("wuppi"));
+        FlowTable table = ViewHelper.generateWeekCalendar(); //TODO: show current weekplan
         globalLayout.add(table);
 
         this.add(globalLayout);
