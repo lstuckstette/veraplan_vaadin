@@ -60,7 +60,7 @@ public class AppNavigation extends PolymerTemplate<AppNavigationModel> implement
 
                 //show submenu if not empty
                 if (!tab.getSubmenu().isEmpty()) {
-                    setSubMenu(tab.getSubmenu().toArray(NavigationTab[]::new));
+                    setSubMenu(tab.getSubmenu().stream().toArray(NavigationTab[]::new));
                     boolean visible = submenu.getStyle().get("display").equals("flex");
 
                     if (visible) {

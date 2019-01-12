@@ -7,6 +7,7 @@ import com.volavis.veraplan.spring.persistence.entities.User;
 import com.volavis.veraplan.spring.persistence.repository.UserRepository;
 import com.volavis.veraplan.spring.persistence.service.PopulateDemoDatabaseService;
 import com.volavis.veraplan.spring.configuration.SecurityConfig;
+import com.volavis.veraplan.spring.planimport.ImportService;
 import com.volavis.veraplan.spring.views.DashboardView;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
@@ -32,9 +33,10 @@ public class Application {
     private static final Logger logger = LoggerFactory.getLogger(Application.class);
 
 
-    public Application(@Autowired PopulateDemoDatabaseService populateDemoDatabaseService) {
+    public Application(@Autowired PopulateDemoDatabaseService populateDemoDatabaseService, @Autowired ImportService importService) {
         //Initialize DB:
         populateDemoDatabaseService.populate();
+        importService.readPlan();
 //        mailService.sendSimpleEmail("stuckstette@volavis.de", "subject", "wuppi fluppi!");
     }
 

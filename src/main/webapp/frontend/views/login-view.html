@@ -66,15 +66,15 @@
         </style>
 
         <header class="header">
-            <h2>Welcome to the Veraplan Landing Page</h2>
-            <p>Made with Vaadin 12 Flow + Spring Boot</p>
+            <h2>Willkommen auf der Veraplan Startseite!</h2>
+            <p>Webanwendung erstellt mittels Vaadin 12 Flow + Spring Boot</p>
         </header>
 
         <section id="aboutAnchor">
             <div class="container">
                 <div><img src="//app-layout-assets.appspot.com/assets/landing-page/berries.jpg"></div>
                 <div>
-                    <h3>About</h3>
+                    <h3>Übersicht</h3>
                     <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea. Lorem
                         ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.</p>
                     <p>Convenire definiebas scriptorem eu cum. Sit dolor dicunt consectetuer no. Convenire
@@ -87,7 +87,7 @@
             <div class="container">
                 <div><img src="//app-layout-assets.appspot.com/assets/landing-page/tomato.jpg"></div>
                 <div>
-                    <h3>Services</h3>
+                    <h3>Leistungen</h3>
                     <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea. Lorem
                         ipsum
                         dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.</p>
@@ -102,7 +102,7 @@
             <div class="container">
                 <div><img src="//app-layout-assets.appspot.com/assets/landing-page/red-onion.jpg"></div>
                 <div>
-                    <h3>Contact</h3>
+                    <h3>Kontakt</h3>
                     <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea. Lorem
                         ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.</p>
                     <p>Convenire definiebas scriptorem eu cum. Sit dolor dicunt consectetuer no. Convenire
@@ -124,7 +124,7 @@
                 </iron-a11y-keys>
                 <vaadin-text-field
                         name="username"
-                        label="Username/Email"
+                        label="Nutzername/Email"
                         value="{{user.username}}"
                         autocomplete="username"
                         required
@@ -140,12 +140,12 @@
                         required>
                 </vaadin-password-field>
                 <br>
-                <span id="loginError" style="color:red;display:none">Invalid Username/Email Password combination. Try again.</span>
+                <span id="loginError" style="color:red;display:none">Unzulässige Kombination aus Nutzername/Email und Password.</span>
 
             </div>
             <div class="login-buttons" style="padding-bottom:20px">
-                <vaadin-button theme="outlined" dialog-dismiss>Cancel</vaadin-button>
-                <vaadin-button theme="contained" on-click="submitLogin">Submit</vaadin-button>
+                <vaadin-button theme="outlined" dialog-dismiss>Abbrechen</vaadin-button>
+                <vaadin-button theme="contained" on-click="submitLogin">Absenden</vaadin-button>
             </div>
 
 

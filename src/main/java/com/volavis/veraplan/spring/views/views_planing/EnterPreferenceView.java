@@ -1,5 +1,6 @@
 package com.volavis.veraplan.spring.views.views_planing;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.contextmenu.ContextMenu;
@@ -24,6 +25,7 @@ import com.volavis.veraplan.spring.persistence.entities.ressources.TimeSlot;
 import com.volavis.veraplan.spring.persistence.service.TimeConstraintService;
 import com.volavis.veraplan.spring.persistence.service.UserService;
 import com.volavis.veraplan.spring.security.SecurityUtils;
+import com.volavis.veraplan.spring.views.components.FlowTable;
 import com.volavis.veraplan.spring.views.components.ViewHelper;
 import org.apache.commons.collections4.keyvalue.MultiKey;
 import org.apache.commons.collections4.map.MultiKeyMap;
@@ -35,13 +37,13 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-@PageTitle("Veraplan - Enter Preferences")
+@PageTitle("Veraplan - Freistunden")
 @Route(value = "planing/preference", layout = MainLayout.class)
 public class EnterPreferenceView extends Div {
 
     private TimeConstraintService timeConstraintService;
     //    private UserService userService;
-    private Div weekCalendar;
+    private FlowTable weekCalendar;
     //    private VerticalLayout addNewPreferenceComponent;
     private User currentUser;
     private int timeslotCount = 10;
@@ -50,7 +52,7 @@ public class EnterPreferenceView extends Div {
 
 //        this.userService = userService;
         this.timeConstraintService = timeConstraintService;
-        weekCalendar = new Div();
+        weekCalendar = ViewHelper.generateWeekCalendar(timeslotCount);
         this.currentUser = userService.getSingleUser(SecurityUtils.getUsername());
 //        addNewPreferenceComponent = buildAddNewPreferenceComponent();
         renderWeekCalendar();
@@ -61,21 +63,25 @@ public class EnterPreferenceView extends Div {
         VerticalLayout globalLayout = new VerticalLayout();
         globalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
 
-        globalLayout.add(new H1("Enter personal preferences"));
+        globalLayout.add(new H1("Verwaltung gewünschter Freistunden"));
 
         globalLayout.add(weekCalendar);
         this.add(globalLayout);
     }
 
     private void renderWeekCalendar() {
-        weekCalendar.removeAll();
+//        weekCalendar.removeAllComponents();
         //build model:
-        MultiKeyMap<Integer, PreferenceComponent> model = new MultiKeyMap<>();
+
         List<TimeConstraint> timeConstraints = timeConstraintService.getAllFromUser(currentUser);
 
+        for (TimeConstraint tc : timeConstraints) {
+
+        }
+
         for (int ts = 1; ts <= timeslotCount; ts++) {
-            for (int weekday = 1; weekday <= 7; weekday++) {
-                model.put(ts, weekday, new PreferenceComponent());
+            for (int weekday = 1; weekday <= 5; weekday++) {
+                weekCalendar.add(weekday + 1, ts + 1, new PreferenceComponent(ts, weekday));
             }
         }
 
@@ -83,58 +89,76 @@ public class EnterPreferenceView extends Div {
             Optional<TimeSlot> optionalTimeSlot = timeConstraintService.getTimeSlots(tc).stream().findFirst();
             if (optionalTimeSlot.isPresent()) {
                 TimeSlot timeSlot = optionalTimeSlot.get();
-                model.get(timeSlot.getTimeSlotIndex(), timeSlot.getWeekday()).setTimeConstraint(tc);
-//                model.put(timeSlot.getTimeSlotIndex(), timeSlot.getWeekday(), new PreferenceComponent(tc));
+                PreferenceComponent c = (PreferenceComponent) weekCalendar.getComponent(timeSlot.getWeekday(), timeSlot.getTimeSlotIndex()); //TODO: unchecked cast!
+                c.setTimeConstraint(tc);
             }
         }
 
-//        weekCalendar.setWidth("100%");
-        weekCalendar.getStyle().set("display", "grid");
-        weekCalendar.getStyle().set("grid-template-columns", "repeat(8, 1fr)");
-        weekCalendar.getStyle().set("grid-gap", "10px 10px");
-
-        ViewHelper.setupWeekCalendar(weekCalendar, timeslotCount);
-
-        for (MultiKey<? extends Integer> entry : model.keySet()) { //model = timeslot x weekday --> assignmentcontainer
-            PreferenceComponent preferenceComponent = model.get(entry);
-            //Add Context-Menu with Edit/Delete
-            ContextMenu contextMenu = new ContextMenu();
-            contextMenu.setTarget(preferenceComponent);
-            if (preferenceComponent.isEmpty()) {
-                contextMenu.addItem("Add", menuItemClickEvent -> {
-                    Dialog addDialog = this.getEditOrAddPreferenceDialog(false, preferenceComponent, entry.getKey(0), entry.getKey(1));
-                    addDialog.open();
-                });
-            } else {
-                contextMenu.addItem("Edit", menuItemClickEvent -> {
-                    Dialog editDialog = this.getEditOrAddPreferenceDialog(true, preferenceComponent, entry.getKey(0), entry.getKey(1));
-                    editDialog.open();
-                });
-                contextMenu.addItem("Delete", menuItemClickEvent -> {
-                    Dialog confirmationDialog = ViewHelper.getConfirmationDialog("Are you sure you want to delete this Preference?", confirmed -> {
-                        timeConstraintService.removeTimeConstraint(preferenceComponent.getTimeConstraint());
-                        preferenceComponent.removeTimeConstraint();
-                        renderWeekCalendar();
+        for (int ts = 1; ts <= timeslotCount; ts++) {
+            for (int weekday = 1; weekday <= 5; weekday++) {
+                PreferenceComponent preferenceComponent = (PreferenceComponent) weekCalendar.getComponent(weekday+1, ts+1); //TODO: unchecked cast!
+                //Add Context-Menu with Edit/Delete
+                ContextMenu contextMenu = new ContextMenu();
+                contextMenu.setTarget(preferenceComponent);
+                if (preferenceComponent.isEmpty()) {
+                    contextMenu.addItem("Hinzufügen", menuItemClickEvent -> {
+                        Dialog addDialog = this.getEditOrAddPreferenceDialog(false, preferenceComponent);
+                        addDialog.open();
                     });
-                    confirmationDialog.open();
-                });
+                } else {
+                    contextMenu.addItem("Ändern", menuItemClickEvent -> {
+                        Dialog editDialog = this.getEditOrAddPreferenceDialog(true, preferenceComponent);
+                        editDialog.open();
+                    });
+                    contextMenu.addItem("Löschen", menuItemClickEvent -> {
+                        Dialog confirmationDialog = ViewHelper.getConfirmationDialog("Are you sure you want to delete this Preference?", confirmed -> {
+                            timeConstraintService.removeTimeConstraint(preferenceComponent.getTimeConstraint());
+                            preferenceComponent.removeTimeConstraint();
+                            renderWeekCalendar();
+                        });
+                        confirmationDialog.open();
+                    });
+                }
             }
-
-            //Align in css-grid
-            preferenceComponent.getStyle().set("grid-area", (entry.getKey(0) + 2) + " / " + (entry.getKey(1) + 1) + " /span 1 / span 1");
-            weekCalendar.add(preferenceComponent);
         }
+
+
+//        for (MultiKey<? extends Integer> entry : model.keySet()) { //model = timeslot x weekday --> assignmentcontainer
+//            PreferenceComponent preferenceComponent = model.get(entry);
+//            //Add Context-Menu with Edit/Delete
+//            ContextMenu contextMenu = new ContextMenu();
+//            contextMenu.setTarget(preferenceComponent);
+//            if (preferenceComponent.isEmpty()) {
+//                contextMenu.addItem("Add", menuItemClickEvent -> {
+//                    Dialog addDialog = this.getEditOrAddPreferenceDialog(false, preferenceComponent, entry.getKey(0), entry.getKey(1));
+//                    addDialog.open();
+//                });
+//            } else {
+//                contextMenu.addItem("Edit", menuItemClickEvent -> {
+//                    Dialog editDialog = this.getEditOrAddPreferenceDialog(true, preferenceComponent, entry.getKey(0), entry.getKey(1));
+//                    editDialog.open();
+//                });
+//                contextMenu.addItem("Delete", menuItemClickEvent -> {
+//                    Dialog confirmationDialog = ViewHelper.getConfirmationDialog("Are you sure you want to delete this Preference?", confirmed -> {
+//                        timeConstraintService.removeTimeConstraint(preferenceComponent.getTimeConstraint());
+//                        preferenceComponent.removeTimeConstraint();
+//                        renderWeekCalendar();
+//                    });
+//                    confirmationDialog.open();
+//                });
+//            }
+//        }
     }
 
-    private Dialog getEditOrAddPreferenceDialog(boolean isEdit, PreferenceComponent component, int timeslotIndex, int weekday) {
+    private Dialog getEditOrAddPreferenceDialog(boolean isEdit, PreferenceComponent component) {
         Dialog dialog = new Dialog();
         VerticalLayout layout = new VerticalLayout();
         layout.setAlignItems(FlexComponent.Alignment.CENTER);
 
         if (isEdit) {
-            layout.add(new H2("Edit Item: " + component.getTimeConstraint().getName()));
+            layout.add(new H2("Eintrag editieren: " + component.getTimeConstraint().getName()));
         } else {
-            layout.add(new H2("Add new Preference:"));
+            layout.add(new H2("Eintrag hinzufügen:"));
         }
 
         FormLayout formLayout = new FormLayout();
@@ -142,23 +166,23 @@ public class EnterPreferenceView extends Div {
         ComboBox<DayOfWeek> selectWeekday = new ComboBox<>();
         selectWeekday.setRequired(true);
         selectWeekday.setRenderer(new ComponentRenderer<>(item -> {
-            return new Span(item.getDisplayName(TextStyle.FULL, Locale.ENGLISH));
+            return new Span(item.getDisplayName(TextStyle.FULL, Locale.GERMANY));
         }));
         selectWeekday.setItems(DayOfWeek.values());
-        selectWeekday.setValue(DayOfWeek.of(weekday));
+        selectWeekday.setValue(DayOfWeek.of(component.getWeekday()));
 
         ComboBox<Integer> selectTimeslot = new ComboBox<>();
         selectTimeslot.setRequired(true);
         selectTimeslot.setItems(1, 2, 3, 4, 5, 6, 7, 8, 9, 10);
-        selectTimeslot.setValue(timeslotIndex);
+        selectTimeslot.setValue(component.getTimeslot());
 
         TextField preferenceName = new TextField();
         TextArea preferenceDescription = new TextArea();
 
-        formLayout.addFormItem(selectWeekday, "Weekday");
-        formLayout.addFormItem(selectTimeslot, "Timeslot");
+        formLayout.addFormItem(selectWeekday, "Wochentag");
+        formLayout.addFormItem(selectTimeslot, "Stunde");
         formLayout.addFormItem(preferenceName, "Preference Name");
-        formLayout.addFormItem(preferenceDescription, "Description");
+        formLayout.addFormItem(preferenceDescription, "Beschreibung");
 
 
         if (isEdit) {
@@ -220,8 +244,11 @@ public class EnterPreferenceView extends Div {
     static class PreferenceComponent extends VerticalLayout {
         private TimeConstraint timeConstraint;
 
+        private int timeslot, weekday;
 
-        PreferenceComponent() {
+        public PreferenceComponent(int timeslot, int weekday) {
+            this.timeslot = timeslot;
+            this.weekday = weekday;
             buildComponent();
         }
 
@@ -248,17 +275,31 @@ public class EnterPreferenceView extends Div {
             buildComponent();
         }
 
+        public int getTimeslot() {
+            return timeslot;
+        }
+
+        public void setTimeslot(int timeslot) {
+            this.timeslot = timeslot;
+        }
+
+        public int getWeekday() {
+            return weekday;
+        }
+
+        public void setWeekday(int weekday) {
+            this.weekday = weekday;
+        }
+
         private void buildComponent() {
             this.removeAll();
             this.setAlignItems(Alignment.CENTER);
             if (timeConstraint != null) {
-                this.getStyle().remove("border");
+//                this.getStyle().remove("border");
                 this.add(new Span(timeConstraint.getName()));
             } else {
-                this.getStyle().set("border", "1px dotted");
+//                this.getStyle().set("border", "1px dotted");
             }
-
-
         }
     }
 

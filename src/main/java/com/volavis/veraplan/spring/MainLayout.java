@@ -56,18 +56,18 @@ public class MainLayout extends PolymerTemplate<TemplateModel> implements Router
 
         //Submenus
 
-        NavigationTab administration_manageusers = new NavigationItemBuilder().text("Manage users").target(ManageUsersView.class).build();
-        NavigationTab administration_manageressources = new NavigationItemBuilder().text("Manage ressources").target(ManageRessourcesView.class).build(); //TODO: do this for all entity-groups?
-        NavigationTab administration_exportplan = new NavigationItemBuilder().text("Export plan").target(ExportPlanView.class).build();
-        NavigationTab administration_generateplan = new NavigationItemBuilder().text("Generate plan").target(GeneratePlanView.class).build();
+        NavigationTab administration_manageusers = new NavigationItemBuilder().text("Nutzer bearbeiten").target(ManageUsersView.class).build();
+        NavigationTab administration_manageressources = new NavigationItemBuilder().text("Ressourcen bearbeiten").target(ManageRessourcesView.class).build(); //TODO: do this for all entity-groups?
+        NavigationTab administration_exportplan = new NavigationItemBuilder().text("Plan exportieren").target(ExportPlanView.class).build();
+        NavigationTab administration_generateplan = new NavigationItemBuilder().text("Plan generieren").target(GeneratePlanView.class).build();
 
-        NavigationTab coredata_managebuilding = new NavigationItemBuilder().text("Manage buildings").target(ManageBuildingsView.class).build();
-        NavigationTab coredata_enterroom = new NavigationItemBuilder().text("Enter rooms").target(EnterRoomsView.class).build();
-        NavigationTab coredata_enterusergroup = new NavigationItemBuilder().text("Enter usergroups").target(EnterUsergroupsView.class).build();
-        NavigationTab coredata_entertimeslots = new NavigationItemBuilder().text("Enter timeslots").target(EnterTimeslotsView.class).build();
+        NavigationTab coredata_managebuilding = new NavigationItemBuilder().text("Gebäude verwalten").target(ManageBuildingsView.class).build();
+        NavigationTab coredata_enterroom = new NavigationItemBuilder().text("Räume verwalten").target(EnterRoomsView.class).build();
+        NavigationTab coredata_enterusergroup = new NavigationItemBuilder().text("Nutzergruppen verwalten").target(EnterUsergroupsView.class).build();
+        NavigationTab coredata_entertimeslots = new NavigationItemBuilder().text("Zeitslots verwalten").target(EnterTimeslotsView.class).build();
 
-        NavigationTab planing_preference = new NavigationItemBuilder().text("Enter personal preferences").target(EnterPreferenceView.class).build();
-        NavigationTab planing_assignment = new NavigationItemBuilder().text("Enter ressource assignment").target(EnterAssignmentView.class).build();
+        NavigationTab planing_preference = new NavigationItemBuilder().text("Freistundenwünsche verwalten").target(EnterPreferenceView.class).build();
+        NavigationTab planing_assignment = new NavigationItemBuilder().text("Ressourcen zuweisen").target(EnterAssignmentView.class).build();
 
 
         //add submenu to submenus...
@@ -141,29 +141,29 @@ public class MainLayout extends PolymerTemplate<TemplateModel> implements Router
                         administration_generateplan)
                 .build();
 
-        NavigationTab coredata = new NavigationItemBuilder().text("Core data")
+        NavigationTab coredata = new NavigationItemBuilder().text("Stammdaten")
                 .submenu(coredata_managebuilding,
                         coredata_enterroom,
                         coredata_enterusergroup,
                         coredata_entertimeslots)
                 .build();
 
-        NavigationTab planing = new NavigationItemBuilder().text("Planing")
+        NavigationTab planing = new NavigationItemBuilder().text("Planung")
                 .submenu(planing_preference,
                         planing_assignment)
                 .build();
 
-        NavigationTab plan = new NavigationItemBuilder().text("View Plans").target(ViewPlanView.class).build();
+        NavigationTab plan = new NavigationItemBuilder().text("Plan anzeigen").target(ViewPlanView.class).build();
 
 
         appNavigation.setMenuTabs(dashboard, administration, coredata, planing, plan);
 
         //Fill User-Menu (right side)
-        appNavigation.addUserMenuTab("Profile", ProfileView.class);
-        appNavigation.addUserMenuTab("Mesages", "");
-        appNavigation.addUserMenuTab("Settings", "");
-        appNavigation.addUserMenuTab("Help", HelpView.class);
-        appNavigation.addUserMenuTab("Log Out", "document.querySelector('main-view').$.logoutDialog.open()");
+        appNavigation.addUserMenuTab("Profil", ProfileView.class);
+        appNavigation.addUserMenuTab("Nachrichten", "");
+        appNavigation.addUserMenuTab("Einstellungen", "");
+        appNavigation.addUserMenuTab("Hilfe", HelpView.class);
+        appNavigation.addUserMenuTab("Ausloggen", "document.querySelector('main-view').$.logoutDialog.open()");
 
     }
 

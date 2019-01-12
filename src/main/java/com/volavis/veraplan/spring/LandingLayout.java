@@ -31,9 +31,9 @@ public class LandingLayout extends PolymerTemplate<TemplateModel> implements Rou
         UI.getCurrent().getPage().addStyleSheet("https://use.fontawesome.com/releases/v5.3.1/css/all.css");
 
         //Fill NavigationBar:
-        NavigationTab about = new NavigationItemBuilder().text("About").action("document.querySelector('login-view').$.aboutAnchor.scrollIntoView()").build();
-        NavigationTab services = new NavigationItemBuilder().text("Services").action("document.querySelector('login-view').$.servicesAnchor.scrollIntoView()").build();
-        NavigationTab contact = new NavigationItemBuilder().text("Contact").action("document.querySelector('login-view').$.contactAnchor.scrollIntoView()").build();
+        NavigationTab about = new NavigationItemBuilder().text("Übersicht").action("document.querySelector('login-view').$.aboutAnchor.scrollIntoView()").build();
+        NavigationTab services = new NavigationItemBuilder().text("Leistungen").action("document.querySelector('login-view').$.servicesAnchor.scrollIntoView()").build();
+        NavigationTab contact = new NavigationItemBuilder().text("Kontakt").action("document.querySelector('login-view').$.contactAnchor.scrollIntoView()").build();
 
         appNavigation.setMenuTabs(about, services, contact);
     }

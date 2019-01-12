@@ -3,6 +3,7 @@ package com.volavis.veraplan.spring.views.components;
 import com.vaadin.external.org.slf4j.Logger;
 import com.vaadin.external.org.slf4j.LoggerFactory;
 import com.vaadin.flow.component.ClickEvent;
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -148,8 +149,8 @@ public abstract class ViewHelper {
         return indices;
     }
 
-    public static FlowTable generateWeekCalendar() {
-        FlowTable flowTable = new FlowTable(6, 7);
+    public static FlowTable generateWeekCalendar(int timeslotcount) {
+        FlowTable flowTable = new FlowTable(6, timeslotcount + 1);
         flowTable.add(1, 1, new Span("Stunde"));
         flowTable.add(2, 1, new Span("Montag"));
         flowTable.add(3, 1, new Span("Dienstag"));
@@ -157,8 +158,8 @@ public abstract class ViewHelper {
         flowTable.add(5, 1, new Span("Donnerstag"));
         flowTable.add(6, 1, new Span("Freitag"));
         //TimeSlots
-        for (int ts = 2; ts <= 7; ts++) {
-            flowTable.add(1, ts, new Span("" + (ts - 1)));
+        for (int ts = 1; ts <= timeslotcount; ts++) {
+            flowTable.add(1, ts + 1, new Span("" + ts));
         }
 
         return flowTable;

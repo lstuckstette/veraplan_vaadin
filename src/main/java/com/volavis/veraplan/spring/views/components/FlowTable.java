@@ -8,7 +8,7 @@ import org.apache.commons.collections4.map.MultiKeyMap;
 @HtmlImport("styles/shared-styles.html")
 public class FlowTable extends Div {
 
-    private MultiKeyMap<Integer, Div> components;
+    private MultiKeyMap<Integer, FlowTableCell> components;
     private int rows, cols;
 
     public FlowTable(int cols, int rows) {
@@ -23,7 +23,7 @@ public class FlowTable extends Div {
     private void setupContainers() {
         for (int c = 0; c < this.cols; c++)
             for (int r = 0; r < this.rows; r++) {
-                Div container = new Div();
+                FlowTableCell container = new FlowTableCell();
                 container.setClassName("table-cell");
                 this.components.put(c, r, container);
             }
@@ -39,15 +39,12 @@ public class FlowTable extends Div {
 //        remove top & left border from leftmost und top cell/row
         for (int c = 0; c < this.cols; c++) {
             components.get(c, 0).getStyle().set("border-top", "none");
-//            components.get(c, 0).getStyle().set("background", "red");
+
         }
 
         for (int r = 0; r < this.rows; r++) {
-//            components.get(0, r).getStyle().set("background", "blue");
             components.get(0, r).getStyle().set("border-left", "none");
         }
-
-
     }
 
     private void render() {
@@ -64,14 +61,22 @@ public class FlowTable extends Div {
         return components.get(col - 1, rows - 1);
     }
 
-    public void add(int col, int row, Component... component) {
-        this.components.get(col - 1, row - 1).add(component);
+    public Component getComponent(int col, int row) {
+        return this.components.get(col - 1, row - 1).getComponent();
+    }
+
+    public void add(int col, int row, Component component) {
+        this.components.get(col - 1, row - 1).setComponent(component);
         this.render();
     }
 
     public void remove(int col, int row) {
         this.components.get(col, row).removeAll();
         this.render();
+    }
+
+    public void removeAllComponents() {
+        setupContainers();
     }
 
 }

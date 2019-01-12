@@ -55,7 +55,7 @@ public class DashboardView extends Div {
 
         globalLayout.add(rowOne, rowTwo);
 
-        FlowTable table = ViewHelper.generateWeekCalendar(); //TODO: show current weekplan
+        FlowTable table = ViewHelper.generateWeekCalendar(6); //TODO: show current weekplan
         globalLayout.add(table);
 
         this.add(globalLayout);
