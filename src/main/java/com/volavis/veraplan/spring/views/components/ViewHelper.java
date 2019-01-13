@@ -3,7 +3,6 @@ package com.volavis.veraplan.spring.views.components;
 import com.vaadin.external.org.slf4j.Logger;
 import com.vaadin.external.org.slf4j.LoggerFactory;
 import com.vaadin.flow.component.ClickEvent;
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.ComponentEventListener;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dialog.Dialog;
@@ -36,9 +35,9 @@ public abstract class ViewHelper {
         VerticalLayout warningLayout = new VerticalLayout();
         warningLayout.setAlignItems(FlexComponent.Alignment.CENTER);
         warningLayout.add(new Span(warningText));
-        Button confirm = new Button("Confirm", confirmAction);
+        Button confirm = new Button("Bestätigen", confirmAction);
         confirm.addClickListener(evt -> warning.close());
-        Button cancel = new Button("Cancel", evt -> warning.close());
+        Button cancel = new Button("Abbrechen", evt -> warning.close());
         HorizontalLayout buttonGroup = new HorizontalLayout(confirm, cancel);
         buttonGroup.setAlignItems(FlexComponent.Alignment.CENTER);
         warningLayout.add(buttonGroup);
@@ -151,15 +150,15 @@ public abstract class ViewHelper {
 
     public static FlowTable generateWeekCalendar(int timeslotcount) {
         FlowTable flowTable = new FlowTable(6, timeslotcount + 1);
-        flowTable.add(1, 1, new Span("Stunde"));
-        flowTable.add(2, 1, new Span("Montag"));
-        flowTable.add(3, 1, new Span("Dienstag"));
-        flowTable.add(4, 1, new Span("Mittwoch"));
-        flowTable.add(5, 1, new Span("Donnerstag"));
-        flowTable.add(6, 1, new Span("Freitag"));
+        flowTable.setComponent(1, 1, new Span("Stunde"));
+        flowTable.setComponent(2, 1, new Span("Montag"));
+        flowTable.setComponent(3, 1, new Span("Dienstag"));
+        flowTable.setComponent(4, 1, new Span("Mittwoch"));
+        flowTable.setComponent(5, 1, new Span("Donnerstag"));
+        flowTable.setComponent(6, 1, new Span("Freitag"));
         //TimeSlots
         for (int ts = 1; ts <= timeslotcount; ts++) {
-            flowTable.add(1, ts + 1, new Span("" + ts));
+            flowTable.setComponent(1, ts + 1, new Span("" + ts));
         }
 
         return flowTable;

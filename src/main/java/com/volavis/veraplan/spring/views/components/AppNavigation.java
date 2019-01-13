@@ -101,7 +101,7 @@ public class AppNavigation extends PolymerTemplate<AppNavigationModel> implement
         submenutabs.removeAll();
         submenutabs.add(navigationTabs);
 
-        //add eventlistener with navigate action
+        //setComponent eventlistener with navigate action
         Arrays.stream(navigationTabs).forEach(tab -> {
             tab.getElement().addEventListener("click", domEvent -> {
 

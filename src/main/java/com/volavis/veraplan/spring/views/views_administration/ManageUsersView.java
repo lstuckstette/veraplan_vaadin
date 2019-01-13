@@ -185,7 +185,7 @@ public class ManageUsersView extends Div {
         save.getElement().setAttribute("theme", "contained");
         Button reset = new Button("Reset");
 
-        //add inputs to layout:
+        //setComponent inputs to layout:
         layout.addFormItem(firstname, "Firstname");
         layout.addFormItem(lastname, "Lastname");
         layout.addFormItem(username, "Username");
@@ -202,7 +202,7 @@ public class ManageUsersView extends Div {
         layout.add(infoLabel);
         layout.add(new HtmlComponent("br"));
 
-        //add controlls to layout:
+        //setComponent controlls to layout:
         HorizontalLayout actions = new HorizontalLayout();
         actions.setAlignItems(FlexComponent.Alignment.CENTER);
         actions.add(save, reset);
@@ -262,7 +262,7 @@ public class ManageUsersView extends Div {
                             //oO
                         }
                         if (currentRole != null) {
-                            //add/remove Role depending on value:
+                            //setComponent/remove Role depending on value:
                             List<Role> userRoles = usr.getRoles();
                             if (value) {
                                 //set role

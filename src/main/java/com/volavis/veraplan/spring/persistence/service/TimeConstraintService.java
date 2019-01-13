@@ -25,27 +25,27 @@ public class TimeConstraintService {
         this.timeSlotService = timeSlotService;
     }
 
-    public TimeConstraint createTimeConstraint(int timeslotEnum, DayOfWeek weekday, String name, String description, User user) {
+    public TimeConstraint createTimeConstraint(int timeslotEnum, DayOfWeek weekday, int importance, String description, User user) {
 
         TimeConstraint timeConstraint = new TimeConstraint();
         TimeSlot timeSlot = timeSlotService.findOrCreate(timeslotEnum, weekday.getValue());
         List<TimeSlot> timeSlotList = new ArrayList<>();
         timeSlotList.add(timeSlot);
         timeConstraint.setTimeSlots(timeSlotList);
-        timeConstraint.setName(name);
+        timeConstraint.setImportance(importance);
         timeConstraint.setDescription(description);
         timeConstraint.setUser(user);
 
         return repository.save(timeConstraint);
     }
 
-    public TimeConstraint saveChanges(TimeConstraint timeConstraint, int timeslotEnum, DayOfWeek weekday, String name, String description) {
+    public TimeConstraint saveChanges(TimeConstraint timeConstraint, int timeslotEnum, DayOfWeek weekday, int importance, String description) {
 
         TimeSlot timeSlot = timeSlotService.findOrCreate(timeslotEnum, weekday.getValue());
         List<TimeSlot> timeSlotList = new ArrayList<>();
         timeSlotList.add(timeSlot);
         timeConstraint.setTimeSlots(timeSlotList);
-        timeConstraint.setName(name);
+        timeConstraint.setImportance(importance);
         timeConstraint.setDescription(description);
         return repository.save(timeConstraint);
     }

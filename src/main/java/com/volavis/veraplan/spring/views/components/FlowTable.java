@@ -47,7 +47,7 @@ public class FlowTable extends Div {
         }
     }
 
-    private void render() {
+    public void render() {
         this.removeAll();
 
         for (int r = 0; r < this.rows; r++) {
@@ -65,7 +65,7 @@ public class FlowTable extends Div {
         return this.components.get(col - 1, row - 1).getComponent();
     }
 
-    public void add(int col, int row, Component component) {
+    public void setComponent(int col, int row, Component component) {
         this.components.get(col - 1, row - 1).setComponent(component);
         this.render();
     }

@@ -26,8 +26,8 @@ public class NavigationItemBuilder {
             tab = new NavigationTab(text);
         } else {
 //            HorizontalLayout header = new HorizontalLayout();
-//            header.add(new Span(text));
-//            header.add(new IronIcon("icons", "expand-more"));
+//            header.setComponent(new Span(text));
+//            header.setComponent(new IronIcon("icons", "expand-more"));
 
             tab = new NavigationTab(text);
             tab.getStyle().set("flex-direction", "row");

@@ -1942,6 +1942,22 @@
 											"top": 722,
 											"width": 95.10693359375,
 											"height": 13
+										},
+										{
+											"_type": "ERDColumnView",
+											"_id": "AAAAAAFoR1V2AWGbC9o=",
+											"_parent": {
+												"$ref": "AAAAAAFnO+6VcQcGxxE="
+											},
+											"model": {
+												"$ref": "AAAAAAFoR1V1qWGYcDk="
+											},
+											"fillColor": "#ffadad",
+											"font": "Arial;13;0",
+											"left": 269,
+											"top": 737,
+											"width": 95.10693359375,
+											"height": 13
 										}
 									],
 									"fillColor": "#ffadad",
@@ -1949,7 +1965,7 @@
 									"left": 264,
 									"top": 687,
 									"width": 105.10693359375,
-									"height": 53
+									"height": 68
 								}
 							],
 							"fillColor": "#ffadad",
@@ -1957,7 +1973,7 @@
 							"left": 264,
 							"top": 664,
 							"width": 105.10693359375,
-							"height": 76,
+							"height": 91,
 							"nameLabel": {
 								"$ref": "AAAAAAFnO+6VcQcFJAA="
 							},
@@ -3847,6 +3863,15 @@
 								"$ref": "AAAAAAFnO+6VcAcCiRI="
 							},
 							"name": "user",
+							"length": 0
+						},
+						{
+							"_type": "ERDColumn",
+							"_id": "AAAAAAFoR1V1qWGYcDk=",
+							"_parent": {
+								"$ref": "AAAAAAFnO+6VcAcCiRI="
+							},
+							"name": "importance",
 							"length": 0
 						}
 					]

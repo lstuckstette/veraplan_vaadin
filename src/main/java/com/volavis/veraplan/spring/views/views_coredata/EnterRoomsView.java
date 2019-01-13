@@ -56,7 +56,7 @@ public class EnterRoomsView extends Div {
 //        manageRooms.addGridColumn(User::getEmail, "Email");
 //        manageRooms.addGridComponentColumn(user -> {
 //            Div container = new Div();
-//            user.getRoles().forEach(role -> container.add(new Span(role.getName().toString() + ";")));
+//            user.getRoles().forEach(role -> container.setComponent(new Span(role.getName().toString() + ";")));
 //            return container;
 //        }, "Roles");
 //
@@ -70,7 +70,7 @@ public class EnterRoomsView extends Div {
 //        manageRooms.addEditEntityCollection("Roles",User::getRoles,);
 //
 //
-//        this.add(manageRooms);
+//        this.setComponent(manageRooms);
     }
 
     private VerticalLayout editEntityComponent(User user) {

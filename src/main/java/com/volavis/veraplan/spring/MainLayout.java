@@ -70,7 +70,7 @@ public class MainLayout extends PolymerTemplate<TemplateModel> implements Router
         NavigationTab planing_assignment = new NavigationItemBuilder().text("Ressourcen zuweisen").target(EnterAssignmentView.class).build();
 
 
-        //add submenu to submenus...
+        //setComponent submenu to submenus...
         administration_manageusers.setSubmenu(
                 administration_manageusers,
                 administration_manageressources,

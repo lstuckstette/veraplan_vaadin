@@ -152,7 +152,7 @@ public class EntityManagerComponentBuilder<E, F extends Enum<F>> {
                 this.addEntityComponent.setVisible(!this.addEntityComponent.isVisible());
 
                 if (this.addEntityComponent.isVisible()) {
-                    addEntityButton.setText("Hide add new Entry");
+                    addEntityButton.setText("Hide setComponent new Entry");
                 } else {
                     addEntityButton.setText("Add new Entry");
                 }
@@ -164,7 +164,7 @@ public class EntityManagerComponentBuilder<E, F extends Enum<F>> {
     //
 //@SuppressWarnings("varargs")
 //public <T, C extends Component & HasValue<?, T>> EntityManagerComponentBuilder addEditEntityBoundFormItem(String label, C component, ValueProvider<E, T> valueProvider, Setter<E, T> valueSetter, PredicateValidator<T>... validators) {
-//editEntityFormItems.add(component);
+//editEntityFormItems.setComponent(component);
 //
 //Binder.BindingBuilder<E, T> bindingBuilder = editEntityBinder.forField(component);
 //

@@ -22,9 +22,8 @@ public class TimeConstraint {
             inverseJoinColumns = @JoinColumn(name = "timeslot_id"))
     private List<TimeSlot> timeSlots = new ArrayList<>();
 
-    @NotBlank
-    @Size(max = 40)
-    private String name;
+
+    private int importance = 0;
 
     @Size(max = 256)
     private String description;
@@ -44,12 +43,12 @@ public class TimeConstraint {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public int getImportance() {
+        return importance;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setImportance(int importance) {
+        this.importance = importance;
     }
 
     public String getDescription() {

@@ -16,6 +16,7 @@ public class FlowTableCell extends Div {
     }
 
     public void setComponent(Component component) {
+        this.removeAll();
         this.component = component;
         this.add(component);
     }

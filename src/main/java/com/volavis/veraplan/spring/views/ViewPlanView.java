@@ -119,7 +119,7 @@ public class ViewPlanView extends Div implements HasUrlParameter<String> {
 //        horizontalLine.getStyle().set("grid-area", "2 / 1 / span 1 / span 8");
 //        horizontalLine.getStyle().set("border-top", "1px solid");
 //
-//        planGrid.add(timeslotLabel, mondayLabel, tuesdayLabel, wednesdayLabel,
+//        planGrid.setComponent(timeslotLabel, mondayLabel, tuesdayLabel, wednesdayLabel,
 //                thursdayLabel, fridayLabel, saturdayLabel, sundayLabel, horizontalLine);
 //
 //        //render timeslots
@@ -127,10 +127,10 @@ public class ViewPlanView extends Div implements HasUrlParameter<String> {
 //        for (int i = 1; i <= timeslotCount; i++) {
 //            Span tsLabel = new Span(Integer.toString(i));
 //            tsLabel.getStyle().set("grid-area", (i + 2) + " / 1 / span 1 / span 1");
-//            planGrid.add(tsLabel);
+//            planGrid.setComponent(tsLabel);
 //        }
 
-        //add assignments
+        //setComponent assignments
 
         for (MultiKey<? extends Integer> entry : model.keySet()) { //model = timeslot x weekday --> assignmentcontainer
             AssignmentContainer assignmentContainer = model.get(entry);
@@ -175,7 +175,7 @@ public class ViewPlanView extends Div implements HasUrlParameter<String> {
                 model.put(ts, weekday, container);
             }
         }
-        //add assignments to specific assignment components
+        //setComponent assignments to specific assignment components
         for (Assignment assignment : assignments) {
             int tsEnum = ViewHelper.getAssignmentTimeSlotSmallestEnumerator(assignment);
             int dayOfWeek = ViewHelper.getAssignmentDayOfWeek(assignment);
@@ -204,7 +204,7 @@ public class ViewPlanView extends Div implements HasUrlParameter<String> {
 
 
         globalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
-//        globalLayout.add(new H1("Headline"));
+//        globalLayout.setComponent(new H1("Headline"));
 
         buildModel(readPlansFromQuery());
         renderPlanModel();
@@ -242,10 +242,10 @@ public class ViewPlanView extends Div implements HasUrlParameter<String> {
     private List<Assignment> getCollaborationPlan() {
         ArrayList<Assignment> collabAssignments = new ArrayList<>();
 
-        //mark own assignments as 'own' or add origin to AssignmentContainer / AssignmentComponent, add to
+        //mark own assignments as 'own' or setComponent origin to AssignmentContainer / AssignmentComponent, setComponent to
         //TODO
 
-        //add collab assignments with own color
+        //setComponent collab assignments with own color
 
         return collabAssignments;
     }

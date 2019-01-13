@@ -77,7 +77,7 @@ public class AssignmentContainer extends Div {
             this.getStyle().remove("background");
 //            this.getStyle().set("background", "silver");
             this.getStyle().set("border", "1px dotted");
-//            this.add(new Span("e"));
+//            this.setComponent(new Span("e"));
 
         } else if (assignmentComponents.size() > 1) { //CASE collision
             this.getStyle().remove("border");
