@@ -36,7 +36,7 @@ public class Application {
     public Application(@Autowired PopulateDemoDatabaseService populateDemoDatabaseService, @Autowired ImportService importService) {
         //Initialize DB:
         populateDemoDatabaseService.populate();
-        importService.readPlan();
+        importService.setup();
 //        mailService.sendSimpleEmail("stuckstette@volavis.de", "subject", "wuppi fluppi!");
     }
 

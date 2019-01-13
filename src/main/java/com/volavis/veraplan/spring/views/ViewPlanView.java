@@ -4,6 +4,7 @@ import com.vaadin.external.org.slf4j.Logger;
 import com.vaadin.external.org.slf4j.LoggerFactory;
 
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -11,16 +12,21 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 import com.vaadin.flow.router.*;
 import com.volavis.veraplan.spring.MainLayout;
+import com.volavis.veraplan.spring.persistence.entities.User;
 import com.volavis.veraplan.spring.persistence.entities.organisation.Usergroup;
 import com.volavis.veraplan.spring.persistence.entities.ressources.Assignment;
 import com.volavis.veraplan.spring.persistence.entities.ressources.TimeSlot;
 import com.volavis.veraplan.spring.persistence.service.UserService;
+import com.volavis.veraplan.spring.planimport.ImportService;
+import com.volavis.veraplan.spring.planimport.model.ImportAssignment;
+import com.volavis.veraplan.spring.security.SecurityUtils;
 import com.volavis.veraplan.spring.views.components.*;
 
 import org.apache.commons.collections4.keyvalue.MultiKey;
 import org.apache.commons.collections4.map.MultiKeyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.context.annotation.Import;
 import org.vaadin.stefan.dnd.DndActivator;
 import org.vaadin.stefan.dnd.drag.DragSourceExtension;
 import org.vaadin.stefan.dnd.drop.DropTargetExtension;
@@ -28,37 +34,48 @@ import org.vaadin.stefan.dnd.drop.DropTargetExtension;
 import java.time.LocalDate;
 import java.util.*;
 
-@PageTitle("Plan")
+@PageTitle("Veraplan - Plan")
+@HtmlImport("styles/shared-styles.html")
 @Route(value = "plan", layout = MainLayout.class)
 public class ViewPlanView extends Div implements HasUrlParameter<String> {
 
     private static final Logger logger = LoggerFactory.getLogger(ViewPlanView.class);
+
+    private ImportService importService;
+    private User currentUser;
+
     private Map<String, List<String>> queryParameters;  // = new HashMap<>();
 
     private AssignmentComponent currentlyDraggedComponent;
-    private final CollaborationToolkit toolkit;
+    private CollaborationToolkit toolkit;
     private Div planGrid = new Div();
-    private int timeslotCount = 10;
+    private int timeslotCount = 6;
     private MultiKeyMap<Integer, AssignmentContainer> model = new MultiKeyMap<>();
-    private final VerticalLayout gloablLayout;
+    private VerticalLayout gloablLayout;
 
 
     @Autowired
-    public ViewPlanView(UserService userService) {
+    public ViewPlanView(UserService userService, ImportService importService) {
 
-        //activate drag&drop support
+        this.importService = importService;
+        this.currentUser = userService.getByUsernameOrEmail(SecurityUtils.getUsername());
+
         DndActivator.activateMobileDnd();
 
-        toolkit = new CollaborationToolkit(userService, "1337");
-
-        gloablLayout = new VerticalLayout();
+        //---------------------------------------
 
 
-        toolkit.addAssignmentDragDropEventListener(this::receiveAssignmentMoveEvent);
+        //activate drag&drop support
 
 
-        toolkit.add(gloablLayout);
-        this.add(toolkit);
+//        toolkit = new CollaborationToolkit(userService, "1337");
+
+//        gloablLayout = new VerticalLayout();
+
+//        toolkit.addAssignmentDragDropEventListener(this::receiveAssignmentMoveEvent);
+
+//        toolkit.add(gloablLayout);
+//        this.add(toolkit);
     }
 
     private void sendAssignmentMoveEvent(AssignmentComponentMoveEvent event) {
@@ -285,14 +302,105 @@ public class ViewPlanView extends Div implements HasUrlParameter<String> {
         return assignments;
     }
 
+    private void buildNonCollab() {
+        this.removeAll();
+        VerticalLayout layout = new VerticalLayout();
+        layout.setAlignItems(FlexComponent.Alignment.CENTER);
+
+        FlowTable table = ViewHelper.generateWeekCalendar(timeslotCount);
+
+        List<ImportAssignment> assignments = importService.getMockTeacherPlan(currentUser);
+
+        //prefill calendar
+        for (int ts = 1; ts <= timeslotCount; ts++) {
+            for (int day = 1; day <= 5; day++) {
+                AssContainer assContainer = new AssContainer();
+                table.setComponent(day + 1, ts + 1, assContainer);
+                DropTargetExtension<AssContainer> target = DropTargetExtension.extend(assContainer);
+                target.addDropListener(event -> {
+
+                });
+            }
+        }
+
+        //add assignments (color accordingly)
+        for (ImportAssignment assignment : assignments) {
+            AssContainer container = (AssContainer) table.getComponent(assignment.getTimeSlot().getDay() + 1, assignment.getTimeSlot().getSlot() + 1);
+            AssComponent assComponent = new AssComponent();
+            assComponent.setAssignment(assignment);
+            container.addAssignmentComponent(assComponent);
+
+            DragSourceExtension<AssComponent> source = DragSourceExtension.extend(assComponent);
+            source.addDragStartListener(event -> {
+
+            });
+        }
+
+        layout.add(table);
+        this.add(layout);
+    }
 
     @Override
-
     public void setParameter(BeforeEvent beforeEvent, @OptionalParameter String param) {
         Location location = beforeEvent.getLocation();
         QueryParameters queryParameters = location.getQueryParameters();
         this.queryParameters = queryParameters.getParameters();
-        initView(gloablLayout);
+        buildNonCollab();
+//        initView(gloablLayout);
 //        logger.info("found parameters!"+this.queryParameters);
     }
+
+    static class AssContainer extends VerticalLayout {
+        private List<AssComponent> assignmentComponents = new ArrayList<>();
+
+        AssContainer() {
+            this.setAlignItems(Alignment.CENTER);
+            this.setHeight("100%");
+            render();
+        }
+
+
+        void addAssignmentComponent(AssComponent assignment) {
+            this.assignmentComponents.add(assignment);
+            render();
+        }
+
+        void removeAssignment(AssComponent assignment) {
+            this.assignmentComponents.remove(assignment);
+            render();
+        }
+
+        void render() {
+            this.removeAll();
+            assignmentComponents.forEach(this::add);
+        }
+
+    }
+
+    static class AssComponent extends VerticalLayout {
+
+        private ImportAssignment assignment;
+
+        public AssComponent() {
+            this.setAlignItems(Alignment.CENTER);
+            this.setClassName("assignment-component");
+        }
+
+        void setAssignment(ImportAssignment assignment) {
+            this.assignment = assignment;
+            render();
+        }
+
+        void render() {
+            this.removeAll();
+            if (assignment != null) {
+                this.add(new Span("K: " + assignment.getTaughtClass().getId()));
+                this.add(new Span("F: " + assignment.getSubject().getId()));
+                this.add(new Span("R: " + assignment.getRoom().getId()));
+            }
+        }
+
+
+    }
+
 }

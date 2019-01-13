@@ -3,6 +3,7 @@ package com.volavis.veraplan.spring.views.components;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import org.apache.commons.collections4.map.MultiKeyMap;
 
 @HtmlImport("styles/shared-styles.html")
@@ -34,7 +35,7 @@ public class FlowTable extends Div {
 
         this.getStyle().set("display", "grid");
         this.getStyle().set("grid-template-columns", "repeat(" + this.cols + ",1fr)");
-        this.getStyle().set("grid-template-rows", "repeat(" + this.rows + ",1fr)");
+        this.getStyle().set("grid-template-rows", "auto repeat(" + (this.rows - 1) + ",1fr)");
 
 //        remove top & left border from leftmost und top cell/row
         for (int c = 0; c < this.cols; c++) {

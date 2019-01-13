@@ -2,6 +2,7 @@ package com.volavis.veraplan.spring.views.components;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.html.Div;
+import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 public class FlowTableCell extends Div {
 
@@ -9,6 +10,8 @@ public class FlowTableCell extends Div {
 
     public FlowTableCell() {
         super();
+//        this.setAlignItems(Alignment.CENTER);
+//        this.setJustifyContentMode(JustifyContentMode.CENTER);
     }
 
     public Component getComponent() {

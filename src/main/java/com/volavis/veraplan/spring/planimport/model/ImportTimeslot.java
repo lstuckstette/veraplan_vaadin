@@ -24,4 +24,12 @@ public class ImportTimeslot {
     public void setSlot(int slot) {
         this.slot = slot;
     }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other instanceof ImportTimeslot) {
+            return this.day == ((ImportTimeslot) other).getDay() && this.slot == ((ImportTimeslot) other).getSlot();
+        }
+        return false;
+    }
 }
