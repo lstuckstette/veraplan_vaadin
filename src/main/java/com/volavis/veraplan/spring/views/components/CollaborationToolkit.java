@@ -12,6 +12,7 @@ import com.vaadin.flow.component.polymertemplate.EventHandler;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.volavis.veraplan.spring.persistence.service.UserService;
 import com.volavis.veraplan.spring.security.SecurityUtils;
+import com.volavis.veraplan.spring.views.ViewPlanView;
 import com.volavis.veraplan.spring.views.templateModels.CollaborationToolkitModel;
 import org.apache.commons.lang3.RandomStringUtils;
 
@@ -40,10 +41,10 @@ public class CollaborationToolkit extends PolymerTemplate<CollaborationToolkitMo
     @ClientCallable
     private void handleAssignmentDragDropEvent(String eventJSON) {
 //        logger.info("RAW:" + eventJSON);
-        notifyAssignmentDragDropEventListeners(gson.fromJson(eventJSON, AssignmentComponentMoveEvent.class));
+        notifyAssignmentDragDropEventListeners(gson.fromJson(eventJSON, ViewPlanView.AssMoveEvent.class));
     }
 
-    public void sendDragDropEvent(AssignmentComponentMoveEvent event) {
+    public void sendDragDropEvent(ViewPlanView.AssMoveEvent event) {
 
 
         this.getModel().setDragDropEvent(gson.toJson(event));
@@ -57,7 +58,7 @@ public class CollaborationToolkit extends PolymerTemplate<CollaborationToolkitMo
         listeners.remove(listener);
     }
 
-    private void notifyAssignmentDragDropEventListeners(AssignmentComponentMoveEvent event) {
+    private void notifyAssignmentDragDropEventListeners(ViewPlanView.AssMoveEvent event) {
         listeners.forEach(listener -> listener.onDragDropEvent(event));
     }
 }

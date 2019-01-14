@@ -3,10 +3,9 @@ package com.volavis.veraplan.spring.views;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.HtmlImport;
-import com.vaadin.flow.component.html.Div;
-import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.html.*;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -14,6 +13,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.dom.ElementFactory;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.RouterLink;
 import com.volavis.veraplan.spring.MainLayout;
 
 
@@ -49,14 +49,14 @@ public class DashboardView extends Div {
 
         HorizontalLayout rowTwo = new HorizontalLayout();
         rowTwo.setClassName("dashboard-row-two");
-        VerticalLayout upcomingEventsLayout = getUpcomingEventsLayout();
-        upcomingEventsLayout.setClassName("dashboard-tile");
-        rowTwo.add(upcomingEventsLayout);
+//        VerticalLayout upcomingEventsLayout = getUpcomingEventsLayout();
+//        upcomingEventsLayout.setClassName("dashboard-tile");
+//        rowTwo.add(upcomingEventsLayout);
 
         globalLayout.add(rowOne, rowTwo);
 
-        FlowTable table = ViewHelper.generateWeekCalendar(6); //TODO: show current weekplan
-        globalLayout.add(table);
+//        FlowTable table = ViewHelper.generateWeekCalendar(6); //TODO: show current weekplan
+//        globalLayout.add(table);
 
         this.add(globalLayout);
 
@@ -64,22 +64,24 @@ public class DashboardView extends Div {
 
     private VerticalLayout getPlanOverviewLayout() {
         VerticalLayout overviewLayout = new VerticalLayout();
+        overviewLayout.setAlignItems(FlexComponent.Alignment.CENTER);
         overviewLayout.setAlignSelf(FlexComponent.Alignment.START);
-        overviewLayout.add(new Span("Plan Overview"));
+        overviewLayout.add(new H3("Persönlicher Stundenplan:"));
+        Icon calendar = new Icon(VaadinIcon.CALENDAR_USER);
+        calendar.addClickListener(iconClickEvent -> this.getUI().ifPresent(ui -> ui.navigate(ViewPlanView.class)));
+        overviewLayout.add(calendar);
         return overviewLayout;
     }
 
     private VerticalLayout getNotificationLayout() {
         VerticalLayout notificationLayout = new VerticalLayout();
+        notificationLayout.setAlignItems(FlexComponent.Alignment.CENTER);
         notificationLayout.setAlignSelf(FlexComponent.Alignment.END);
-        notificationLayout.add(new Span("Notifications"));
+        notificationLayout.add(new H3("Benachrichtigungen:"));
+        notificationLayout.add(new Paragraph(new Icon(VaadinIcon.CARET_RIGHT), new Span("Elternsprechtag am kommenden Freitag!")));
+        notificationLayout.add(new Paragraph(new Icon(VaadinIcon.CARET_RIGHT), new Span("Lehrerkonferenz Freitag den 01.02.2019")));
         return notificationLayout;
     }
 
-    private VerticalLayout getUpcomingEventsLayout() {
-        VerticalLayout eventsLayout = new VerticalLayout();
-        eventsLayout.add(new Span("Upcoming Events"));
-        return eventsLayout;
-    }
 
 }

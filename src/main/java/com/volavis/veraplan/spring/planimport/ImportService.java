@@ -45,7 +45,7 @@ public class ImportService {
         //Read Plan-JSON
         ImportPlan iPlan = null;
         try {
-            Path jsonPath = ResourceUtils.getFile("classpath:database_dummydata/generated-plan.json").toPath();
+            Path jsonPath = ResourceUtils.getFile("classpath:database_dummydata/generated-plan-1.json").toPath();
             BufferedReader reader = Files.newBufferedReader(jsonPath);
             Type type = new TypeToken<ImportPlan>() {
             }.getType();

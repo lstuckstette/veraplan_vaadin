@@ -28,7 +28,11 @@ public abstract class ViewHelper {
     private static final Logger logger = LoggerFactory.getLogger(ViewHelper.class);
 
     public static Dialog getConfirmationDialog(String warningText, ComponentEventListener<ClickEvent<Button>> confirmAction) {
+        return getConfirmationDialog(warningText, confirmAction, event -> {
+        });
+    }
 
+    public static Dialog getConfirmationDialog(String warningText, ComponentEventListener<ClickEvent<Button>> confirmAction, ComponentEventListener<ClickEvent<Button>> closeAction) {
         Dialog warning = new Dialog();
         warning.setCloseOnEsc(true);
         warning.setCloseOnOutsideClick(true);
@@ -37,13 +41,17 @@ public abstract class ViewHelper {
         warningLayout.add(new Span(warningText));
         Button confirm = new Button("Bestätigen", confirmAction);
         confirm.addClickListener(evt -> warning.close());
-        Button cancel = new Button("Abbrechen", evt -> warning.close());
+        Button cancel = new Button("Abbrechen");
+        cancel.addClickListener(evt -> {
+            warning.close();
+
+        });
+        cancel.addClickListener(closeAction);
         HorizontalLayout buttonGroup = new HorizontalLayout(confirm, cancel);
         buttonGroup.setAlignItems(FlexComponent.Alignment.CENTER);
         warningLayout.add(buttonGroup);
         warning.add(warningLayout);
         return warning;
-
     }
 
     public static <B> String getBinderErrorMessage(Binder<B> binder) {

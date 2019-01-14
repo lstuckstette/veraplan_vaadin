@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import static com.volavis.veraplan.spring.views.components.UserField.*;
@@ -84,7 +85,15 @@ public class UserService implements EntityService<User, EntityFilter<UserField>>
 //        List<User> findAll = userRepository.findAll(getExampleFromFilter(userFilter), PageRequest.of(offset, limit)).getContent();
         logger.info("returning " + findAll.size() + " filtered items.");
         return findAll.stream();
+    }
 
+    public Optional<User> getById(String id) {
+        try {
+            return userRepository.findById(Long.valueOf(id));
+        } catch (Exception e) {
+            //numberformat or db...
+            return Optional.empty();
+        }
 
     }
 
