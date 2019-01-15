@@ -27,6 +27,7 @@ import java.util.Arrays;
 
 
 @Tag("app-navigation")
+@HtmlImport("styles/shared-styles.html")
 @HtmlImport("components/app-navigation.html")
 public class AppNavigation extends PolymerTemplate<AppNavigationModel> implements BeforeEnterObserver {
 
@@ -53,6 +54,9 @@ public class AppNavigation extends PolymerTemplate<AppNavigationModel> implement
     }
 
     public void setMenuTabs(NavigationTab... navigationTabs) {
+
+        Arrays.stream(navigationTabs).forEach(item ->item.addClassName("nav-tab"));
+
         menutabs.removeAll();
         menutabs.add(navigationTabs);
         Arrays.stream(navigationTabs).forEach(tab -> {

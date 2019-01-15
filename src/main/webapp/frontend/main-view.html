@@ -44,18 +44,20 @@
                     };
                 }
 
-                app-header:not([shadow]) {
+                /*app-header:not([shadow]) {*/
                     /*border-bottom: 1px solid #ddd;*/
-                }
+                /*}*/
 
                 #mainToolbar {
                     background-color: var(--menu-logo-background);
+                    padding: 24px;
                 }
 
                 .logo {
                     @apply --layout;
                     @apply --layout-flex-auto;
                     @apply --layout-center-center;
+
                 }
 
                 .toolbar {
@@ -103,12 +105,12 @@
         <app-header-layout fullbleed>
 
             <app-header slot="header" effects="waterfall" condenses reveals>
-                <app-toolbar id="mainToolbar">
-                    <div class="logo">
-                        <img src="../frontend/images/logo/logo_transparent.png" alt="Veraplan Logo" width="100"
-                             height="100">
-                    </div>
-                </app-toolbar>
+                <!--<app-toolbar id="mainToolbar">-->
+                    <!--<div class="logo">-->
+                        <!--<img src="../frontend/images/logo/logo_transparent.png" alt="Veraplan Logo" width="100"-->
+                             <!--height="100">-->
+                    <!--</div>-->
+                <!--</app-toolbar>-->
 
                 <app-navigation id="app-navigation" class="toolbar" sticky></app-navigation>
 
@@ -127,8 +129,8 @@
                     <!--<i class="fab fa-pinterest-p"></i>-->
                     <!--<i class="fab fa-twittery"></i>-->
                     <!--<i class="fab fa-linkedin"></i>-->
-                    <vaadin-button>Privacy</vaadin-button>
-                    <vaadin-button>Terms & Conditions</vaadin-button>
+                    <vaadin-button>Privatsphäre</vaadin-button>
+                    <vaadin-button>AGB</vaadin-button>
                 </div>
             </footer>
 

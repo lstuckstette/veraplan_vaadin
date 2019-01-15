@@ -19,6 +19,13 @@
     <template>
         <style include="shared-styles">
 
+            .headerLogo {
+                left: 20px;
+                position: absolute;
+
+            }
+
+
             #accountsettings {
                 @apply --layout-horizontal;
                 @apply --layout-center-center;
@@ -37,6 +44,7 @@
                 @apply --layout-center-center;
                 width: 100%;
                 background-color: var(--menu-navigation-background);
+                /*height: 60px;*/
 
             }
 
@@ -51,9 +59,37 @@
             vaadin-button {
                 margin-left: 20px;
             }
+
+            #menu-tabs {
+                align-self: flex-end;
+            }
+
+            vaadin-tab {
+                padding: 30px;
+                font-size: 16px;
+            }
+
+            vaadin-button {
+                font-size: 16px;
+            }
+
+            .submenu  vaadin-tab{
+                padding: 20px;
+                font-size: 12px;
+            }
+
+
+            .headerLogo > img {
+                padding-top: 4px;
+            }
         </style>
 
         <div class="menu">
+
+            <div class="headerLogo">
+                <img src="../frontend/images/logo/logoH.png" alt="Veraplan Logo" height="50px">
+            </div>
+
 
             <vaadin-tabs id="menu-tabs" selected="0">
                 <!-- main menu-tabs injected here -->

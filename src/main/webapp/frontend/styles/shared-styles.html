@@ -5,6 +5,9 @@
 <link rel="import" href="../bower_components/paper-styles/typography.html">
 <link rel="import" href="../bower_components/paper-styles/shadow.html">
 
+<link rel="import" href="../bower_components/vaadin-material-styles/color.html">
+
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.3.1/css/all.css">;
 
 <dom-module id="shared-styles">
     <temaplate>
@@ -16,12 +19,26 @@
                 --footer-background: var(--paper-grey-400);
                 --footer-text-color: #646ECB;
                 --content-background: var(--paper-grey-50);
-                --chat-header-background: var(--paper-deep-purple-300);
+                --chat-header-background: var(--material-primary-color);
+
+
+                ----material-button-font-size: 50px;
             }
+
 
         </style>
     </temaplate>
 </dom-module>
+
+<!-- Navigation -->
+<custom-style>
+    <style is="custom-style">
+        .nav-tab {
+            height: 50px;
+        }
+    </style>
+</custom-style>
+
 
 <!-- Plan-View -->
 <custom-style>
@@ -67,26 +84,85 @@
 
         .dashboard-tile {
             /*background: white;*/
-            background: var(--paper-grey-300);
-            border: 1px solid var(--paper-grey-400);
-            box-shadow: 5px 5px 3px grey;
+            /*background: var(--paper-grey-300);*/
+            border: 1px solid rgba(0, 0, 0, .12);
+            box-shadow: 0 2px 10px 0 rgba(0, 0, 0, .12);
+            /*box-shadow: 5px 5px 3px grey;*/
+
+        }
+
+        /*.dashboard-tile:before {*/
+
+        /*!*margin-right: -20px;*!*/
+        /*!*bottom: -30px;*!*/
+        /*!*display: block;*!*/
+        /*width: 0;*/
+        /*height: 0;*/
+        /*border-style: solid;*/
+        /*border-width: 0 0 10px 10px;*/
+        /*border-color: transparent transparent #007bff transparent;*/
+        /*}*/
+
+        .dashboard-tile:hover {
+
+            box-shadow: 0 2px 10px 4px rgba(0, 0, 0, .12);
+        }
+
+        /*h3:before {*/
+
+
+        /*font-family: 'Font Awesome\ 5 Free';*/
+        /*content: '\f073';*/
+        /*padding: 17px 7px 17px 5px;*/
+        /*!*padding-right: 10px;*!*/
+        /*color: white;*/
+        /*}*/
+
+
+        /*.dashboard-tile p:nth-child(3) {*/
+
+        /*border-top: 1px solid rgba(0, 0, 0, .12);*/
+
+        /*}*/
+
+        .dashboard-tile hr {
+            width: 100%;
+            margin-top: 0.5em;
+            /*border-style: solid;*/
+            border: 1px solid rgba(0, 0, 0, .12);
+            /*line-height: 0;*/
+
+
+        }
+
+        .dashboard-tile iron-icon {
+            color: var(--paper-grey-600);
+            /*align-self: center;*/
+        }
+
+        .dashboard-tile h3 {
+
+            padding: 5px;
+            color: white;
+            font-size: 16px;
+            text-transform: uppercase;
+            background: var(--material-primary-color);
+            margin-left: -1em;
 
 
         }
 
         .dashboard-row-one {
             width: 50%;
+
         }
 
         .dashboard-row-two {
-            width: 25%;
+            width: 50%;
         }
 
     </style>
-</custom-style>
 
-<!-- Vaadin Stuff... -->
-<custom-style>
     <style is="custom-style">
         @keyframes v-progress-start {
             0% {
@@ -164,3 +240,5 @@
         }
     </style>
 </custom-style>
+
+<!-- Vaadin Stuff... -->
