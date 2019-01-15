@@ -162,6 +162,23 @@
                 color: var(--chat-header-background);
             }
 
+            #controlColor {
+
+                --paper-swatch-picker-icon: {
+
+
+                    border: 1px solid;
+                    border-radius: 20%;
+
+                    width: 56px;
+                    height: 56px;
+                };
+
+
+                margin-top: 10px;
+
+            }
+
         </style>
 
         <div id="wrapper">
@@ -169,10 +186,10 @@
             <div id="collab-sidebar">
 
                 <div id="toggles">
-                    <paper-fab mini id="controlDraw" icon="create" label="derp"
+                    <paper-fab  id="controlDraw" icon="create" label="derp"
                                on-click="toggleCanvas"></paper-fab>
 
-                    <paper-swatch-picker id="controlColor" color="{{selectedColor}}"></paper-swatch-picker>
+                    <paper-swatch-picker noink id="controlColor" color="{{selectedColor}}"></paper-swatch-picker>
                 </div>
 
                 <div id="chat">
