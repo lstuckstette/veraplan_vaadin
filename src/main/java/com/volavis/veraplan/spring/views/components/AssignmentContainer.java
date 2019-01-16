@@ -5,6 +5,7 @@ import com.vaadin.flow.component.html.Div;
 import java.util.ArrayList;
 import java.util.Optional;
 
+@Deprecated
 public class AssignmentContainer extends Div {
 
     private int timeslotEnumerator;

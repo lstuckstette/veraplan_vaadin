@@ -17,67 +17,51 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
 import com.volavis.veraplan.spring.MainLayout;
 import com.volavis.veraplan.spring.persistence.entities.User;
-import com.volavis.veraplan.spring.persistence.entities.organisation.Usergroup;
-import com.volavis.veraplan.spring.persistence.entities.ressources.Assignment;
 import com.volavis.veraplan.spring.persistence.entities.ressources.Planrating;
-import com.volavis.veraplan.spring.persistence.entities.ressources.TimeSlot;
 import com.volavis.veraplan.spring.persistence.service.PlanratingService;
 import com.volavis.veraplan.spring.persistence.service.UserService;
 import com.volavis.veraplan.spring.planimport.ImportService;
 import com.volavis.veraplan.spring.planimport.model.ImportAssignment;
-import com.volavis.veraplan.spring.planimport.model.ImportPlan;
 import com.volavis.veraplan.spring.planimport.model.ImportTeacher;
 import com.volavis.veraplan.spring.planimport.model.ImportTimeslot;
 import com.volavis.veraplan.spring.security.SecurityUtils;
 import com.volavis.veraplan.spring.views.components.*;
 
-import org.apache.commons.collections4.keyvalue.MultiKey;
-import org.apache.commons.collections4.map.MultiKeyMap;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.context.annotation.Import;
 import org.vaadin.stefan.dnd.DndActivator;
 import org.vaadin.stefan.dnd.drag.DragSourceExtension;
 import org.vaadin.stefan.dnd.drop.DropTargetExtension;
 
-import java.time.LocalDate;
 import java.util.*;
 import java.util.stream.Collectors;
 
 @PageTitle("Veraplan - Plan")
 @HtmlImport("styles/shared-styles.html")
 @Route(value = "plan", layout = MainLayout.class)
-public class ViewPlanView extends Div implements HasUrlParameter<String> {
+public class PlanView extends Div {
 
-    private static final Logger logger = LoggerFactory.getLogger(ViewPlanView.class);
+    private static final Logger logger = LoggerFactory.getLogger(PlanView.class);
 
     private ImportService importService;
-    private UserService userService;
-    private PlanratingService planratingService;
+
     private User currentUser;
     private AssComponent currentlyDragged;
     private int timeslotCount = 6;
-//    ----------------------------------
 
-    //    private Map<String, List<String>> queryParameters;  // = new HashMap<>();
-//
-//    private AssignmentComponent currentlyDraggedComponent;
-    private CollaborationToolkit toolkit;
-//    private Div planGrid = new Div();
-//
-//    private MultiKeyMap<Integer, AssignmentContainer> model = new MultiKeyMap<>();
-//    private VerticalLayout gloablLayout;
 
 
     @Autowired
-    public ViewPlanView(UserService userService, ImportService importService, PlanratingService planratingService) {
+    public PlanView(UserService userService, ImportService importService) {
 
-        this.planratingService = planratingService;
+
         this.importService = importService;
-        this.userService = userService;
+
         this.currentUser = userService.getByUsernameOrEmail(SecurityUtils.getUsername());
 
         DndActivator.activateMobileDnd();
+
+        buildNonCollab();
 
         //---------------------------------------
 
@@ -339,7 +323,7 @@ public class ViewPlanView extends Div implements HasUrlParameter<String> {
 //                    userService.getFullName(importService.getUsernameFromTeacher(c.getTeacher().getId()).get()) +
                         collisionPartner +
                         "' aufgetreten. Möchten sie den Plan collaborativ bearbeiten?", confirmed -> {
-                    //TODO
+                    //TODO navigae to PlanCollabView + send email:
                     Notification.show("Einladung wurde an " + collisionPartner + " gesendet.");
                 }, abborted -> {
                     //undo move event
@@ -394,345 +378,4 @@ public class ViewPlanView extends Div implements HasUrlParameter<String> {
         layout.add(table);
         this.add(layout);
     }
-
-    private void handleMoveCollab(FlowTable table, AssComponent target) {
-        //send AssMoveEvent to toolkit
-        AssMoveEvent event = new AssMoveEvent();
-        event.setSourceSlot(currentlyDragged.getAssignment().getTimeSlot());
-        event.setSourceTeacher(currentlyDragged.getAssignment().getTeacher());
-        event.setTargetSlot(target.getAssignment().getTimeSlot());
-        event.setTargetTeacher(target.getAssignment().getTeacher());
-
-        toolkit.sendDragDropEvent(event);
-
-        //swap in view
-
-        //remove source from target (revert drop-action...)
-        Optional<Component> elem = target.getChildren().filter(child -> child.equals(currentlyDragged)).findFirst();
-        elem.ifPresent(target::remove);
-
-        //swap parents & render
-        AssContainer sourceParent = currentlyDragged.getParentContainer();
-        AssContainer targetParent = target.getParentContainer();
-
-        currentlyDragged.setParentContainer(targetParent);
-        target.setParentContainer(sourceParent);
-
-        sourceParent.removeAssignment(currentlyDragged);
-        targetParent.removeAssignment(target);
-        sourceParent.addAssignmentComponent(target);
-        targetParent.addAssignmentComponent(currentlyDragged);
-
-//        currentlyDragged.setForeign();
-//        target.setOwn();
-
-        //TODO change in model - ignored for this demo...
-    }
-
-    private void receiveAssignmentMoveEvent(FlowTable table, AssMoveEvent event) {
-        logger.info("received event!");
-        AssContainer sourceContainer = (AssContainer) table.getComponent(event.getSourceSlot().getDay() + 1, event.getSourceSlot().getSlot() + 1);
-        AssContainer targetContainer = (AssContainer) table.getComponent(event.getTargetSlot().getDay() + 1, event.getTargetSlot().getSlot() + 1);
-
-        Optional<AssComponent> optionalSource = sourceContainer.getAssComponents().stream().filter(assComponent -> assComponent.getAssignment().getTeacher().getId().equals(event.getSourceTeacher().getId())).findFirst();
-        Optional<AssComponent> optionalTarget = targetContainer.getAssComponents().stream().filter(assComponent -> assComponent.getAssignment().getTeacher().getId().equals(event.getTargetTeacher().getId())).findFirst();
-        AssComponent source;
-        AssComponent target;
-
-        if (optionalSource.isPresent() && optionalTarget.isPresent()) {
-            source = optionalSource.get();
-            target = optionalTarget.get();
-
-            //swap parents & render
-            AssContainer sourceParent = source.getParentContainer();
-            AssContainer targetParent = target.getParentContainer();
-
-            source.setParentContainer(targetParent);
-            target.setParentContainer(sourceParent);
-
-            sourceParent.removeAssignment(source);
-            targetParent.removeAssignment(target);
-            sourceParent.addAssignmentComponent(target);
-            targetParent.addAssignmentComponent(source);
-        } else {
-            logger.info("ignoring AssEvent - already swapped?");
-        }
-
-
-    }
-
-    private void buildCollab(List<String> collaborators) {
-        toolkit = new CollaborationToolkit(userService, "1337");
-
-        FlowTable table = ViewHelper.generateWeekCalendar(timeslotCount);
-
-        toolkit.addAssignmentDragDropEventListener(event -> {
-            this.receiveAssignmentMoveEvent(table, event);
-        });
-        VerticalLayout layout = new VerticalLayout();
-        layout.setAlignItems(FlexComponent.Alignment.CENTER);
-
-        layout.add(new H1("Kollaboratives  Bearbeiten der Pläne (Tausch)"));
-
-        layout.add(new Button("Vorschlag speichern"));
-
-
-        List<ImportAssignment> ownAssignments = importService.getMockTeacherPlan(0, currentUser);
-        List<User> collaboratorUsers = new ArrayList<>();
-        for (String collaborator : collaborators) {
-            userService.getById(collaborator).ifPresent(collaboratorUsers::add);
-        }
-        List<List<ImportAssignment>> collaboratorAssignments = collaboratorUsers.stream()
-                .map(item -> importService.getMockTeacherPlan(0, item))
-                .collect(Collectors.toList());
-
-//        logger.info("own assignments " + ownAssignments.size());
-//        logger.info("foreign assignments " + collaboratorAssignments.size());
-
-        //add own assignments:
-        for (ImportAssignment own : ownAssignments) {
-            AssContainer container = new AssContainer(own.getTimeSlot().getDay(), own.getTimeSlot().getSlot());
-            AssComponent component = new AssComponent(container);
-            component.setAssignment(own);
-            component.setOwn();
-            container.addAssignmentComponent(component);
-
-            table.setComponent(own.getTimeSlot().getDay() + 1, own.getTimeSlot().getSlot() + 1, container);
-
-            DragSourceExtension<AssComponent> source = DragSourceExtension.extend(component);
-            source.addDragStartListener(event -> {
-                this.currentlyDragged = component;
-            });
-        }
-
-        //add collaborators assignments
-        for (List<ImportAssignment> assignments : collaboratorAssignments) {
-            for (ImportAssignment foreign : assignments) {
-                AssContainer container = (AssContainer) table.getComponent(foreign.getTimeSlot().getDay() + 1, foreign.getTimeSlot().getSlot() + 1);
-                if (container == null) {
-                    container = new AssContainer(foreign.getTimeSlot().getDay(), foreign.getTimeSlot().getSlot());
-                }
-                AssComponent component = new AssComponent(container);
-                component.setAssignment(foreign);
-                component.setForeign();
-                container.addAssignmentComponent(component);
-
-                table.setComponent(foreign.getTimeSlot().getDay() + 1, foreign.getTimeSlot().getSlot() + 1, container);
-
-                DropTargetExtension<AssComponent> target = DropTargetExtension.extend(component);
-                target.addDropListener(event -> handleMoveCollab(table, event.getComponent()));
-            }
-        }
-        layout.add(table);
-        toolkit.add(layout);
-        this.add(toolkit);
-    }
-
-    private void buildReview(String reviewPlanID) {
-        int planIndex = Integer.valueOf(reviewPlanID) - 1;
-        List<ImportAssignment> assignments = importService.getMockTeacherPlan(planIndex, currentUser);
-
-        //headline
-        VerticalLayout layout = new VerticalLayout();
-        layout.setAlignItems(FlexComponent.Alignment.CENTER);
-        layout.add(new H1("Bewertung von Plan-Option " + reviewPlanID));
-
-        //action-bar
-        HorizontalLayout barLayout = new HorizontalLayout();
-        barLayout.addClassName("review-bar-container");
-        Span barText = new Span("Bitte geben Sie eine bewertung ab: ");
-        RatingComponent ratingComponent = new RatingComponent();
-        //TODO: read existing rating from DB and set to component!
-
-        int rating = planratingService.getSingleRating(currentUser, planIndex).orElse(new Planrating(0)).getRating();
-        ratingComponent.setRating(rating);
-
-        ratingComponent.activateClickToChangeRating();
-        Button saveButton = new Button("Speichern", buttonClickEvent -> {
-            planratingService.saveOrUpdate(currentUser, planIndex, ratingComponent.getRating());
-            Notification.show("Änderung gespeichert!");
-            //TODO persist rating in DB!
-        });
-        saveButton.addThemeVariants(ButtonVariant.MATERIAL_CONTAINED);
-        barLayout.add(barText, ratingComponent, saveButton);
-        layout.add(barLayout);
-
-        //plan-table
-        FlowTable table = ViewHelper.generateWeekCalendar(timeslotCount);
-        //add assignments:
-        for (ImportAssignment assignment : assignments) {
-            //TODO: add assContainer for padding!
-            AssContainer assContainer = new AssContainer(0, 0);
-            assContainer.addAssignmentComponent(new AssComponent(assignment));
-            table.setComponent(assignment.getTimeSlot().getDay() + 1, assignment.getTimeSlot().getSlot() + 1, assContainer);
-        }
-        layout.add(table);
-        this.add(layout);
-    }
-
-    @Override
-    public void setParameter(BeforeEvent beforeEvent, @OptionalParameter String param) {
-        Location location = beforeEvent.getLocation();
-        QueryParameters queryParameters = location.getQueryParameters();
-
-        Map<String, List<String>> params = queryParameters.getParameters();
-
-        if (params.containsKey("collaboration") && !params.get("collaboration").isEmpty()) {
-            buildCollab(params.get("collaboration"));
-        } else if (param != null && param.matches("review=.+")) {
-            buildReview(param.split("=")[1]);
-        } else {
-            buildNonCollab();
-        }
-
-
-    }
-
-    public static class AssMoveEvent {
-
-        private ImportTimeslot sourceSlot;
-        private ImportTeacher sourceTeacher;
-        private ImportTimeslot targetSlot;
-        private ImportTeacher targetTeacher;
-
-        public ImportTimeslot getSourceSlot() {
-            return sourceSlot;
-        }
-
-        public void setSourceSlot(ImportTimeslot sourceSlot) {
-            this.sourceSlot = sourceSlot;
-        }
-
-        public ImportTeacher getSourceTeacher() {
-            return sourceTeacher;
-        }
-
-        public void setSourceTeacher(ImportTeacher sourceTeacher) {
-            this.sourceTeacher = sourceTeacher;
-        }
-
-        public ImportTimeslot getTargetSlot() {
-            return targetSlot;
-        }
-
-        public void setTargetSlot(ImportTimeslot targetSlot) {
-            this.targetSlot = targetSlot;
-        }
-
-        public ImportTeacher getTargetTeacher() {
-            return targetTeacher;
-        }
-
-        public void setTargetTeacher(ImportTeacher targetTeacher) {
-            this.targetTeacher = targetTeacher;
-        }
-    }
-
-    static class AssContainer extends VerticalLayout {
-        private List<AssComponent> assignmentComponents = new ArrayList<>();
-        private int row, col;
-
-        AssContainer(int col, int row) {
-            this.col = col;
-            this.row = row;
-            this.setAlignItems(Alignment.CENTER);
-            this.setHeight("100%");
-            render();
-        }
-
-        void addAssignmentComponent(AssComponent assignment) {
-            this.assignmentComponents.add(assignment);
-            render();
-        }
-
-        void removeAssignment(AssComponent assignment) {
-            this.assignmentComponents.remove(assignment);
-            render();
-        }
-
-        List<AssComponent> getAssComponents() {
-            return this.assignmentComponents;
-        }
-
-        public int getRow() {
-            return row;
-        }
-
-        public void setRow(int row) {
-            this.row = row;
-        }
-
-        public int getCol() {
-            return col;
-        }
-
-        public void setCol(int col) {
-            this.col = col;
-        }
-
-        void render() {
-            this.removeAll();
-            assignmentComponents.forEach(this::add);
-        }
-
-    }
-
-    static class AssComponent extends VerticalLayout {
-
-        private ImportAssignment assignment;
-        private AssContainer parentContainer;
-
-
-        public AssComponent(ImportAssignment assignment) {
-            this.assignment = assignment;
-            this.setAlignItems(Alignment.CENTER);
-            this.addClassName("assignment-component");
-            render();
-        }
-
-        AssComponent(AssContainer parentContainer) {
-            this.parentContainer = parentContainer;
-            this.setAlignItems(Alignment.CENTER);
-            this.addClassName("assignment-component");
-        }
-
-        AssContainer getParentContainer() {
-            return parentContainer;
-        }
-
-        void setOwn() {
-            this.removeClassName("foreign");
-            this.addClassName("own");
-        }
-
-        void setForeign() {
-            this.removeClassName("own");
-            this.addClassName("foreign");
-        }
-
-        public void setParentContainer(AssContainer parentContainer) {
-            this.parentContainer = parentContainer;
-        }
-
-        ImportAssignment getAssignment() {
-            return this.assignment;
-        }
-
-        void setAssignment(ImportAssignment assignment) {
-            this.assignment = assignment;
-            render();
-        }
-
-        void render() {
-            this.removeAll();
-            if (assignment != null) {
-                this.add(new Span("K: " + assignment.getTaughtClass().getId()));
-                this.add(new Span("F: " + assignment.getSubject().getId()));
-                this.add(new Span("R: " + assignment.getRoom().getId()));
-            }
-        }
-
-
-    }
-
 }

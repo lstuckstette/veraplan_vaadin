@@ -153,7 +153,7 @@ public class MainLayout extends PolymerTemplate<TemplateModel> implements Router
                         planing_assignment)
                 .build();
 
-        NavigationTab plan = new NavigationItemBuilder().text("Plan anzeigen").target(ViewPlanView.class).build();
+        NavigationTab plan = new NavigationItemBuilder().text("Plan anzeigen").target(PlanView.class).build();
 
 
         appNavigation.setMenuTabs(dashboard, administration, coredata, planing, plan);

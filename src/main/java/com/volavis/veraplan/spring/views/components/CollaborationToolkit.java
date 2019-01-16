@@ -1,6 +1,16 @@
 package com.volavis.veraplan.spring.views.components;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.KeyDeserializer;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.google.gson.Gson;
+import com.google.gson.TypeAdapter;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonWriter;
 import com.vaadin.external.org.slf4j.Logger;
 import com.vaadin.external.org.slf4j.LoggerFactory;
 import com.vaadin.flow.component.ClientCallable;
@@ -8,18 +18,18 @@ import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.dependency.JavaScript;
-import com.vaadin.flow.component.polymertemplate.EventHandler;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.volavis.veraplan.spring.persistence.service.UserService;
 import com.volavis.veraplan.spring.security.SecurityUtils;
-import com.volavis.veraplan.spring.views.ViewPlanView;
+import com.volavis.veraplan.spring.views.PlanCollaborationView;
+import com.volavis.veraplan.spring.views.PlanView;
 import com.volavis.veraplan.spring.views.templateModels.CollaborationToolkitModel;
-import org.apache.commons.lang3.RandomStringUtils;
+import org.apache.commons.collections4.keyvalue.MultiKey;
+import org.apache.commons.collections4.map.MultiKeyMap;
 
+import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Random;
-
-import static java.lang.System.currentTimeMillis;
+import java.util.Map;
 
 @Tag("collaboration-toolkit")
 @HtmlImport("components/collaboration-toolkit.html")
@@ -41,13 +51,32 @@ public class CollaborationToolkit extends PolymerTemplate<CollaborationToolkitMo
     @ClientCallable
     private void handleAssignmentDragDropEvent(String eventJSON) {
 //        logger.info("RAW:" + eventJSON);
-        notifyAssignmentDragDropEventListeners(gson.fromJson(eventJSON, ViewPlanView.AssMoveEvent.class));
+        logger.info(eventJSON);
+
+        SimpleModule simpleModule = new SimpleModule(eventJSON);
+        simpleModule.addKeyDeserializer(MultiKey.class, new MultiKeyDeserializer());
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(simpleModule);
+
+
+        try {
+            notifyAssignmentDragDropEventListeners(mapper.readValue(eventJSON, AssMoveEvent.class));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+//        notifyAssignmentDragDropEventListeners(gson.fromJson(eventJSON, AssMoveEvent.class));
     }
 
-    public void sendDragDropEvent(ViewPlanView.AssMoveEvent event) {
+    public void sendDragDropEvent(AssMoveEvent event) {
 
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            this.getModel().setDragDropEvent(mapper.writeValueAsString(event));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
 
-        this.getModel().setDragDropEvent(gson.toJson(event));
+//        this.getModel().setDragDropEvent(gson.toJson(event));
     }
 
     public void addAssignmentDragDropEventListener(AssignmentDragDropEventListener listener) {
@@ -58,7 +87,49 @@ public class CollaborationToolkit extends PolymerTemplate<CollaborationToolkitMo
         listeners.remove(listener);
     }
 
-    private void notifyAssignmentDragDropEventListeners(ViewPlanView.AssMoveEvent event) {
+    private void notifyAssignmentDragDropEventListeners(AssMoveEvent event) {
         listeners.forEach(listener -> listener.onDragDropEvent(event));
     }
+
+
+    static class MultiKeyDeserializer extends KeyDeserializer {
+
+        @Override
+        public Object deserializeKey(String key, DeserializationContext deserializationContext) throws IOException {
+            if (key.matches("MultiKey\\[\\d+, \\d+\\]")) {
+                String keys = key.replace("MultiKey", "");
+                keys = keys.replaceAll("\\[", "");
+                keys = keys.replaceAll("]", "");
+                keys = keys.replaceAll(" ", "");
+                String[] keyvals = keys.split(",");
+                return new MultiKey<>(Integer.valueOf(keyvals[0]), Integer.valueOf(keyvals[1]));
+            }
+
+            return null;
+        }
+    }
+
+//    static class MultiKeyMapTypeAdapterFactory implements TypeAdapterFactory {
+//
+//        @Override
+//        public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> typeToken) {
+//            if (!MultiKey.class.isAssignableFrom(typeToken.getRawType())) {
+//                return null;
+//            }
+//            final TypeAdapter<T> delegate = gson.getDelegateAdapter(this, typeToken);
+//            return new TypeAdapter<T>() {
+//                @Override
+//                public void write(JsonWriter jsonWriter, T t) throws IOException {
+//                    delegate.write(jsonWriter, t);
+//                }
+//
+//                @Override
+//                public T read(JsonReader jsonReader) throws IOException {
+//
+//
+//                    return (T) new MultiKey<Integer>((T[])delegate.read(jsonReader));
+//                }
+//            }
+//        }
+//    }
 }

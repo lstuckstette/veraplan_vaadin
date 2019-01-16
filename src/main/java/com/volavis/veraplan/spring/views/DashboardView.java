@@ -1,19 +1,15 @@
 package com.volavis.veraplan.spring.views;
 
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.Icon;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.dom.ElementFactory;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.RouterLink;
 import com.volavis.veraplan.spring.MainLayout;
 
 
@@ -22,11 +18,8 @@ import com.volavis.veraplan.spring.persistence.entities.ressources.Planrating;
 import com.volavis.veraplan.spring.persistence.service.PlanratingService;
 import com.volavis.veraplan.spring.persistence.service.UserService;
 import com.volavis.veraplan.spring.security.SecurityUtils;
-import com.volavis.veraplan.spring.views.components.FlowTable;
 import com.volavis.veraplan.spring.views.components.RatingComponent;
-import com.volavis.veraplan.spring.views.components.ViewHelper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 
 @HtmlImport("styles/shared-styles.html")
 @PageTitle("Dashboard")
@@ -95,10 +88,10 @@ public class DashboardView extends Div {
             planIcon.setClassName("plan-review-icon");
             String target = "" + i;
             planIcon.addClickListener(click -> this.getUI().ifPresent(ui -> {
-                ui.navigate(ViewPlanView.class, "review=" + target);
+                ui.navigate(PlanRateView.class, "review=" + target);
             }));
             RatingComponent stars = new RatingComponent(); //TODO: read existing rating from DB and set to component!
-            int rating = planratingService.getSingleRating(currentUser, i-1).orElse(new Planrating(0)).getRating();
+            int rating = planratingService.getSingleRating(currentUser, i - 1).orElse(new Planrating(0)).getRating();
             stars.setRating(rating);
             planLayout.add(header, planIcon, stars);
             bar.add(planLayout);
@@ -120,7 +113,7 @@ public class DashboardView extends Div {
 
         Icon icon = new Icon(VaadinIcon.CALENDAR_USER);
 
-        icon.addClickListener(iconClickEvent -> this.getUI().ifPresent(ui -> ui.navigate(ViewPlanView.class)));
+        icon.addClickListener(iconClickEvent -> this.getUI().ifPresent(ui -> ui.navigate(PlanView.class)));
 
         iconLayout.add(icon);
         overviewLayout.add(headline, iconLayout);

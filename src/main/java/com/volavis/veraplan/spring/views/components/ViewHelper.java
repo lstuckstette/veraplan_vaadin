@@ -19,6 +19,9 @@ import com.vaadin.flow.data.provider.DataProvider;
 import com.volavis.veraplan.spring.persistence.entities.ressources.Assignment;
 import com.volavis.veraplan.spring.persistence.entities.ressources.TimeSlot;
 import com.volavis.veraplan.spring.persistence.service.EntityService;
+import com.volavis.veraplan.spring.planimport.model.ImportAssignment;
+import com.volavis.veraplan.spring.planimport.model.ImportTeacher;
+import com.volavis.veraplan.spring.planimport.model.ImportTimeslot;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -171,4 +174,10 @@ public abstract class ViewHelper {
 
         return flowTable;
     }
+
+
+
+
+
+
 }

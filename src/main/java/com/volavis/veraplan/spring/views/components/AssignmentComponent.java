@@ -5,6 +5,7 @@ import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.volavis.veraplan.spring.persistence.entities.ressources.Assignment;
 
+@Deprecated
 public class AssignmentComponent extends VerticalLayout {
 
     private Assignment assignment;

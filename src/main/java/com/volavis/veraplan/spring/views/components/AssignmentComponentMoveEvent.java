@@ -1,5 +1,6 @@
 package com.volavis.veraplan.spring.views.components;
 
+@Deprecated
 public class AssignmentComponentMoveEvent {
 
     private long componentAssignmentId;
