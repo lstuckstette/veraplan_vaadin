@@ -5,6 +5,7 @@ import com.vaadin.external.org.slf4j.LoggerFactory;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.*;
@@ -18,10 +19,13 @@ import com.volavis.veraplan.spring.MainLayout;
 import com.volavis.veraplan.spring.persistence.entities.User;
 import com.volavis.veraplan.spring.persistence.entities.organisation.Usergroup;
 import com.volavis.veraplan.spring.persistence.entities.ressources.Assignment;
+import com.volavis.veraplan.spring.persistence.entities.ressources.Planrating;
 import com.volavis.veraplan.spring.persistence.entities.ressources.TimeSlot;
+import com.volavis.veraplan.spring.persistence.service.PlanratingService;
 import com.volavis.veraplan.spring.persistence.service.UserService;
 import com.volavis.veraplan.spring.planimport.ImportService;
 import com.volavis.veraplan.spring.planimport.model.ImportAssignment;
+import com.volavis.veraplan.spring.planimport.model.ImportPlan;
 import com.volavis.veraplan.spring.planimport.model.ImportTeacher;
 import com.volavis.veraplan.spring.planimport.model.ImportTimeslot;
 import com.volavis.veraplan.spring.security.SecurityUtils;
@@ -49,6 +53,7 @@ public class ViewPlanView extends Div implements HasUrlParameter<String> {
 
     private ImportService importService;
     private UserService userService;
+    private PlanratingService planratingService;
     private User currentUser;
     private AssComponent currentlyDragged;
     private int timeslotCount = 6;
@@ -65,8 +70,9 @@ public class ViewPlanView extends Div implements HasUrlParameter<String> {
 
 
     @Autowired
-    public ViewPlanView(UserService userService, ImportService importService) {
+    public ViewPlanView(UserService userService, ImportService importService, PlanratingService planratingService) {
 
+        this.planratingService = planratingService;
         this.importService = importService;
         this.userService = userService;
         this.currentUser = userService.getByUsernameOrEmail(SecurityUtils.getUsername());
@@ -318,7 +324,7 @@ public class ViewPlanView extends Div implements HasUrlParameter<String> {
         ImportTimeslot targetTimeslot = new ImportTimeslot();
         targetTimeslot.setDay(target.getCol());
         targetTimeslot.setSlot(target.getRow());
-        Optional<ImportAssignment> collision = importService.checkCollision(currentlyDragged.getAssignment(), targetTimeslot);
+        Optional<ImportAssignment> collision = importService.checkCollision(0, currentlyDragged.getAssignment(), targetTimeslot);
         collision.ifPresent(c -> {
 //            ignore collision with one-self
             if (c.getTeacher().getId().equals(importService.getTeacherFromUsername(currentUser.getUsername()).get())) {
@@ -359,7 +365,7 @@ public class ViewPlanView extends Div implements HasUrlParameter<String> {
 
         FlowTable table = ViewHelper.generateWeekCalendar(timeslotCount);
 
-        List<ImportAssignment> assignments = importService.getMockTeacherPlan(currentUser);
+        List<ImportAssignment> assignments = importService.getMockTeacherPlan(0, currentUser);
 
         //prefill calendar
         for (int ts = 1; ts <= timeslotCount; ts++) {
@@ -466,17 +472,19 @@ public class ViewPlanView extends Div implements HasUrlParameter<String> {
         VerticalLayout layout = new VerticalLayout();
         layout.setAlignItems(FlexComponent.Alignment.CENTER);
 
-        layout.add(new H1("Collaboratives Bearbeiten der Pläne (Tausch)"));
+        layout.add(new H1("Kollaboratives  Bearbeiten der Pläne (Tausch)"));
 
         layout.add(new Button("Vorschlag speichern"));
 
 
-        List<ImportAssignment> ownAssignments = importService.getMockTeacherPlan(currentUser);
+        List<ImportAssignment> ownAssignments = importService.getMockTeacherPlan(0, currentUser);
         List<User> collaboratorUsers = new ArrayList<>();
         for (String collaborator : collaborators) {
             userService.getById(collaborator).ifPresent(collaboratorUsers::add);
         }
-        List<List<ImportAssignment>> collaboratorAssignments = collaboratorUsers.stream().map(importService::getMockTeacherPlan).collect(Collectors.toList());
+        List<List<ImportAssignment>> collaboratorAssignments = collaboratorUsers.stream()
+                .map(item -> importService.getMockTeacherPlan(0, item))
+                .collect(Collectors.toList());
 
 //        logger.info("own assignments " + ownAssignments.size());
 //        logger.info("foreign assignments " + collaboratorAssignments.size());
@@ -520,13 +528,59 @@ public class ViewPlanView extends Div implements HasUrlParameter<String> {
         this.add(toolkit);
     }
 
+    private void buildReview(String reviewPlanID) {
+        int planIndex = Integer.valueOf(reviewPlanID) - 1;
+        List<ImportAssignment> assignments = importService.getMockTeacherPlan(planIndex, currentUser);
+
+        //headline
+        VerticalLayout layout = new VerticalLayout();
+        layout.setAlignItems(FlexComponent.Alignment.CENTER);
+        layout.add(new H1("Bewertung von Plan-Option " + reviewPlanID));
+
+        //action-bar
+        HorizontalLayout barLayout = new HorizontalLayout();
+        barLayout.addClassName("review-bar-container");
+        Span barText = new Span("Bitte geben Sie eine bewertung ab: ");
+        RatingComponent ratingComponent = new RatingComponent();
+        //TODO: read existing rating from DB and set to component!
+
+        int rating = planratingService.getSingleRating(currentUser, planIndex).orElse(new Planrating(0)).getRating();
+        ratingComponent.setRating(rating);
+
+        ratingComponent.activateClickToChangeRating();
+        Button saveButton = new Button("Speichern", buttonClickEvent -> {
+            planratingService.saveOrUpdate(currentUser, planIndex, ratingComponent.getRating());
+            Notification.show("Änderung gespeichert!");
+            //TODO persist rating in DB!
+        });
+        saveButton.addThemeVariants(ButtonVariant.MATERIAL_CONTAINED);
+        barLayout.add(barText, ratingComponent, saveButton);
+        layout.add(barLayout);
+
+        //plan-table
+        FlowTable table = ViewHelper.generateWeekCalendar(timeslotCount);
+        //add assignments:
+        for (ImportAssignment assignment : assignments) {
+            //TODO: add assContainer for padding!
+            AssContainer assContainer = new AssContainer(0, 0);
+            assContainer.addAssignmentComponent(new AssComponent(assignment));
+            table.setComponent(assignment.getTimeSlot().getDay() + 1, assignment.getTimeSlot().getSlot() + 1, assContainer);
+        }
+        layout.add(table);
+        this.add(layout);
+    }
+
     @Override
     public void setParameter(BeforeEvent beforeEvent, @OptionalParameter String param) {
         Location location = beforeEvent.getLocation();
         QueryParameters queryParameters = location.getQueryParameters();
+
         Map<String, List<String>> params = queryParameters.getParameters();
+
         if (params.containsKey("collaboration") && !params.get("collaboration").isEmpty()) {
             buildCollab(params.get("collaboration"));
+        } else if (param != null && param.matches("review=.+")) {
+            buildReview(param.split("=")[1]);
         } else {
             buildNonCollab();
         }
@@ -627,6 +681,14 @@ public class ViewPlanView extends Div implements HasUrlParameter<String> {
 
         private ImportAssignment assignment;
         private AssContainer parentContainer;
+
+
+        public AssComponent(ImportAssignment assignment) {
+            this.assignment = assignment;
+            this.setAlignItems(Alignment.CENTER);
+            this.addClassName("assignment-component");
+            render();
+        }
 
         AssComponent(AssContainer parentContainer) {
             this.parentContainer = parentContainer;

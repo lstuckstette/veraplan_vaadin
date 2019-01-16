@@ -34,7 +34,7 @@ public class ImportService {
 //    UserService userService;
 
     private static final Logger logger = LoggerFactory.getLogger(ImportService.class);
-    private ImportPlan plan;
+    private List<ImportPlan> plans = new ArrayList<>();
     private Map<String, String> userToTeacher;
     private Map<String, String> teacherToUsername;
 
@@ -42,20 +42,23 @@ public class ImportService {
     @PostConstruct
     public void setup() {
 
-        //Read Plan-JSON
-        ImportPlan iPlan = null;
-        try {
-            Path jsonPath = ResourceUtils.getFile("classpath:database_dummydata/generated-plan-1.json").toPath();
-            BufferedReader reader = Files.newBufferedReader(jsonPath);
-            Type type = new TypeToken<ImportPlan>() {
-            }.getType();
-            Gson gson = new Gson();
-            iPlan = gson.fromJson(reader, type);
-            logger.info("READ " + iPlan.getAssignments().size() + " Mock-Assignments!");
-        } catch (IOException e) {
-            e.printStackTrace();
+        //Read json files:
+        for (int i = 1; i <= 3; i++) {
+            ImportPlan iPlan = null;
+            try {
+                Path jsonPath = ResourceUtils.getFile("classpath:database_dummydata/generated-plan-" + i + ".json").toPath();
+                BufferedReader reader = Files.newBufferedReader(jsonPath);
+                Type type = new TypeToken<ImportPlan>() {
+                }.getType();
+                Gson gson = new Gson();
+                iPlan = gson.fromJson(reader, type);
+                logger.info("READ " + iPlan.getAssignments().size() + " Mock-Assignments!");
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            this.plans.add(iPlan);
         }
-        this.plan = iPlan;
+
 
         //setup teacher <-> user mapping
         userToTeacher = new HashMap<>();
@@ -85,24 +88,27 @@ public class ImportService {
     }
 
     //returns List of Assignments containing each mapped teacherIDs Assignments
-    public List<ImportAssignment> getMockTeacherPlan(User... users) {
+    public List<ImportAssignment> getMockTeacherPlan(int planIndex, User... users) {
 
 
         List<ImportAssignment> result = new ArrayList<>();
         for (User user : users) {
-            if (userToTeacher.containsKey(user.getUsername())) {
+            if (userToTeacher.containsKey(user.getUsername()) && planIndex < plans.size()) {
 
                 String teacherID = userToTeacher.get(user.getUsername());
-                result.addAll(plan.getAssignments().stream().filter(assignment -> assignment.getTeacher().getId().equals(teacherID)).collect(Collectors.toList()));
+                result.addAll(plans.get(planIndex).getAssignments().stream().filter(assignment -> assignment.getTeacher().getId().equals(teacherID)).collect(Collectors.toList()));
             }
         }
-
         return result;
     }
 
-    public Optional<ImportAssignment> checkCollision(ImportAssignment source, ImportTimeslot target) {
+    public Optional<ImportAssignment> checkCollision(int planIndex, ImportAssignment source, ImportTimeslot target) {
 
-        return this.plan.getAssignments().stream().filter(assignment -> {
+        if (planIndex >= plans.size()) {
+            return Optional.empty();
+        }
+
+        return this.plans.get(planIndex).getAssignments().stream().filter(assignment -> {
             //TODO:
             return assignment.getTaughtClass().equals(source.getTaughtClass()) &&
                     assignment.getTimeSlot().equals(target);

@@ -17,8 +17,15 @@ import com.vaadin.flow.router.RouterLink;
 import com.volavis.veraplan.spring.MainLayout;
 
 
+import com.volavis.veraplan.spring.persistence.entities.User;
+import com.volavis.veraplan.spring.persistence.entities.ressources.Planrating;
+import com.volavis.veraplan.spring.persistence.service.PlanratingService;
+import com.volavis.veraplan.spring.persistence.service.UserService;
+import com.volavis.veraplan.spring.security.SecurityUtils;
 import com.volavis.veraplan.spring.views.components.FlowTable;
+import com.volavis.veraplan.spring.views.components.RatingComponent;
 import com.volavis.veraplan.spring.views.components.ViewHelper;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.annotation.Secured;
 
 @HtmlImport("styles/shared-styles.html")
@@ -26,8 +33,14 @@ import org.springframework.security.access.annotation.Secured;
 @Route(value = "", layout = MainLayout.class)
 public class DashboardView extends Div {
 
+    private PlanratingService planratingService;
+    private User currentUser;
 
-    public DashboardView() {
+    public DashboardView(@Autowired UserService userService, @Autowired PlanratingService planratingService) {
+
+        this.planratingService = planratingService;
+        this.currentUser = userService.getByUsernameOrEmail(SecurityUtils.getUsername());
+
         UI.getCurrent().getPage().addStyleSheet("https://use.fontawesome.com/releases/v5.3.1/css/all.css");
         init();
     }
@@ -71,13 +84,26 @@ public class DashboardView extends Div {
         reviewLayout.add(new H3("Bewertung generierter Pläne"));
 
         HorizontalLayout bar = new HorizontalLayout();
+        bar.setClassName("plan-review-container");
         bar.setAlignItems(FlexComponent.Alignment.CENTER);
 
-        Icon plan1 = new Icon(VaadinIcon.CALENDAR);
-        Icon plan2 = new Icon(VaadinIcon.CALENDAR);
-        Icon plan3 = new Icon(VaadinIcon.CALENDAR);
+        for (int i = 1; i <= 3; i++) {
+            VerticalLayout planLayout = new VerticalLayout();
+            planLayout.setClassName("plan-review");
+            Span header = new Span("Plan " + i);
+            Icon planIcon = new Icon(VaadinIcon.CALENDAR);
+            planIcon.setClassName("plan-review-icon");
+            String target = "" + i;
+            planIcon.addClickListener(click -> this.getUI().ifPresent(ui -> {
+                ui.navigate(ViewPlanView.class, "review=" + target);
+            }));
+            RatingComponent stars = new RatingComponent(); //TODO: read existing rating from DB and set to component!
+            int rating = planratingService.getSingleRating(currentUser, i-1).orElse(new Planrating(0)).getRating();
+            stars.setRating(rating);
+            planLayout.add(header, planIcon, stars);
+            bar.add(planLayout);
+        }
 
-        bar.add(plan1, plan2, plan3);
         reviewLayout.add(bar);
 
         return reviewLayout;
@@ -87,39 +113,29 @@ public class DashboardView extends Div {
     private VerticalLayout getPlanOverviewLayout() {
         VerticalLayout overviewLayout = new VerticalLayout();
 
-
-//        HorizontalLayout header = new HorizontalLayout();
-
-
         H3 headline = new H3("Persönlicher Stundenplan");
 
-        HorizontalLayout iconLayout = new HorizontalLayout();
-//        iconLayout.setAlignItems(FlexComponent.Alignment.CENTER);
-        iconLayout.setAlignSelf(FlexComponent.Alignment.CENTER);
+        VerticalLayout iconLayout = new VerticalLayout();
+        iconLayout.setClassName("personal-plan-container");
 
         Icon icon = new Icon(VaadinIcon.CALENDAR_USER);
-        icon.setSize("80px");
+
+        icon.addClickListener(iconClickEvent -> this.getUI().ifPresent(ui -> ui.navigate(ViewPlanView.class)));
+
         iconLayout.add(icon);
-
-//        calendar.addClickListener(iconClickEvent -> this.getUI().ifPresent(ui -> ui.navigate(ViewPlanView.class)));
-
-//        header.setText();
         overviewLayout.add(headline, iconLayout);
 
-//        overviewLayout.add(calendar);
         return overviewLayout;
     }
 
     private VerticalLayout getNotificationLayout() {
         VerticalLayout notificationLayout = new VerticalLayout();
-//        notificationLayout.setAlignItems(FlexComponent.Alignment.CENTER);
-//        notificationLayout.setAlignSelf(FlexComponent.Alignment.END);
         notificationLayout.add(new H3("Benachrichtigungen"));
         notificationLayout.add(new Paragraph(new Icon(VaadinIcon.CARET_RIGHT), new Span("Elternsprechtag am kommenden Freitag!")));
         Hr hr = new Hr();
         hr.setWidth("100%");
         notificationLayout.add(new Hr());
-        notificationLayout.add(new Paragraph(new Icon(VaadinIcon.CARET_RIGHT), new Span("Lehrerkonferenz Freitag den 01.02.2019")));
+        notificationLayout.add(new Paragraph(new Icon(VaadinIcon.CARET_RIGHT), new Span("Lehrerkonferenz Freitag, den 01.02.2019")));
         return notificationLayout;
     }
 

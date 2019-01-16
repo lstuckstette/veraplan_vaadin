@@ -222,6 +222,7 @@ public class EnterPreferenceView extends Div {
         private int timeslot, weekday;
 
         PreferenceComponent(int timeslot, int weekday) {
+
             this.timeslot = timeslot;
             this.weekday = weekday;
             buildComponent();
@@ -261,7 +262,8 @@ public class EnterPreferenceView extends Div {
             this.removeAll();
             this.setAlignItems(Alignment.CENTER);
             if (timeConstraint != null) {
-                this.add(new Span("Gew.: " + timeConstraint.getImportance()));
+                this.setClassName("preference-container");
+                this.add(new Span("Gewichtung: " + timeConstraint.getImportance()));
             }
         }
     }
