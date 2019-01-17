@@ -1,5 +1,6 @@
 package com.volavis.veraplan.spring.views.components;
 
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 import java.util.ArrayList;
@@ -49,7 +50,9 @@ public class AssContainer extends VerticalLayout {
 
     public void render() {
         this.removeAll();
+//        HorizontalLayout horizontalLayout = new HorizontalLayout();
         assignmentComponents.forEach(this::add);
+//        this.add(horizontalLayout);
     }
 
 }

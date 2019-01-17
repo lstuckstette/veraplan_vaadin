@@ -85,6 +85,10 @@ public class EnterPreferenceView extends Div {
                 TimeSlot timeSlot = optionalTimeSlot.get();
                 PreferenceComponent c = (PreferenceComponent) weekCalendar.getComponent(timeSlot.getWeekday() + 1, timeSlot.getTimeSlotIndex() + 1); //TODO: unchecked cast!
                 c.setTimeConstraint(tc);
+//                c.getElement().addEventListener("click",event -> {
+//                    Dialog descriptionDialog = new Dialog();
+//                    // view dialog with ~
+//                });
             }
         }
 

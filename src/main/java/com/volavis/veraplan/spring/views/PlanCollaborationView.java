@@ -69,12 +69,12 @@ public class PlanCollaborationView extends Div implements HasUrlParameter<String
         layout.add(new H1("Kollaboratives  Bearbeiten der Pläne (Tausch)"));
 
 
-        List<ImportAssignment> ownAssignments = importService.getPersonalPlan(currentUser).getAssignments();
+        List<ImportAssignment> ownAssignments = importService.getPersonalPlan(currentUser, false).getAssignments();
 
 
         Optional<User> collaborator = userService.getById(collaborators.get(0));
         List<ImportAssignment> collaboratorAssignments = new ArrayList<>();
-        collaborator.ifPresent(c -> collaboratorAssignments.addAll(importService.getPersonalPlan(c).getAssignments()));
+        collaborator.ifPresent(c -> collaboratorAssignments.addAll(importService.getPersonalPlan(c, false).getAssignments()));
 
         for (ImportAssignment own : ownAssignments) {
             if (planModel.containsKey(own.getTimeSlot().getDay(), own.getTimeSlot().getSlot())) {
@@ -106,43 +106,14 @@ public class PlanCollaborationView extends Div implements HasUrlParameter<String
 
         renderModel(planModel);
 
-//        //add own assignments:
-//        for (ImportAssignment own : ownAssignments) {
-//            AssContainer container = new AssContainer(own.getTimeSlot().getDay(), own.getTimeSlot().getSlot());
-//            AssComponent component = new AssComponent(container);
-//            component.setAssignment(own);
-//            component.setOwn();
-//            container.addAssignmentComponent(component);
-//
-//            table.setComponent(own.getTimeSlot().getDay() + 1, own.getTimeSlot().getSlot() + 1, container);
-//
-//            DragSourceExtension<AssComponent> source = DragSourceExtension.extend(component);
-//            source.addDragStartListener(event -> {
-//                this.currentlyDragged = component;
-//            });
-//        }
-//
-//        //add collaborators assignments
-//        for (List<ImportAssignment> assignments : collaboratorAssignments) {
-//            for (ImportAssignment foreign : assignments) {
-//                AssContainer container = (AssContainer) table.getComponent(foreign.getTimeSlot().getDay() + 1, foreign.getTimeSlot().getSlot() + 1);
-//                if (container == null) {
-//                    container = new AssContainer(foreign.getTimeSlot().getDay(), foreign.getTimeSlot().getSlot());
-//                }
-//                AssComponent component = new AssComponent(container);
-//                component.setAssignment(foreign);
-//                component.setForeign();
-//                container.addAssignmentComponent(component);
-//
-//                table.setComponent(foreign.getTimeSlot().getDay() + 1, foreign.getTimeSlot().getSlot() + 1, container);
-//
-//                DropTargetExtension<AssComponent> target = DropTargetExtension.extend(component);
-//                target.addDropListener(event -> handleMoveCollab(table, event.getComponent()));
-//            }
-//        }
         layout.add(table);
 
-        Button save = new Button("Vorschlag speichern");
+        Button save = new Button("Speichern + Vorschau", click -> {
+            Map<String, List<String>> params = new HashMap<>();
+            params.put("final", new ArrayList<String>());
+            QueryParameters queryParameters = new QueryParameters(params);
+            this.getUI().ifPresent(ui -> ui.navigate("plan", queryParameters));
+        });
         save.addThemeVariants(ButtonVariant.MATERIAL_CONTAINED);
         layout.add(save);
 
@@ -303,7 +274,6 @@ public class PlanCollaborationView extends Div implements HasUrlParameter<String
     public void setParameter(BeforeEvent beforeEvent, @OptionalParameter String param) {
         Location location = beforeEvent.getLocation();
         QueryParameters queryParameters = location.getQueryParameters();
-
         Map<String, List<String>> params = queryParameters.getParameters();
 
         if (params.containsKey("collaboration") && !params.get("collaboration").isEmpty()) {

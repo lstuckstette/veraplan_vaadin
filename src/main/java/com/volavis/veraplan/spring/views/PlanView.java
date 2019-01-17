@@ -5,6 +5,7 @@ import com.vaadin.external.org.slf4j.LoggerFactory;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.*;
@@ -25,7 +26,6 @@ import com.volavis.veraplan.spring.views.components.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.vaadin.stefan.dnd.DndActivator;
 import org.vaadin.stefan.dnd.drag.DragSourceExtension;
 import org.vaadin.stefan.dnd.drop.DropTargetExtension;
@@ -35,7 +35,7 @@ import java.util.*;
 @PageTitle("Veraplan - Plan")
 @HtmlImport("styles/shared-styles.html")
 @Route(value = "plan", layout = MainLayout.class)
-public class PlanView extends Div {
+public class PlanView extends Div implements HasUrlParameter<String> {
 
     private static final Logger logger = LoggerFactory.getLogger(PlanView.class);
 
@@ -57,7 +57,6 @@ public class PlanView extends Div {
 
         DndActivator.activateMobileDnd();
 
-        buildNonCollab();
 
         //---------------------------------------
 
@@ -299,7 +298,7 @@ public class PlanView extends Div {
 //        return assignments;
 //    }
 
-    private void handleMoveNonCollab(FlowTable table, AssContainer target) {
+    private void handleMove(FlowTable table, AssContainer target) {
         //check collision:
         ImportTimeslot targetTimeslot = new ImportTimeslot();
         targetTimeslot.setDay(target.getCol());
@@ -325,7 +324,7 @@ public class PlanView extends Div {
                     Map<String, List<String>> parameterMap = new HashMap<>();
                     parameterMap.put("collaboration", Collections.singletonList("" + collisionPartner.getId()));
                     QueryParameters parameters = new QueryParameters(parameterMap);
-                    this.getUI().ifPresent(ui -> ui.navigate("plancollab",parameters));
+                    this.getUI().ifPresent(ui -> ui.navigate("plancollab", parameters));
 //                    Notification.show("Einladung wurde an " + collisionPartnerFullName + " gesendet.");
                 }, abborted -> {
                     //undo move event
@@ -339,19 +338,17 @@ public class PlanView extends Div {
         });
     }
 
-    private void buildNonCollab() {
+    private void buildComponent() {
         this.removeAll();
         VerticalLayout layout = new VerticalLayout();
         layout.setAlignItems(FlexComponent.Alignment.CENTER);
 
         layout.add(new H1("Wochenplan für: " + currentUser.getFirst_name() + " " + currentUser.getLast_name()));
 
-        layout.add(new Button("Vorschlag speichern"));
-
 
         FlowTable table = ViewHelper.generateWeekCalendar(timeslotCount);
 
-        List<ImportAssignment> assignments = importService.getPersonalPlan(currentUser).getAssignments();
+        List<ImportAssignment> assignments = importService.getPersonalPlan(currentUser, false).getAssignments();
 
         //prefill calendar
         for (int ts = 1; ts <= timeslotCount; ts++) {
@@ -360,11 +357,11 @@ public class PlanView extends Div {
                 table.setComponent(day + 1, ts + 1, assContainer);
 
                 DropTargetExtension<AssContainer> target = DropTargetExtension.extend(assContainer);
-                target.addDropListener(event -> handleMoveNonCollab(table, event.getComponent()));
+                target.addDropListener(event -> handleMove(table, event.getComponent()));
             }
         }
 
-        //add assignments (TODO color accordingly)
+        //add assignments
         for (ImportAssignment assignment : assignments) {
             AssContainer container = (AssContainer) table.getComponent(assignment.getTimeSlot().getDay() + 1, assignment.getTimeSlot().getSlot() + 1);
             AssComponent assComponent = new AssComponent(container);
@@ -378,6 +375,52 @@ public class PlanView extends Div {
         }
 
         layout.add(table);
+        Button save = new Button("Vorschlag speichern", buttonClickEvent -> Notification.show("Vorschlag gespeichert!"));
+        save.addThemeVariants(ButtonVariant.MATERIAL_CONTAINED);
+        layout.add(save);
         this.add(layout);
+    }
+
+
+    private void buildFinalComponent() {
+        VerticalLayout layout = new VerticalLayout();
+        layout.setAlignItems(FlexComponent.Alignment.CENTER);
+        layout.add(new H1("Finaler Wochenplan für: " + currentUser.getFirst_name() + " " + currentUser.getLast_name()));
+
+
+        FlowTable table = ViewHelper.generateWeekCalendar(timeslotCount);
+        List<ImportAssignment> assignments = importService.getPersonalPlan(currentUser, true).getAssignments();
+
+        //prefill calendar
+        for (int ts = 1; ts <= timeslotCount; ts++) {
+            for (int day = 1; day <= 5; day++) {
+                AssContainer assContainer = new AssContainer(day, ts);
+                table.setComponent(day + 1, ts + 1, assContainer);
+            }
+        }
+
+        for (ImportAssignment assignment : assignments) {
+            AssContainer container = (AssContainer) table.getComponent(assignment.getTimeSlot().getDay() + 1, assignment.getTimeSlot().getSlot() + 1);
+            AssComponent assComponent = new AssComponent(container);
+            assComponent.setAssignment(assignment);
+            container.addAssignmentComponent(assComponent);
+
+        }
+
+        layout.add(table);
+        this.add(layout);
+    }
+
+    @Override
+    public void setParameter(BeforeEvent beforeEvent, @OptionalParameter String s) {
+        Location location = beforeEvent.getLocation();
+        QueryParameters queryParameters = location.getQueryParameters();
+        Map<String, List<String>> params = queryParameters.getParameters();
+
+        if (params.containsKey("final")) {
+            buildFinalComponent();
+        } else {
+            buildComponent();
+        }
     }
 }

@@ -52,13 +52,20 @@ public class CustomAuthenticationHandler implements AuthenticationFailureHandler
 
         SavedRequest savedRequest = requestCache.getRequest(request, response);
 
+        response.setStatus(HttpStatus.OK.value());
+
         if (savedRequest != null) {
             String redirectUrl = savedRequest.getRedirectUrl();
-            response.setStatus(HttpStatus.OK.value());
-            logger.info("redirecting to:" + redirectUrl);
-            response.sendRedirect(redirectUrl);
+
+            if(redirectUrl.contains("communication")){
+                response.sendRedirect("/");
+            } else {
+                logger.info("redirecting to:" + redirectUrl);
+                response.sendRedirect(redirectUrl);
+            }
+
         } else {
-            response.setStatus(HttpStatus.OK.value());
+
             response.sendRedirect("/");
         }
 
