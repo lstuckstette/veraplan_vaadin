@@ -42,4 +42,8 @@ public class PlanratingService {
         }
     }
 
+    public void deleteAll() {
+        planratingRepository.deleteAll();
+    }
+
 }

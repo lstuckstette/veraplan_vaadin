@@ -52,7 +52,10 @@ public class TimeConstraintService {
 
     public List<TimeConstraint> getAllFromUser(User user) {
         return repository.findByUserId(user.getId());
+    }
 
+    public void removeAll() {
+        repository.deleteAll();
     }
 
     public List<TimeSlot> getTimeSlots(TimeConstraint timeConstraint) {

@@ -5,36 +5,32 @@ import com.vaadin.external.org.slf4j.LoggerFactory;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 
 import com.vaadin.flow.router.*;
 import com.volavis.veraplan.spring.MainLayout;
+import com.volavis.veraplan.spring.email.EmailSendService;
 import com.volavis.veraplan.spring.persistence.entities.User;
-import com.volavis.veraplan.spring.persistence.entities.ressources.Planrating;
-import com.volavis.veraplan.spring.persistence.service.PlanratingService;
 import com.volavis.veraplan.spring.persistence.service.UserService;
 import com.volavis.veraplan.spring.planimport.ImportService;
 import com.volavis.veraplan.spring.planimport.model.ImportAssignment;
-import com.volavis.veraplan.spring.planimport.model.ImportTeacher;
 import com.volavis.veraplan.spring.planimport.model.ImportTimeslot;
 import com.volavis.veraplan.spring.security.SecurityUtils;
 import com.volavis.veraplan.spring.views.components.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.vaadin.stefan.dnd.DndActivator;
 import org.vaadin.stefan.dnd.drag.DragSourceExtension;
 import org.vaadin.stefan.dnd.drop.DropTargetExtension;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @PageTitle("Veraplan - Plan")
 @HtmlImport("styles/shared-styles.html")
@@ -44,19 +40,19 @@ public class PlanView extends Div {
     private static final Logger logger = LoggerFactory.getLogger(PlanView.class);
 
     private ImportService importService;
-
+    private EmailSendService mailService;
     private User currentUser;
     private AssComponent currentlyDragged;
-    private int timeslotCount = 6;
-
+    private UserService userService;
+    private int timeslotCount = 7;
 
 
     @Autowired
-    public PlanView(UserService userService, ImportService importService) {
+    public PlanView(UserService userService, ImportService importService, EmailSendService mailService) {
 
-
+        this.userService = userService;
         this.importService = importService;
-
+        this.mailService = mailService;
         this.currentUser = userService.getByUsernameOrEmail(SecurityUtils.getUsername());
 
         DndActivator.activateMobileDnd();
@@ -308,7 +304,7 @@ public class PlanView extends Div {
         ImportTimeslot targetTimeslot = new ImportTimeslot();
         targetTimeslot.setDay(target.getCol());
         targetTimeslot.setSlot(target.getRow());
-        Optional<ImportAssignment> collision = importService.checkCollision(0, currentlyDragged.getAssignment(), targetTimeslot);
+        Optional<ImportAssignment> collision = importService.checkCollision(currentUser, currentlyDragged.getAssignment(), targetTimeslot);
         collision.ifPresent(c -> {
 //            ignore collision with one-self
             if (c.getTeacher().getId().equals(importService.getTeacherFromUsername(currentUser.getUsername()).get())) {
@@ -318,13 +314,19 @@ public class PlanView extends Div {
 //                logger.info("unmapped teacher '" + c.getTeacher().getId() + "'!");
 //            }
             else {
-                String collisionPartner = c.getTeacher().getId(); //TODO: change to actual username (fix not mapped exception...)
+                User collisionPartner = userService.getByUsernameOrEmail(c.getTeacher().getId());
+
+                String collisionPartnerFullName = collisionPartner.getFirst_name() + " " + collisionPartner.getLast_name();
                 Dialog collisiondialog = ViewHelper.getConfirmationDialog("Es ist eine Kollision mit '" +
-//                    userService.getFullName(importService.getUsernameFromTeacher(c.getTeacher().getId()).get()) +
-                        collisionPartner +
-                        "' aufgetreten. Möchten sie den Plan collaborativ bearbeiten?", confirmed -> {
+                        collisionPartnerFullName +
+                        "' aufgetreten. Möchten sie den Plan kollaborativ bearbeiten?", confirmed -> {
                     //TODO navigae to PlanCollabView + send email:
-                    Notification.show("Einladung wurde an " + collisionPartner + " gesendet.");
+                    mailService.sendCollaborationInvite(collisionPartner, currentUser);
+                    Map<String, List<String>> parameterMap = new HashMap<>();
+                    parameterMap.put("collaboration", Collections.singletonList("" + collisionPartner.getId()));
+                    QueryParameters parameters = new QueryParameters(parameterMap);
+                    this.getUI().ifPresent(ui -> ui.navigate("plancollab",parameters));
+//                    Notification.show("Einladung wurde an " + collisionPartnerFullName + " gesendet.");
                 }, abborted -> {
                     //undo move event
                     Optional<Component> elem = target.getChildren().filter(child -> child.equals(currentlyDragged)).findFirst();
@@ -349,7 +351,7 @@ public class PlanView extends Div {
 
         FlowTable table = ViewHelper.generateWeekCalendar(timeslotCount);
 
-        List<ImportAssignment> assignments = importService.getMockTeacherPlan(0, currentUser);
+        List<ImportAssignment> assignments = importService.getPersonalPlan(currentUser).getAssignments();
 
         //prefill calendar
         for (int ts = 1; ts <= timeslotCount; ts++) {

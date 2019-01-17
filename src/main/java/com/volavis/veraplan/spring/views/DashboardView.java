@@ -1,5 +1,6 @@
 package com.volavis.veraplan.spring.views;
 
+import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.html.*;
@@ -8,8 +9,7 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.FlexComponent;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.*;
 import com.volavis.veraplan.spring.MainLayout;
 
 
@@ -21,10 +21,12 @@ import com.volavis.veraplan.spring.security.SecurityUtils;
 import com.volavis.veraplan.spring.views.components.RatingComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.Optional;
+
 @HtmlImport("styles/shared-styles.html")
 @PageTitle("Dashboard")
 @Route(value = "", layout = MainLayout.class)
-public class DashboardView extends Div {
+public class DashboardView extends Div implements HasUrlParameter<String> {
 
     private PlanratingService planratingService;
     private User currentUser;
@@ -133,4 +135,8 @@ public class DashboardView extends Div {
     }
 
 
+    @Override
+    public void setParameter(BeforeEvent beforeEvent, @OptionalParameter String parameter) {
+        //TODO remove
+    }
 }

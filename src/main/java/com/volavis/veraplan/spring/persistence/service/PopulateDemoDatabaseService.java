@@ -9,6 +9,7 @@ import com.volavis.veraplan.spring.persistence.entities.RoleName;
 import com.volavis.veraplan.spring.persistence.entities.User;
 import com.volavis.veraplan.spring.persistence.entities.organisation.Building;
 import com.volavis.veraplan.spring.persistence.entities.ressources.Room;
+import com.volavis.veraplan.spring.persistence.entities.ressources.TimeConstraint;
 import com.volavis.veraplan.spring.persistence.entities.ressources.TimeSlot;
 import com.volavis.veraplan.spring.persistence.exception.EntityAlreadyExistsException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +40,13 @@ public class PopulateDemoDatabaseService {
     private TimeSlotService timeSlotService;
 
     @Autowired
-    BuildingService buildingService;
+    private BuildingService buildingService;
+
+    @Autowired
+    private PlanratingService planratingService;
+
+    @Autowired
+    private TimeConstraintService timeConstraintService;
 
     private static final Logger logger = LoggerFactory.getLogger(PopulateDemoDatabaseService.class);
 
@@ -50,6 +57,11 @@ public class PopulateDemoDatabaseService {
         createTimeSlots();
         createBuilding();
         createRooms();
+
+        //clear entered userdata:
+        planratingService.deleteAll();
+        timeConstraintService.removeAll();
+
         logger.info("Finished populating Database.");
     }
 
@@ -102,7 +114,7 @@ public class PopulateDemoDatabaseService {
         logger.info("Populate: Created Building");
     }
 
-    private void createRooms(){
+    private void createRooms() {
 
         Room r = new Room();
 //        r.setBuilding();
@@ -120,18 +132,24 @@ public class PopulateDemoDatabaseService {
 
     private void createDummyUsers() {
         try {
-            userService.createUser("The", "Admin", "admin", "admin@admin.de", "admin", RoleName.ROLE_ADMIN);
-            userService.createUser("Lukas", "Stuck", "test", "test@test.de", "test", RoleName.ROLE_ADMIN);
+
+            userService.createUser("Hubert", "Schmidt", "hschmidt", "stuckstette@outlook.com", "hschmidt", RoleName.ROLE_ADMIN);
+            userService.createUser("Franziska", "Meier", "fmeier", "stuckstette@volavis.de", "fmeier", RoleName.ROLE_ADMIN);
+//            userService.createUser("The", "Admin", "admin", "admin@admin.de", "admin", RoleName.ROLE_ADMIN);
+//            userService.createUser("Vorname", "Nachname", "test", "test@test.de", "test", RoleName.ROLE_ADMIN);
+
+
+
 
             //Read dummy-file and create all Users:
-            try {
-                byte[] dummyData = Files.readAllBytes(ResourceUtils.getFile("classpath:database_dummydata/users.json").toPath());
-                ObjectMapper objectMapper = new ObjectMapper();
-                List<User> dummyUsers = objectMapper.readValue(dummyData, objectMapper.getTypeFactory().constructCollectionType(List.class, User.class));
-                dummyUsers.forEach((user -> userService.createUser(user, RoleName.ROLE_USER)));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                byte[] dummyData = Files.readAllBytes(ResourceUtils.getFile("classpath:database_dummydata/users.json").toPath());
+//                ObjectMapper objectMapper = new ObjectMapper();
+//                List<User> dummyUsers = objectMapper.readValue(dummyData, objectMapper.getTypeFactory().constructCollectionType(List.class, User.class));
+//                dummyUsers.forEach((user -> userService.createUser(user, RoleName.ROLE_USER)));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
         } catch (EntityAlreadyExistsException e) {
             //this is fine!
         }

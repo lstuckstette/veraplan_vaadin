@@ -87,47 +87,47 @@
             <p>Webanwendung erstellt mittels Vaadin 12 Flow + Spring Boot</p>
         </header>
 
-        <section id="aboutAnchor">
-            <div class="container">
-                <div class="tileImage"><img src="//app-layout-assets.appspot.com/assets/landing-page/berries.jpg"></div>
-                <div>
-                    <h3>Übersicht</h3>
-                    <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea. Lorem
-                        ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.</p>
-                    <p>Convenire definiebas scriptorem eu cum. Sit dolor dicunt consectetuer no. Convenire
-                        definiebas scriptorem eu cum. Sit dolor dicunt consectetuer no.</p>
-                </div>
-            </div>
-        </section>
+        <!--<section id="aboutAnchor">-->
+            <!--<div class="container">-->
+                <!--<div class="tileImage"><img src="//app-layout-assets.appspot.com/assets/landing-page/berries.jpg"></div>-->
+                <!--<div>-->
+                    <!--<h3>Übersicht</h3>-->
+                    <!--<p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea. Lorem-->
+                        <!--ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.</p>-->
+                    <!--<p>Convenire definiebas scriptorem eu cum. Sit dolor dicunt consectetuer no. Convenire-->
+                        <!--definiebas scriptorem eu cum. Sit dolor dicunt consectetuer no.</p>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</section>-->
 
-        <section id="servicesAnchor">
-            <div class="container">
-                <div class="tileImage"><img src="//app-layout-assets.appspot.com/assets/landing-page/tomato.jpg"></div>
-                <div>
-                    <h3>Leistungen</h3>
-                    <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea. Lorem
-                        ipsum
-                        dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.</p>
-                    <p>Convenire definiebas scriptorem eu cum. Sit dolor dicunt consectetuer no. Convenire
-                        definiebas
-                        scriptorem eu cum. Sit dolor dicunt consectetuer no.</p>
-                </div>
-            </div>
-        </section>
+        <!--<section id="servicesAnchor">-->
+            <!--<div class="container">-->
+                <!--<div class="tileImage"><img src="//app-layout-assets.appspot.com/assets/landing-page/tomato.jpg"></div>-->
+                <!--<div>-->
+                    <!--<h3>Leistungen</h3>-->
+                    <!--<p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea. Lorem-->
+                        <!--ipsum-->
+                        <!--dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.</p>-->
+                    <!--<p>Convenire definiebas scriptorem eu cum. Sit dolor dicunt consectetuer no. Convenire-->
+                        <!--definiebas-->
+                        <!--scriptorem eu cum. Sit dolor dicunt consectetuer no.</p>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</section>-->
 
-        <section id="contactAnchor">
-            <div class="container">
-                <div class="tileImage"><img src="//app-layout-assets.appspot.com/assets/landing-page/red-onion.jpg">
-                </div>
-                <div>
-                    <h3>Kontakt</h3>
-                    <p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea. Lorem
-                        ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.</p>
-                    <p>Convenire definiebas scriptorem eu cum. Sit dolor dicunt consectetuer no. Convenire
-                        definiebas scriptorem eu cum. Sit dolor dicunt consectetuer no.</p>
-                </div>
-            </div>
-        </section>
+        <!--<section id="contactAnchor">-->
+            <!--<div class="container">-->
+                <!--<div class="tileImage"><img src="//app-layout-assets.appspot.com/assets/landing-page/red-onion.jpg">-->
+                <!--</div>-->
+                <!--<div>-->
+                    <!--<h3>Kontakt</h3>-->
+                    <!--<p>Lorem ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea. Lorem-->
+                        <!--ipsum dolor sit amet, per in nusquam nominavi periculis, sit elit oportere ea.</p>-->
+                    <!--<p>Convenire definiebas scriptorem eu cum. Sit dolor dicunt consectetuer no. Convenire-->
+                        <!--definiebas scriptorem eu cum. Sit dolor dicunt consectetuer no.</p>-->
+                <!--</div>-->
+            <!--</div>-->
+        <!--</section>-->
 
 
         <paper-dialog id="loginDialog" slot="dialog" modal style="text-align: center">
@@ -223,7 +223,8 @@
 
             handleLoginResponse(event) {
                 console.log("reponse: ", event)
-                location.assign(event.target.baseURI);
+                location.assign(event.detail.xhr.responseURL);
+                // location.assign(event.target.baseURI);
             }
 
             handleLoginError(event) {

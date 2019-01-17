@@ -1,10 +1,11 @@
 package com.volavis.veraplan.spring.planimport.model;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class ImportPlan {
 
-    private List<ImportAssignment> assignments;
+    private List<ImportAssignment> assignments = new ArrayList<>();
     private int millisSpentBySolver;
     private int hardScore;
     private int numDays;

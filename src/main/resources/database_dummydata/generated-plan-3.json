@@ -7,66 +7,9 @@
         "type": "std"
       },
       "teacher": {
-        "id": "Lehrer 8",
+        "id": "Lehrer 9",
         "maxAssignmentsPerSolution": 40,
-        "timePreferences": [
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 1
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 2
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 3
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 4
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 1
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 2
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 3
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 4
-            },
-            "priority": 100
-          }
-        ],
+        "timePreferences": [],
         "teachableSubjects": [
           {
             "id": "Mathematik"
@@ -89,7 +32,7 @@
         ]
       },
       "timeSlot": {
-        "day": 1,
+        "day": 3,
         "slot": 1
       },
       "taughtClass": {
@@ -200,7 +143,7 @@
         ]
       },
       "timeSlot": {
-        "day": 2,
+        "day": 1,
         "slot": 1
       },
       "taughtClass": {
@@ -311,7 +254,7 @@
         ]
       },
       "timeSlot": {
-        "day": 1,
+        "day": 2,
         "slot": 2
       },
       "taughtClass": {
@@ -335,673 +278,7 @@
     },
     {
       "room": {
-        "id": "Raum 1",
-        "size": 30,
-        "type": "std"
-      },
-      "teacher": {
-        "id": "Lehrer 8",
-        "maxAssignmentsPerSolution": 40,
-        "timePreferences": [
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 1
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 2
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 3
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 4
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 1
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 2
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 3
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 4
-            },
-            "priority": 100
-          }
-        ],
-        "teachableSubjects": [
-          {
-            "id": "Mathematik"
-          },
-          {
-            "id": "Sachkunde"
-          },
-          {
-            "id": "Englisch"
-          },
-          {
-            "id": "Kunst"
-          },
-          {
-            "id": "Musik"
-          },
-          {
-            "id": "Sport"
-          }
-        ]
-      },
-      "timeSlot": {
-        "day": 2,
-        "slot": 2
-      },
-      "taughtClass": {
-        "id": "Klasse 1a",
-        "size": 25,
-        "maxAssignmentsPerDay": 6,
-        "subjectsAndLessons": {
-          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 1,
-          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 4,
-          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 4,
-          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 1
-        }
-      },
-      "subject": {
-        "id": "Mathematik",
-        "requiredRoomType": "std"
-      },
-      "assignmentNumber": 4
-    },
-    {
-      "room": {
-        "id": "Raum 1",
-        "size": 30,
-        "type": "std"
-      },
-      "teacher": {
-        "id": "Lehrer 8",
-        "maxAssignmentsPerSolution": 40,
-        "timePreferences": [
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 1
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 2
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 3
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 4
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 1
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 2
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 3
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 4
-            },
-            "priority": 100
-          }
-        ],
-        "teachableSubjects": [
-          {
-            "id": "Mathematik"
-          },
-          {
-            "id": "Sachkunde"
-          },
-          {
-            "id": "Englisch"
-          },
-          {
-            "id": "Kunst"
-          },
-          {
-            "id": "Musik"
-          },
-          {
-            "id": "Sport"
-          }
-        ]
-      },
-      "timeSlot": {
-        "day": 1,
-        "slot": 3
-      },
-      "taughtClass": {
-        "id": "Klasse 1a",
-        "size": 25,
-        "maxAssignmentsPerDay": 6,
-        "subjectsAndLessons": {
-          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 1,
-          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 4,
-          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 4,
-          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 1
-        }
-      },
-      "subject": {
-        "id": "Mathematik",
-        "requiredRoomType": "std"
-      },
-      "assignmentNumber": 5
-    },
-    {
-      "room": {
-        "id": "Raum 1",
-        "size": 30,
-        "type": "std"
-      },
-      "teacher": {
-        "id": "Lehrer 8",
-        "maxAssignmentsPerSolution": 40,
-        "timePreferences": [
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 1
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 2
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 3
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 4
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 1
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 2
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 3
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 4
-            },
-            "priority": 100
-          }
-        ],
-        "teachableSubjects": [
-          {
-            "id": "Mathematik"
-          },
-          {
-            "id": "Sachkunde"
-          },
-          {
-            "id": "Englisch"
-          },
-          {
-            "id": "Kunst"
-          },
-          {
-            "id": "Musik"
-          },
-          {
-            "id": "Sport"
-          }
-        ]
-      },
-      "timeSlot": {
-        "day": 2,
-        "slot": 3
-      },
-      "taughtClass": {
-        "id": "Klasse 1a",
-        "size": 25,
-        "maxAssignmentsPerDay": 6,
-        "subjectsAndLessons": {
-          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 1,
-          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 4,
-          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 4,
-          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 1
-        }
-      },
-      "subject": {
-        "id": "Mathematik",
-        "requiredRoomType": "std"
-      },
-      "assignmentNumber": 6
-    },
-    {
-      "room": {
-        "id": "Raum 1",
-        "size": 30,
-        "type": "std"
-      },
-      "teacher": {
-        "id": "Lehrer 8",
-        "maxAssignmentsPerSolution": 40,
-        "timePreferences": [
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 1
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 2
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 3
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 4
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 1
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 2
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 3
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 4
-            },
-            "priority": 100
-          }
-        ],
-        "teachableSubjects": [
-          {
-            "id": "Mathematik"
-          },
-          {
-            "id": "Sachkunde"
-          },
-          {
-            "id": "Englisch"
-          },
-          {
-            "id": "Kunst"
-          },
-          {
-            "id": "Musik"
-          },
-          {
-            "id": "Sport"
-          }
-        ]
-      },
-      "timeSlot": {
-        "day": 1,
-        "slot": 4
-      },
-      "taughtClass": {
-        "id": "Klasse 1a",
-        "size": 25,
-        "maxAssignmentsPerDay": 6,
-        "subjectsAndLessons": {
-          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 1,
-          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 4,
-          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 4,
-          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 1
-        }
-      },
-      "subject": {
-        "id": "Mathematik",
-        "requiredRoomType": "std"
-      },
-      "assignmentNumber": 7
-    },
-    {
-      "room": {
-        "id": "Raum 1",
-        "size": 30,
-        "type": "std"
-      },
-      "teacher": {
-        "id": "Lehrer 8",
-        "maxAssignmentsPerSolution": 40,
-        "timePreferences": [
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 1
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 2
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 3
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 4
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 1
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 2
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 3
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 4
-            },
-            "priority": 100
-          }
-        ],
-        "teachableSubjects": [
-          {
-            "id": "Mathematik"
-          },
-          {
-            "id": "Sachkunde"
-          },
-          {
-            "id": "Englisch"
-          },
-          {
-            "id": "Kunst"
-          },
-          {
-            "id": "Musik"
-          },
-          {
-            "id": "Sport"
-          }
-        ]
-      },
-      "timeSlot": {
-        "day": 2,
-        "slot": 4
-      },
-      "taughtClass": {
-        "id": "Klasse 1a",
-        "size": 25,
-        "maxAssignmentsPerDay": 6,
-        "subjectsAndLessons": {
-          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 1,
-          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 4,
-          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 4,
-          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 1
-        }
-      },
-      "subject": {
-        "id": "Sachkunde",
-        "requiredRoomType": "std"
-      },
-      "assignmentNumber": 8
-    },
-    {
-      "room": {
-        "id": "Raum 1",
-        "size": 30,
-        "type": "std"
-      },
-      "teacher": {
-        "id": "Lehrer 8",
-        "maxAssignmentsPerSolution": 40,
-        "timePreferences": [
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 1
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 2
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 3
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 4
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 1
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 2
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 3
-            },
-            "priority": 100
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 4
-            },
-            "priority": 100
-          }
-        ],
-        "teachableSubjects": [
-          {
-            "id": "Mathematik"
-          },
-          {
-            "id": "Sachkunde"
-          },
-          {
-            "id": "Englisch"
-          },
-          {
-            "id": "Kunst"
-          },
-          {
-            "id": "Musik"
-          },
-          {
-            "id": "Sport"
-          }
-        ]
-      },
-      "timeSlot": {
-        "day": 3,
-        "slot": 1
-      },
-      "taughtClass": {
-        "id": "Klasse 1a",
-        "size": 25,
-        "maxAssignmentsPerDay": 6,
-        "subjectsAndLessons": {
-          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 1,
-          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 4,
-          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 4,
-          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 1
-        }
-      },
-      "subject": {
-        "id": "Sachkunde",
-        "requiredRoomType": "std"
-      },
-      "assignmentNumber": 9
-    },
-    {
-      "room": {
-        "id": "Raum 1",
+        "id": "Raum 8",
         "size": 30,
         "type": "std"
       },
@@ -1078,14 +355,14 @@
         }
       },
       "subject": {
-        "id": "Deutsch",
+        "id": "Mathematik",
         "requiredRoomType": "std"
       },
-      "assignmentNumber": 10
+      "assignmentNumber": 4
     },
     {
       "room": {
-        "id": "Raum 1",
+        "id": "Raum 9",
         "size": 30,
         "type": "std"
       },
@@ -1129,6 +406,360 @@
             "priority": -1000
           }
         ],
+        "teachableSubjects": [
+          {
+            "id": "Deutsch"
+          },
+          {
+            "id": "Mathematik"
+          },
+          {
+            "id": "Sachkunde"
+          },
+          {
+            "id": "Englisch"
+          }
+        ]
+      },
+      "timeSlot": {
+        "day": 3,
+        "slot": 3
+      },
+      "taughtClass": {
+        "id": "Klasse 1a",
+        "size": 25,
+        "maxAssignmentsPerDay": 6,
+        "subjectsAndLessons": {
+          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 1,
+          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 4,
+          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 4,
+          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 1
+        }
+      },
+      "subject": {
+        "id": "Mathematik",
+        "requiredRoomType": "std"
+      },
+      "assignmentNumber": 5
+    },
+    {
+      "room": {
+        "id": "Raum 6",
+        "size": 30,
+        "type": "std"
+      },
+      "teacher": {
+        "id": "Lehrer 1",
+        "maxAssignmentsPerSolution": 20,
+        "timePreferences": [
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 8
+            },
+            "priority": -1000
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 8
+            },
+            "priority": -1000
+          },
+          {
+            "timeSlot": {
+              "day": 3,
+              "slot": 8
+            },
+            "priority": -1000
+          },
+          {
+            "timeSlot": {
+              "day": 4,
+              "slot": 8
+            },
+            "priority": -1000
+          },
+          {
+            "timeSlot": {
+              "day": 5,
+              "slot": 8
+            },
+            "priority": -1000
+          }
+        ],
+        "teachableSubjects": [
+          {
+            "id": "Deutsch"
+          },
+          {
+            "id": "Mathematik"
+          },
+          {
+            "id": "Sachkunde"
+          },
+          {
+            "id": "Englisch"
+          }
+        ]
+      },
+      "timeSlot": {
+        "day": 3,
+        "slot": 2
+      },
+      "taughtClass": {
+        "id": "Klasse 1a",
+        "size": 25,
+        "maxAssignmentsPerDay": 6,
+        "subjectsAndLessons": {
+          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 1,
+          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 4,
+          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 4,
+          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 1
+        }
+      },
+      "subject": {
+        "id": "Mathematik",
+        "requiredRoomType": "std"
+      },
+      "assignmentNumber": 6
+    },
+    {
+      "room": {
+        "id": "Raum 8",
+        "size": 30,
+        "type": "std"
+      },
+      "teacher": {
+        "id": "Lehrer 1",
+        "maxAssignmentsPerSolution": 20,
+        "timePreferences": [
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 8
+            },
+            "priority": -1000
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 8
+            },
+            "priority": -1000
+          },
+          {
+            "timeSlot": {
+              "day": 3,
+              "slot": 8
+            },
+            "priority": -1000
+          },
+          {
+            "timeSlot": {
+              "day": 4,
+              "slot": 8
+            },
+            "priority": -1000
+          },
+          {
+            "timeSlot": {
+              "day": 5,
+              "slot": 8
+            },
+            "priority": -1000
+          }
+        ],
+        "teachableSubjects": [
+          {
+            "id": "Deutsch"
+          },
+          {
+            "id": "Mathematik"
+          },
+          {
+            "id": "Sachkunde"
+          },
+          {
+            "id": "Englisch"
+          }
+        ]
+      },
+      "timeSlot": {
+        "day": 5,
+        "slot": 2
+      },
+      "taughtClass": {
+        "id": "Klasse 1a",
+        "size": 25,
+        "maxAssignmentsPerDay": 6,
+        "subjectsAndLessons": {
+          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 1,
+          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 4,
+          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 4,
+          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 1
+        }
+      },
+      "subject": {
+        "id": "Mathematik",
+        "requiredRoomType": "std"
+      },
+      "assignmentNumber": 7
+    },
+    {
+      "room": {
+        "id": "Raum 6",
+        "size": 30,
+        "type": "std"
+      },
+      "teacher": {
+        "id": "Lehrer 2",
+        "maxAssignmentsPerSolution": 20,
+        "timePreferences": [],
+        "teachableSubjects": [
+          {
+            "id": "Sachkunde"
+          },
+          {
+            "id": "Sport"
+          },
+          {
+            "id": "Religionslehre"
+          }
+        ]
+      },
+      "timeSlot": {
+        "day": 4,
+        "slot": 2
+      },
+      "taughtClass": {
+        "id": "Klasse 1a",
+        "size": 25,
+        "maxAssignmentsPerDay": 6,
+        "subjectsAndLessons": {
+          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 1,
+          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 4,
+          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 4,
+          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 1
+        }
+      },
+      "subject": {
+        "id": "Sachkunde",
+        "requiredRoomType": "std"
+      },
+      "assignmentNumber": 8
+    },
+    {
+      "room": {
+        "id": "Raum 6",
+        "size": 30,
+        "type": "std"
+      },
+      "teacher": {
+        "id": "Lehrer 2",
+        "maxAssignmentsPerSolution": 20,
+        "timePreferences": [],
+        "teachableSubjects": [
+          {
+            "id": "Sachkunde"
+          },
+          {
+            "id": "Sport"
+          },
+          {
+            "id": "Religionslehre"
+          }
+        ]
+      },
+      "timeSlot": {
+        "day": 5,
+        "slot": 3
+      },
+      "taughtClass": {
+        "id": "Klasse 1a",
+        "size": 25,
+        "maxAssignmentsPerDay": 6,
+        "subjectsAndLessons": {
+          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 1,
+          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 4,
+          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 4,
+          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 1
+        }
+      },
+      "subject": {
+        "id": "Sachkunde",
+        "requiredRoomType": "std"
+      },
+      "assignmentNumber": 9
+    },
+    {
+      "room": {
+        "id": "Raum 1",
+        "size": 30,
+        "type": "std"
+      },
+      "teacher": {
+        "id": "Lehrer 6",
+        "maxAssignmentsPerSolution": 40,
+        "timePreferences": [],
+        "teachableSubjects": [
+          {
+            "id": "Deutsch"
+          },
+          {
+            "id": "Mathematik"
+          },
+          {
+            "id": "Sachkunde"
+          },
+          {
+            "id": "Englisch"
+          }
+        ]
+      },
+      "timeSlot": {
+        "day": 1,
+        "slot": 2
+      },
+      "taughtClass": {
+        "id": "Klasse 1a",
+        "size": 25,
+        "maxAssignmentsPerDay": 6,
+        "subjectsAndLessons": {
+          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 1,
+          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 4,
+          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 4,
+          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 1
+        }
+      },
+      "subject": {
+        "id": "Deutsch",
+        "requiredRoomType": "std"
+      },
+      "assignmentNumber": 10
+    },
+    {
+      "room": {
+        "id": "Raum 1",
+        "size": 30,
+        "type": "std"
+      },
+      "teacher": {
+        "id": "Lehrer 6",
+        "maxAssignmentsPerSolution": 40,
+        "timePreferences": [],
         "teachableSubjects": [
           {
             "id": "Deutsch"
@@ -1169,50 +800,14 @@
     },
     {
       "room": {
-        "id": "Raum 1",
+        "id": "Raum 8",
         "size": 30,
         "type": "std"
       },
       "teacher": {
-        "id": "Lehrer 1",
-        "maxAssignmentsPerSolution": 20,
-        "timePreferences": [
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 3,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 4,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 5,
-              "slot": 8
-            },
-            "priority": -1000
-          }
-        ],
+        "id": "Lehrer 6",
+        "maxAssignmentsPerSolution": 40,
+        "timePreferences": [],
         "teachableSubjects": [
           {
             "id": "Deutsch"
@@ -1229,8 +824,8 @@
         ]
       },
       "timeSlot": {
-        "day": 3,
-        "slot": 2
+        "day": 2,
+        "slot": 1
       },
       "taughtClass": {
         "id": "Klasse 1a",
@@ -1253,50 +848,14 @@
     },
     {
       "room": {
-        "id": "Raum 1",
+        "id": "Raum 9",
         "size": 30,
         "type": "std"
       },
       "teacher": {
-        "id": "Lehrer 1",
-        "maxAssignmentsPerSolution": 20,
-        "timePreferences": [
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 3,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 4,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 5,
-              "slot": 8
-            },
-            "priority": -1000
-          }
-        ],
+        "id": "Lehrer 6",
+        "maxAssignmentsPerSolution": 40,
+        "timePreferences": [],
         "teachableSubjects": [
           {
             "id": "Deutsch"
@@ -1314,7 +873,7 @@
       },
       "timeSlot": {
         "day": 4,
-        "slot": 2
+        "slot": 3
       },
       "taughtClass": {
         "id": "Klasse 1a",
@@ -1337,17 +896,74 @@
     },
     {
       "room": {
-        "id": "Raum 1",
+        "id": "Raum 10",
         "size": 30,
         "type": "std"
       },
       "teacher": {
-        "id": "Lehrer 3",
-        "maxAssignmentsPerSolution": 20,
-        "timePreferences": [],
+        "id": "Lehrer 8",
+        "maxAssignmentsPerSolution": 40,
+        "timePreferences": [
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 1
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 2
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 3
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 4
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 1
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 2
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 3
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 4
+            },
+            "priority": 100
+          }
+        ],
         "teachableSubjects": [
           {
-            "id": "Deutsch"
+            "id": "Mathematik"
           },
           {
             "id": "Sachkunde"
@@ -1356,19 +972,19 @@
             "id": "Englisch"
           },
           {
+            "id": "Kunst"
+          },
+          {
             "id": "Musik"
           },
           {
             "id": "Sport"
-          },
-          {
-            "id": "Religionslehre"
           }
         ]
       },
       "timeSlot": {
-        "day": 5,
-        "slot": 2
+        "day": 1,
+        "slot": 3
       },
       "taughtClass": {
         "id": "Klasse 1a",
@@ -1391,7 +1007,7 @@
     },
     {
       "room": {
-        "id": "Raum 1",
+        "id": "Raum 7",
         "size": 30,
         "type": "std"
       },
@@ -1418,8 +1034,8 @@
         ]
       },
       "timeSlot": {
-        "day": 2,
-        "slot": 1
+        "day": 4,
+        "slot": 2
       },
       "taughtClass": {
         "id": "Klasse 2a",
@@ -1442,7 +1058,7 @@
     },
     {
       "room": {
-        "id": "Raum 2",
+        "id": "Raum 5",
         "size": 30,
         "type": "std"
       },
@@ -1470,7 +1086,7 @@
       },
       "timeSlot": {
         "day": 1,
-        "slot": 1
+        "slot": 3
       },
       "taughtClass": {
         "id": "Klasse 2a",
@@ -1498,24 +1114,90 @@
         "type": "gym"
       },
       "teacher": {
-        "id": "Lehrer 2",
-        "maxAssignmentsPerSolution": 20,
-        "timePreferences": [],
+        "id": "Lehrer 8",
+        "maxAssignmentsPerSolution": 40,
+        "timePreferences": [
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 1
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 2
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 3
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 4
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 1
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 2
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 3
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 4
+            },
+            "priority": 100
+          }
+        ],
         "teachableSubjects": [
+          {
+            "id": "Mathematik"
+          },
           {
             "id": "Sachkunde"
           },
           {
-            "id": "Sport"
+            "id": "Englisch"
           },
           {
-            "id": "Religionslehre"
+            "id": "Kunst"
+          },
+          {
+            "id": "Musik"
+          },
+          {
+            "id": "Sport"
           }
         ]
       },
       "timeSlot": {
-        "day": 3,
-        "slot": 1
+        "day": 1,
+        "slot": 2
       },
       "taughtClass": {
         "id": "Klasse 2a",
@@ -1538,29 +1220,95 @@
     },
     {
       "room": {
-        "id": "Sporthalle 1",
+        "id": "Sporthalle 2",
         "size": 60,
         "type": "gym"
       },
       "teacher": {
-        "id": "Lehrer 2",
-        "maxAssignmentsPerSolution": 20,
-        "timePreferences": [],
+        "id": "Lehrer 8",
+        "maxAssignmentsPerSolution": 40,
+        "timePreferences": [
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 1
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 2
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 3
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 4
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 1
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 2
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 3
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 4
+            },
+            "priority": 100
+          }
+        ],
         "teachableSubjects": [
+          {
+            "id": "Mathematik"
+          },
           {
             "id": "Sachkunde"
           },
           {
-            "id": "Sport"
+            "id": "Englisch"
           },
           {
-            "id": "Religionslehre"
+            "id": "Kunst"
+          },
+          {
+            "id": "Musik"
+          },
+          {
+            "id": "Sport"
           }
         ]
       },
       "timeSlot": {
-        "day": 4,
-        "slot": 1
+        "day": 5,
+        "slot": 2
       },
       "taughtClass": {
         "id": "Klasse 2a",
@@ -1583,7 +1331,7 @@
     },
     {
       "room": {
-        "id": "Raum 2",
+        "id": "Raum 5",
         "size": 30,
         "type": "std"
       },
@@ -1664,8 +1412,8 @@
         ]
       },
       "timeSlot": {
-        "day": 5,
-        "slot": 1
+        "day": 3,
+        "slot": 3
       },
       "taughtClass": {
         "id": "Klasse 2a",
@@ -1688,7 +1436,7 @@
     },
     {
       "room": {
-        "id": "Raum 2",
+        "id": "Raum 5",
         "size": 30,
         "type": "std"
       },
@@ -1769,8 +1517,8 @@
         ]
       },
       "timeSlot": {
-        "day": 2,
-        "slot": 2
+        "day": 4,
+        "slot": 3
       },
       "taughtClass": {
         "id": "Klasse 2a",
@@ -1793,7 +1541,7 @@
     },
     {
       "room": {
-        "id": "Raum 2",
+        "id": "Raum 8",
         "size": 30,
         "type": "std"
       },
@@ -1856,804 +1604,6 @@
               "slot": 8
             },
             "priority": -100
-          }
-        ],
-        "teachableSubjects": [
-          {
-            "id": "Deutsch"
-          },
-          {
-            "id": "Mathematik"
-          },
-          {
-            "id": "Sachkunde"
-          },
-          {
-            "id": "Englisch"
-          }
-        ]
-      },
-      "timeSlot": {
-        "day": 3,
-        "slot": 2
-      },
-      "taughtClass": {
-        "id": "Klasse 2a",
-        "size": 25,
-        "maxAssignmentsPerDay": 6,
-        "subjectsAndLessons": {
-          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 5,
-          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 5,
-          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 2
-        }
-      },
-      "subject": {
-        "id": "Mathematik",
-        "requiredRoomType": "std"
-      },
-      "assignmentNumber": 21
-    },
-    {
-      "room": {
-        "id": "Raum 2",
-        "size": 30,
-        "type": "std"
-      },
-      "teacher": {
-        "id": "Lehrer 5",
-        "maxAssignmentsPerSolution": 20,
-        "timePreferences": [
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 1
-            },
-            "priority": -100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 2
-            },
-            "priority": -100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 3
-            },
-            "priority": -100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 4
-            },
-            "priority": -100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 5
-            },
-            "priority": -100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 6
-            },
-            "priority": -100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 7
-            },
-            "priority": -100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 8
-            },
-            "priority": -100
-          }
-        ],
-        "teachableSubjects": [
-          {
-            "id": "Deutsch"
-          },
-          {
-            "id": "Mathematik"
-          },
-          {
-            "id": "Sachkunde"
-          },
-          {
-            "id": "Englisch"
-          }
-        ]
-      },
-      "timeSlot": {
-        "day": 4,
-        "slot": 2
-      },
-      "taughtClass": {
-        "id": "Klasse 2a",
-        "size": 25,
-        "maxAssignmentsPerDay": 6,
-        "subjectsAndLessons": {
-          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 5,
-          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 5,
-          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 2
-        }
-      },
-      "subject": {
-        "id": "Mathematik",
-        "requiredRoomType": "std"
-      },
-      "assignmentNumber": 22
-    },
-    {
-      "room": {
-        "id": "Raum 2",
-        "size": 30,
-        "type": "std"
-      },
-      "teacher": {
-        "id": "Lehrer 5",
-        "maxAssignmentsPerSolution": 20,
-        "timePreferences": [
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 1
-            },
-            "priority": -100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 2
-            },
-            "priority": -100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 3
-            },
-            "priority": -100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 4
-            },
-            "priority": -100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 5
-            },
-            "priority": -100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 6
-            },
-            "priority": -100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 7
-            },
-            "priority": -100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 8
-            },
-            "priority": -100
-          }
-        ],
-        "teachableSubjects": [
-          {
-            "id": "Deutsch"
-          },
-          {
-            "id": "Mathematik"
-          },
-          {
-            "id": "Sachkunde"
-          },
-          {
-            "id": "Englisch"
-          }
-        ]
-      },
-      "timeSlot": {
-        "day": 5,
-        "slot": 2
-      },
-      "taughtClass": {
-        "id": "Klasse 2a",
-        "size": 25,
-        "maxAssignmentsPerDay": 6,
-        "subjectsAndLessons": {
-          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 5,
-          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 5,
-          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 2
-        }
-      },
-      "subject": {
-        "id": "Mathematik",
-        "requiredRoomType": "std"
-      },
-      "assignmentNumber": 23
-    },
-    {
-      "room": {
-        "id": "Raum 1",
-        "size": 30,
-        "type": "std"
-      },
-      "teacher": {
-        "id": "Lehrer 1",
-        "maxAssignmentsPerSolution": 20,
-        "timePreferences": [
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 3,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 4,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 5,
-              "slot": 8
-            },
-            "priority": -1000
-          }
-        ],
-        "teachableSubjects": [
-          {
-            "id": "Deutsch"
-          },
-          {
-            "id": "Mathematik"
-          },
-          {
-            "id": "Sachkunde"
-          },
-          {
-            "id": "Englisch"
-          }
-        ]
-      },
-      "timeSlot": {
-        "day": 1,
-        "slot": 2
-      },
-      "taughtClass": {
-        "id": "Klasse 2a",
-        "size": 25,
-        "maxAssignmentsPerDay": 6,
-        "subjectsAndLessons": {
-          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 5,
-          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 5,
-          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 2
-        }
-      },
-      "subject": {
-        "id": "Sachkunde",
-        "requiredRoomType": "std"
-      },
-      "assignmentNumber": 24
-    },
-    {
-      "room": {
-        "id": "Raum 1",
-        "size": 30,
-        "type": "std"
-      },
-      "teacher": {
-        "id": "Lehrer 1",
-        "maxAssignmentsPerSolution": 20,
-        "timePreferences": [
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 3,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 4,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 5,
-              "slot": 8
-            },
-            "priority": -1000
-          }
-        ],
-        "teachableSubjects": [
-          {
-            "id": "Deutsch"
-          },
-          {
-            "id": "Mathematik"
-          },
-          {
-            "id": "Sachkunde"
-          },
-          {
-            "id": "Englisch"
-          }
-        ]
-      },
-      "timeSlot": {
-        "day": 3,
-        "slot": 3
-      },
-      "taughtClass": {
-        "id": "Klasse 2a",
-        "size": 25,
-        "maxAssignmentsPerDay": 6,
-        "subjectsAndLessons": {
-          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 5,
-          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 5,
-          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 2
-        }
-      },
-      "subject": {
-        "id": "Sachkunde",
-        "requiredRoomType": "std"
-      },
-      "assignmentNumber": 25
-    },
-    {
-      "room": {
-        "id": "Raum 1",
-        "size": 30,
-        "type": "std"
-      },
-      "teacher": {
-        "id": "Lehrer 1",
-        "maxAssignmentsPerSolution": 20,
-        "timePreferences": [
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 3,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 4,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 5,
-              "slot": 8
-            },
-            "priority": -1000
-          }
-        ],
-        "teachableSubjects": [
-          {
-            "id": "Deutsch"
-          },
-          {
-            "id": "Mathematik"
-          },
-          {
-            "id": "Sachkunde"
-          },
-          {
-            "id": "Englisch"
-          }
-        ]
-      },
-      "timeSlot": {
-        "day": 4,
-        "slot": 3
-      },
-      "taughtClass": {
-        "id": "Klasse 2a",
-        "size": 25,
-        "maxAssignmentsPerDay": 6,
-        "subjectsAndLessons": {
-          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 5,
-          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 5,
-          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 2
-        }
-      },
-      "subject": {
-        "id": "Deutsch",
-        "requiredRoomType": "std"
-      },
-      "assignmentNumber": 26
-    },
-    {
-      "room": {
-        "id": "Raum 1",
-        "size": 30,
-        "type": "std"
-      },
-      "teacher": {
-        "id": "Lehrer 1",
-        "maxAssignmentsPerSolution": 20,
-        "timePreferences": [
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 3,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 4,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 5,
-              "slot": 8
-            },
-            "priority": -1000
-          }
-        ],
-        "teachableSubjects": [
-          {
-            "id": "Deutsch"
-          },
-          {
-            "id": "Mathematik"
-          },
-          {
-            "id": "Sachkunde"
-          },
-          {
-            "id": "Englisch"
-          }
-        ]
-      },
-      "timeSlot": {
-        "day": 5,
-        "slot": 3
-      },
-      "taughtClass": {
-        "id": "Klasse 2a",
-        "size": 25,
-        "maxAssignmentsPerDay": 6,
-        "subjectsAndLessons": {
-          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 5,
-          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 5,
-          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 2
-        }
-      },
-      "subject": {
-        "id": "Deutsch",
-        "requiredRoomType": "std"
-      },
-      "assignmentNumber": 27
-    },
-    {
-      "room": {
-        "id": "Raum 2",
-        "size": 30,
-        "type": "std"
-      },
-      "teacher": {
-        "id": "Lehrer 1",
-        "maxAssignmentsPerSolution": 20,
-        "timePreferences": [
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 3,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 4,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 5,
-              "slot": 8
-            },
-            "priority": -1000
-          }
-        ],
-        "teachableSubjects": [
-          {
-            "id": "Deutsch"
-          },
-          {
-            "id": "Mathematik"
-          },
-          {
-            "id": "Sachkunde"
-          },
-          {
-            "id": "Englisch"
-          }
-        ]
-      },
-      "timeSlot": {
-        "day": 1,
-        "slot": 3
-      },
-      "taughtClass": {
-        "id": "Klasse 2a",
-        "size": 25,
-        "maxAssignmentsPerDay": 6,
-        "subjectsAndLessons": {
-          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 5,
-          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 5,
-          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 2
-        }
-      },
-      "subject": {
-        "id": "Deutsch",
-        "requiredRoomType": "std"
-      },
-      "assignmentNumber": 28
-    },
-    {
-      "room": {
-        "id": "Raum 2",
-        "size": 30,
-        "type": "std"
-      },
-      "teacher": {
-        "id": "Lehrer 1",
-        "maxAssignmentsPerSolution": 20,
-        "timePreferences": [
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 3,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 4,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 5,
-              "slot": 8
-            },
-            "priority": -1000
-          }
-        ],
-        "teachableSubjects": [
-          {
-            "id": "Deutsch"
-          },
-          {
-            "id": "Mathematik"
-          },
-          {
-            "id": "Sachkunde"
-          },
-          {
-            "id": "Englisch"
-          }
-        ]
-      },
-      "timeSlot": {
-        "day": 2,
-        "slot": 3
-      },
-      "taughtClass": {
-        "id": "Klasse 2a",
-        "size": 25,
-        "maxAssignmentsPerDay": 6,
-        "subjectsAndLessons": {
-          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 5,
-          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 5,
-          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 2
-        }
-      },
-      "subject": {
-        "id": "Deutsch",
-        "requiredRoomType": "std"
-      },
-      "assignmentNumber": 29
-    },
-    {
-      "room": {
-        "id": "Raum 1",
-        "size": 30,
-        "type": "std"
-      },
-      "teacher": {
-        "id": "Lehrer 1",
-        "maxAssignmentsPerSolution": 20,
-        "timePreferences": [
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 3,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 4,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 5,
-              "slot": 8
-            },
-            "priority": -1000
           }
         ],
         "teachableSubjects": [
@@ -2689,6 +1639,726 @@
         }
       },
       "subject": {
+        "id": "Mathematik",
+        "requiredRoomType": "std"
+      },
+      "assignmentNumber": 21
+    },
+    {
+      "room": {
+        "id": "Raum 7",
+        "size": 30,
+        "type": "std"
+      },
+      "teacher": {
+        "id": "Lehrer 5",
+        "maxAssignmentsPerSolution": 20,
+        "timePreferences": [
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 1
+            },
+            "priority": -100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 2
+            },
+            "priority": -100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 3
+            },
+            "priority": -100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 4
+            },
+            "priority": -100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 5
+            },
+            "priority": -100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 6
+            },
+            "priority": -100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 7
+            },
+            "priority": -100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 8
+            },
+            "priority": -100
+          }
+        ],
+        "teachableSubjects": [
+          {
+            "id": "Deutsch"
+          },
+          {
+            "id": "Mathematik"
+          },
+          {
+            "id": "Sachkunde"
+          },
+          {
+            "id": "Englisch"
+          }
+        ]
+      },
+      "timeSlot": {
+        "day": 5,
+        "slot": 3
+      },
+      "taughtClass": {
+        "id": "Klasse 2a",
+        "size": 25,
+        "maxAssignmentsPerDay": 6,
+        "subjectsAndLessons": {
+          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 5,
+          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 5,
+          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 2
+        }
+      },
+      "subject": {
+        "id": "Mathematik",
+        "requiredRoomType": "std"
+      },
+      "assignmentNumber": 22
+    },
+    {
+      "room": {
+        "id": "Raum 1",
+        "size": 30,
+        "type": "std"
+      },
+      "teacher": {
+        "id": "Lehrer 5",
+        "maxAssignmentsPerSolution": 20,
+        "timePreferences": [
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 1
+            },
+            "priority": -100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 2
+            },
+            "priority": -100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 3
+            },
+            "priority": -100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 4
+            },
+            "priority": -100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 5
+            },
+            "priority": -100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 6
+            },
+            "priority": -100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 7
+            },
+            "priority": -100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 8
+            },
+            "priority": -100
+          }
+        ],
+        "teachableSubjects": [
+          {
+            "id": "Deutsch"
+          },
+          {
+            "id": "Mathematik"
+          },
+          {
+            "id": "Sachkunde"
+          },
+          {
+            "id": "Englisch"
+          }
+        ]
+      },
+      "timeSlot": {
+        "day": 2,
+        "slot": 1
+      },
+      "taughtClass": {
+        "id": "Klasse 2a",
+        "size": 25,
+        "maxAssignmentsPerDay": 6,
+        "subjectsAndLessons": {
+          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 5,
+          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 5,
+          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 2
+        }
+      },
+      "subject": {
+        "id": "Mathematik",
+        "requiredRoomType": "std"
+      },
+      "assignmentNumber": 23
+    },
+    {
+      "room": {
+        "id": "Raum 6",
+        "size": 30,
+        "type": "std"
+      },
+      "teacher": {
+        "id": "Lehrer 2",
+        "maxAssignmentsPerSolution": 20,
+        "timePreferences": [],
+        "teachableSubjects": [
+          {
+            "id": "Sachkunde"
+          },
+          {
+            "id": "Sport"
+          },
+          {
+            "id": "Religionslehre"
+          }
+        ]
+      },
+      "timeSlot": {
+        "day": 3,
+        "slot": 1
+      },
+      "taughtClass": {
+        "id": "Klasse 2a",
+        "size": 25,
+        "maxAssignmentsPerDay": 6,
+        "subjectsAndLessons": {
+          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 5,
+          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 5,
+          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 2
+        }
+      },
+      "subject": {
+        "id": "Sachkunde",
+        "requiredRoomType": "std"
+      },
+      "assignmentNumber": 24
+    },
+    {
+      "room": {
+        "id": "Raum 10",
+        "size": 30,
+        "type": "std"
+      },
+      "teacher": {
+        "id": "Lehrer 2",
+        "maxAssignmentsPerSolution": 20,
+        "timePreferences": [],
+        "teachableSubjects": [
+          {
+            "id": "Sachkunde"
+          },
+          {
+            "id": "Sport"
+          },
+          {
+            "id": "Religionslehre"
+          }
+        ]
+      },
+      "timeSlot": {
+        "day": 4,
+        "slot": 1
+      },
+      "taughtClass": {
+        "id": "Klasse 2a",
+        "size": 25,
+        "maxAssignmentsPerDay": 6,
+        "subjectsAndLessons": {
+          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 5,
+          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 5,
+          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 2
+        }
+      },
+      "subject": {
+        "id": "Sachkunde",
+        "requiredRoomType": "std"
+      },
+      "assignmentNumber": 25
+    },
+    {
+      "room": {
+        "id": "Raum 7",
+        "size": 30,
+        "type": "std"
+      },
+      "teacher": {
+        "id": "Lehrer 1",
+        "maxAssignmentsPerSolution": 20,
+        "timePreferences": [
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 8
+            },
+            "priority": -1000
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 8
+            },
+            "priority": -1000
+          },
+          {
+            "timeSlot": {
+              "day": 3,
+              "slot": 8
+            },
+            "priority": -1000
+          },
+          {
+            "timeSlot": {
+              "day": 4,
+              "slot": 8
+            },
+            "priority": -1000
+          },
+          {
+            "timeSlot": {
+              "day": 5,
+              "slot": 8
+            },
+            "priority": -1000
+          }
+        ],
+        "teachableSubjects": [
+          {
+            "id": "Deutsch"
+          },
+          {
+            "id": "Mathematik"
+          },
+          {
+            "id": "Sachkunde"
+          },
+          {
+            "id": "Englisch"
+          }
+        ]
+      },
+      "timeSlot": {
+        "day": 1,
+        "slot": 4
+      },
+      "taughtClass": {
+        "id": "Klasse 2a",
+        "size": 25,
+        "maxAssignmentsPerDay": 6,
+        "subjectsAndLessons": {
+          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 5,
+          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 5,
+          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 2
+        }
+      },
+      "subject": {
+        "id": "Deutsch",
+        "requiredRoomType": "std"
+      },
+      "assignmentNumber": 26
+    },
+    {
+      "room": {
+        "id": "Raum 3",
+        "size": 30,
+        "type": "std"
+      },
+      "teacher": {
+        "id": "Lehrer 1",
+        "maxAssignmentsPerSolution": 20,
+        "timePreferences": [
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 8
+            },
+            "priority": -1000
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 8
+            },
+            "priority": -1000
+          },
+          {
+            "timeSlot": {
+              "day": 3,
+              "slot": 8
+            },
+            "priority": -1000
+          },
+          {
+            "timeSlot": {
+              "day": 4,
+              "slot": 8
+            },
+            "priority": -1000
+          },
+          {
+            "timeSlot": {
+              "day": 5,
+              "slot": 8
+            },
+            "priority": -1000
+          }
+        ],
+        "teachableSubjects": [
+          {
+            "id": "Deutsch"
+          },
+          {
+            "id": "Mathematik"
+          },
+          {
+            "id": "Sachkunde"
+          },
+          {
+            "id": "Englisch"
+          }
+        ]
+      },
+      "timeSlot": {
+        "day": 1,
+        "slot": 1
+      },
+      "taughtClass": {
+        "id": "Klasse 2a",
+        "size": 25,
+        "maxAssignmentsPerDay": 6,
+        "subjectsAndLessons": {
+          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 5,
+          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 5,
+          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 2
+        }
+      },
+      "subject": {
+        "id": "Deutsch",
+        "requiredRoomType": "std"
+      },
+      "assignmentNumber": 27
+    },
+    {
+      "room": {
+        "id": "Raum 7",
+        "size": 30,
+        "type": "std"
+      },
+      "teacher": {
+        "id": "Lehrer 1",
+        "maxAssignmentsPerSolution": 20,
+        "timePreferences": [
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 8
+            },
+            "priority": -1000
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 8
+            },
+            "priority": -1000
+          },
+          {
+            "timeSlot": {
+              "day": 3,
+              "slot": 8
+            },
+            "priority": -1000
+          },
+          {
+            "timeSlot": {
+              "day": 4,
+              "slot": 8
+            },
+            "priority": -1000
+          },
+          {
+            "timeSlot": {
+              "day": 5,
+              "slot": 8
+            },
+            "priority": -1000
+          }
+        ],
+        "teachableSubjects": [
+          {
+            "id": "Deutsch"
+          },
+          {
+            "id": "Mathematik"
+          },
+          {
+            "id": "Sachkunde"
+          },
+          {
+            "id": "Englisch"
+          }
+        ]
+      },
+      "timeSlot": {
+        "day": 2,
+        "slot": 2
+      },
+      "taughtClass": {
+        "id": "Klasse 2a",
+        "size": 25,
+        "maxAssignmentsPerDay": 6,
+        "subjectsAndLessons": {
+          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 5,
+          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 5,
+          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 2
+        }
+      },
+      "subject": {
+        "id": "Deutsch",
+        "requiredRoomType": "std"
+      },
+      "assignmentNumber": 28
+    },
+    {
+      "room": {
+        "id": "Raum 5",
+        "size": 30,
+        "type": "std"
+      },
+      "teacher": {
+        "id": "Lehrer 1",
+        "maxAssignmentsPerSolution": 20,
+        "timePreferences": [
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 8
+            },
+            "priority": -1000
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 8
+            },
+            "priority": -1000
+          },
+          {
+            "timeSlot": {
+              "day": 3,
+              "slot": 8
+            },
+            "priority": -1000
+          },
+          {
+            "timeSlot": {
+              "day": 4,
+              "slot": 8
+            },
+            "priority": -1000
+          },
+          {
+            "timeSlot": {
+              "day": 5,
+              "slot": 8
+            },
+            "priority": -1000
+          }
+        ],
+        "teachableSubjects": [
+          {
+            "id": "Deutsch"
+          },
+          {
+            "id": "Mathematik"
+          },
+          {
+            "id": "Sachkunde"
+          },
+          {
+            "id": "Englisch"
+          }
+        ]
+      },
+      "timeSlot": {
+        "day": 5,
+        "slot": 1
+      },
+      "taughtClass": {
+        "id": "Klasse 2a",
+        "size": 25,
+        "maxAssignmentsPerDay": 6,
+        "subjectsAndLessons": {
+          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 5,
+          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 5,
+          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 2
+        }
+      },
+      "subject": {
+        "id": "Deutsch",
+        "requiredRoomType": "std"
+      },
+      "assignmentNumber": 29
+    },
+    {
+      "room": {
+        "id": "Raum 8",
+        "size": 30,
+        "type": "std"
+      },
+      "teacher": {
+        "id": "Lehrer 1",
+        "maxAssignmentsPerSolution": 20,
+        "timePreferences": [
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 8
+            },
+            "priority": -1000
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 8
+            },
+            "priority": -1000
+          },
+          {
+            "timeSlot": {
+              "day": 3,
+              "slot": 8
+            },
+            "priority": -1000
+          },
+          {
+            "timeSlot": {
+              "day": 4,
+              "slot": 8
+            },
+            "priority": -1000
+          },
+          {
+            "timeSlot": {
+              "day": 5,
+              "slot": 8
+            },
+            "priority": -1000
+          }
+        ],
+        "teachableSubjects": [
+          {
+            "id": "Deutsch"
+          },
+          {
+            "id": "Mathematik"
+          },
+          {
+            "id": "Sachkunde"
+          },
+          {
+            "id": "Englisch"
+          }
+        ]
+      },
+      "timeSlot": {
+        "day": 2,
+        "slot": 3
+      },
+      "taughtClass": {
+        "id": "Klasse 2a",
+        "size": 25,
+        "maxAssignmentsPerDay": 6,
+        "subjectsAndLessons": {
+          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 5,
+          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 5,
+          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 2
+        }
+      },
+      "subject": {
         "id": "Deutsch",
         "requiredRoomType": "std"
       },
@@ -2696,7 +2366,7 @@
     },
     {
       "room": {
-        "id": "Raum 1",
+        "id": "Raum 10",
         "size": 30,
         "type": "std"
       },
@@ -2726,7 +2396,7 @@
         ]
       },
       "timeSlot": {
-        "day": 4,
+        "day": 5,
         "slot": 4
       },
       "taughtClass": {
@@ -2750,7 +2420,7 @@
     },
     {
       "room": {
-        "id": "Raum 1",
+        "id": "Raum 8",
         "size": 30,
         "type": "std"
       },
@@ -2780,8 +2450,8 @@
         ]
       },
       "timeSlot": {
-        "day": 5,
-        "slot": 4
+        "day": 3,
+        "slot": 2
       },
       "taughtClass": {
         "id": "Klasse 2a",
@@ -2804,17 +2474,80 @@
     },
     {
       "room": {
-        "id": "Raum 2",
+        "id": "Raum 3",
         "size": 30,
         "type": "std"
       },
       "teacher": {
-        "id": "Lehrer 4",
-        "maxAssignmentsPerSolution": 20,
-        "timePreferences": [],
+        "id": "Lehrer 8",
+        "maxAssignmentsPerSolution": 40,
+        "timePreferences": [
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 1
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 2
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 3
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 4
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 1
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 2
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 3
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 4
+            },
+            "priority": 100
+          }
+        ],
         "teachableSubjects": [
           {
-            "id": "Deutsch"
+            "id": "Mathematik"
+          },
+          {
+            "id": "Sachkunde"
+          },
+          {
+            "id": "Englisch"
           },
           {
             "id": "Kunst"
@@ -2824,15 +2557,12 @@
           },
           {
             "id": "Sport"
-          },
-          {
-            "id": "Religionslehre"
           }
         ]
       },
       "timeSlot": {
-        "day": 3,
-        "slot": 1
+        "day": 4,
+        "slot": 4
       },
       "taughtClass": {
         "id": "Klasse 3a",
@@ -2856,17 +2586,80 @@
     },
     {
       "room": {
-        "id": "Raum 2",
+        "id": "Raum 5",
         "size": 30,
         "type": "std"
       },
       "teacher": {
-        "id": "Lehrer 4",
-        "maxAssignmentsPerSolution": 20,
-        "timePreferences": [],
+        "id": "Lehrer 8",
+        "maxAssignmentsPerSolution": 40,
+        "timePreferences": [
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 1
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 2
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 3
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 4
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 1
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 2
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 3
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 4
+            },
+            "priority": 100
+          }
+        ],
         "teachableSubjects": [
           {
-            "id": "Deutsch"
+            "id": "Mathematik"
+          },
+          {
+            "id": "Sachkunde"
+          },
+          {
+            "id": "Englisch"
           },
           {
             "id": "Kunst"
@@ -2876,15 +2669,12 @@
           },
           {
             "id": "Sport"
-          },
-          {
-            "id": "Religionslehre"
           }
         ]
       },
       "timeSlot": {
-        "day": 4,
-        "slot": 1
+        "day": 3,
+        "slot": 2
       },
       "taughtClass": {
         "id": "Klasse 3a",
@@ -2913,24 +2703,90 @@
         "type": "gym"
       },
       "teacher": {
-        "id": "Lehrer 2",
-        "maxAssignmentsPerSolution": 20,
-        "timePreferences": [],
+        "id": "Lehrer 8",
+        "maxAssignmentsPerSolution": 40,
+        "timePreferences": [
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 1
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 2
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 3
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 4
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 1
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 2
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 3
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 4
+            },
+            "priority": 100
+          }
+        ],
         "teachableSubjects": [
+          {
+            "id": "Mathematik"
+          },
           {
             "id": "Sachkunde"
           },
           {
-            "id": "Sport"
+            "id": "Englisch"
           },
           {
-            "id": "Religionslehre"
+            "id": "Kunst"
+          },
+          {
+            "id": "Musik"
+          },
+          {
+            "id": "Sport"
           }
         ]
       },
       "timeSlot": {
-        "day": 1,
-        "slot": 1
+        "day": 2,
+        "slot": 3
       },
       "taughtClass": {
         "id": "Klasse 3a",
@@ -2959,24 +2815,90 @@
         "type": "gym"
       },
       "teacher": {
-        "id": "Lehrer 2",
-        "maxAssignmentsPerSolution": 20,
-        "timePreferences": [],
+        "id": "Lehrer 8",
+        "maxAssignmentsPerSolution": 40,
+        "timePreferences": [
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 1
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 2
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 3
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 4
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 1
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 2
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 3
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 4
+            },
+            "priority": 100
+          }
+        ],
         "teachableSubjects": [
+          {
+            "id": "Mathematik"
+          },
           {
             "id": "Sachkunde"
           },
           {
-            "id": "Sport"
+            "id": "Englisch"
           },
           {
-            "id": "Religionslehre"
+            "id": "Kunst"
+          },
+          {
+            "id": "Musik"
+          },
+          {
+            "id": "Sport"
           }
         ]
       },
       "timeSlot": {
-        "day": 5,
-        "slot": 1
+        "day": 1,
+        "slot": 5
       },
       "taughtClass": {
         "id": "Klasse 3a",
@@ -3060,8 +2982,8 @@
         ]
       },
       "timeSlot": {
-        "day": 2,
-        "slot": 1
+        "day": 3,
+        "slot": 4
       },
       "taughtClass": {
         "id": "Klasse 3a",
@@ -3145,8 +3067,8 @@
         ]
       },
       "timeSlot": {
-        "day": 2,
-        "slot": 2
+        "day": 5,
+        "slot": 3
       },
       "taughtClass": {
         "id": "Klasse 3a",
@@ -3170,7 +3092,7 @@
     },
     {
       "room": {
-        "id": "Raum 3",
+        "id": "Raum 6",
         "size": 30,
         "type": "std"
       },
@@ -3230,8 +3152,8 @@
         ]
       },
       "timeSlot": {
-        "day": 5,
-        "slot": 2
+        "day": 2,
+        "slot": 1
       },
       "taughtClass": {
         "id": "Klasse 3a",
@@ -3316,7 +3238,7 @@
       },
       "timeSlot": {
         "day": 1,
-        "slot": 4
+        "slot": 3
       },
       "taughtClass": {
         "id": "Klasse 3a",
@@ -3340,92 +3262,7 @@
     },
     {
       "room": {
-        "id": "Raum 2",
-        "size": 30,
-        "type": "std"
-      },
-      "teacher": {
-        "id": "Lehrer 1",
-        "maxAssignmentsPerSolution": 20,
-        "timePreferences": [
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 3,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 4,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 5,
-              "slot": 8
-            },
-            "priority": -1000
-          }
-        ],
-        "teachableSubjects": [
-          {
-            "id": "Deutsch"
-          },
-          {
-            "id": "Mathematik"
-          },
-          {
-            "id": "Sachkunde"
-          },
-          {
-            "id": "Englisch"
-          }
-        ]
-      },
-      "timeSlot": {
-        "day": 2,
-        "slot": 4
-      },
-      "taughtClass": {
-        "id": "Klasse 3a",
-        "size": 25,
-        "maxAssignmentsPerDay": 8,
-        "subjectsAndLessons": {
-          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 6,
-          "de.volavis.veraplan.timetabling.model.Subject@7085179c": 4,
-          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 4,
-          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 6,
-          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 2
-        }
-      },
-      "subject": {
-        "id": "Mathematik",
-        "requiredRoomType": "std"
-      },
-      "assignmentNumber": 41
-    },
-    {
-      "room": {
-        "id": "Raum 2",
+        "id": "Raum 1",
         "size": 30,
         "type": "std"
       },
@@ -3486,7 +3323,92 @@
       },
       "timeSlot": {
         "day": 4,
-        "slot": 4
+        "slot": 5
+      },
+      "taughtClass": {
+        "id": "Klasse 3a",
+        "size": 25,
+        "maxAssignmentsPerDay": 8,
+        "subjectsAndLessons": {
+          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 6,
+          "de.volavis.veraplan.timetabling.model.Subject@7085179c": 4,
+          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 4,
+          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 6,
+          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 2
+        }
+      },
+      "subject": {
+        "id": "Mathematik",
+        "requiredRoomType": "std"
+      },
+      "assignmentNumber": 41
+    },
+    {
+      "room": {
+        "id": "Raum 1",
+        "size": 30,
+        "type": "std"
+      },
+      "teacher": {
+        "id": "Lehrer 1",
+        "maxAssignmentsPerSolution": 20,
+        "timePreferences": [
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 8
+            },
+            "priority": -1000
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 8
+            },
+            "priority": -1000
+          },
+          {
+            "timeSlot": {
+              "day": 3,
+              "slot": 8
+            },
+            "priority": -1000
+          },
+          {
+            "timeSlot": {
+              "day": 4,
+              "slot": 8
+            },
+            "priority": -1000
+          },
+          {
+            "timeSlot": {
+              "day": 5,
+              "slot": 8
+            },
+            "priority": -1000
+          }
+        ],
+        "teachableSubjects": [
+          {
+            "id": "Deutsch"
+          },
+          {
+            "id": "Mathematik"
+          },
+          {
+            "id": "Sachkunde"
+          },
+          {
+            "id": "Englisch"
+          }
+        ]
+      },
+      "timeSlot": {
+        "day": 4,
+        "slot": 2
       },
       "taughtClass": {
         "id": "Klasse 3a",
@@ -3510,38 +3432,32 @@
     },
     {
       "room": {
-        "id": "Raum 2",
+        "id": "Raum 4",
         "size": 30,
         "type": "std"
       },
       "teacher": {
-        "id": "Lehrer 3",
-        "maxAssignmentsPerSolution": 20,
+        "id": "Lehrer 6",
+        "maxAssignmentsPerSolution": 40,
         "timePreferences": [],
         "teachableSubjects": [
           {
             "id": "Deutsch"
           },
           {
+            "id": "Mathematik"
+          },
+          {
             "id": "Sachkunde"
           },
           {
             "id": "Englisch"
-          },
-          {
-            "id": "Musik"
-          },
-          {
-            "id": "Sport"
-          },
-          {
-            "id": "Religionslehre"
           }
         ]
       },
       "timeSlot": {
-        "day": 1,
-        "slot": 2
+        "day": 3,
+        "slot": 5
       },
       "taughtClass": {
         "id": "Klasse 3a",
@@ -3565,37 +3481,31 @@
     },
     {
       "room": {
-        "id": "Raum 3",
+        "id": "Raum 4",
         "size": 30,
         "type": "std"
       },
       "teacher": {
-        "id": "Lehrer 3",
-        "maxAssignmentsPerSolution": 20,
+        "id": "Lehrer 6",
+        "maxAssignmentsPerSolution": 40,
         "timePreferences": [],
         "teachableSubjects": [
           {
             "id": "Deutsch"
           },
           {
+            "id": "Mathematik"
+          },
+          {
             "id": "Sachkunde"
           },
           {
             "id": "Englisch"
-          },
-          {
-            "id": "Musik"
-          },
-          {
-            "id": "Sport"
-          },
-          {
-            "id": "Religionslehre"
           }
         ]
       },
       "timeSlot": {
-        "day": 3,
+        "day": 2,
         "slot": 2
       },
       "taughtClass": {
@@ -3620,38 +3530,32 @@
     },
     {
       "room": {
-        "id": "Raum 3",
+        "id": "Raum 7",
         "size": 30,
         "type": "std"
       },
       "teacher": {
-        "id": "Lehrer 3",
-        "maxAssignmentsPerSolution": 20,
+        "id": "Lehrer 6",
+        "maxAssignmentsPerSolution": 40,
         "timePreferences": [],
         "teachableSubjects": [
           {
             "id": "Deutsch"
           },
           {
+            "id": "Mathematik"
+          },
+          {
             "id": "Sachkunde"
           },
           {
             "id": "Englisch"
-          },
-          {
-            "id": "Musik"
-          },
-          {
-            "id": "Sport"
-          },
-          {
-            "id": "Religionslehre"
           }
         ]
       },
       "timeSlot": {
-        "day": 4,
-        "slot": 2
+        "day": 5,
+        "slot": 4
       },
       "taughtClass": {
         "id": "Klasse 3a",
@@ -3675,38 +3579,32 @@
     },
     {
       "room": {
-        "id": "Raum 2",
+        "id": "Raum 4",
         "size": 30,
         "type": "std"
       },
       "teacher": {
-        "id": "Lehrer 3",
-        "maxAssignmentsPerSolution": 20,
+        "id": "Lehrer 6",
+        "maxAssignmentsPerSolution": 40,
         "timePreferences": [],
         "teachableSubjects": [
           {
             "id": "Deutsch"
           },
           {
+            "id": "Mathematik"
+          },
+          {
             "id": "Sachkunde"
           },
           {
             "id": "Englisch"
-          },
-          {
-            "id": "Musik"
-          },
-          {
-            "id": "Sport"
-          },
-          {
-            "id": "Religionslehre"
           }
         ]
       },
       "timeSlot": {
         "day": 3,
-        "slot": 3
+        "slot": 6
       },
       "taughtClass": {
         "id": "Klasse 3a",
@@ -3735,12 +3633,21 @@
         "type": "std"
       },
       "teacher": {
-        "id": "Lehrer 2",
+        "id": "Lehrer 3",
         "maxAssignmentsPerSolution": 20,
         "timePreferences": [],
         "teachableSubjects": [
           {
+            "id": "Deutsch"
+          },
+          {
             "id": "Sachkunde"
+          },
+          {
+            "id": "Englisch"
+          },
+          {
+            "id": "Musik"
           },
           {
             "id": "Sport"
@@ -3751,8 +3658,8 @@
         ]
       },
       "timeSlot": {
-        "day": 4,
-        "slot": 3
+        "day": 5,
+        "slot": 1
       },
       "taughtClass": {
         "id": "Klasse 3a",
@@ -3776,17 +3683,26 @@
     },
     {
       "room": {
-        "id": "Raum 2",
+        "id": "Raum 5",
         "size": 30,
         "type": "std"
       },
       "teacher": {
-        "id": "Lehrer 2",
+        "id": "Lehrer 3",
         "maxAssignmentsPerSolution": 20,
         "timePreferences": [],
         "teachableSubjects": [
           {
+            "id": "Deutsch"
+          },
+          {
             "id": "Sachkunde"
+          },
+          {
+            "id": "Englisch"
+          },
+          {
+            "id": "Musik"
           },
           {
             "id": "Sport"
@@ -3797,8 +3713,8 @@
         ]
       },
       "timeSlot": {
-        "day": 5,
-        "slot": 3
+        "day": 3,
+        "slot": 1
       },
       "taughtClass": {
         "id": "Klasse 3a",
@@ -3822,17 +3738,26 @@
     },
     {
       "room": {
-        "id": "Raum 3",
+        "id": "Raum 5",
         "size": 30,
         "type": "std"
       },
       "teacher": {
-        "id": "Lehrer 2",
+        "id": "Lehrer 3",
         "maxAssignmentsPerSolution": 20,
         "timePreferences": [],
         "teachableSubjects": [
           {
+            "id": "Deutsch"
+          },
+          {
             "id": "Sachkunde"
+          },
+          {
+            "id": "Englisch"
+          },
+          {
+            "id": "Musik"
           },
           {
             "id": "Sport"
@@ -3843,8 +3768,8 @@
         ]
       },
       "timeSlot": {
-        "day": 1,
-        "slot": 3
+        "day": 5,
+        "slot": 5
       },
       "taughtClass": {
         "id": "Klasse 3a",
@@ -3873,12 +3798,21 @@
         "type": "std"
       },
       "teacher": {
-        "id": "Lehrer 2",
+        "id": "Lehrer 3",
         "maxAssignmentsPerSolution": 20,
         "timePreferences": [],
         "teachableSubjects": [
           {
+            "id": "Deutsch"
+          },
+          {
             "id": "Sachkunde"
+          },
+          {
+            "id": "Englisch"
+          },
+          {
+            "id": "Musik"
           },
           {
             "id": "Sport"
@@ -3889,8 +3823,8 @@
         ]
       },
       "timeSlot": {
-        "day": 2,
-        "slot": 3
+        "day": 1,
+        "slot": 2
       },
       "taughtClass": {
         "id": "Klasse 3a",
@@ -3919,63 +3853,33 @@
         "type": "std"
       },
       "teacher": {
-        "id": "Lehrer 1",
+        "id": "Lehrer 3",
         "maxAssignmentsPerSolution": 20,
-        "timePreferences": [
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 3,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 4,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 5,
-              "slot": 8
-            },
-            "priority": -1000
-          }
-        ],
+        "timePreferences": [],
         "teachableSubjects": [
           {
             "id": "Deutsch"
-          },
-          {
-            "id": "Mathematik"
           },
           {
             "id": "Sachkunde"
           },
           {
             "id": "Englisch"
+          },
+          {
+            "id": "Musik"
+          },
+          {
+            "id": "Sport"
+          },
+          {
+            "id": "Religionslehre"
           }
         ]
       },
       "timeSlot": {
-        "day": 5,
-        "slot": 4
+        "day": 3,
+        "slot": 3
       },
       "taughtClass": {
         "id": "Klasse 3a",
@@ -4004,63 +3908,33 @@
         "type": "std"
       },
       "teacher": {
-        "id": "Lehrer 1",
+        "id": "Lehrer 3",
         "maxAssignmentsPerSolution": 20,
-        "timePreferences": [
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 3,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 4,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 5,
-              "slot": 8
-            },
-            "priority": -1000
-          }
-        ],
+        "timePreferences": [],
         "teachableSubjects": [
           {
             "id": "Deutsch"
-          },
-          {
-            "id": "Mathematik"
           },
           {
             "id": "Sachkunde"
           },
           {
             "id": "Englisch"
+          },
+          {
+            "id": "Musik"
+          },
+          {
+            "id": "Sport"
+          },
+          {
+            "id": "Religionslehre"
           }
         ]
       },
       "timeSlot": {
         "day": 1,
-        "slot": 5
+        "slot": 1
       },
       "taughtClass": {
         "id": "Klasse 3a",
@@ -4084,62 +3958,32 @@
     },
     {
       "room": {
-        "id": "Raum 1",
+        "id": "Raum 7",
         "size": 30,
         "type": "std"
       },
       "teacher": {
-        "id": "Lehrer 1",
+        "id": "Lehrer 3",
         "maxAssignmentsPerSolution": 20,
-        "timePreferences": [
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 2,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 3,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 4,
-              "slot": 8
-            },
-            "priority": -1000
-          },
-          {
-            "timeSlot": {
-              "day": 5,
-              "slot": 8
-            },
-            "priority": -1000
-          }
-        ],
+        "timePreferences": [],
         "teachableSubjects": [
           {
             "id": "Deutsch"
-          },
-          {
-            "id": "Mathematik"
           },
           {
             "id": "Sachkunde"
           },
           {
             "id": "Englisch"
+          },
+          {
+            "id": "Musik"
+          },
+          {
+            "id": "Sport"
+          },
+          {
+            "id": "Religionslehre"
           }
         ]
       },
@@ -4169,117 +4013,7 @@
     },
     {
       "room": {
-        "id": "Raum 2",
-        "size": 30,
-        "type": "std"
-      },
-      "teacher": {
-        "id": "Lehrer 3",
-        "maxAssignmentsPerSolution": 20,
-        "timePreferences": [],
-        "teachableSubjects": [
-          {
-            "id": "Deutsch"
-          },
-          {
-            "id": "Sachkunde"
-          },
-          {
-            "id": "Englisch"
-          },
-          {
-            "id": "Musik"
-          },
-          {
-            "id": "Sport"
-          },
-          {
-            "id": "Religionslehre"
-          }
-        ]
-      },
-      "timeSlot": {
-        "day": 3,
-        "slot": 4
-      },
-      "taughtClass": {
-        "id": "Klasse 3a",
-        "size": 25,
-        "maxAssignmentsPerDay": 8,
-        "subjectsAndLessons": {
-          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 6,
-          "de.volavis.veraplan.timetabling.model.Subject@7085179c": 4,
-          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 4,
-          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 6,
-          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 2
-        }
-      },
-      "subject": {
-        "id": "Deutsch",
-        "requiredRoomType": "std"
-      },
-      "assignmentNumber": 54
-    },
-    {
-      "room": {
-        "id": "Raum 1",
-        "size": 30,
-        "type": "std"
-      },
-      "teacher": {
-        "id": "Lehrer 3",
-        "maxAssignmentsPerSolution": 20,
-        "timePreferences": [],
-        "teachableSubjects": [
-          {
-            "id": "Deutsch"
-          },
-          {
-            "id": "Sachkunde"
-          },
-          {
-            "id": "Englisch"
-          },
-          {
-            "id": "Musik"
-          },
-          {
-            "id": "Sport"
-          },
-          {
-            "id": "Religionslehre"
-          }
-        ]
-      },
-      "timeSlot": {
-        "day": 3,
-        "slot": 5
-      },
-      "taughtClass": {
-        "id": "Klasse 3a",
-        "size": 25,
-        "maxAssignmentsPerDay": 8,
-        "subjectsAndLessons": {
-          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 6,
-          "de.volavis.veraplan.timetabling.model.Subject@7085179c": 4,
-          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 4,
-          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 6,
-          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 2
-        }
-      },
-      "subject": {
-        "id": "Deutsch",
-        "requiredRoomType": "std"
-      },
-      "assignmentNumber": 55
-    },
-    {
-      "room": {
-        "id": "Raum 1",
+        "id": "Raum 7",
         "size": 30,
         "type": "std"
       },
@@ -4310,7 +4044,7 @@
       },
       "timeSlot": {
         "day": 4,
-        "slot": 5
+        "slot": 1
       },
       "taughtClass": {
         "id": "Klasse 3a",
@@ -4330,11 +4064,11 @@
         "id": "Deutsch",
         "requiredRoomType": "std"
       },
-      "assignmentNumber": 56
+      "assignmentNumber": 54
     },
     {
       "room": {
-        "id": "Raum 1",
+        "id": "Raum 7",
         "size": 30,
         "type": "std"
       },
@@ -4365,7 +4099,7 @@
       },
       "timeSlot": {
         "day": 5,
-        "slot": 5
+        "slot": 2
       },
       "taughtClass": {
         "id": "Klasse 3a",
@@ -4382,14 +4116,14 @@
         }
       },
       "subject": {
-        "id": "Musik",
+        "id": "Deutsch",
         "requiredRoomType": "std"
       },
-      "assignmentNumber": 57
+      "assignmentNumber": 55
     },
     {
       "room": {
-        "id": "Raum 1",
+        "id": "Raum 10",
         "size": 30,
         "type": "std"
       },
@@ -4419,8 +4153,232 @@
         ]
       },
       "timeSlot": {
+        "day": 4,
+        "slot": 3
+      },
+      "taughtClass": {
+        "id": "Klasse 3a",
+        "size": 25,
+        "maxAssignmentsPerDay": 8,
+        "subjectsAndLessons": {
+          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 6,
+          "de.volavis.veraplan.timetabling.model.Subject@7085179c": 4,
+          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 4,
+          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 6,
+          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 2
+        }
+      },
+      "subject": {
+        "id": "Deutsch",
+        "requiredRoomType": "std"
+      },
+      "assignmentNumber": 56
+    },
+    {
+      "room": {
+        "id": "Raum 8",
+        "size": 30,
+        "type": "std"
+      },
+      "teacher": {
+        "id": "Lehrer 8",
+        "maxAssignmentsPerSolution": 40,
+        "timePreferences": [
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 1
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 2
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 3
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 4
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 1
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 2
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 3
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 4
+            },
+            "priority": 100
+          }
+        ],
+        "teachableSubjects": [
+          {
+            "id": "Mathematik"
+          },
+          {
+            "id": "Sachkunde"
+          },
+          {
+            "id": "Englisch"
+          },
+          {
+            "id": "Kunst"
+          },
+          {
+            "id": "Musik"
+          },
+          {
+            "id": "Sport"
+          }
+        ]
+      },
+      "timeSlot": {
+        "day": 2,
+        "slot": 4
+      },
+      "taughtClass": {
+        "id": "Klasse 3a",
+        "size": 25,
+        "maxAssignmentsPerDay": 8,
+        "subjectsAndLessons": {
+          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 6,
+          "de.volavis.veraplan.timetabling.model.Subject@7085179c": 4,
+          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 4,
+          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 6,
+          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 2
+        }
+      },
+      "subject": {
+        "id": "Musik",
+        "requiredRoomType": "std"
+      },
+      "assignmentNumber": 57
+    },
+    {
+      "room": {
+        "id": "Raum 8",
+        "size": 30,
+        "type": "std"
+      },
+      "teacher": {
+        "id": "Lehrer 8",
+        "maxAssignmentsPerSolution": 40,
+        "timePreferences": [
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 1
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 2
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 3
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 4
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 1
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 2
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 3
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 4
+            },
+            "priority": 100
+          }
+        ],
+        "teachableSubjects": [
+          {
+            "id": "Mathematik"
+          },
+          {
+            "id": "Sachkunde"
+          },
+          {
+            "id": "Englisch"
+          },
+          {
+            "id": "Kunst"
+          },
+          {
+            "id": "Musik"
+          },
+          {
+            "id": "Sport"
+          }
+        ]
+      },
+      "timeSlot": {
         "day": 1,
-        "slot": 6
+        "slot": 4
       },
       "taughtClass": {
         "id": "Klasse 3a",
@@ -4497,7 +4455,7 @@
     },
     {
       "room": {
-        "id": "Raum 3",
+        "id": "Raum 6",
         "size": 30,
         "type": "std"
       },
@@ -4524,8 +4482,8 @@
         ]
       },
       "timeSlot": {
-        "day": 1,
-        "slot": 2
+        "day": 5,
+        "slot": 6
       },
       "taughtClass": {
         "id": "Klasse 4a",
@@ -4550,23 +4508,89 @@
     },
     {
       "room": {
-        "id": "Sporthalle 2",
+        "id": "Sporthalle 1",
         "size": 60,
         "type": "gym"
       },
       "teacher": {
-        "id": "Lehrer 2",
-        "maxAssignmentsPerSolution": 20,
-        "timePreferences": [],
+        "id": "Lehrer 8",
+        "maxAssignmentsPerSolution": 40,
+        "timePreferences": [
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 1
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 2
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 3
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 4
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 1
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 2
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 3
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 4
+            },
+            "priority": 100
+          }
+        ],
         "teachableSubjects": [
+          {
+            "id": "Mathematik"
+          },
           {
             "id": "Sachkunde"
           },
           {
-            "id": "Sport"
+            "id": "Englisch"
           },
           {
-            "id": "Religionslehre"
+            "id": "Kunst"
+          },
+          {
+            "id": "Musik"
+          },
+          {
+            "id": "Sport"
           }
         ]
       },
@@ -4597,29 +4621,95 @@
     },
     {
       "room": {
-        "id": "Sporthalle 1",
+        "id": "Sporthalle 2",
         "size": 60,
         "type": "gym"
       },
       "teacher": {
-        "id": "Lehrer 2",
-        "maxAssignmentsPerSolution": 20,
-        "timePreferences": [],
+        "id": "Lehrer 8",
+        "maxAssignmentsPerSolution": 40,
+        "timePreferences": [
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 1
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 2
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 3
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 4
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 1
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 2
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 3
+            },
+            "priority": 100
+          },
+          {
+            "timeSlot": {
+              "day": 2,
+              "slot": 4
+            },
+            "priority": 100
+          }
+        ],
         "teachableSubjects": [
+          {
+            "id": "Mathematik"
+          },
           {
             "id": "Sachkunde"
           },
           {
-            "id": "Sport"
+            "id": "Englisch"
           },
           {
-            "id": "Religionslehre"
+            "id": "Kunst"
+          },
+          {
+            "id": "Musik"
+          },
+          {
+            "id": "Sport"
           }
         ]
       },
       "timeSlot": {
-        "day": 2,
-        "slot": 2
+        "day": 5,
+        "slot": 5
       },
       "taughtClass": {
         "id": "Klasse 4a",
@@ -4644,7 +4734,7 @@
     },
     {
       "room": {
-        "id": "Raum 3",
+        "id": "Raum 8",
         "size": 30,
         "type": "std"
       },
@@ -4726,7 +4816,7 @@
       },
       "timeSlot": {
         "day": 3,
-        "slot": 1
+        "slot": 5
       },
       "taughtClass": {
         "id": "Klasse 4a",
@@ -4751,7 +4841,7 @@
     },
     {
       "room": {
-        "id": "Raum 3",
+        "id": "Raum 6",
         "size": 30,
         "type": "std"
       },
@@ -4832,8 +4922,8 @@
         ]
       },
       "timeSlot": {
-        "day": 4,
-        "slot": 1
+        "day": 2,
+        "slot": 3
       },
       "taughtClass": {
         "id": "Klasse 4a",
@@ -4858,221 +4948,7 @@
     },
     {
       "room": {
-        "id": "Raum 3",
-        "size": 30,
-        "type": "std"
-      },
-      "teacher": {
-        "id": "Lehrer 5",
-        "maxAssignmentsPerSolution": 20,
-        "timePreferences": [
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 1
-            },
-            "priority": -100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 2
-            },
-            "priority": -100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 3
-            },
-            "priority": -100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 4
-            },
-            "priority": -100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 5
-            },
-            "priority": -100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 6
-            },
-            "priority": -100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 7
-            },
-            "priority": -100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 8
-            },
-            "priority": -100
-          }
-        ],
-        "teachableSubjects": [
-          {
-            "id": "Deutsch"
-          },
-          {
-            "id": "Mathematik"
-          },
-          {
-            "id": "Sachkunde"
-          },
-          {
-            "id": "Englisch"
-          }
-        ]
-      },
-      "timeSlot": {
-        "day": 3,
-        "slot": 3
-      },
-      "taughtClass": {
-        "id": "Klasse 4a",
-        "size": 25,
-        "maxAssignmentsPerDay": 8,
-        "subjectsAndLessons": {
-          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 6,
-          "de.volavis.veraplan.timetabling.model.Subject@6d07e89f": 4,
-          "de.volavis.veraplan.timetabling.model.Subject@7085179c": 4,
-          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 4,
-          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 6,
-          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 2
-        }
-      },
-      "subject": {
-        "id": "Mathematik",
-        "requiredRoomType": "std"
-      },
-      "assignmentNumber": 65
-    },
-    {
-      "room": {
-        "id": "Raum 3",
-        "size": 30,
-        "type": "std"
-      },
-      "teacher": {
-        "id": "Lehrer 5",
-        "maxAssignmentsPerSolution": 20,
-        "timePreferences": [
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 1
-            },
-            "priority": -100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 2
-            },
-            "priority": -100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 3
-            },
-            "priority": -100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 4
-            },
-            "priority": -100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 5
-            },
-            "priority": -100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 6
-            },
-            "priority": -100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 7
-            },
-            "priority": -100
-          },
-          {
-            "timeSlot": {
-              "day": 1,
-              "slot": 8
-            },
-            "priority": -100
-          }
-        ],
-        "teachableSubjects": [
-          {
-            "id": "Deutsch"
-          },
-          {
-            "id": "Mathematik"
-          },
-          {
-            "id": "Sachkunde"
-          },
-          {
-            "id": "Englisch"
-          }
-        ]
-      },
-      "timeSlot": {
-        "day": 4,
-        "slot": 3
-      },
-      "taughtClass": {
-        "id": "Klasse 4a",
-        "size": 25,
-        "maxAssignmentsPerDay": 8,
-        "subjectsAndLessons": {
-          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 6,
-          "de.volavis.veraplan.timetabling.model.Subject@6d07e89f": 4,
-          "de.volavis.veraplan.timetabling.model.Subject@7085179c": 4,
-          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 4,
-          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 6,
-          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 2
-        }
-      },
-      "subject": {
-        "id": "Mathematik",
-        "requiredRoomType": "std"
-      },
-      "assignmentNumber": 66
-    },
-    {
-      "room": {
-        "id": "Raum 3",
+        "id": "Raum 8",
         "size": 30,
         "type": "std"
       },
@@ -5154,7 +5030,7 @@
       },
       "timeSlot": {
         "day": 5,
-        "slot": 3
+        "slot": 4
       },
       "taughtClass": {
         "id": "Klasse 4a",
@@ -5175,11 +5051,118 @@
         "id": "Mathematik",
         "requiredRoomType": "std"
       },
-      "assignmentNumber": 67
+      "assignmentNumber": 65
     },
     {
       "room": {
-        "id": "Raum 4",
+        "id": "Raum 1",
+        "size": 30,
+        "type": "std"
+      },
+      "teacher": {
+        "id": "Lehrer 5",
+        "maxAssignmentsPerSolution": 20,
+        "timePreferences": [
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 1
+            },
+            "priority": -100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 2
+            },
+            "priority": -100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 3
+            },
+            "priority": -100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 4
+            },
+            "priority": -100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 5
+            },
+            "priority": -100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 6
+            },
+            "priority": -100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 7
+            },
+            "priority": -100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 8
+            },
+            "priority": -100
+          }
+        ],
+        "teachableSubjects": [
+          {
+            "id": "Deutsch"
+          },
+          {
+            "id": "Mathematik"
+          },
+          {
+            "id": "Sachkunde"
+          },
+          {
+            "id": "Englisch"
+          }
+        ]
+      },
+      "timeSlot": {
+        "day": 5,
+        "slot": 2
+      },
+      "taughtClass": {
+        "id": "Klasse 4a",
+        "size": 25,
+        "maxAssignmentsPerDay": 8,
+        "subjectsAndLessons": {
+          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 6,
+          "de.volavis.veraplan.timetabling.model.Subject@6d07e89f": 4,
+          "de.volavis.veraplan.timetabling.model.Subject@7085179c": 4,
+          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 4,
+          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 6,
+          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 2
+        }
+      },
+      "subject": {
+        "id": "Mathematik",
+        "requiredRoomType": "std"
+      },
+      "assignmentNumber": 66
+    },
+    {
+      "room": {
+        "id": "Raum 1",
         "size": 30,
         "type": "std"
       },
@@ -5261,7 +5244,114 @@
       },
       "timeSlot": {
         "day": 2,
-        "slot": 3
+        "slot": 4
+      },
+      "taughtClass": {
+        "id": "Klasse 4a",
+        "size": 25,
+        "maxAssignmentsPerDay": 8,
+        "subjectsAndLessons": {
+          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 6,
+          "de.volavis.veraplan.timetabling.model.Subject@6d07e89f": 4,
+          "de.volavis.veraplan.timetabling.model.Subject@7085179c": 4,
+          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 4,
+          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 6,
+          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 2
+        }
+      },
+      "subject": {
+        "id": "Mathematik",
+        "requiredRoomType": "std"
+      },
+      "assignmentNumber": 67
+    },
+    {
+      "room": {
+        "id": "Raum 3",
+        "size": 30,
+        "type": "std"
+      },
+      "teacher": {
+        "id": "Lehrer 5",
+        "maxAssignmentsPerSolution": 20,
+        "timePreferences": [
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 1
+            },
+            "priority": -100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 2
+            },
+            "priority": -100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 3
+            },
+            "priority": -100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 4
+            },
+            "priority": -100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 5
+            },
+            "priority": -100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 6
+            },
+            "priority": -100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 7
+            },
+            "priority": -100
+          },
+          {
+            "timeSlot": {
+              "day": 1,
+              "slot": 8
+            },
+            "priority": -100
+          }
+        ],
+        "teachableSubjects": [
+          {
+            "id": "Deutsch"
+          },
+          {
+            "id": "Mathematik"
+          },
+          {
+            "id": "Sachkunde"
+          },
+          {
+            "id": "Englisch"
+          }
+        ]
+      },
+      "timeSlot": {
+        "day": 4,
+        "slot": 1
       },
       "taughtClass": {
         "id": "Klasse 4a",
@@ -5286,26 +5376,26 @@
     },
     {
       "room": {
-        "id": "Raum 3",
+        "id": "Raum 6",
         "size": 30,
         "type": "std"
       },
       "teacher": {
-        "id": "Lehrer 3",
-        "maxAssignmentsPerSolution": 20,
+        "id": "Lehrer 7",
+        "maxAssignmentsPerSolution": 40,
         "timePreferences": [],
         "teachableSubjects": [
           {
             "id": "Deutsch"
           },
           {
+            "id": "Mathematik"
+          },
+          {
             "id": "Sachkunde"
           },
           {
             "id": "Englisch"
-          },
-          {
-            "id": "Musik"
           },
           {
             "id": "Sport"
@@ -5316,8 +5406,8 @@
         ]
       },
       "timeSlot": {
-        "day": 1,
-        "slot": 1
+        "day": 3,
+        "slot": 4
       },
       "taughtClass": {
         "id": "Klasse 4a",
@@ -5342,26 +5432,26 @@
     },
     {
       "room": {
-        "id": "Raum 4",
+        "id": "Raum 1",
         "size": 30,
         "type": "std"
       },
       "teacher": {
-        "id": "Lehrer 3",
-        "maxAssignmentsPerSolution": 20,
+        "id": "Lehrer 7",
+        "maxAssignmentsPerSolution": 40,
         "timePreferences": [],
         "teachableSubjects": [
           {
             "id": "Deutsch"
           },
           {
+            "id": "Mathematik"
+          },
+          {
             "id": "Sachkunde"
           },
           {
             "id": "Englisch"
-          },
-          {
-            "id": "Musik"
           },
           {
             "id": "Sport"
@@ -5372,7 +5462,7 @@
         ]
       },
       "timeSlot": {
-        "day": 1,
+        "day": 4,
         "slot": 3
       },
       "taughtClass": {
@@ -5398,26 +5488,26 @@
     },
     {
       "room": {
-        "id": "Raum 3",
+        "id": "Raum 2",
         "size": 30,
         "type": "std"
       },
       "teacher": {
-        "id": "Lehrer 3",
-        "maxAssignmentsPerSolution": 20,
+        "id": "Lehrer 7",
+        "maxAssignmentsPerSolution": 40,
         "timePreferences": [],
         "teachableSubjects": [
           {
             "id": "Deutsch"
           },
           {
+            "id": "Mathematik"
+          },
+          {
             "id": "Sachkunde"
           },
           {
             "id": "Englisch"
-          },
-          {
-            "id": "Musik"
           },
           {
             "id": "Sport"
@@ -5428,8 +5518,8 @@
         ]
       },
       "timeSlot": {
-        "day": 1,
-        "slot": 4
+        "day": 2,
+        "slot": 2
       },
       "taughtClass": {
         "id": "Klasse 4a",
@@ -5454,26 +5544,26 @@
     },
     {
       "room": {
-        "id": "Raum 3",
+        "id": "Raum 7",
         "size": 30,
         "type": "std"
       },
       "teacher": {
-        "id": "Lehrer 3",
-        "maxAssignmentsPerSolution": 20,
+        "id": "Lehrer 7",
+        "maxAssignmentsPerSolution": 40,
         "timePreferences": [],
         "teachableSubjects": [
           {
             "id": "Deutsch"
           },
           {
+            "id": "Mathematik"
+          },
+          {
             "id": "Sachkunde"
           },
           {
             "id": "Englisch"
-          },
-          {
-            "id": "Musik"
           },
           {
             "id": "Sport"
@@ -5484,8 +5574,8 @@
         ]
       },
       "timeSlot": {
-        "day": 2,
-        "slot": 4
+        "day": 4,
+        "slot": 6
       },
       "taughtClass": {
         "id": "Klasse 4a",
@@ -5510,12 +5600,12 @@
     },
     {
       "room": {
-        "id": "Raum 4",
+        "id": "Raum 10",
         "size": 30,
         "type": "std"
       },
       "teacher": {
-        "id": "Lehrer 6",
+        "id": "Lehrer 7",
         "maxAssignmentsPerSolution": 40,
         "timePreferences": [],
         "teachableSubjects": [
@@ -5530,11 +5620,17 @@
           },
           {
             "id": "Englisch"
+          },
+          {
+            "id": "Sport"
+          },
+          {
+            "id": "Religionslehre"
           }
         ]
       },
       "timeSlot": {
-        "day": 3,
+        "day": 4,
         "slot": 2
       },
       "taughtClass": {
@@ -5560,12 +5656,12 @@
     },
     {
       "room": {
-        "id": "Raum 4",
+        "id": "Raum 9",
         "size": 30,
         "type": "std"
       },
       "teacher": {
-        "id": "Lehrer 6",
+        "id": "Lehrer 7",
         "maxAssignmentsPerSolution": 40,
         "timePreferences": [],
         "teachableSubjects": [
@@ -5580,12 +5676,18 @@
           },
           {
             "id": "Englisch"
+          },
+          {
+            "id": "Sport"
+          },
+          {
+            "id": "Religionslehre"
           }
         ]
       },
       "timeSlot": {
-        "day": 4,
-        "slot": 2
+        "day": 1,
+        "slot": 4
       },
       "taughtClass": {
         "id": "Klasse 4a",
@@ -5610,12 +5712,12 @@
     },
     {
       "room": {
-        "id": "Raum 4",
+        "id": "Raum 7",
         "size": 30,
         "type": "std"
       },
       "teacher": {
-        "id": "Lehrer 6",
+        "id": "Lehrer 7",
         "maxAssignmentsPerSolution": 40,
         "timePreferences": [],
         "teachableSubjects": [
@@ -5630,12 +5732,18 @@
           },
           {
             "id": "Englisch"
+          },
+          {
+            "id": "Sport"
+          },
+          {
+            "id": "Religionslehre"
           }
         ]
       },
       "timeSlot": {
-        "day": 5,
-        "slot": 2
+        "day": 1,
+        "slot": 3
       },
       "taughtClass": {
         "id": "Klasse 4a",
@@ -5660,12 +5768,12 @@
     },
     {
       "room": {
-        "id": "Raum 3",
+        "id": "Raum 1",
         "size": 30,
         "type": "std"
       },
       "teacher": {
-        "id": "Lehrer 6",
+        "id": "Lehrer 7",
         "maxAssignmentsPerSolution": 40,
         "timePreferences": [],
         "teachableSubjects": [
@@ -5680,12 +5788,18 @@
           },
           {
             "id": "Englisch"
+          },
+          {
+            "id": "Sport"
+          },
+          {
+            "id": "Religionslehre"
           }
         ]
       },
       "timeSlot": {
         "day": 3,
-        "slot": 4
+        "slot": 2
       },
       "taughtClass": {
         "id": "Klasse 4a",
@@ -5710,29 +5824,38 @@
     },
     {
       "room": {
-        "id": "Raum 3",
+        "id": "Raum 1",
         "size": 30,
         "type": "std"
       },
       "teacher": {
-        "id": "Lehrer 2",
-        "maxAssignmentsPerSolution": 20,
+        "id": "Lehrer 9",
+        "maxAssignmentsPerSolution": 40,
         "timePreferences": [],
         "teachableSubjects": [
+          {
+            "id": "Mathematik"
+          },
           {
             "id": "Sachkunde"
           },
           {
-            "id": "Sport"
+            "id": "Englisch"
           },
           {
-            "id": "Religionslehre"
+            "id": "Kunst"
+          },
+          {
+            "id": "Musik"
+          },
+          {
+            "id": "Sport"
           }
         ]
       },
       "timeSlot": {
-        "day": 4,
-        "slot": 4
+        "day": 5,
+        "slot": 3
       },
       "taughtClass": {
         "id": "Klasse 4a",
@@ -5757,29 +5880,38 @@
     },
     {
       "room": {
-        "id": "Raum 3",
+        "id": "Raum 8",
         "size": 30,
         "type": "std"
       },
       "teacher": {
-        "id": "Lehrer 2",
-        "maxAssignmentsPerSolution": 20,
+        "id": "Lehrer 9",
+        "maxAssignmentsPerSolution": 40,
         "timePreferences": [],
         "teachableSubjects": [
+          {
+            "id": "Mathematik"
+          },
           {
             "id": "Sachkunde"
           },
           {
-            "id": "Sport"
+            "id": "Englisch"
           },
           {
-            "id": "Religionslehre"
+            "id": "Kunst"
+          },
+          {
+            "id": "Musik"
+          },
+          {
+            "id": "Sport"
           }
         ]
       },
       "timeSlot": {
-        "day": 5,
-        "slot": 4
+        "day": 1,
+        "slot": 1
       },
       "taughtClass": {
         "id": "Klasse 4a",
@@ -5804,29 +5936,38 @@
     },
     {
       "room": {
-        "id": "Raum 2",
+        "id": "Raum 5",
         "size": 30,
         "type": "std"
       },
       "teacher": {
-        "id": "Lehrer 2",
-        "maxAssignmentsPerSolution": 20,
+        "id": "Lehrer 9",
+        "maxAssignmentsPerSolution": 40,
         "timePreferences": [],
         "teachableSubjects": [
+          {
+            "id": "Mathematik"
+          },
           {
             "id": "Sachkunde"
           },
           {
-            "id": "Sport"
+            "id": "Englisch"
           },
           {
-            "id": "Religionslehre"
+            "id": "Kunst"
+          },
+          {
+            "id": "Musik"
+          },
+          {
+            "id": "Sport"
           }
         ]
       },
       "timeSlot": {
-        "day": 1,
-        "slot": 5
+        "day": 3,
+        "slot": 6
       },
       "taughtClass": {
         "id": "Klasse 4a",
@@ -5851,28 +5992,37 @@
     },
     {
       "room": {
-        "id": "Raum 2",
+        "id": "Raum 9",
         "size": 30,
         "type": "std"
       },
       "teacher": {
-        "id": "Lehrer 2",
-        "maxAssignmentsPerSolution": 20,
+        "id": "Lehrer 9",
+        "maxAssignmentsPerSolution": 40,
         "timePreferences": [],
         "teachableSubjects": [
+          {
+            "id": "Mathematik"
+          },
           {
             "id": "Sachkunde"
           },
           {
-            "id": "Sport"
+            "id": "Englisch"
           },
           {
-            "id": "Religionslehre"
+            "id": "Kunst"
+          },
+          {
+            "id": "Musik"
+          },
+          {
+            "id": "Sport"
           }
         ]
       },
       "timeSlot": {
-        "day": 2,
+        "day": 1,
         "slot": 5
       },
       "taughtClass": {
@@ -5898,7 +6048,7 @@
     },
     {
       "room": {
-        "id": "Raum 2",
+        "id": "Raum 5",
         "size": 30,
         "type": "std"
       },
@@ -5925,7 +6075,7 @@
         ]
       },
       "timeSlot": {
-        "day": 3,
+        "day": 2,
         "slot": 5
       },
       "taughtClass": {
@@ -5951,7 +6101,7 @@
     },
     {
       "room": {
-        "id": "Raum 2",
+        "id": "Raum 9",
         "size": 30,
         "type": "std"
       },
@@ -5978,8 +6128,8 @@
         ]
       },
       "timeSlot": {
-        "day": 4,
-        "slot": 5
+        "day": 1,
+        "slot": 6
       },
       "taughtClass": {
         "id": "Klasse 4a",
@@ -6004,60 +6154,7 @@
     },
     {
       "room": {
-        "id": "Raum 2",
-        "size": 30,
-        "type": "std"
-      },
-      "teacher": {
-        "id": "Lehrer 4",
-        "maxAssignmentsPerSolution": 20,
-        "timePreferences": [],
-        "teachableSubjects": [
-          {
-            "id": "Deutsch"
-          },
-          {
-            "id": "Kunst"
-          },
-          {
-            "id": "Musik"
-          },
-          {
-            "id": "Sport"
-          },
-          {
-            "id": "Religionslehre"
-          }
-        ]
-      },
-      "timeSlot": {
-        "day": 5,
-        "slot": 5
-      },
-      "taughtClass": {
-        "id": "Klasse 4a",
-        "size": 25,
-        "maxAssignmentsPerDay": 8,
-        "subjectsAndLessons": {
-          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 6,
-          "de.volavis.veraplan.timetabling.model.Subject@6d07e89f": 4,
-          "de.volavis.veraplan.timetabling.model.Subject@7085179c": 4,
-          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 4,
-          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 6,
-          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 2
-        }
-      },
-      "subject": {
-        "id": "Deutsch",
-        "requiredRoomType": "std"
-      },
-      "assignmentNumber": 83
-    },
-    {
-      "room": {
-        "id": "Raum 1",
+        "id": "Raum 9",
         "size": 30,
         "type": "std"
       },
@@ -6106,64 +6203,11 @@
         "id": "Deutsch",
         "requiredRoomType": "std"
       },
-      "assignmentNumber": 84
+      "assignmentNumber": 83
     },
     {
       "room": {
-        "id": "Raum 1",
-        "size": 30,
-        "type": "std"
-      },
-      "teacher": {
-        "id": "Lehrer 4",
-        "maxAssignmentsPerSolution": 20,
-        "timePreferences": [],
-        "teachableSubjects": [
-          {
-            "id": "Deutsch"
-          },
-          {
-            "id": "Kunst"
-          },
-          {
-            "id": "Musik"
-          },
-          {
-            "id": "Sport"
-          },
-          {
-            "id": "Religionslehre"
-          }
-        ]
-      },
-      "timeSlot": {
-        "day": 3,
-        "slot": 6
-      },
-      "taughtClass": {
-        "id": "Klasse 4a",
-        "size": 25,
-        "maxAssignmentsPerDay": 8,
-        "subjectsAndLessons": {
-          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
-          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 6,
-          "de.volavis.veraplan.timetabling.model.Subject@6d07e89f": 4,
-          "de.volavis.veraplan.timetabling.model.Subject@7085179c": 4,
-          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 4,
-          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 6,
-          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 2
-        }
-      },
-      "subject": {
-        "id": "Deutsch",
-        "requiredRoomType": "std"
-      },
-      "assignmentNumber": 85
-    },
-    {
-      "room": {
-        "id": "Raum 1",
+        "id": "Raum 6",
         "size": 30,
         "type": "std"
       },
@@ -6191,7 +6235,7 @@
       },
       "timeSlot": {
         "day": 4,
-        "slot": 6
+        "slot": 5
       },
       "taughtClass": {
         "id": "Klasse 4a",
@@ -6212,11 +6256,11 @@
         "id": "Deutsch",
         "requiredRoomType": "std"
       },
-      "assignmentNumber": 86
+      "assignmentNumber": 84
     },
     {
       "room": {
-        "id": "Raum 1",
+        "id": "Raum 3",
         "size": 30,
         "type": "std"
       },
@@ -6243,8 +6287,8 @@
         ]
       },
       "timeSlot": {
-        "day": 5,
-        "slot": 6
+        "day": 3,
+        "slot": 3
       },
       "taughtClass": {
         "id": "Klasse 4a",
@@ -6262,10 +6306,10 @@
         }
       },
       "subject": {
-        "id": "Musik",
+        "id": "Deutsch",
         "requiredRoomType": "std"
       },
-      "assignmentNumber": 87
+      "assignmentNumber": 85
     },
     {
       "room": {
@@ -6297,7 +6341,113 @@
       },
       "timeSlot": {
         "day": 1,
-        "slot": 6
+        "slot": 2
+      },
+      "taughtClass": {
+        "id": "Klasse 4a",
+        "size": 25,
+        "maxAssignmentsPerDay": 8,
+        "subjectsAndLessons": {
+          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 6,
+          "de.volavis.veraplan.timetabling.model.Subject@6d07e89f": 4,
+          "de.volavis.veraplan.timetabling.model.Subject@7085179c": 4,
+          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 4,
+          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 6,
+          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 2
+        }
+      },
+      "subject": {
+        "id": "Deutsch",
+        "requiredRoomType": "std"
+      },
+      "assignmentNumber": 86
+    },
+    {
+      "room": {
+        "id": "Raum 8",
+        "size": 30,
+        "type": "std"
+      },
+      "teacher": {
+        "id": "Lehrer 4",
+        "maxAssignmentsPerSolution": 20,
+        "timePreferences": [],
+        "teachableSubjects": [
+          {
+            "id": "Deutsch"
+          },
+          {
+            "id": "Kunst"
+          },
+          {
+            "id": "Musik"
+          },
+          {
+            "id": "Sport"
+          },
+          {
+            "id": "Religionslehre"
+          }
+        ]
+      },
+      "timeSlot": {
+        "day": 3,
+        "slot": 1
+      },
+      "taughtClass": {
+        "id": "Klasse 4a",
+        "size": 25,
+        "maxAssignmentsPerDay": 8,
+        "subjectsAndLessons": {
+          "de.volavis.veraplan.timetabling.model.Subject@457bda4": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@4c63773": 2,
+          "de.volavis.veraplan.timetabling.model.Subject@ea1cce84": 6,
+          "de.volavis.veraplan.timetabling.model.Subject@6d07e89f": 4,
+          "de.volavis.veraplan.timetabling.model.Subject@7085179c": 4,
+          "de.volavis.veraplan.timetabling.model.Subject@9b1d9471": 4,
+          "de.volavis.veraplan.timetabling.model.Subject@c0286937": 6,
+          "de.volavis.veraplan.timetabling.model.Subject@473fe2c": 2
+        }
+      },
+      "subject": {
+        "id": "Musik",
+        "requiredRoomType": "std"
+      },
+      "assignmentNumber": 87
+    },
+    {
+      "room": {
+        "id": "Raum 8",
+        "size": 30,
+        "type": "std"
+      },
+      "teacher": {
+        "id": "Lehrer 4",
+        "maxAssignmentsPerSolution": 20,
+        "timePreferences": [],
+        "teachableSubjects": [
+          {
+            "id": "Deutsch"
+          },
+          {
+            "id": "Kunst"
+          },
+          {
+            "id": "Musik"
+          },
+          {
+            "id": "Sport"
+          },
+          {
+            "id": "Religionslehre"
+          }
+        ]
+      },
+      "timeSlot": {
+        "day": 4,
+        "slot": 4
       },
       "taughtClass": {
         "id": "Klasse 4a",
@@ -6321,9 +6471,9 @@
       "assignmentNumber": 88
     }
   ],
-  "millisSpentBySolver": 12113,
+  "millisSpentBySolver": 225325,
   "hardScore": 0,
-  "softScore": -357,
+  "softScore": 545,
   "numDays": 5,
   "numSlots": 8
 }

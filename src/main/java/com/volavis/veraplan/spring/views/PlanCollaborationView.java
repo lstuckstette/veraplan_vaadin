@@ -16,7 +16,6 @@ import com.volavis.veraplan.spring.persistence.entities.User;
 import com.volavis.veraplan.spring.persistence.service.UserService;
 import com.volavis.veraplan.spring.planimport.ImportService;
 import com.volavis.veraplan.spring.planimport.model.ImportAssignment;
-import com.volavis.veraplan.spring.planimport.model.ImportTimeslot;
 import com.volavis.veraplan.spring.security.SecurityUtils;
 import com.volavis.veraplan.spring.views.components.*;
 import org.apache.commons.collections4.keyvalue.MultiKey;
@@ -38,7 +37,7 @@ public class PlanCollaborationView extends Div implements HasUrlParameter<String
     private ImportService importService;
     private UserService userService;
     private User currentUser;
-    private int timeslotCount = 6;
+    private int timeslotCount = 7;
     private FlowTable table;
 
     private MultiKeyMap<Integer, List<ModelEntry>> planModel;
@@ -70,12 +69,12 @@ public class PlanCollaborationView extends Div implements HasUrlParameter<String
         layout.add(new H1("Kollaboratives  Bearbeiten der Pläne (Tausch)"));
 
 
-        List<ImportAssignment> ownAssignments = importService.getMockTeacherPlan(0, currentUser);
+        List<ImportAssignment> ownAssignments = importService.getPersonalPlan(currentUser).getAssignments();
 
 
         Optional<User> collaborator = userService.getById(collaborators.get(0));
         List<ImportAssignment> collaboratorAssignments = new ArrayList<>();
-        collaborator.ifPresent(c -> collaboratorAssignments.addAll(importService.getMockTeacherPlan(0, c)));
+        collaborator.ifPresent(c -> collaboratorAssignments.addAll(importService.getPersonalPlan(c).getAssignments()));
 
         for (ImportAssignment own : ownAssignments) {
             if (planModel.containsKey(own.getTimeSlot().getDay(), own.getTimeSlot().getSlot())) {

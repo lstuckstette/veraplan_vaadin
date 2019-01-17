@@ -36,7 +36,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 
-@PageTitle("Veraplan - Freistunden")
+@PageTitle("Veraplan - Wunschzettel")
 @Route(value = "planing/preference", layout = MainLayout.class)
 public class EnterPreferenceView extends Div {
 
@@ -61,7 +61,7 @@ public class EnterPreferenceView extends Div {
     private void initView() {
         VerticalLayout globalLayout = new VerticalLayout();
         globalLayout.setAlignItems(FlexComponent.Alignment.CENTER);
-        globalLayout.add(new H1("Verwaltung gewünschter Freistunden"));
+        globalLayout.add(new H1("Verwaltung des Wunschzettels"));
 
         globalLayout.add(weekCalendar);
         this.add(globalLayout);
@@ -169,7 +169,7 @@ public class EnterPreferenceView extends Div {
         }
 
         HorizontalLayout buttonBar = new HorizontalLayout();
-        Button save = new Button("Save", buttonClickEvent -> {
+        Button save = new Button("Speichern", buttonClickEvent -> {
 
             //Create new TimeConstraint
             Dialog warning = ViewHelper.getConfirmationDialog("Eingegebene Daten speichern?", confirmed -> {
@@ -187,7 +187,7 @@ public class EnterPreferenceView extends Div {
             });
             warning.open();
         });
-        Button reset = new Button("Reset", buttonClickEvent -> {
+        Button reset = new Button("Zurücksetzen", buttonClickEvent -> {
             if (isEdit) {
                 selectTimeslot.setValue(component.getTimeConstraint().getTimeSlots().get(0).getTimeSlotIndex()); //TODO fix get(0)
                 selectWeekday.setValue(DayOfWeek.of(component.getTimeConstraint().getTimeSlots().get(0).getWeekday()));
@@ -201,7 +201,7 @@ public class EnterPreferenceView extends Div {
             }
 
         });
-        Button cancel = new Button("Cancel", event -> {
+        Button cancel = new Button("Abbrechen", event -> {
             dialog.close();
         });
 

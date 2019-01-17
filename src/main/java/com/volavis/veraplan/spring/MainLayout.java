@@ -66,7 +66,7 @@ public class MainLayout extends PolymerTemplate<TemplateModel> implements Router
         NavigationTab coredata_enterusergroup = new NavigationItemBuilder().text("Nutzergruppen verwalten").target(EnterUsergroupsView.class).build();
         NavigationTab coredata_entertimeslots = new NavigationItemBuilder().text("Zeitslots verwalten").target(EnterTimeslotsView.class).build();
 
-        NavigationTab planing_preference = new NavigationItemBuilder().text("Freistundenwünsche verwalten").target(EnterPreferenceView.class).build();
+        NavigationTab planing_preference = new NavigationItemBuilder().text("Wunschzettel verwalten").target(EnterPreferenceView.class).build();
         NavigationTab planing_assignment = new NavigationItemBuilder().text("Ressourcen zuweisen").target(EnterAssignmentView.class).build();
 
 

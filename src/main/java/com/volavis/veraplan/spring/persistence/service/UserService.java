@@ -170,4 +170,9 @@ public class UserService implements EntityService<User, EntityFilter<UserField>>
 
         }
     }
+
+    public void removeAll() {
+        userRepository.deleteAll();
+    }
+
 }

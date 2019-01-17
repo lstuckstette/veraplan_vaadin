@@ -87,7 +87,7 @@
                     height: 50px;
                     text-align: center;
                     background-color: var(--footer-background);
-                    font-size: 24px;
+                    font-size: 18px;
                     color: var(--footer-text-color);
                 }
 
@@ -123,14 +123,7 @@
 
             <footer>
                 <div>
-                    <!--<i class="fab fa-facebook"></i>-->
-                    <!--<i class="fab fa-instagram"></i>-->
-                    <!--<i class="fab fa-snapchat"></i>-->
-                    <!--<i class="fab fa-pinterest-p"></i>-->
-                    <!--<i class="fab fa-twittery"></i>-->
-                    <!--<i class="fab fa-linkedin"></i>-->
-                    <vaadin-button>Privatsphäre</vaadin-button>
-                    <vaadin-button>AGB</vaadin-button>
+                    &copy Volavis GmbH 2019 - Veraplan Demo
                 </div>
             </footer>
 
@@ -139,12 +132,12 @@
 
 
         <paper-dialog id="logoutDialog" modal>
-            <h2>Are you sure you want to log out?</h2>
+            <h2>Möchten Sie sich wirklich ausloggen?</h2>
             <br>
-            <p>Unsaved changes may be lost!</p>
+            <p>Änderungen werden möglicherweise nicht gespeichert.</p>
             <div>
-                <vaadin-button theme="contained" dialog-dismiss>Cancel</vaadin-button>
-                <vaadin-button theme="outlined" onclick="location.assign('logout')">Log out</vaadin-button>
+                <vaadin-button theme="contained" dialog-dismiss>Abbrechen</vaadin-button>
+                <vaadin-button theme="outlined" onclick="location.assign('logout')">Ausloggen</vaadin-button>
             </div>
         </paper-dialog>
 

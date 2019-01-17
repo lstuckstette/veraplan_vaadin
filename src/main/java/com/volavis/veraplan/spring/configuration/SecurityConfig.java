@@ -24,7 +24,9 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.SavedRequestAwareAuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.savedrequest.RequestCache;
 
 
 @EnableWebSecurity
@@ -43,6 +45,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    RequestCache requestCache;
 
     @Autowired
     public SecurityConfig(UserDetailsService userDetailsService) {
@@ -67,6 +72,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
+
+    @Bean
+    public RequestCache requestCache(){return new CustomRequestCache();}
 
     /**
      * Registers our UserDetailsService and the password encoder to be used on login attempts.
@@ -99,24 +108,25 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterAt(customUsernamePasswordAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class)
                 // Register our CustomRequestCache, that saves unauthorized access attempts, so
                 // the user is redirected after login.
-                .requestCache().requestCache(new CustomRequestCache())
+                .requestCache().requestCache(requestCache)
 
                 // Restrict access to our application.
                 .and().authorizeRequests()
+//                .authorizeRequests()
 
                 // Allow all flow internal requests.
                 .requestMatchers(SecurityUtils::isFrameworkInternalRequest).permitAll()
 
                 // Allow all requests by logged in users.
                 .anyRequest().hasAnyAuthority(RoleName.getAllRoleNames())
-                //.anyRequest().authenticated()
+                .anyRequest().authenticated()
 
                 // Configure the login page.
                 .and()
                 .formLogin()
                 .loginPage("/landing").permitAll()
 
-                //.successHandler(new SavedRequestAwareAuthenticationSuccessHandler())
+//                .successHandler(new SavedRequestAwareAuthenticationSuccessHandler())
                 // Configure logout
                 .and().logout().logoutUrl("/logout").logoutSuccessUrl("/landing");
     }

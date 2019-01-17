@@ -36,7 +36,7 @@ public class PlanRateView extends Div implements HasUrlParameter<String> {
     private ImportService importService;
     private User currentUser;
     private PlanratingService planratingService;
-    private int timeslotCount = 6;
+    private int timeslotCount = 7;
 
     @Autowired
     public PlanRateView(ImportService importService, PlanratingService planratingService, UserService userService) {
@@ -47,17 +47,17 @@ public class PlanRateView extends Div implements HasUrlParameter<String> {
 
     private void buildReview(String reviewPlanID) {
         int planIndex = Integer.valueOf(reviewPlanID) - 1;
-        List<ImportAssignment> assignments = importService.getMockTeacherPlan(planIndex, currentUser);
+        List<ImportAssignment> assignments = importService.getAlgoTeacherPlan(currentUser, planIndex);
 
         //headline
         VerticalLayout layout = new VerticalLayout();
         layout.setAlignItems(FlexComponent.Alignment.CENTER);
-        layout.add(new H1("Bewertung von Plan-Option " + reviewPlanID));
+        layout.add(new H1("Bewertung von Planoption " + reviewPlanID));
 
         //action-bar
         HorizontalLayout barLayout = new HorizontalLayout();
         barLayout.addClassName("review-bar-container");
-        Span barText = new Span("Bitte geben Sie eine bewertung ab: ");
+        Span barText = new Span("Bitte geben Sie eine Bewertung ab: ");
         RatingComponent ratingComponent = new RatingComponent();
         //TODO: read existing rating from DB and set to component!
 
