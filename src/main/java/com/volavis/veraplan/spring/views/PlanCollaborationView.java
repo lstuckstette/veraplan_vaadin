@@ -154,7 +154,7 @@ public class PlanCollaborationView extends Div implements HasUrlParameter<String
     private void renderModel(MultiKeyMap<Integer, List<ModelEntry>> model) {
         //clear table:
 
-        table = ViewHelper.generateWeekCalendar(timeslotCount);
+//        table = ViewHelper.generateWeekCalendar(timeslotCount);
         for (int day = 1; day <= 5; day++) {
             for (int slot = 1; slot <= timeslotCount; slot++) {
                 if (model.containsKey(day, slot)) {
@@ -212,14 +212,15 @@ public class PlanCollaborationView extends Div implements HasUrlParameter<String
                 .filter(entry -> entry.getAssignmentId() == target.getAssignmentId()).findFirst();
 
         if (sourceEntry.isPresent() && targetEntry.isPresent()) {
+            logger.info("present");
             ModelEntry sourceE = sourceEntry.get();
             ModelEntry targetE = targetEntry.get();
             //remove
             sourceContainer.remove(sourceE);
             targetContainer.remove(targetE);
             //swap ownership
-            sourceE.setOwn(!sourceE.isOwn());
-            targetE.setOwn(!targetE.isOwn());
+//            sourceE.setOwn(!sourceE.isOwn());
+//            targetE.setOwn(!targetE.isOwn());
             //add back to respective containers:
             sourceContainer.add(targetE);
             targetContainer.add(sourceE);
@@ -234,13 +235,8 @@ public class PlanCollaborationView extends Div implements HasUrlParameter<String
         //send AssMoveEvent to toolkit
         AssMoveEvent event = new AssMoveEvent();
         event.setEventSourceUserId(currentUser.getId());
-
-        //copy map so it can be serialized....
-//        HashMap<MultiKey<? extends Integer>, List<PlanCollaborationView.ModelEntry>> map = new HashMap<>();
-//        planModel.entrySet().stream().forEach(item -> map.put(item.getKey(), item.getValue()));
         event.setModel(planModel);
         toolkit.sendDragDropEvent(event);
-
 
         //render generated AssMoveEvent and overwrite check event-ownership (so it definitively gets drawn...)
         renderAssMoveEvent(table, event, true);
@@ -254,6 +250,7 @@ public class PlanCollaborationView extends Div implements HasUrlParameter<String
         //check if we are the source of the AssMoveEvent
         if (event.getEventSourceUserId() == currentUser.getId()) {
             if (!overwriteCheck) {
+                logger.info("received event ignored own.");
                 //abbort!
                 return;
             }
@@ -261,7 +258,7 @@ public class PlanCollaborationView extends Div implements HasUrlParameter<String
 
         if (!overwriteCheck) {
             //invert own <-> foreign in event.model!
-            for (Map.Entry<MultiKey<? extends Integer>, List<ModelEntry>> entry : planModel.entrySet()) {
+            for (Map.Entry<MultiKey<? extends Integer>, List<ModelEntry>> entry : event.getModel().entrySet()) {
                 for (ModelEntry mentry : entry.getValue()) {
                     mentry.setOwn(!mentry.isOwn());
                 }
@@ -270,7 +267,7 @@ public class PlanCollaborationView extends Div implements HasUrlParameter<String
 //        MultiKeyMap<Integer, List<ModelEntry>> tempModel = new MultiKeyMap<>();
 //
 //        event.getModel().entrySet().forEach(item -> tempModel.put(item.getKey(), item.getValue()));
-
+        logger.info("received event");
         renderModel(event.getModel());
         this.planModel = event.getModel();
 

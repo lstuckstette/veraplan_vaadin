@@ -51,7 +51,7 @@ public class CollaborationToolkit extends PolymerTemplate<CollaborationToolkitMo
     @ClientCallable
     private void handleAssignmentDragDropEvent(String eventJSON) {
 //        logger.info("RAW:" + eventJSON);
-        logger.info(eventJSON);
+//        logger.info(eventJSON);
 
         SimpleModule simpleModule = new SimpleModule(eventJSON);
         simpleModule.addKeyDeserializer(MultiKey.class, new MultiKeyDeserializer());
@@ -109,27 +109,4 @@ public class CollaborationToolkit extends PolymerTemplate<CollaborationToolkitMo
         }
     }
 
-//    static class MultiKeyMapTypeAdapterFactory implements TypeAdapterFactory {
-//
-//        @Override
-//        public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> typeToken) {
-//            if (!MultiKey.class.isAssignableFrom(typeToken.getRawType())) {
-//                return null;
-//            }
-//            final TypeAdapter<T> delegate = gson.getDelegateAdapter(this, typeToken);
-//            return new TypeAdapter<T>() {
-//                @Override
-//                public void write(JsonWriter jsonWriter, T t) throws IOException {
-//                    delegate.write(jsonWriter, t);
-//                }
-//
-//                @Override
-//                public T read(JsonReader jsonReader) throws IOException {
-//
-//
-//                    return (T) new MultiKey<Integer>((T[])delegate.read(jsonReader));
-//                }
-//            }
-//        }
-//    }
 }
