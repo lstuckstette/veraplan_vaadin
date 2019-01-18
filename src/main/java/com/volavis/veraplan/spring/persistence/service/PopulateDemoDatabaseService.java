@@ -54,9 +54,9 @@ public class PopulateDemoDatabaseService {
         roleService.createAllRoles();
         createDummyUsers();
         createDummyChannel();
-        createTimeSlots();
-        createBuilding();
-        createRooms();
+//        createTimeSlots();
+//        createBuilding();
+//        createRooms();
 
         //clear entered userdata:
         planratingService.deleteAll();

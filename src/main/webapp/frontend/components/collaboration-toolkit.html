@@ -186,7 +186,7 @@
             <div id="collab-sidebar">
 
                 <div id="toggles">
-                    <paper-fab  id="controlDraw" icon="create" label="derp"
+                    <paper-fab id="controlDraw" icon="create" label="derp"
                                on-click="toggleCanvas"></paper-fab>
 
                     <paper-swatch-picker noink id="controlColor" color="{{selectedColor}}"></paper-swatch-picker>
@@ -265,10 +265,6 @@
                         type: String,
                         value: '#E91E63'
                     },
-                    // channel: {
-                    //     type: String,
-                    //     value: '1337'
-                    // },
                     messages: {
                         type: Array,
                         value: [],
@@ -296,6 +292,22 @@
             ready() {
                 super.ready();
 
+                //set random selected color:
+
+                const colors = [
+                    "#65a5f2",
+                    "#2b63ba",
+                    "#83be54",
+                    "#3b8638",
+                    "#f0d551",
+                    "#d7be48",
+                    "#e5943c",
+                    "#cf712e",
+                    "#a96ddb",
+                    "#6f4196"
+                ];
+                this.selectedColor = colors[Math.floor(Math.random() * colors.length)];
+
                 //load canvas-dimensions and inject paper.js
                 window.onload = this.setupCanvas.bind(this, this); //TODO: somewhat wobbly... (sometimes doesnt get called...)
 
@@ -311,6 +323,8 @@
 
                 //start websocket-connection:
                 this.connectWebsocket();
+
+                this.setupCanvas();
 
             }
 
@@ -374,7 +388,10 @@
 
             repaintPathRepository() {
                 //clear everything:
-                paper.project.activeLayer.removeChildren();
+                if(paper.project !== null){ //TODO: undo
+                    paper.project.activeLayer.removeChildren();
+                }
+
                 //repaint
                 let windowWidth = window.innerWidth;
                 let windowHeight = window.innerHeight;

@@ -193,7 +193,7 @@ public class EnterPreferenceView extends Div {
         });
         Button reset = new Button("Zurücksetzen", buttonClickEvent -> {
             if (isEdit) {
-                selectTimeslot.setValue(component.getTimeConstraint().getTimeSlots().get(0).getTimeSlotIndex()); //TODO fix get(0)
+                selectTimeslot.setValue(component.getTimeConstraint().getTimeSlots().get(0).getTimeSlotIndex());
                 selectWeekday.setValue(DayOfWeek.of(component.getTimeConstraint().getTimeSlots().get(0).getWeekday()));
                 selectImportance.setValue(component.getTimeConstraint().getImportance());
                 preferenceDescription.setValue(component.getTimeConstraint().getDescription());
@@ -211,7 +211,11 @@ public class EnterPreferenceView extends Div {
 
         buttonBar.add(save, reset, cancel);
 
-        layout.add(formLayout);
+
+        HorizontalLayout formWrapper = new HorizontalLayout();
+        formWrapper.setAlignItems(FlexComponent.Alignment.CENTER);
+        formWrapper.add(formLayout);
+        layout.add(formWrapper);
         layout.add(buttonBar);
 
 

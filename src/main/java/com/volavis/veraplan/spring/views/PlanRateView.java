@@ -47,7 +47,7 @@ public class PlanRateView extends Div implements HasUrlParameter<String> {
 
     private void buildReview(String reviewPlanID) {
         int planIndex = Integer.valueOf(reviewPlanID) - 1;
-        List<ImportAssignment> assignments = importService.getAlgoTeacherPlan(currentUser, planIndex);
+        List<ImportAssignment> assignments = importService.getRatingPlan(currentUser, planIndex);
 
         //headline
         VerticalLayout layout = new VerticalLayout();
