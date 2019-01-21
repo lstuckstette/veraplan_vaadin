@@ -124,9 +124,9 @@ public class ImportService {
 
         //set same class for each 'collision' pair...
         ImportClass equalClass1 = new ImportClass();
-        equalClass1.setId("2a");
+        equalClass1.setId("Klasse 2a");
         ImportClass equalClass2 = new ImportClass();
-        equalClass2.setId("4a");
+        equalClass2.setId("Klasse 4a");
         personalSource.getAssignments().stream()
                 .filter(assignment -> assignment.getAssignmentNumber() == 1 || assignment.getAssignmentNumber() == 17)
                 .findFirst()

@@ -133,7 +133,7 @@ public class PopulateDemoDatabaseService {
     private void createDummyUsers() {
         try {
 
-            userService.createUser("Hubert", "Schmidt", "hschmidt", "heissenberg@outlook.com", "hschmidt", RoleName.ROLE_ADMIN);
+            userService.createUser("Hubert", "Schmidt", "hschmidt", "heissenberg@volavis.com", "hschmidt", RoleName.ROLE_ADMIN);
             userService.createUser("Franziska", "Meier", "fmeier", "busse@volavis.de", "fmeier", RoleName.ROLE_ADMIN);
 //            userService.createUser("The", "Admin", "admin", "admin@admin.de", "admin", RoleName.ROLE_ADMIN);
 //            userService.createUser("Vorname", "Nachname", "test", "test@test.de", "test", RoleName.ROLE_ADMIN);
