@@ -154,6 +154,12 @@
         <!-- https://mvnrepository.com/artifact/com.vaadin/vaadin-maven-plugin -->
 
 
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <scope>runtime</scope>
+        </dependency>
+
     </dependencies>
 
     <dependencyManagement>
